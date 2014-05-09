@@ -1,0 +1,116 @@
+package kr.kdev.dg1s.biowiki.networking;
+
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.wordpress.rest.Oauth;
+
+import kr.kdev.dg1s.biowiki.BioWikiDB;
+import kr.kdev.dg1s.biowiki.Config;
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.models.Blog;
+
+public class OAuthAuthenticator implements Authenticator {
+    @Override
+    public void authenticate(AuthenticatorRequest request) {
+        String siteId = request.getSiteId();
+        String token = null;
+        Blog blog = null;
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(BioWiki.getContext());
+        if (siteId == null) {
+            // Use the global access token
+            token = settings.getString(BioWiki.ACCESS_TOKEN_PREFERENCE, null);
+        } else {
+            blog = BioWiki.wpDB.getBlogForDotComBlogId(siteId);
+
+            if (blog != null) {
+                // get the access token from api key field. Jetpack blogs linked with a different wpcom
+                // account have the token stored here.
+                token = blog.getApi_key();
+
+                // valid oauth tokens are 64 chars
+                if (token != null && token.length() < 64 && !blog.isDotcomFlag()) {
+                    token = null;
+                }
+
+                // if there is no access token, we need to check if it is a dotcom blog, or a jetpack
+                // blog linked with the main wpcom account.
+                /*
+                if (token == null) {
+                    if (blog.isDotcomFlag() && blog.getUsername().equals(settings.getString(
+                            BioWiki.WPCOM_USERNAME_PREFERENCE, ""))) {
+                        token = settings.getString(BioWiki.ACCESS_TOKEN_PREFERENCE, null);
+                    } else if (blog.isJetpackPowered()) {
+                        if (blog.getDotcom_username() == null || blog.getDotcom_username().equals(settings.getString(
+                                BioWiki.WPCOM_USERNAME_PREFERENCE, ""))) {
+                            token = settings.getString(BioWiki.ACCESS_TOKEN_PREFERENCE, null);
+                        }
+                    }
+                }
+                */
+            }
+        }
+        if (token != null) {
+            // we have an access token, set the request and send it
+            request.sendWithAccessToken(token);
+        } else {
+            // we don't have an access token, let's request one
+            requestAccessToken(request, blog);
+        }
+    }
+
+    public void requestAccessToken(final AuthenticatorRequest request, final Blog blog) {
+        Oauth oauth = new Oauth(Config.OAUTH_APP_ID, Config.OAUTH_APP_SECRET, Config.OAUTH_REDIRECT_URI);
+        String username;
+        String password;
+        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(BioWiki.getContext());
+        if (blog == null) {
+            // We weren't give a specific blog, so we're going to user the username/password
+            // from the "global" dotcom user account
+            /*
+            username = settings.getString(BioWiki.WPCOM_USERNAME_PREFERENCE, null);
+            password = BioWikiDB.decryptPassword(settings.getString(BioWiki.WPCOM_PASSWORD_PREFERENCE, null));
+            */
+        } else {
+            // use the requested blog's username password, if it's a dotcom blog, use the
+            // username and password for the blog. If it's a jetpack blog (not isDotcomFlag)
+            // then use the getDotcom_* methods for username/password
+            if (blog.isDotcomFlag()) {
+                username = blog.getUsername();
+                password = blog.getPassword();
+            } else {
+                username = blog.getDotcom_username();
+                password = blog.getDotcom_password();
+            }
+        }
+
+        /*
+        Request oauthRequest = oauth.makeRequest(username, password,
+                new Oauth.Listener() {
+                    @Override
+                    public void onResponse(Oauth.Token token) {
+                        if (blog == null) {
+                            settings.edit().putString(BioWiki.ACCESS_TOKEN_PREFERENCE, token.toString()).commit();
+                        } else {
+                            blog.setApi_key(token.toString());
+                            BioWiki.wpDB.saveBlog(blog);
+                        }
+                        request.sendWithAccessToken(token);
+                    }
+                },
+
+                new Oauth.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        request.abort(error);
+                    }
+                }
+        );
+        // add oauth request to the request queue
+        BioWiki.requestQueue.add(oauthRequest);
+        */
+    }
+}

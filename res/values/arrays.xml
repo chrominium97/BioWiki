@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="city_list">
+        <item>Seoul</item>
+        <item>Busan</item>
+        <item>Daegu</item>
+    </string-array>
+    <string-array name="city_list_value">
+        <item>KR_1</item>
+        <item>KR_2</item>
+        <item>KR_3</item>
+    </string-array>
+</resources>

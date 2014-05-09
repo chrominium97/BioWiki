@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nux_background"
+    android:orientation="vertical"
+    android:baselineAligned="true">
+
+    <fragment
+        android:name="kr.kdev.dg1s.biowiki.ui.accounts.WelcomeFragmentSignIn"
+        android:id="@+id/sign_in_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/nux_fragment_welcome" />
+
+</LinearLayout>

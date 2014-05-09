@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FlowLayout">
+        <attr name="horizontalSpacing" format="dimension"/>
+        <attr name="verticalSpacing" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="FlowLayout_LayoutParams">
+        <attr name="layout_horizontalSpacing" format="dimension"/>
+        <attr name="layout_verticalSpacing" format="dimension"/>
+    </declare-styleable>
+
+    <!--
+        BWTextView attribute to enable switching between regular and light Open Sans typeface (see widgets/BWTextView)
+    -->
+    <declare-styleable name="WPTypeface">
+        <attr name="fontVariation" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="light" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <!--
+        BWLinearLayoutSizeBound attributes
+    -->
+    <declare-styleable name="BWLinearLayoutSizeBound">
+        <attr name="maxWidth" format="dimension" />
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+</resources>

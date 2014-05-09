@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kr.kdev.dg1s.biowiki"
+    android:installLocation="auto" >
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+
+    <!-- GCM all build types configuration -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
+    <application
+        android:name=".BioWiki"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:theme="@style/WordPress" >
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="asdf" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+
+        <!-- Map activities -->
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionActivity" />
+
+        <!-- Account activities -->
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.accounts.NewAccountActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.Sherlock"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.accounts.NuxHelpActivity"/>
+
+        <!-- Preferences activities -->
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.prefs.AboutActivity" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.prefs.BlogPreferencesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/Theme.Sherlock.Light" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.prefs.LicensesActivity" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/Theme.Sherlock.Light" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.accounts.ManageBlogsActivity" />
+
+        <!-- Comments activities -->
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.comments.CommentsActivity" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.comments.EditCommentActivity" />
+
+        <!-- Posts activities -->
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.posts.AddCategoryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/add_new_category"
+            android:theme="@style/WordPress.Dialog" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.posts.EditLinkActivity"
+            android:label="@string/create_a_link"
+            android:theme="@style/WordPress.Dialog"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.posts.PostsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.posts.PagesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.posts.PreviewPostActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.posts.SelectCategoriesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.posts.ViewPostActivity" />
+
+        <!-- Stats Activities -->
+
+        <!-- Media Activities -->
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaBrowserActivity" >
+        </activity>
+
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaGalleryActivity">
+        </activity>
+
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaGalleryPickerActivity">
+        </activity>
+
+        <!-- Theme Activities -->
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.themes.ThemeBrowserActivity" >
+        </activity>
+
+        <!-- Deep Linking Activity -->
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.DeepLinkingIntentReceiverActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="viewpost"
+                    android:scheme="wordpress" >
+                </data>
+            </intent-filter>
+        </activity>
+
+        <!-- Native Reader Activities -->
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.AppLogViewerActivity"
+            android:label="@string/reader_title_applog" />
+
+        <!-- Other activities -->
+
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.ShareIntentReceiverActivity" android:theme="@style/FloatingActivityTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.AddQuickPressShortcutActivity"
+            android:label="QuickPress" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.AuthenticatedWebViewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.DashboardActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.ViewSiteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
+        </activity>
+
+        <!-- Notifications activities -->
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.notifications.NotificationsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+
+        <activity
+            android:name="kr.kdev.dg1s.biowiki.ui.notifications.NotificationsWebViewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <!--  Passcode lock activities -->
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
+            android:theme="@style/Theme.Sherlock.Light.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodePreferencesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
+            android:theme="@style/Theme.Sherlock.Light.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+
+		<!-- Services -->
+        <service
+            android:name="kr.kdev.dg1s.biowiki.util.PostUploadService"
+            android:label="Post Upload Service" >
+        </service>
+
+        <service
+            android:name="kr.kdev.dg1s.biowiki.util.MediaUploadService"
+            android:label="Media Upload Service" >
+        </service>
+
+        <service
+            android:name="kr.kdev.dg1s.biowiki.util.MediaDeleteService"
+            android:label="Media Delete Service" >
+        </service>
+
+    </application>
+
+</manifest>
