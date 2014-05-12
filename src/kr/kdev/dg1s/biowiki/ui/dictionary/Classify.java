@@ -1,6 +1,7 @@
 package kr.kdev.dg1s.biowiki.ui.dictionary;
 
 import android.os.Bundle;
+
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 

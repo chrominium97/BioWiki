@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <resources>
-
+<resources>
 
 
     <string name="go_bakc_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
 
     <!-- account setup -->
+    <string name="xmlrpc_error">연결할 수 없습니다. 서버의 xmlrpc.php를 점검해 주십시오.</string>
     <string name="no_network_message">사용 가능한 네트워크가 없습니다. 네트워크에 연결하고 다시 시도하십시오.</string>
+    <string name="sign_out_confirm">Are you sure you want to sign out?</string>
     <string name="account_two_step_auth_enabled">이 계정에서 2단계 인증이 활성화되어 있습니다. dg1s.hs.kr의 보안 설정 페이지에서 응용 프로그램 암호를 생성하십시오.</string>
     <string name="visit_security_settings">보안 설정 으로 이동</string>
 
@@ -482,7 +483,7 @@
 
     <!-- Image Alignment -->
     <string name="image_alignment">배치</string>
-     <string-array name="alignment_array">
+    <string-array name="alignment_array">
         <item>없음</item>
         <item>왼쪽</item>
         <item>중앙</item>
@@ -633,13 +634,6 @@
     <string name="reader_empty_followed_blogs_description">태그 아이콘을 탭하면 시작할 수 있습니다.</string>
     <string name="reader_empty_posts_liked">아직 "좋아요"를 클릭한 게시물이 없습니다.</string>
 
-    <!-- fragment tags - do not translate -->
-    <string name="fragment_tag_comment_list" translatable="false">fragment_comment_list</string>
-    <string name="fragment_tag_comment_detail" translatable="false">fragment_comment_detail</string>
-    <string name="fragment_tag_reader_post_list" translatable="false">fragment_reader_post_list</string>
-    <string name="fragment_tag_reader_post_detail" translatable="false">fragment_reader_post_detail</string>
-<!--fragment는 한글에 없어서 걍 영어꺼 그대로 씀-->
-
     <!-- NUX strings -->
     <string name="create_account_wpcom">dg1s.hs.kr 계정을 생성</string>
     <string name="create_new_blog_wpcom">dg1s.hs.kr 위키 만들기</string>
@@ -699,8 +693,6 @@
     <string name="nux_help_description">도우미 센터에 방문하면 일반적인 질문에 대한 답을 얻을 수 있습니다. 또는 포럼에 방문하여 신규 질문을 하시기 바랍니다.</string>
     <string name="forums">포럼</string>
     <string name="help_center">도우미 센터</string>
-<!-- 여기서부터 영어에 없는게 있거나 영어에 있는게 없음;;
- 그래서 대충 내가 영어에 추가해 놓거나 한국어에 추가해 놨음, 뺀건 없고-->
     <string name="ssl_certificate_trust">신뢰함</string>
     <string name="ssl_certificate_details">Certificate Details</string>
     <string name="ssl_certificate_do_not_trust">신뢰하지 않음</string>
