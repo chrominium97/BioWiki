@@ -8,15 +8,12 @@
     <string name="dictionary_menu">Dictionary</string>
     <string name="server_ip">http://192.168.43.146</string>
     <string name="server_subdomain">/repo</string>
-    <string name="rootfile_id">/location.php</string>
     <string name="distribution_sample">/sample.xml</string>
 
     <!-- account setup -->
     <string name="xmlrpc_error">Couldn\'t connect. Enter the full path to xmlrpc.php on your site and try again.</string>
-    <string name="no_network_title">No network available</string>
     <string name="no_network_message">There is no network available</string>
     <string name="sign_out_confirm">Are you sure you want to sign out?</string>
-    <string name="please_sign_in">Sign in again.</string>
     <string name="account_two_step_auth_enabled">This account has two step authentication enabled. Visit your security settings on WordPress.com and generate an application-specific password.</string>
     <string name="visit_security_settings">Visit security settings</string>
 
@@ -379,8 +376,7 @@
     <!-- stats: totals, followers, and shares -->
     <string name="stats_totals_followers_shares_header_content">Content</string>
     <string name="stats_totals_followers_shares_header_followers">Followers</string>
-    <string name="stats_totals_followers_shares_header_includes_publicize"
-            comment="part of the full string: _123 Followers (includes &lt;a href=..&gt;Publicize&lt;a&gt;)_ the %s replaced by &lt;a href=...&gt;">includes %sPublicize</string>
+    <string name="stats_totals_followers_shares_header_includes_publicize" comment="part of the full string: _123 Followers (includes &lt;a href=..&gt;Publicize&lt;a&gt;)_ the %s replaced by &lt;a href=...&gt;">includes %sPublicize</string>
     <string name="stats_totals_followers_shares_header_shares">Shares</string>
     <string name="stats_totals_followers_shares_label_posts">Posts</string>
     <string name="stats_totals_followers_shares_label_categories">Categories</string>

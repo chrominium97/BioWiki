@@ -51,7 +51,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="asdf" />
+            android:value="" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -60,6 +60,9 @@
         <!-- Map activities -->
         <activity
             android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionActivity" />
+
+        <!-- Dictionary activites -->
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.dictionary.Classify" />
 
         <!-- Account activities -->
         <activity
@@ -77,13 +80,13 @@
         <activity
             android:name="kr.kdev.dg1s.biowiki.ui.prefs.BlogPreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/Theme.Sherlock.Light" />
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name="kr.kdev.dg1s.biowiki.ui.prefs.LicensesActivity" />
         <activity
             android:name="kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/Theme.Sherlock.Light" />
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name="kr.kdev.dg1s.biowiki.ui.accounts.ManageBlogsActivity" />
 
         <!-- Comments activities -->
@@ -185,15 +188,6 @@
         </activity>
 
 
-        <activity
-            android:name="kr.kdev.dg1s.biowiki.ui.AddQuickPressShortcutActivity"
-            android:label="QuickPress" >
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity
             android:name="kr.kdev.dg1s.biowiki.ui.AuthenticatedWebViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />

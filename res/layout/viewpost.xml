@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF" >
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/postBar"
@@ -13,7 +13,7 @@
         android:background="@drawable/view_post_toolbar_bottom"
         android:orientation="horizontal"
         android:paddingBottom="6dp"
-        android:paddingTop="6dp" >
+        android:paddingTop="6dp">
 
         <TextView
             android:id="@+id/postTitle"
@@ -35,11 +35,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="48dp"
-        android:layout_marginTop="48dp" >
+        android:layout_marginTop="48dp">
 
         <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/viewPostTextView"
@@ -49,24 +49,27 @@
                 android:padding="10dp"
                 android:textSize="@dimen/text_sz_extra_large"
                 android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical">
+
                 <WebView
                     android:id="@+id/viewPostWebView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" />
+
                 <TextView
-                    android:padding="5dp"
                     android:id="@+id/tagView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="17sp"
                     android:lines="7"
                     android:maxLines="7"
-                    android:visibility="gone"
-                    android:text="sdfsdfd"/>
+                    android:padding="5dp"
+                    android:text="sdfsdfd"
+                    android:textSize="17sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </FrameLayout>
     </ScrollView>
@@ -93,60 +96,60 @@
             android:layout_width="@dimen/post_detail_button_size"
             android:layout_height="@dimen/post_detail_button_size"
             android:background="@drawable/selectable_background_wordpress"
-            android:scaleType="fitCenter"
+            android:contentDescription="@string/delete_post"
             android:padding="9dp"
-            android:tint="@color/post_detail_icon_tint"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_cab_trash"
-            android:contentDescription="@string/delete_post" />
+            android:tint="@color/post_detail_icon_tint" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/viewPost"
                 android:layout_width="@dimen/post_detail_button_size"
                 android:layout_height="@dimen/post_detail_button_size"
                 android:background="@drawable/selectable_background_wordpress"
-                android:scaleType="fitCenter"
+                android:contentDescription="@string/preview_post"
                 android:padding="6dp"
-                android:tint="@color/post_detail_icon_tint"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_post_preview"
-                android:contentDescription="@string/preview_post" />
+                android:tint="@color/post_detail_icon_tint" />
 
             <ImageButton
                 android:id="@+id/sharePostLink"
                 android:layout_width="@dimen/post_detail_button_size"
                 android:layout_height="@dimen/post_detail_button_size"
                 android:background="@drawable/selectable_background_wordpress"
-                android:scaleType="fitCenter"
+                android:contentDescription="@string/share_url"
                 android:padding="10dp"
-                android:tint="@color/post_detail_icon_tint"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ab_icon_share"
-                android:contentDescription="@string/share_url" />
+                android:tint="@color/post_detail_icon_tint" />
 
             <ImageButton
                 android:id="@+id/addComment"
                 android:layout_width="@dimen/post_detail_button_size"
                 android:layout_height="@dimen/post_detail_button_size"
                 android:background="@drawable/selectable_background_wordpress"
-                android:scaleType="fitCenter"
+                android:contentDescription="@string/add_comment"
                 android:padding="9dp"
-                android:src="@drawable/dashboard_icon_comments"
-                android:contentDescription="@string/add_comment" />
-            
+                android:scaleType="fitCenter"
+                android:src="@drawable/dashboard_icon_comments" />
+
             <ImageButton
                 android:id="@+id/editPost"
                 android:layout_width="@dimen/post_detail_button_size"
                 android:layout_height="@dimen/post_detail_button_size"
                 android:background="@drawable/selectable_background_wordpress"
-                android:scaleType="fitCenter"
+                android:contentDescription="@string/edit_post"
                 android:padding="10dp"
-                android:tint="@color/post_detail_icon_tint"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ab_icon_edit"
-                android:contentDescription="@string/edit_post" />
+                android:tint="@color/post_detail_icon_tint" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -19,10 +19,8 @@ import android.widget.ImageView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
-
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.datasets.ReaderThumbnailTable;
 import kr.kdev.dg1s.biowiki.util.ReaderVideoUtils;
 import kr.kdev.dg1s.biowiki.util.SysUtils;
 
@@ -35,25 +33,20 @@ import kr.kdev.dg1s.biowiki.util.SysUtils;
  *  (4) adding a listener to determine when image has completed downloading (or failed)
  */
 public class BWNetworkImageView extends ImageView {
-    public static enum ImageType {PHOTO,
-                                  PHOTO_FULL,
-                                  VIDEO,
-                                  AVATAR}
+    private static final int FADE_TRANSITION = 250;
     private ImageType mImageType = ImageType.PHOTO;
     private String mUrl;
     private ImageLoader.ImageContainer mImageContainer;
-
-    public interface ImageListener {
-        public void onImageLoaded(boolean succeeded);
-    }
     private ImageListener mImageListener;
 
     public BWNetworkImageView(Context context) {
         super(context);
     }
+
     public BWNetworkImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     public BWNetworkImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
@@ -61,6 +54,7 @@ public class BWNetworkImageView extends ImageView {
     public void setImageUrl(String url, ImageType imageType) {
         setImageUrl(url, imageType, null);
     }
+
     public void setImageUrl(String url, ImageType imageType, ImageListener imageListener) {
         mUrl = url;
         mImageType = imageType;
@@ -85,13 +79,6 @@ public class BWNetworkImageView extends ImageView {
             return;
         }
 
-        // if we already have a cached thumbnail for this video, show it immediately
-        String cachedThumbnail = ReaderThumbnailTable.getThumbnailUrl(videoUrl);
-        if (!TextUtils.isEmpty(cachedThumbnail)) {
-            setImageUrl(cachedThumbnail, ImageType.VIDEO);
-            return;
-        }
-
         showDefaultImage(ImageType.VIDEO);
 
         // vimeo videos require network request to get thumbnail
@@ -100,7 +87,6 @@ public class BWNetworkImageView extends ImageView {
                 @Override
                 public void onResponse(boolean successful, String thumbnailUrl) {
                     if (successful) {
-                        ReaderThumbnailTable.addThumbnail(postId, videoUrl, thumbnailUrl);
                         setImageUrl(thumbnailUrl, ImageType.VIDEO);
                     }
                 }
@@ -177,7 +163,8 @@ public class BWNetworkImageView extends ImageView {
                             handleResponse(response, isImmediate, true);
                         }
                     }
-                });
+                }
+        );
 
         // update the ImageContainer to be the new bitmap container.
         mImageContainer = newContainer;
@@ -193,7 +180,7 @@ public class BWNetworkImageView extends ImageView {
             if (!isCached && allowFadeIn && (mImageType == ImageType.PHOTO || mImageType == ImageType.VIDEO))
                 fadeIn();
 
-            if (mImageListener!=null)
+            if (mImageListener != null)
                 mImageListener.onImageLoaded(true);
         } else {
             showDefaultImage(mImageType);
@@ -239,7 +226,7 @@ public class BWNetworkImageView extends ImageView {
                 // "mystery man" for failed avatars
                 setImageResource(R.drawable.placeholder);
                 break;
-            default :
+            default:
                 // medium grey box for all others
                 setImageDrawable(new ColorDrawable(getColorRes(R.color.grey_medium)));
                 break;
@@ -266,7 +253,7 @@ public class BWNetworkImageView extends ImageView {
     }
 
     private void drawVideoOverlay(Canvas canvas) {
-        if (canvas==null)
+        if (canvas == null)
             return;
 
         Bitmap overlay = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_reader_video_overlay, null);
@@ -289,11 +276,6 @@ public class BWNetworkImageView extends ImageView {
         overlay.recycle();
     }
 
-    // --------------------------------------------------------------------------------------------------
-
-
-    private static final int FADE_TRANSITION = 250;
-
     @SuppressLint("NewApi")
     private void fadeIn() {
         // use faster property animation if device supports it
@@ -306,5 +288,19 @@ public class BWNetworkImageView extends ImageView {
             animation.setDuration(FADE_TRANSITION);
             this.startAnimation(animation);
         }
+    }
+
+    // --------------------------------------------------------------------------------------------------
+
+
+    public static enum ImageType {
+        PHOTO,
+        PHOTO_FULL,
+        VIDEO,
+        AVATAR
+    }
+
+    public interface ImageListener {
+        public void onImageLoaded(boolean succeeded);
     }
 }

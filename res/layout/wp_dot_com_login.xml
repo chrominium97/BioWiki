@@ -3,13 +3,12 @@
     android:id="@+id/dotcomLogin"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
     android:background="#EEEEEE"
     android:paddingBottom="8dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="8dp"
-    android:visibility="invisible" >
+    android:visibility="invisible">
 
     <TextView
         android:id="@+id/dotcom"

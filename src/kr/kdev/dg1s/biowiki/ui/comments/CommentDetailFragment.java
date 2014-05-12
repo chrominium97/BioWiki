@@ -26,22 +26,13 @@ import com.wordpress.rest.RestRequest;
 
 import org.json.JSONObject;
 
+import java.util.EnumSet;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.Constants;
-import kr.kdev.dg1s.biowiki.datasets.CommentTable;
-import kr.kdev.dg1s.biowiki.datasets.ReaderPostTable;
-import kr.kdev.dg1s.biowiki.models.Comment;
-import kr.kdev.dg1s.biowiki.util.AniUtils;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.BWLinkMovementMethod;
-import kr.kdev.dg1s.biowiki.util.DateTimeUtils;
-import kr.kdev.dg1s.biowiki.util.EditTextUtils;
-import kr.kdev.dg1s.biowiki.util.GravatarUtils;
-import kr.kdev.dg1s.biowiki.util.PhotonUtils;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.util.VolleyUtils;
-import kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView;
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.datasets.CommentTable;
+import kr.kdev.dg1s.biowiki.models.Comment;
 import kr.kdev.dg1s.biowiki.models.CommentStatus;
 import kr.kdev.dg1s.biowiki.models.Note;
 import kr.kdev.dg1s.biowiki.models.Note.EnabledActions;
@@ -49,10 +40,18 @@ import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.ChangeType;
 import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.ChangedFrom;
 import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.OnCommentChangeListener;
 import kr.kdev.dg1s.biowiki.ui.notifications.NotificationFragment;
+import kr.kdev.dg1s.biowiki.util.AniUtils;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.BWLinkMovementMethod;
+import kr.kdev.dg1s.biowiki.util.DateTimeUtils;
+import kr.kdev.dg1s.biowiki.util.EditTextUtils;
+import kr.kdev.dg1s.biowiki.util.GravatarUtils;
 import kr.kdev.dg1s.biowiki.util.HtmlUtils;
 import kr.kdev.dg1s.biowiki.util.NetworkUtils;
-
-import java.util.EnumSet;
+import kr.kdev.dg1s.biowiki.util.PhotonUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
+import kr.kdev.dg1s.biowiki.util.VolleyUtils;
+import kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView;
 
 /**
  * Created by nbradbury on 11/11/13.
@@ -61,35 +60,28 @@ import java.util.EnumSet;
  */
 public class CommentDetailFragment extends Fragment implements NotificationFragment {
 
+    private static final String KEY_LOCAL_BLOG_ID = "local_blog_id";
+    private static final String KEY_COMMENT_ID = "comment_id";
     private int mLocalBlogId;
     private int mRemoteBlogId;
-
     private Comment mComment;
     private Note mNote;
-
     private TextView mTxtStatus;
     private TextView mTxtContent;
     private ImageView mImgSubmitReply;
     private EditText mEditReply;
     private ViewGroup mLayoutReply;
     private ViewGroup mLayoutButtons;
-
     private TextView mBtnModerateComment;
     private TextView mBtnSpamComment;
     private TextView mBtnEditComment;
     private TextView mBtnTrashComment;
-
     private boolean mIsSubmittingReply = false;
     private boolean mIsModeratingComment = false;
     private boolean mIsRequestingComment = false;
     private boolean mIsUsersBlog = false;
-
     private OnCommentChangeListener mOnCommentChangeListener;
     private OnPostClickListener mOnPostClickListener;
-
-    private static final String KEY_LOCAL_BLOG_ID = "local_blog_id";
-    private static final String KEY_COMMENT_ID = "comment_id";
-
     /*
      * these determine which actions (moderation, replying, marking as spam) to enable
      * for this comment - all actions are enabled when opened from the comment list, only
@@ -433,7 +425,6 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
             return;
 
         final TextView txtPostTitle = (TextView) getView().findViewById(R.id.text_post_title);
-        boolean postExists = ReaderPostTable.postExists(blogId, postId);
         boolean isDotComOrJetpack = BioWiki.wpDB.isRemoteBlogIdDotComOrJetpack(mRemoteBlogId);
 
         final String title;
@@ -442,10 +433,6 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
             // use comment's stored post title if available
             title = mComment.getPostTitle();
             hasTitle = true;
-        } else if (postExists) {
-            // use title from post if available
-            title = ReaderPostTable.getPostTitle(blogId, postId);
-            hasTitle = !TextUtils.isEmpty(title);
         } else {
             title = null;
             hasTitle = false;
@@ -453,7 +440,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
         if (hasTitle) {
             setPostTitle(txtPostTitle, title, isDotComOrJetpack);
         } else {
-            txtPostTitle.setText(postExists ? R.string.untitled : R.string.loading);
+            txtPostTitle.setText(R.string.untitled);
         }
 
         // if this is a .com or jetpack blog, tapping the title shows the associated post

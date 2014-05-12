@@ -26,23 +26,23 @@
             style="@style/WordPressSubHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/publish_date"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="@string/publish_date" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="12dp">
+            android:layout_marginLeft="12dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/pubDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_weight="1"
-                android:text="@string/immediately" />
+                android:text="@string/immediately"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/pubDateButton"
@@ -56,8 +56,8 @@
             style="@style/WordPressSubHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/post_format"
-            android:layout_marginTop="0dp"/>
+            android:layout_marginTop="0dp"
+            android:text="@string/post_format" />
 
         <Spinner
             android:id="@+id/postFormat"
@@ -69,16 +69,16 @@
             android:id="@+id/sectionTags"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/categoryLabel"
                 style="@style/WordPressSubHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/categories"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:text="@string/categories" />
 
             <kr.kdev.dg1s.biowiki.util.FlowLayout
                 android:id="@+id/sectionCategories"
@@ -92,7 +92,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:hint="@string/tags_separate_with_commas"
-                android:inputType="textAutoCorrect" />
+                android:inputType="textAutoCorrect"
+                android:visibility="gone" />
         </LinearLayout>
 
         <EditText
@@ -115,8 +116,8 @@
             android:id="@+id/sectionLocation"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical"
             android:layout_marginTop="8dp"
+            android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
@@ -124,20 +125,20 @@
                 style="@style/WordPressSubHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/location"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:text="@string/location" />
 
             <TextView
-                android:drawableLeft="@drawable/ic_action_location_searching"
-                android:gravity="center_vertical"
                 android:id="@+id/locationText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/locationLabel"
-                android:layout_marginLeft="8dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginTop="4dp"
+                android:drawableLeft="@drawable/ic_action_location_searching"
+                android:gravity="center_vertical"
                 android:text="@string/loading" />
 
             <LinearLayout
@@ -181,8 +182,8 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/go_bakc_required"
             android:gravity="center"
-            android:padding="4dp"/>
+            android:padding="4dp"
+            android:text="@string/go_bakc_required" />
     </LinearLayout>
 </ScrollView>
