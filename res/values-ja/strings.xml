@@ -3,11 +3,143 @@
 
     <string name="go_bakc_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
 
+    <!-- account setup -->
     <string name="xmlrpc_error">接続できませんでした。サイト上の xmlrpc.php へのフルパスを入力し、もう一度お試しください。</string>
+    <string name="sign_out_confirm">本当にログアウトしますか ?</string>
+    <string name="account_two_step_auth_enabled">このアカウントでは2段階認証が有効化されています。WordPress.com のセキュリティ設定ページでアプリケーション用パスワードを生成してください。</string>
+    <string name="visit_security_settings">セキュリティ設定へ移動</string>
+
+    <!-- form labels -->
+    <string name="select_categories">カテゴリーを選択</string>
+    <string name="tags_separate_with_commas">タグ (コンマ区切り)</string>
+    <string name="post_content">コンテンツ (タップしてテキスト・メディアを追加)</string>
+    <string name="max_thumbnail_px_width">標準の画像幅</string>
+    <string name="password">パスワード</string>
+    <string name="blogs">ブログ</string>
+    <string name="account_details">アカウント詳細</string>
+    <string name="status">状態</string>
+
+    <!-- comment form labels -->
+    <string name="anonymous">匿名</string>
+
+    <!-- general strings -->
+    <string name="post">投稿</string>
+    <string name="page">ページ</string>
+    <string name="posts">投稿</string>
+    <string name="media">メディア</string>
+    <string name="video">動画</string>
+    <string name="themes">テーマ</string>
+    <string name="pages">ページ</string>
+    <string name="about">紹介</string>
+    <string name="username">ユーザー名</string>
+    <string name="cancel">キャンセル</string>
+    <string name="save">保存</string>
+    <string name="add">追加</string>
+    <string name="add_self_hosted_blog">インストール型ブログを追加</string>
+    <string name="show_and_hide_blogs">ブログを表示 / 非表示</string>
+    <string name="blogs_visibility">ブログ表示設定</string>
+    <string name="show_all">すべて表示</string>
+    <string name="hide_all">すべて非表示</string>
+    <string name="notification_sound">通知音を再生</string>
+    <string name="notification_vibrate">バイブ</string>
+    <string name="notification_blink">通知ライトを点滅</string>
+    <string name="sure_to_remove_account">本当にこのブログを取り除きますか ?</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="error">エラー</string>
+    <string name="could_not_remove_account">ブログを取り除くことができません。</string>
+    <string name="edit_page">ページを編集</string>
+    <string name="edit_post">投稿を編集</string>
+    <string name="add_comment">コメントを追加</string>
+    <string name="connection_error">接続エラー</string>
+    <string name="category_refresh_error">カテゴリーの再読み込みエラー</string>
+    <string name="incorrect_credentials">ユーザー名またはパスワードが正しくありません。</string>
+    <string name="cancel_edit">編集をキャンセル</string>
+    <string name="upload_full_size_image">アップロードしてフルサイズの画像にリンクする</string>
+    <string name="upload_scaled_image">アップロードしてサイズを変更した画像にリンク</string>
+    <string name="scaled_image_error">正しい画像幅を入力してください</string>
+    <string name="scaled_image">変更後の画像幅</string>
+    <string name="load_settings">設定を読み込みますか ?</string>
+    <string name="immediately">すぐに</string>
+    <string name="uploading">アップロード中</string>
+    <string name="gallery_error">メディア項目を読み込めませんでした。</string>
+    <string name="refresh">再読み込み</string>
+    <string name="blog_not_found">An error occurred when accessing this blog</string>
+    <string name="post_not_found">An error occurred when loading the post. Refresh your posts and try again.</string>
+    <string name="sign_in">ログイン</string>
+    <string name="sign_out">ログアウト</string>
+    <string name="all">すべて</string>
+    <string name="images">画像</string>
+    <string name="unattached">未使用</string>
+    <string name="custom_date">カスタム日付</string>
+    <string name="upload">アップロード</string>
+    <string name="learn_more">さらに詳しく</string>
+
+    <!-- Media Gallery Action Bar -->
+    <string name="media_add_popup_title">メディアライブラリに追加</string>
+    <string name="media_add_popup_capture_photo">写真を撮影</string>
+    <string name="media_add_popup_capture_video">動画を撮影</string>
+    <string name="media_add_new_media_gallery">ギャラリーを作成</string>
+
+    <!-- Media Gallery -->
+    <string name="media_gallery_settings_title">ギャラリーの設定</string>
+    <string name="media_gallery_image_order">画像順序</string>
+    <string name="media_gallery_image_order_random">ランダム</string>
+    <string name="media_gallery_image_order_reverse">順序を逆にする</string>
+    <string name="media_gallery_num_columns">カラム数</string>
+    <string name="media_gallery_type">表示形式</string>
+    <string name="media_gallery_type_thumbnail_grid">サムネイルグリッド</string>
+    <string name="media_gallery_type_squares">正方形タイル</string>
+    <string name="media_gallery_type_tiled">タイルモザイク</string>
+    <string name="media_gallery_type_circles">丸型</string>
+    <string name="media_gallery_type_slideshow">スライドショー</string>
+    <string name="media_gallery_edit">ギャラリーを編集</string>
+    <string name="pick_photo">画像を選択</string>
+    <string name="pick_video">動画を選択</string>
+    <string name="media_error_no_permission">メディアライブラリを表示する権限がありません</string>
+
+    <!-- Upload Media -->
+    <string name="media_no_video_title">VideoPress が利用できません</string>
+    <string name="media_no_video_message">動画をアップロードするには VideoPress アップグレードを追加してください。</string>
+
+    <!-- Edit Media -->
+    <string name="media_edit_title_text">タイトル</string>
+    <string name="media_edit_caption_text">キャプション</string>
+    <string name="media_edit_description_text">説明</string>
+    <string name="media_edit_title_hint">タイトルを入力</string>
+    <string name="media_edit_caption_hint">キャプションを入力</string>
+    <string name="media_edit_description_hint">説明を入力</string>
+    <string name="media_edit_success">更新しました</string>
+    <string name="media_edit_failure">更新に失敗しました</string>
+
+    <!-- Delete Media -->
+    <string name="confirm_delete_media">本当にこのメディア項目を削除しますか ?</string>
+    <string name="confirm_delete_multi_media">本当にこの項目を削除しますか ?</string>
+    <string name="wait_until_upload_completes">アップロードが完了するまでお待ちください。</string>
+    <string name="cannot_delete_multi_media_items">一部のメディアを再読み込みできませんでした。後ほどもう一度お試しください。</string>
+    <string name="media_empty_list">メディアなし</string>
+    <string name="media_empty_list_custom_date">指定された期間に該当するメディアはありませんでした。</string>
+    <string name="delete">削除</string>
+
+    <!-- tab titles -->
+    <string name="tab_comments">コメント</string>
+    <string name="tab_stats">統計情報</string>
+
+
+    <string name="post_not_published">この投稿はまだ公開されていません</string>
+
+    <string name="tab_posts">投稿</string>
+    <string name="tab_pages">ページ</string>
+
+
+    <string name="caption">キャプション (オプション)</string>
+    <string name="width">横幅</string>
+<string name="horizontal_alignment">横位置</string>
+
+    <string name="no_account">WordPress アカウントが見つかりません。アカウントを追加して、もう一度試してください。</string>
 
 
     <string name="reader_empty_posts_in_tag">このタグがつけられた投稿はありません。</string>
-    <string name="media_error_no_permission">メディアライブラリを表示する権限がありません</string>
     <string name="agree_terms_of_service">アカウントを作成すると%1$s利用規約%2$sに合意したものとみなされます。</string>
     <string name="create_account_wpcom">WordPress.com でアカウントを作成</string>
     <string name="error_refresh_media">メディアライブラリを再読込する際にエラーが発生しました。後ほどもう一度お試しください。</string>
@@ -15,12 +147,9 @@
     <string name="comment_spammed">コメントをスパムとしてマークしました</string>
     <string name="comment_unapproved">コメントの承認を解除しました</string>
     <string name="download">メディアをダウンロード中</string>
-    <string name="media_empty_list">メディアなし</string>
     <string name="reader_label_reply">返信</string>
-    <string name="video">動画</string>
     <string name="share_preference_title">WordPress で共有</string>
     <string name="share_action_media">メディアライブラリ</string>
-    <string name="media_empty_list_custom_date">指定された期間に該当するメディアはありませんでした。</string>
     <string name="reader_toast_err_get_comment">このコメントを読み込めません</string>
     <string name="view_stats_activity">統計情報を表示</string>
     <string name="error_refresh_posts">投稿を再読み込みできませんでした。</string>
@@ -47,29 +176,20 @@
     <string name="reader_empty_followed_blogs_description">タグアイコンをタップすればスタートできます。</string>
     <string name="reader_empty_posts_liked">まだ「いいね」をつけた投稿がありません。</string>
     <string name="username_or_password_incorrect">入力されたユーザー名またはパスワードが間違っています。</string>
-    <string name="blogs_visibility">ブログ表示設定</string>
-    <string name="hide_all">すべて非表示</string>
-    <string name="page_settings">ページ設定</string>
-    <string name="pick_photo">画像を選択</string>
-    <string name="pick_video">動画を選択</string>
+ <string name="page_settings">ページ設定</string>
     <string name="post_settings">投稿設定</string>
     <string name="select_date">日付を選択</string>
     <string name="select_time">時間を選択</string>
-    <string name="show_all">すべて表示</string>
     <string name="validating_site_data">サイトのデータをチェックしています</string>
     <string name="validating_user_data">ユーザーのデータをチェックしています</string>
-    <string name="show_and_hide_blogs">ブログを表示 / 非表示</string>
     <string name="reader_toast_err_no_connection">接続できません</string>
     <string name="create_first_blog_wpcom">最初の WordPress.com サイトを作成</string>
     <string name="reader_toast_err_get_post">この投稿を読み込みできません</string>
-    <string name="add_self_hosted_blog">インストール型ブログを追加</string>
     <string name="reader_likes_you_and_one">あなたと他1人が「いいね」をつけました</string>
-    <string name="account_two_step_auth_enabled">このアカウントでは2段階認証が有効化されています。WordPress.com のセキュリティ設定ページでアプリケーション用パスワードを生成してください。</string>
     <string name="error_blog_hidden">このブログは非表示設定になっており読み込むことができません。設定画面で再度有効化してもう一度お試しください。</string>
     <string name="add_account_blog_url">ブログのアドレス</string>
     <string name="comment_approved">コメントを承認しました</string>
     <string name="invalid_username_too_long">ユーザー名は半角で64文字以下にしてさい。</string>
-    <string name="learn_more">さらに詳しく</string>
     <string name="nux_add_selfhosted_blog">インストール型 WordPress ブログを追加</string>
     <string name="nux_oops_not_selfhosted_blog">WordPress.com にログイン</string>
     <string name="nux_tap_continue">次へ</string>
@@ -77,18 +197,13 @@
     <string name="site_address">インストール型 WordPress のアドレス (URL)</string>
     <string name="unapproved">承認待ち</string>
     <string name="username_email">ユーザー名またはメール</string>
-    <string name="cannot_delete_multi_media_items">一部のメディアを再読み込みできませんでした。後ほどもう一度お試しください。</string>
     <string name="invalid_username_too_short">ユーザー名は4文字以上にしてください。</string>
-    <string name="wait_until_upload_completes">アップロードが完了するまでお待ちください。</string>
     <string name="stats_empty_top_posts"><b>まだ人気の投稿またはページがありません。</b>この画面にはサイト内で最も頻繁に閲覧された投稿とページが表示されます。</string>
     <string name="password_invalid">セキュリティ強度の高いパスワードが必要です。7文字以上の大文字・小文字・数字・記号を含むものにすることをおすすめします。</string>
     <string name="http_authorization_required">認証が必要です</string>
     <string name="blog_name_reserved_but_may_be_available">このサイト名は予約中ですが、数日中に利用可能になるかもしれません。</string>
     <string name="nux_tutorial_get_started_title">始めてみましょう</string>
-    <string name="visit_security_settings">セキュリティ設定へ移動</string>
-    <string name="media_add_popup_title">メディアライブラリに追加</string>
-    <string name="media_add_new_media_gallery">ギャラリーを作成</string>
-    <string name="comments_empty_list">コメントはありません。</string>
+ <string name="comments_empty_list">コメントはありません。</string>
     <string name="select_from_media_library">メディアライブラリから選択</string>
     <string name="notifications_empty_list">通知がありません。</string>
     <string name="jetpack_stats_unauthorized">統計情報にアクセスできません</string>
@@ -162,30 +277,11 @@
     <string name="jetpack_stats_switch_user">この WordPress.com アカウントはこのブログの統計情報へのアクセス権限がないようです…他のアカウントにログインしますか ?</string>
     <string name="email_cant_be_used_to_signup">ご指定のメールアドレスは登録にご利用いただけません。このメールプロバイダではこちらからのメールがブロックされる現象が発生しているため、ほかのプロバイダのメールアドレスを入力してください。</string>
     <string name="username_reserved_but_may_be_available">このユーザー名は現在予約済みですが、数日後に使えるようになるかも知れません。</string>
-    <string name="themes">テーマ</string>
-    <string name="images">画像</string>
-    <string name="media_gallery_image_order_random">ランダム</string>
-    <string name="media_gallery_num_columns">カラム数</string>
-    <string name="media_gallery_type_thumbnail_grid">サムネイルグリッド</string>
-    <string name="media_gallery_type_squares">正方形タイル</string>
-    <string name="media_gallery_type_tiled">タイルモザイク</string>
-    <string name="media_gallery_type_circles">丸型</string>
-    <string name="media_gallery_image_order_reverse">順序を逆にする</string>
-    <string name="media_gallery_type">表示形式</string>
-    <string name="media_gallery_type_slideshow">スライドショー</string>
-    <string name="media_edit_title_text">タイトル</string>
-    <string name="media_edit_caption_text">キャプション</string>
-    <string name="media_edit_description_text">説明</string>
-    <string name="theme_activate_button">有効化</string>
+<string name="theme_activate_button">有効化</string>
     <string name="share_action">共有</string>
     <string name="stats">統計</string>
     <string name="stats_view_clicks">クリック数</string>
-    <string name="all">すべて</string>
-    <string name="unattached">未使用</string>
-    <string name="media_gallery_settings_title">ギャラリーの設定</string>
-    <string name="media_gallery_edit">ギャラリーを編集</string>
-    <string name="media_edit_title_hint">タイトルを入力</string>
-    <string name="stats_timeframe_today">今日</string>
+<string name="stats_timeframe_today">今日</string>
     <string name="stats_timeframe_yesterday">昨日</string>
     <string name="stats_timeframe_days">日</string>
     <string name="stats_timeframe_weeks">週</string>
@@ -226,9 +322,6 @@
     <string name="stats_empty_video">まだ再生された動画がありません。</string>
     <string name="stats_empty_comments">コメントはまだありません。</string>
     <string name="menu_search">検索</string>
-    <string name="media_add_popup_capture_photo">写真を撮影</string>
-    <string name="media_add_popup_capture_video">動画を撮影</string>
-    <string name="media_edit_success">更新しました</string>
     <string name="themes_live_preview">ライブプレビュー</string>
     <string name="themes_details_label">詳細</string>
     <string name="themes_features_label">機能</string>
@@ -247,12 +340,7 @@
     <string name="stats_totals_followers_shares_header_shares">共有</string>
     <string name="stats_totals_followers_shares_label_posts">投稿</string>
     <string name="new_media">新規メディア</string>
-    <string name="gallery_error">メディア項目を読み込めませんでした。</string>
-    <string name="confirm_delete_media">本当にこのメディア項目を削除しますか ?</string>
-    <string name="media_edit_failure">更新に失敗しました</string>
-    <string name="media_edit_description_hint">説明を入力</string>
-    <string name="media_edit_caption_hint">キャプションを入力</string>
-    <string name="passcode_wrong_passcode">PIN 番号が間違っています。もう一度お試しください。</string>
+<string name="passcode_wrong_passcode">PIN 番号が間違っています。もう一度お試しください。</string>
     <string name="passcode_preference_title">PIN 番号ロック</string>
     <string name="passcode_turn_on">PIN 番号ロックを有効化</string>
     <string name="passcode_turn_off">PIN 番号ロックを無効化</string>
@@ -269,9 +357,7 @@
     <string name="theme_no_search_result_found">一致する結果が見つかりませんでした。</string>
     <string name="stats_view_top_posts_and_pages">人気の投稿とページ</string>
     <string name="stats_view_visitors_and_views">訪問者数・表示回数</string>
-    <string name="media_no_video_title">VideoPress が利用できません</string>
     <string name="please_wait_refresh_done">項目を読み込んでいます。少々お待ちください。</string>
-    <string name="media_gallery_image_order">画像順序</string>
     <string name="post_excerpt">抜粋</string>
     <string name="stats_comments_summary_label_most_active_day">最近最も活発だった日</string>
     <string name="stats_comments_summary_label_most_active_time">一日のうち最も活発な時間</string>
@@ -285,15 +371,11 @@
     <string name="error_downloading_image">画像をダウンロードする際にエラーが発生しました。もう一度お試しください。</string>
     <string name="theme_fetch_failed">テーマ情報の取得に失敗しました。もう一度お試しください。</string>
     <string name="theme_auth_error_title">テーマ情報の取得に失敗しました</string>
-    <string name="confirm_delete_multi_media">本当にこの項目を削除しますか ?</string>
     <string name="stats_bar_graph_empty">統計情報がありません。</string>
-    <string name="media_no_video_message">動画をアップロードするには VideoPress アップグレードを追加してください。</string>
     <string name="stats_empty_referrers"><b>リファラが見つかりません。</b>リファラとは、あなたのサイトへのリンクがクリックされたサイトの情報です。</string>
     <string name="stats_empty_clicks"><b>記録されたクリックがありません。</b>「クリック」とは、あなたのサイト上で訪問者がクリックした外部リンクの情報です。</string>
     <string name="stats_empty_search_engine_terms"><b>検索キーワードが見つかりません。</b>検索キーワードとは、ユーザーがあなたのサイトを訪問する際に検索エンジンで使ったキーワードのことです。</string>
-    <string name="custom_date">カスタム日付</string>
     <string name="remote_changes">まだアップロードしていない投稿に変更を加えました。再読み込みしてローカルでの変更を上書きしますか ?</string>
-    <string name="upload">アップロード</string>
     <string name="manage">管理</string>
     <string name="discard">削除</string>
     <string name="prompt_save_changes">変更を保存しますか ?</string>
@@ -305,13 +387,10 @@
     <string name="notifications_turn_off">無効化</string>
     <string name="notifications_turn_off_1hr">1時間無効化</string>
     <string name="notifications_turn_off_8hr">8時間無効化</string>
-    <string name="sign_in">ログイン</string>
-    <string name="sign_out">ログアウト</string>
-    <string name="please_sign_in">もう一度ログインしてください。</string>
+ <string name="please_sign_in">もう一度ログインしてください。</string>
     <string name="options">設定</string>
     <string name="attempting_configure">ログイン中&#8230;</string>
     <string name="notifications">通知</string>
-    <string name="sign_out_confirm">本当にログアウトしますか ?</string>
     <string name="enable_notifications">通知を有効化する</string>
     <string name="manage_notifications">通知の管理</string>
     <string name="tap_to_reply">タップして返信</string>
@@ -323,7 +402,6 @@
     <string name="moderate_comment">コメントの承認</string>
     <string name="types">種類</string>
     <string name="comment_added">コメントの追加に成功しました</string>
-    <string name="add_comment">コメントを追加</string>
     <string name="view_admin">管理画面を表示</string>
     <string name="edit_comment">コメントを編集</string>
     <string name="loading">読込中…</string>
@@ -336,17 +414,13 @@
     <string name="http_credentials">HTTP ログイン情報 (オプション)</string>
     <string name="file_error_create">メディアアップロードの際に一時ファイルを作成できませんでした。デバイス上に空き容量があるか確認してください。</string>
     <string name="error_media_upload">メディアをアップロードする際にエラーが発生しました</string>
-    <string name="post_content">コンテンツ (タップしてテキスト・メディアを追加)</string>
     <string name="publish_date">公開</string>
     <string name="post_format">投稿フォーマット</string>
     <string name="content_description_add_media">メディアを追加</string>
-    <string name="incorrect_credentials">ユーザー名またはパスワードが正しくありません。</string>
     <string name="error_generic">エラーが発生しました。後ほどもう一度お試しください。</string>
     <string name="error_edit_comment">コメント編集の際にエラーが発生しました。後ほどもう一度お試しください。</string>
     <string name="error_upload">%sをアップロードする際にエラーが発生しました。</string>
-    <string name="password">パスワード</string>
-    <string name="username">ユーザー名</string>
-    <string name="category_name">カテゴリー名</string>
+<string name="category_name">カテゴリー名</string>
     <string name="category_slug">カテゴリースラッグ (オプション)</string>
     <string name="category_desc">カテゴリーの説明 (オプション)</string>
     <string name="reader">購読ブログ</string>
@@ -355,15 +429,7 @@
     <string name="featured">アイキャッチ画像として使用</string>
     <string name="featured_in_post">投稿本文中に画像を含める</string>
     <string name="no_site_error">WordPress サイトに接続できませんでした。後ほど再度お試しください。</string>
-    <string name="pages">ページ</string>
-    <string name="caption">キャプション (オプション)</string>
-    <string name="width">横幅</string>
-    <string name="page">ページ</string>
-    <string name="posts">投稿</string>
-    <string name="anonymous">匿名</string>
-    <string name="horizontal_alignment">横位置</string>
-    <string name="post">投稿</string>
-    <string name="image_settings">画像の設定</string>
+ <string name="image_settings">画像の設定</string>
     <string name="posted_from_blackberry">WordPress for BlackBerry からの投稿</string>
     <string name="wordpress_blog">WordPress ブログ</string>
     <string name="app_title_blackberry">WordPress for BlackBerry</string>
@@ -372,10 +438,7 @@
     <string name="content">タップしてテキストとメディアを追加</string>
     <string name="ok">OK</string>
     <string name="local_changes">ローカルの変更</string>
-    <string name="scaled_image">変更後の画像幅</string>
-    <string name="upload_scaled_image">アップロードしてサイズを変更した画像にリンク</string>
-    <string name="scaled_image_error">正しい画像幅を入力してください</string>
-    <string name="author_name">名前</string>
+ <string name="author_name">名前</string>
     <string name="author_email">メールアドレス</string>
     <string name="author_url">URL</string>
     <string name="comment_content">コメント本文</string>
@@ -393,19 +456,15 @@
     <string name="link_enter_url">URL</string>
     <string name="posted_from">WordPress for Android から投稿</string>
     <string name="mark_spam">スパム</string>
-    <string name="uploading">アップロード中</string>
     <string name="version">バージョン</string>
     <string name="tos">利用規約</string>
     <string name="privacy_policy">個人情報保護方針</string>
     <string name="app_title">DG1S BioWiki</string>
     <string name="publisher">公開者: Automattic, Inc</string>
-    <string name="about">紹介</string>
     <string name="local_draft">ローカル下書き</string>
-    <string name="max_thumbnail_px_width">標準の画像幅</string>
     <string name="image_alignment">配置</string>
     <string name="quick_photo">クイックフォト</string>
     <string name="quick_video">クイックビデオ</string>
-    <string name="refresh">再読み込み</string>
     <string name="upload_failed">アップロードに失敗しました。</string>
     <string name="view_in_browser">ブラウザで表示</string>
     <string name="untitled">タイトル未設定</string>
@@ -413,11 +472,9 @@
     <string name="post_id">投稿</string>
     <string name="page_id">固定ページ</string>
     <string name="post_password">パスワード (オプション)</string>
-    <string name="immediately">すぐに</string>
     <string name="quickpress_add_alert_title">ショートカット名を設定する</string>
     <string name="settings">設定</string>
     <string name="view_map">地図を表示</string>
-    <string name="post_not_published">この投稿はまだ公開されていません</string>
     <string name="page_not_published">このページはまだ公開されていません</string>
     <string name="share_url">URLを共有</string>
     <string name="quickpress_window_title">QuickPress ショートカット用のブログを選択</string>
@@ -426,19 +483,15 @@
     <string name="draft">下書き</string>
     <string name="pending_review">レビュー待ち</string>
     <string name="post_private">非公開</string>
-    <string name="upload_full_size_image">アップロードしてフルサイズの画像にリンクする</string>
     <string name="invalid_url_message">入力したブログ URL が正しいか確認してください。</string>
     <string name="geotag">投稿ジオタグ</string>
-    <string name="load_settings">設定を読み込みますか ?</string>
     <string name="invalid_login">不正なログイン</string>
     <string name="stats_password">パスワード</string>
     <string name="stats_username">ユーザー名</string>
     <string name="title">タイトル</string>
-    <string name="tags_separate_with_commas">タグ (コンマ区切り)</string>
     <string name="categories">カテゴリー</string>
     <string name="moderating_comments">コメント承認中</string>
     <string name="load_more">さらに読み込む</string>
-    <string name="tab_stats">統計情報</string>
     <string name="deleting_comments">コメント削除中</string>
     <string name="comments_moderated">コメントの処理を完了しました</string>
     <string name="post_deleted">投稿を削除しました</string>
@@ -447,23 +500,15 @@
     <string name="page_deleted">投稿を削除しました</string>
     <string name="delete_sure_page">本当にこのページを削除しますか ?</string>
     <string name="delete_page">ページを削除</string>
-    <string name="notification_sound">通知音を再生</string>
-    <string name="notification_blink">通知ライトを点滅</string>
-    <string name="notification_vibrate">バイブ</string>
-    <string name="location_toast">位置データがまだ利用できません。少々お待ちください。</string>
-    <string name="status">状態</string>
+ <string name="location_toast">位置データがまだ利用できません。少々お待ちください。</string>
     <string name="location">場所</string>
     <string name="sdcard_title">SD カードが必要です</string>
     <string name="select_video">ギャラリーからビデオを選択する</string>
     <string name="sdcard_message">メディアをアップロードするには、SD カードが必要です。</string>
-    <string name="media">メディア</string>
-    <string name="account_details">アカウント詳細</string>
-    <string name="no_account">WordPress アカウントが見つかりません。アカウントを追加して、もう一度試してください。</string>
-    <string name="select_a_blog">ブログを選択</string>
+ <string name="select_a_blog">ブログを選択</string>
     <string name="cat_name_required">カテゴリー名は必須項目です。</string>
     <string name="adding_cat_success">カテゴリーを追加しました。</string>
     <string name="adding_cat_failed_check">設定を確認して再度お試しください。</string>
-    <string name="delete">削除</string>
     <string name="approve">承認</string>
     <string name="unapprove">承認しない</string>
     <string name="deleting_comment">コメントを削除中</string>
@@ -473,14 +518,9 @@
     <string name="category_parent">親カテゴリー (オプション):</string>
     <string name="add_new_category">新しいカテゴリーを追加</string>
     <string name="required_fields">必須項目</string>
-    <string name="select_categories">カテゴリーを選択</string>
     <string name="remove_account">ブログを取り除く</string>
     <string name="blog_removed_successfully">ブログを取り除きました</string>
-    <string name="sure_to_remove_account">本当にこのブログを取り除きますか ?</string>
-    <string name="blogs">ブログ</string>
-    <string name="could_not_remove_account">ブログを取り除くことができません。</string>
     <string name="select_photo">ギャラリーから写真を選択</string>
-    <string name="tab_comments">コメント</string>
     <string name="comment_actions">コメントアクション</string>
     <string name="mark_approved">承認されたものにマークをつける</string>
     <string name="mark_unapproved">未承認にマークをつける</string>
@@ -497,20 +537,7 @@
     <string name="delete_sure">本当に下書きを削除しますか？</string>
     <string name="edit_draft">下書きを編集</string>
     <string name="delete_draft">下書きを削除</string>
-    <string name="cancel">キャンセル</string>
-    <string name="save">保存</string>
-    <string name="add">追加</string>
-    <string name="yes">はい</string>
-    <string name="no">いいえ</string>
-    <string name="error">エラー</string>
-    <string name="edit_page">ページを編集</string>
-    <string name="edit_post">投稿を編集</string>
-    <string name="tab_posts">投稿</string>
-    <string name="tab_pages">ページ</string>
-    <string name="connection_error">接続エラー</string>
-    <string name="category_refresh_error">カテゴリーの再読み込みエラー</string>
     <string name="comment_moderated">コメントの処理を完了しました</string>
-    <string name="cancel_edit">編集をキャンセル</string>
     <string name="moderating_comment">コメントをモデレート中</string>
     <string name="categories_refreshed">カテゴリーの再読み込みが完了しました</string>
     <string name="draft_actions">下書き操作</string>
