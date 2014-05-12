@@ -10,17 +10,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Note;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.PhotonUtils;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
 import kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by nbradbury on 3/10/14.
@@ -29,12 +29,10 @@ class NotesAdapter extends BaseAdapter {
     private final int mAvatarSz;
     private final LayoutInflater mInflater;
     private final ArrayList<Note> mNotes = new ArrayList<Note>();
-    private boolean mIsAddingNotes;
     private final DataLoadedListener mDataLoadedListener;
-
-    public interface DataLoadedListener {
-        public void onDataLoaded(boolean isEmpty);
-    }
+    // HashMap of drawables for note types
+    private final HashMap<String, Drawable> mNoteIcons = new HashMap<String, Drawable>();
+    private boolean mIsAddingNotes;
 
     NotesAdapter(Context context, DataLoadedListener dataLoadedListener) {
         mInflater = LayoutInflater.from(context);
@@ -139,8 +137,6 @@ class NotesAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    // HashMap of drawables for note types
-    private final HashMap<String, Drawable> mNoteIcons = new HashMap<String, Drawable>();
     private Drawable getDrawableForType(Context context, String noteType) {
         if (context == null || noteType == null)
             return null;
@@ -165,6 +161,10 @@ class NotesAdapter extends BaseAdapter {
 
         mNoteIcons.put(noteType, icon);
         return icon;
+    }
+
+    public interface DataLoadedListener {
+        public void onDataLoaded(boolean isEmpty);
     }
 
     private static class NoteViewHolder {

@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Note;
 import kr.kdev.dg1s.biowiki.util.JSONUtil;
@@ -26,9 +27,9 @@ public class NoteCommentLikeFragment extends ListFragment implements Notificatio
     }
 
     @Override
-    public void onActivityCreated(Bundle bundle){
+    public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        
+
         ListView list = getListView();
         list.setDivider(getResources().getDrawable(R.drawable.list_divider));
         list.setDividerHeight(1);
@@ -39,7 +40,7 @@ public class NoteCommentLikeFragment extends ListFragment implements Notificatio
             return;
 
         JSONArray bodyItems = getNote().queryJSON("body.items", new JSONArray());
-        JSONObject bodyObject =  getNote().queryJSON("body", new JSONObject());
+        JSONObject bodyObject = getNote().queryJSON("body", new JSONObject());
 
         // header subject will be the note subject ("These people like your comment"), header
         // snippet will be a snippet of the comment
@@ -59,23 +60,23 @@ public class NoteCommentLikeFragment extends ListFragment implements Notificatio
         noteHeader.setNote(getNote(), headerLink);
 
         if (getActivity() instanceof OnPostClickListener) {
-            noteHeader.setOnPostClickListener(((OnPostClickListener)getActivity()));
+            noteHeader.setOnPostClickListener(((OnPostClickListener) getActivity()));
         }
         if (getActivity() instanceof OnCommentClickListener) {
-            noteHeader.setOnCommentClickListener(((OnCommentClickListener)getActivity()));
+            noteHeader.setOnCommentClickListener(((OnCommentClickListener) getActivity()));
         }
 
         setListAdapter(new NoteFollowAdapter(getActivity(), getNote(), true));
     }
 
     @Override
-    public void setNote(Note note){
-        mNote = note;
-    }
-    
-    @Override
-    public Note getNote(){
+    public Note getNote() {
         return mNote;
+    }
+
+    @Override
+    public void setNote(Note note) {
+        mNote = note;
     }
 
     private String getHeaderText(JSONArray bodyItems) {
@@ -84,7 +85,7 @@ public class NoteCommentLikeFragment extends ListFragment implements Notificatio
         JSONObject noteItem = JSONUtil.queryJSON(bodyItems, String.format("[%d]", 0), new JSONObject());
         return JSONUtil.getStringDecoded(noteItem, "header_text");
     }
-    
+
     private String getCommentSnippet(JSONArray bodyItems) {
         if (bodyItems == null)
             return "";

@@ -25,19 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.ui.CustomSpinner;
-import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.CheckableFrameLayout;
-import kr.kdev.dg1s.biowiki.ui.MultiSelectGridView;
-import kr.kdev.dg1s.biowiki.ui.MultiSelectGridView.MultiSelectListener;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
-import kr.kdev.dg1s.biowiki.ui.media.MediaGridAdapter.MediaGridAdapterCallback;
-import kr.kdev.dg1s.biowiki.util.NetworkUtils;
 import org.xmlrpc.android.ApiHelper;
 import org.xmlrpc.android.ApiHelper.SyncMediaLibraryTask.Callback;
 
@@ -46,6 +33,19 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.CheckableFrameLayout;
+import kr.kdev.dg1s.biowiki.ui.CustomSpinner;
+import kr.kdev.dg1s.biowiki.ui.MultiSelectGridView;
+import kr.kdev.dg1s.biowiki.ui.MultiSelectGridView.MultiSelectListener;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
+import kr.kdev.dg1s.biowiki.ui.media.MediaGridAdapter.MediaGridAdapterCallback;
+import kr.kdev.dg1s.biowiki.util.NetworkUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 
 /**
@@ -92,29 +92,6 @@ public class MediaGridFragment extends Fragment implements OnItemClickListener,
 
     private boolean mIsDateFilterSet = false;
     private boolean mSpinnerHasLaunched = false;
-
-    private int mStartYear, mStartMonth, mStartDay, mEndYear, mEndMonth, mEndDay;
-    private AlertDialog mDatePickerDialog;
-
-    public interface MediaGridListener {
-        public void onMediaItemListDownloadStart();
-        public void onMediaItemListDownloaded();
-        public void onMediaItemSelected(String mediaId);
-        public void onMultiSelectChange(int count);
-        public void onRetryUpload(String mediaId);
-    }
-
-    public enum Filter {
-        ALL, IMAGES, UNATTACHED, CUSTOM_DATE;
-
-        public static Filter getFilter(int filterPos) {
-            if (filterPos > Filter.values().length)
-                return ALL;
-            else
-                return Filter.values()[filterPos];
-        }
-    }
-
     private final OnItemSelectedListener mFilterSelectedListener = new OnItemSelectedListener() {
         @Override
         public void onItemSelected(IcsAdapterView<?> parent, View view, int position, long id) {
@@ -129,9 +106,12 @@ public class MediaGridFragment extends Fragment implements OnItemClickListener,
         }
 
         @Override
-        public void onNothingSelected(IcsAdapterView<?> parent) { }
+        public void onNothingSelected(IcsAdapterView<?> parent) {
+        }
 
     };
+    private int mStartYear, mStartMonth, mStartDay, mEndYear, mEndMonth, mEndDay;
+    private AlertDialog mDatePickerDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -188,7 +168,8 @@ public class MediaGridFragment extends Fragment implements OnItemClickListener,
                         }
                         refreshMediaFromServer(0, false);
                     }
-                }, LinearLayout.class);
+                }, LinearLayout.class
+        );
 
         return view;
     }
@@ -584,10 +565,12 @@ public class MediaGridFragment extends Fragment implements OnItemClickListener,
                 ImageContainer container = BioWiki.imageLoader.get(tag, new ImageListener() {
 
                     @Override
-                    public void onErrorResponse(VolleyError error) { }
+                    public void onErrorResponse(VolleyError error) {
+                    }
 
                     @Override
-                    public void onResponse(ImageContainer response, boolean isImmediate) { }
+                    public void onResponse(ImageContainer response, boolean isImmediate) {
+                    }
 
                 });
                 container.cancelRequest();
@@ -672,5 +655,28 @@ public class MediaGridFragment extends Fragment implements OnItemClickListener,
 
     public void setPullToRefreshEnabled(boolean enabled) {
         mPullToRefreshHelper.setEnabled(enabled);
+    }
+
+    public enum Filter {
+        ALL, IMAGES, UNATTACHED, CUSTOM_DATE;
+
+        public static Filter getFilter(int filterPos) {
+            if (filterPos > Filter.values().length)
+                return ALL;
+            else
+                return Filter.values()[filterPos];
+        }
+    }
+
+    public interface MediaGridListener {
+        public void onMediaItemListDownloadStart();
+
+        public void onMediaItemListDownloaded();
+
+        public void onMediaItemSelected(String mediaId);
+
+        public void onMultiSelectChange(int count);
+
+        public void onRetryUpload(String mediaId);
     }
 }

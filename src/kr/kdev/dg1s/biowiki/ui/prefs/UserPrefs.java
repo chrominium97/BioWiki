@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import kr.kdev.dg1s.biowiki.BioWiki;
 
 public class UserPrefs {
-    private static final String PREFKEY_USER_ID    = "wp_userid";       // id of the current user
+    private static final String PREFKEY_USER_ID = "wp_userid";       // id of the current user
     private static final String PREFKEY_READER_TAG = "reader_tag";    // last selected tag in the reader
 
     private static SharedPreferences prefs() {
@@ -28,9 +28,11 @@ public class UserPrefs {
     private static String getString(String key) {
         return getString(key, "");
     }
+
     private static String getString(String key, String defaultValue) {
         return prefs().getString(key, defaultValue);
     }
+
     private static void setString(String key, String value) {
         SharedPreferences.Editor editor = prefs().edit();
         if (TextUtils.isEmpty(value)) {
@@ -53,16 +55,19 @@ public class UserPrefs {
             return 0;
         }
     }
+
     public static void setCurrentUserId(long userId) {
-        if (userId==0) {
+        if (userId == 0) {
             remove(PREFKEY_USER_ID);
         } else {
             setString(PREFKEY_USER_ID, Long.toString(userId));
         }
     }
+
     public static void clearCurrentUserId() {
         remove(PREFKEY_USER_ID);
     }
+
     public static boolean hasCurrentUserId() {
         return (getCurrentUserId() != 0);
     }
@@ -70,6 +75,7 @@ public class UserPrefs {
     public static String getReaderTag() {
         return getString(PREFKEY_READER_TAG);
     }
+
     public static void setReaderTag(String tagName) {
         setString(PREFKEY_READER_TAG, tagName);
     }

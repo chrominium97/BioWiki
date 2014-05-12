@@ -10,8 +10,8 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.AuthenticatedWebViewActivity;
 
 @SuppressLint("SetJavaScriptEnabled")

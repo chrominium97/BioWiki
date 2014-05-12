@@ -57,7 +57,7 @@ public class AboutActivity extends Activity implements OnClickListener {
         AppLockManager.getInstance().setExtendedTimeout();
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
-    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

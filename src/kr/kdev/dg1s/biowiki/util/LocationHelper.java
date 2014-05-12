@@ -1,14 +1,14 @@
 //This Handy-Dandy class acquired and tweaked from http://stackoverflow.com/a/3145655/309558
 package kr.kdev.dg1s.biowiki.util;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LocationHelper {
     Timer timer1;
@@ -48,6 +48,14 @@ public class LocationHelper {
         return true;
     }
 
+    public void cancelTimer() {
+        if (timer1 != null) {
+            timer1.cancel();
+            lm.removeUpdates(locationListenerGps);
+            lm.removeUpdates(locationListenerNetwork);
+        }
+    }
+
     LocationListener locationListenerGps = new LocationListener() {
         public void onLocationChanged(Location location) {
             timer1.cancel();
@@ -65,6 +73,44 @@ public class LocationHelper {
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
     };
+
+    class GetLastLocation extends TimerTask {
+        @Override
+        public void run() {
+            lm.removeUpdates(locationListenerGps);
+            lm.removeUpdates(locationListenerNetwork);
+
+            Location net_loc = null, gps_loc = null;
+            if (gps_enabled)
+                gps_loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (network_enabled)
+                net_loc = lm
+                        .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            // if there are both values use the latest one
+            if (gps_loc != null && net_loc != null) {
+                if (gps_loc.getTime() > net_loc.getTime())
+                    locationResult.gotLocation(gps_loc);
+                else
+                    locationResult.gotLocation(net_loc);
+                return;
+            }
+
+            if (gps_loc != null) {
+                locationResult.gotLocation(gps_loc);
+                return;
+            }
+            if (net_loc != null) {
+                locationResult.gotLocation(net_loc);
+                return;
+            }
+            locationResult.gotLocation(null);
+        }
+    }
+
+    public static abstract class LocationResult {
+        public abstract void gotLocation(Location location);
+    }
 
     LocationListener locationListenerNetwork = new LocationListener() {
         public void onLocationChanged(Location location) {
@@ -118,15 +164,5 @@ public class LocationHelper {
         }
     }
 
-    public static abstract class LocationResult {
-        public abstract void gotLocation(Location location);
-    }
 
-    public void cancelTimer() {
-        if (timer1 != null) {
-            timer1.cancel();
-            lm.removeUpdates(locationListenerGps);
-            lm.removeUpdates(locationListenerNetwork);
-        }
-    }
 }

@@ -26,6 +26,7 @@ public class MapUtils {
     public static int getMapInt(final Map<?, ?> map, final String key) {
         return getMapInt(map, key, 0);
     }
+
     public static int getMapInt(final Map<?, ?> map, final String key, int defaultValue) {
         try {
             return Integer.parseInt(getMapStr(map, key));
@@ -40,6 +41,7 @@ public class MapUtils {
     public static long getMapLong(final Map<?, ?> map, final String key) {
         return getMapLong(map, key, 0);
     }
+
     public static long getMapLong(final Map<?, ?> map, final String key, long defaultValue) {
         try {
             return Long.parseLong(getMapStr(map, key));
@@ -53,7 +55,7 @@ public class MapUtils {
      * returns null if key doesn't exist or isn't a date
      */
     public static Date getMapDate(final Map<?, ?> map, final String key) {
-        if (map==null || key==null || !map.containsKey(key))
+        if (map == null || key == null || !map.containsKey(key))
             return null;
         try {
             return (Date) map.get(key);

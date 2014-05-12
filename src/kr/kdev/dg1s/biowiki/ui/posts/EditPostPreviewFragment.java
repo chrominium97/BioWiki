@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-import kr.kdev.dg1s.biowiki.util.BWHtml;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.util.BWHtml;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 /**
@@ -26,7 +26,7 @@ public class EditPostPreviewFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mActivity = (EditPostActivity)getActivity();
+        mActivity = (EditPostActivity) getActivity();
 
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.fragment_edit_post_preview, container, false);

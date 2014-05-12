@@ -21,16 +21,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.MediaFile;
-import kr.kdev.dg1s.biowiki.util.MediaUtils;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.util.MediaUploadService;
-
 import java.io.File;
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.MediaFile;
+import kr.kdev.dg1s.biowiki.util.MediaUploadService;
+import kr.kdev.dg1s.biowiki.util.MediaUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 /**
  * An invisible fragment in charge of launching the right intents to camera, video, and image library.
@@ -41,57 +41,6 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
     private static final String BUNDLE_MEDIA_CAPTURE_PATH = "mediaCapturePath";
     private String mMediaCapturePath = "";
     private MediaAddFragmentCallback mCallback;
-
-    public interface MediaAddFragmentCallback {
-        public void onMediaAdded(String mediaId);
-    }
-    
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // This view doesn't really matter as this fragment is invisible
-        
-        if (savedInstanceState != null && savedInstanceState.getString(BUNDLE_MEDIA_CAPTURE_PATH) != null)
-            mMediaCapturePath = savedInstanceState.getString(BUNDLE_MEDIA_CAPTURE_PATH);
-        
-        return inflater.inflate(R.layout.actionbar_add_media_cell, container, false);
-    }
-    
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        
-        try {
-            mCallback = (MediaAddFragmentCallback) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement " + MediaAddFragmentCallback.class.getSimpleName());
-        }
-    }
-    
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mMediaCapturePath != null && !mMediaCapturePath.equals(""))
-            outState.putString(BUNDLE_MEDIA_CAPTURE_PATH, mMediaCapturePath);
-    }
-    
-    @Override
-    public void onResume() {
-        super.onResume();
-        
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-        lbm.registerReceiver(mReceiver, new IntentFilter(MediaUploadService.MEDIA_UPLOAD_INTENT_NOTIFICATION));
-
-        startMediaUploadService();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        
-        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-        lbm.unregisterReceiver(mReceiver);
-    }
-
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -106,6 +55,52 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
             }
         }
     };
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // This view doesn't really matter as this fragment is invisible
+
+        if (savedInstanceState != null && savedInstanceState.getString(BUNDLE_MEDIA_CAPTURE_PATH) != null)
+            mMediaCapturePath = savedInstanceState.getString(BUNDLE_MEDIA_CAPTURE_PATH);
+
+        return inflater.inflate(R.layout.actionbar_add_media_cell, container, false);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            mCallback = (MediaAddFragmentCallback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement " + MediaAddFragmentCallback.class.getSimpleName());
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mMediaCapturePath != null && !mMediaCapturePath.equals(""))
+            outState.putString(BUNDLE_MEDIA_CAPTURE_PATH, mMediaCapturePath);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        lbm.registerReceiver(mReceiver, new IntentFilter(MediaUploadService.MEDIA_UPLOAD_INTENT_NOTIFICATION));
+
+        startMediaUploadService();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+        lbm.unregisterReceiver(mReceiver);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -167,8 +162,8 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
     private String getRealPathFromContentURI(Uri contentUri) {
         if (contentUri == null)
             return null;
-        
-        String[] proj = { MediaStore.Images.Media.DATA };
+
+        String[] proj = {MediaStore.Images.Media.DATA};
         CursorLoader loader = new CursorLoader(getActivity(), contentUri, proj, null, null, null);
         Cursor cursor = loader.loadInBackground();
 
@@ -186,13 +181,13 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
         cursor.close();
         return path;
     }
-    
+
     private void queueFileForUpload(String path) {
         if (path == null || path.equals("")) {
             Toast.makeText(getActivity(), "Error opening file", Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         Blog blog = BioWiki.getCurrentBlog();
 
         File file = new File(path);
@@ -201,7 +196,7 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
 
         String mimeType = MediaUtils.getMediaFileMimeType(file);
         String fileName = MediaUtils.getMediaFileName(file, mimeType);
-        
+
         MediaFile mediaFile = new MediaFile();
         mediaFile.setBlogId(String.valueOf(blog.getLocalTableBlogId()));
         mediaFile.setFileName(fileName);
@@ -221,9 +216,9 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
         if (!TextUtils.isEmpty(mimeType))
             mediaFile.setMimeType(mimeType);
         mediaFile.save();
-        
+
         mCallback.onMediaAdded(mediaFile.getMediaId());
-     
+
         startMediaUploadService();
     }
 
@@ -236,22 +231,22 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
         mMediaCapturePath = mediaCapturePath;
     }
 
-    public void launchCamera(){
+    public void launchCamera() {
         MediaUtils.launchCamera(this, this);
     }
 
     public void launchVideoCamera() {
         MediaUtils.launchVideoCamera(this);
     }
-    
+
     public void launchVideoLibrary() {
         MediaUtils.launchVideoLibrary(this);
     }
-    
+
     public void launchPictureLibrary() {
         MediaUtils.launchPictureLibrary(this);
     }
-    
+
     public void addToQueue(String mediaId) {
         String blogId = String.valueOf(BioWiki.getCurrentBlog().getLocalTableBlogId());
         BioWiki.wpDB.updateMediaUploadState(blogId, mediaId, "queued");
@@ -262,6 +257,10 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
         for (Uri uri : uriList) {
             fetchMedia(uri);
         }
+    }
+
+    public interface MediaAddFragmentCallback {
+        public void onMediaAdded(String mediaId);
     }
 
     private class DownloadMediaTask extends AsyncTask<Uri, Integer, Uri> {
@@ -284,8 +283,7 @@ public class MediaAddFragment extends Fragment implements MediaUtils.LaunchCamer
             if (newUri != null) {
                 String path = getRealPathFromURI(newUri);
                 queueFileForUpload(path);
-            }
-            else
+            } else
                 Toast.makeText(getActivity(), getString(R.string.error_downloading_image), Toast.LENGTH_SHORT).show();
         }
     }

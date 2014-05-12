@@ -3,9 +3,10 @@ package kr.kdev.dg1s.biowiki.models;
 import android.text.TextUtils;
 
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.util.UrlUtils;
+
 import kr.kdev.dg1s.biowiki.util.JSONUtil;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
+import kr.kdev.dg1s.biowiki.util.UrlUtils;
 
 /**
  * Created by nbradbury on 6/22/13.
@@ -13,18 +14,21 @@ import kr.kdev.dg1s.biowiki.util.StringUtils;
 public class ReaderUser {
 
     public long userId;
+    // isFollowed isn't read from json or stored in db - used by ReaderUserAdapter to mark followed users
+    public transient boolean isFollowed;
     private String userName;
     private String displayName;
     private String url;
     private String profileUrl;
     private String avatarUrl;
-
-    // isFollowed isn't read from json or stored in db - used by ReaderUserAdapter to mark followed users
-    public transient boolean isFollowed;
+    /*
+     * not stored - used by ReaderUserAdapter for performance
+     */
+    private transient String urlDomain;
 
     public static ReaderUser fromJson(JSONObject json) {
         ReaderUser user = new ReaderUser();
-        if (json==null)
+        if (json == null)
             return user;
 
         user.userId = json.optLong("ID");
@@ -46,6 +50,7 @@ public class ReaderUser {
     public String getUserName() {
         return StringUtils.notNullStr(userName);
     }
+
     public void setUserName(String userName) {
         this.userName = StringUtils.notNullStr(userName);
     }
@@ -53,6 +58,7 @@ public class ReaderUser {
     public String getDisplayName() {
         return StringUtils.notNullStr(displayName);
     }
+
     public void setDisplayName(String displayName) {
         this.displayName = StringUtils.notNullStr(displayName);
     }
@@ -60,6 +66,7 @@ public class ReaderUser {
     public String getUrl() {
         return StringUtils.notNullStr(url);
     }
+
     public void setUrl(String url) {
         this.url = StringUtils.notNullStr(url);
     }
@@ -67,6 +74,7 @@ public class ReaderUser {
     public String getProfileUrl() {
         return StringUtils.notNullStr(profileUrl);
     }
+
     public void setProfileUrl(String profileUrl) {
         this.profileUrl = StringUtils.notNullStr(profileUrl);
     }
@@ -74,6 +82,7 @@ public class ReaderUser {
     public String getAvatarUrl() {
         return StringUtils.notNullStr(avatarUrl);
     }
+
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = StringUtils.notNullStr(avatarUrl);
     }
@@ -82,10 +91,6 @@ public class ReaderUser {
         return !TextUtils.isEmpty(url);
     }
 
-    /*
-     * not stored - used by ReaderUserAdapter for performance
-     */
-    private transient String urlDomain;
     public String getUrlDomain() {
         if (urlDomain == null) {
             if (hasUrl()) {
@@ -98,7 +103,7 @@ public class ReaderUser {
     }
 
     public boolean isSameUser(ReaderUser user) {
-        if (user==null)
+        if (user == null)
             return false;
         if (this.userId != user.userId)
             return false;

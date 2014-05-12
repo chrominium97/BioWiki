@@ -18,7 +18,7 @@ public class NetworkUtils {
     /**
      * returns information on the active network connection
      */
-    private static NetworkInfo getActiveNetworkInfo(Context context){
+    private static NetworkInfo getActiveNetworkInfo(Context context) {
         if (context == null)
             return null;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -72,7 +72,7 @@ public class NetworkUtils {
     /**
      * returns true if there's an active network connection, otherwise displays a toast error
      * and returns false
-     **/
+     */
     public static boolean checkConnection(Context context) {
         if (isNetworkAvailable(context))
             return true;

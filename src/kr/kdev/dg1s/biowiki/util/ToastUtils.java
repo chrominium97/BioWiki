@@ -11,8 +11,9 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.R;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.util.AppLog.T;
 
 /**
@@ -21,8 +22,6 @@ import kr.kdev.dg1s.biowiki.util.AppLog.T;
  * desired gravity, etc.
  */
 public class ToastUtils {
-    public enum Duration {SHORT, LONG}
-
     private ToastUtils() {
         throw new AssertionError();
     }
@@ -84,10 +83,10 @@ public class ToastUtils {
         } else {
             String fallbackErrorMessage = TextUtils.isEmpty(friendlyMessage) ? context.getString(
                     R.string.error_generic) : friendlyMessage;
-            if (message != null && message.contains("Limit reached") ) {
+            if (message != null && message.contains("Limit reached")) {
                 message = context.getString(R.string.limit_reached);
             }
-            String errorMessage = TextUtils.isEmpty(message) ? fallbackErrorMessage :  message;
+            String errorMessage = TextUtils.isEmpty(message) ? fallbackErrorMessage : message;
             showToast(context, errorMessage, Duration.LONG);
         }
     }
@@ -112,4 +111,6 @@ public class ToastUtils {
         ft.add(authAlert, ALERT_TAG);
         ft.commitAllowingStateLoss();
     }
+
+    public enum Duration {SHORT, LONG}
 }

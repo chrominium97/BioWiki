@@ -9,15 +9,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class JSONUtil {
-    private static String QUERY_SEPERATOR=".";
-    private static String QUERY_ARRAY_INDEX_START="[";
-    private static String QUERY_ARRAY_INDEX_END="]";
-    private static String QUERY_ARRAY_FIRST="first";
-    private static String QUERY_ARRAY_LAST="last";
-
     private static final String JSON_NULL_STR = "null";
+    private static final String TAG = "JSONUtil";
+    private static String QUERY_SEPERATOR = ".";
+    private static String QUERY_ARRAY_INDEX_START = "[";
+    private static String QUERY_ARRAY_INDEX_END = "]";
+    private static String QUERY_ARRAY_FIRST = "first";
+    private static String QUERY_ARRAY_LAST = "last";
 
-    private static final String TAG="JSONUtil";
     /**
      * Given a JSONObject and a key path (e.g property.child) and a default it will
      * traverse the object graph and pull out the desired property
@@ -69,7 +68,7 @@ public class JSONUtil {
                 return (U) result;
             } else {
                 AppLog.w(AppLog.T.UTILS, String.format("The returned object type %s is not assignable to the type %s. Using default!",
-                        result.getClass(),defaultObject.getClass()));
+                        result.getClass(), defaultObject.getClass()));
                 return defaultObject;
             }
         } catch (java.lang.ClassCastException e) {
@@ -84,11 +83,11 @@ public class JSONUtil {
     /**
      * Given a JSONArray and a query (e.g. [0].property) it will traverse the array and
      * pull out the requested property.
-     *
+     * <p/>
      * Acceptable indexes include negative numbers to reference items from the end of
      * the list as well as "last" and "first" as more explicit references to "0" and "-1"
      */
-    public static <U> U queryJSON(JSONArray source, String query, U defaultObject){
+    public static <U> U queryJSON(JSONArray source, String query, U defaultObject) {
         // query must start with [ have an index and then have ]
         int indexStart = query.indexOf(QUERY_ARRAY_INDEX_START);
         int indexEnd = query.indexOf(QUERY_ARRAY_INDEX_END);
@@ -125,11 +124,11 @@ public class JSONUtil {
                 return (U) result;
             } else {
                 AppLog.w(AppLog.T.UTILS, String.format("The returned object type %s is not assignable to the type %s. Using default!",
-                        result.getClass(),defaultObject.getClass()));
+                        result.getClass(), defaultObject.getClass()));
                 return defaultObject;
             }
         } catch (java.lang.ClassCastException e) {
-            AppLog.e(AppLog.T.UTILS, "Unable to cast the object to "+defaultObject.getClass().getName(), e);
+            AppLog.e(AppLog.T.UTILS, "Unable to cast the object to " + defaultObject.getClass().getName(), e);
             return defaultObject;
         } catch (JSONException e) {
             AppLog.e(AppLog.T.UTILS, "Unable to get the Key from the input object. Key:" + query, e);

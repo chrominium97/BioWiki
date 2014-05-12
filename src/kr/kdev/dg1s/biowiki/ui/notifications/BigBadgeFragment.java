@@ -1,6 +1,5 @@
 package kr.kdev.dg1s.biowiki.ui.notifications;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Spanned;
@@ -11,8 +10,8 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Note;
 import kr.kdev.dg1s.biowiki.util.BWLinkMovementMethod;
 import kr.kdev.dg1s.biowiki.util.HtmlUtils;
@@ -22,7 +21,7 @@ public class BigBadgeFragment extends Fragment implements NotificationFragment {
     private Note mNote;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle state){
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle state) {
         View view = inflater.inflate(R.layout.notifications_big_badge, parent, false);
         NetworkImageView badgeImageView = (NetworkImageView) view.findViewById(R.id.badge);
 
@@ -64,11 +63,12 @@ public class BigBadgeFragment extends Fragment implements NotificationFragment {
         return view;
     }
 
-    public void setNote(Note note){
-        mNote = note;
-    }
-    public Note getNote(){
+    public Note getNote() {
         return mNote;
+    }
+
+    public void setNote(Note note) {
+        mNote = note;
     }
 
     /*
@@ -91,9 +91,9 @@ public class BigBadgeFragment extends Fragment implements NotificationFragment {
             return false;
 
         return (type.contains("_milestone_")
-             || type.startsWith("traffic_")
-             || type.startsWith("best_")
-             || type.startsWith("most_"));
+                || type.startsWith("traffic_")
+                || type.startsWith("best_")
+                || type.startsWith("most_"));
     }
 
     /*

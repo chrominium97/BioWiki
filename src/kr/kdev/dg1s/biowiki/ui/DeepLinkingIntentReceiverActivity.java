@@ -4,18 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 
 /**
- * An activity to handle deep linking. 
- * 
+ * An activity to handle deep linking.
+ * <p/>
  * wordpress://viewpost?blogId={blogId}&postId={postId}
- * 
+ * <p/>
  * Redirects users to the reader activity along with IDs passed in the intent
  */
 public class DeepLinkingIntentReceiverActivity extends Activity {
@@ -54,8 +50,8 @@ public class DeepLinkingIntentReceiverActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // show the post if user is returning from successful login
-        if (requestCode == INTENT_WELCOME && resultCode == RESULT_OK);
-            //showPost();
+        if (requestCode == INTENT_WELCOME && resultCode == RESULT_OK) ;
+        //showPost();
     }
 /*
     private void showPost() {

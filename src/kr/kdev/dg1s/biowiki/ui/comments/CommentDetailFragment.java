@@ -541,7 +541,7 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
             case TRASH:
                 dlgId = CommentDialogs.ID_COMMENT_DLG_TRASHING;
                 break;
-            default :
+            default:
                 return;
         }
         getActivity().showDialog(dlgId);
@@ -761,17 +761,21 @@ public class CommentDetailFragment extends Fragment implements NotificationFragm
         if (mEnabledActions == null)
             return false;
         return (mEnabledActions.contains(EnabledActions.ACTION_APPROVE)
-             || mEnabledActions.contains(EnabledActions.ACTION_UNAPPROVE));
+                || mEnabledActions.contains(EnabledActions.ACTION_UNAPPROVE));
     }
+
     private boolean canMarkAsSpam() {
         return (mEnabledActions != null && mEnabledActions.contains(EnabledActions.ACTION_SPAM));
     }
+
     private boolean canReply() {
         return (mEnabledActions != null && mEnabledActions.contains(EnabledActions.ACTION_REPLY));
     }
+
     private boolean canTrash() {
         return canModerate();
     }
+
     private boolean canEdit() {
         return canModerate();
     }

@@ -15,8 +15,8 @@ public class GravatarUtils {
             return "";
 
         String url = "http://gravatar.com/avatar/"
-                    + StringUtils.getMd5Hash(email)
-                    + "?d=mm";
+                + StringUtils.getMd5Hash(email)
+                + "?d=mm";
 
         if (size > 0)
             url += "&s=" + Integer.toString(size);

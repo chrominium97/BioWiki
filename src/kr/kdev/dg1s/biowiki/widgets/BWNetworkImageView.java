@@ -27,10 +27,10 @@ import kr.kdev.dg1s.biowiki.util.SysUtils;
 /**
  * Created by nbradbury on 7/30/13.
  * most of the code below is from Volley's NetworkImageView, but it's modified to support:
- *  (1) fading in downloaded images
- *  (2) manipulating images before display
- *  (3) automatically retrieving the thumbnail for YouTube & Vimeo videos
- *  (4) adding a listener to determine when image has completed downloading (or failed)
+ * (1) fading in downloaded images
+ * (2) manipulating images before display
+ * (3) automatically retrieving the thumbnail for YouTube & Vimeo videos
+ * (4) adding a listener to determine when image has completed downloading (or failed)
  */
 public class BWNetworkImageView extends ImageView {
     private static final int FADE_TRANSITION = 250;
@@ -96,6 +96,7 @@ public class BWNetworkImageView extends ImageView {
 
     /**
      * Loads the image for the view if it isn't already loaded.
+     *
      * @param isInLayoutPass True if this was invoked from a layout pass, false otherwise.
      */
     private void loadImageIfNecessary(final boolean isInLayoutPass) {
@@ -239,7 +240,7 @@ public class BWNetworkImageView extends ImageView {
                 // null default for full-screen photos
                 setImageDrawable(null);
                 break;
-            default :
+            default:
                 // light grey box for all others
                 setImageDrawable(new ColorDrawable(getColorRes(R.color.grey_light)));
                 break;

@@ -26,22 +26,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.HorizontalTabView;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.BWAlertDialogFragment;
-import kr.kdev.dg1s.biowiki.util.Utils;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Theme;
+import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.HorizontalTabView;
 import kr.kdev.dg1s.biowiki.ui.posts.PostsActivity;
 import kr.kdev.dg1s.biowiki.ui.themes.ThemeDetailsFragment.ThemeDetailsFragmentCallback;
 import kr.kdev.dg1s.biowiki.ui.themes.ThemePreviewFragment.ThemePreviewFragmentCallback;
 import kr.kdev.dg1s.biowiki.ui.themes.ThemeTabFragment.ThemeSortType;
 import kr.kdev.dg1s.biowiki.ui.themes.ThemeTabFragment.ThemeTabFragmentCallback;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.BWAlertDialogFragment;
+import kr.kdev.dg1s.biowiki.util.Utils;
 
 /**
  * The theme browser. Accessible via side menu drawer.
@@ -52,7 +52,7 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
 
     public static final String THEME_REFRESH_INTENT_NOTIFICATION = "THEME_REFRESH_INTENT_NOTIFICATION";
     public static final String THEME_REFRESH_PARAM_REFRESHING = "THEME_REFRESH_PARAM_REFRESHING";
-
+    private static final String KEY_IS_ACTIVATING_THEME = "is_activating_theme";
     private HorizontalTabView mTabView;
     private ThemePagerAdapter mThemePagerAdapter;
     private ViewPager mViewPager;
@@ -61,9 +61,12 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
     private ThemeDetailsFragment mDetailsFragment;
     private boolean mFetchingThemes = false;
     private boolean mIsRunning;
-
     private boolean mIsActivatingTheme = false;
-    private static final String KEY_IS_ACTIVATING_THEME = "is_activating_theme";
+    private FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+        public void onBackStackChanged() {
+            setupBaseLayout();
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,12 +127,6 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
         return true;
     }
 
-    private FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
-        public void onBackStackChanged() {
-            setupBaseLayout();
-        }
-    };
-
     private void setupBaseLayout() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             mMenuDrawer.setDrawerIndicatorEnabled(true);
@@ -161,27 +158,6 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
-    public class ThemePagerAdapter extends FragmentStatePagerAdapter {
-        public ThemePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            return ThemeTabFragment.newInstance(ThemeSortType.getTheme(i));
-        }
-
-        @Override
-        public int getCount() {
-            return ThemeSortType.values().length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return ThemeSortType.getTheme(position).getTitle();
-        }
-    }
-
     public void fetchThemes() {
         if (mFetchingThemes) {
             return;
@@ -210,7 +186,7 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
                             AppLog.d(AppLog.T.THEMES, "Failed to fetch themes: failed authenticate user");
                         } else {
                             Toast.makeText(ThemeBrowserActivity.this, R.string.theme_fetch_failed, Toast.LENGTH_LONG)
-                                 .show();
+                                    .show();
                             AppLog.d(AppLog.T.THEMES, "Failed to fetch themes: " + response.toString());
                         }
 
@@ -298,65 +274,6 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
         return String.valueOf(BioWiki.getCurrentBlog().getRemoteBlogId());
     }
 
-    public class FetchThemesTask extends AsyncTask<JSONObject, Void, ArrayList<Theme>> {
-
-        @Override
-        protected ArrayList<Theme> doInBackground(JSONObject... args) {
-            JSONObject response = args[0];
-
-            final ArrayList<Theme> themes = new ArrayList<Theme>();
-
-            if (response != null) {
-                JSONArray array = null;
-                try {
-                    array = response.getJSONArray("themes");
-
-                    if (array != null) {
-
-                        int count = array.length();
-                        for (int i = 0; i < count; i++) {
-                            JSONObject object = array.getJSONObject(i);
-                            Theme theme = Theme.fromJSON(object);
-                            if (theme != null) {
-                                theme.save();
-                                themes.add(theme);
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    AppLog.e(AppLog.T.THEMES, e);
-                }
-            }
-
-            fetchCurrentTheme();
-
-            if (themes != null && themes.size() > 0) {
-                return themes;
-            }
-
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(final ArrayList<Theme> result) {
-
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    mFetchingThemes = false;
-                    if (result == null) {
-                        Toast.makeText(ThemeBrowserActivity.this, R.string.theme_fetch_failed, Toast.LENGTH_SHORT).show();
-                    }
-                    setRefreshing(false);
-                }
-            });
-
-        }
-
-    }
-
     @Override
     public void onThemeSelected(String themeId) {
         FragmentManager fm = getSupportFragmentManager();
@@ -417,7 +334,7 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState.getBoolean(KEY_IS_ACTIVATING_THEME) && mDetailsFragment!=null)
+        if (savedInstanceState.getBoolean(KEY_IS_ACTIVATING_THEME) && mDetailsFragment != null)
             mDetailsFragment.setIsActivatingTheme(true);
     }
 
@@ -460,10 +377,12 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
                         mIsActivatingTheme = false;
-                        if (mDetailsFragment != null && mDetailsFragment.isVisible()) mDetailsFragment.onThemeActivated(
-                                false);
-                        if (ref.get() != null) Toast.makeText(ref.get(), R.string.theme_set_failed, Toast.LENGTH_LONG)
-                                                    .show();
+                        if (mDetailsFragment != null && mDetailsFragment.isVisible())
+                            mDetailsFragment.onThemeActivated(
+                                    false);
+                        if (ref.get() != null)
+                            Toast.makeText(ref.get(), R.string.theme_set_failed, Toast.LENGTH_LONG)
+                                    .show();
                     }
                 }
         );
@@ -477,7 +396,7 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
             fetchThemes();
             setRefreshing(true);
         }
-    };
+    }
 
     @Override
     public void onLivePreviewClicked(String themeId, String previewURL) {
@@ -508,5 +427,87 @@ public class ThemeBrowserActivity extends BWActionBarActivity implements
         Intent intent = new Intent(THEME_REFRESH_INTENT_NOTIFICATION);
         intent.putExtra(THEME_REFRESH_PARAM_REFRESHING, refreshing);
         lbm.sendBroadcast(intent);
+    }
+
+    ;
+
+    public class ThemePagerAdapter extends FragmentStatePagerAdapter {
+        public ThemePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return ThemeTabFragment.newInstance(ThemeSortType.getTheme(i));
+        }
+
+        @Override
+        public int getCount() {
+            return ThemeSortType.values().length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return ThemeSortType.getTheme(position).getTitle();
+        }
+    }
+
+    public class FetchThemesTask extends AsyncTask<JSONObject, Void, ArrayList<Theme>> {
+
+        @Override
+        protected ArrayList<Theme> doInBackground(JSONObject... args) {
+            JSONObject response = args[0];
+
+            final ArrayList<Theme> themes = new ArrayList<Theme>();
+
+            if (response != null) {
+                JSONArray array = null;
+                try {
+                    array = response.getJSONArray("themes");
+
+                    if (array != null) {
+
+                        int count = array.length();
+                        for (int i = 0; i < count; i++) {
+                            JSONObject object = array.getJSONObject(i);
+                            Theme theme = Theme.fromJSON(object);
+                            if (theme != null) {
+                                theme.save();
+                                themes.add(theme);
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    AppLog.e(AppLog.T.THEMES, e);
+                }
+            }
+
+            fetchCurrentTheme();
+
+            if (themes != null && themes.size() > 0) {
+                return themes;
+            }
+
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(final ArrayList<Theme> result) {
+
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    mFetchingThemes = false;
+                    if (result == null) {
+                        Toast.makeText(ThemeBrowserActivity.this, R.string.theme_fetch_failed, Toast.LENGTH_SHORT).show();
+                    }
+                    setRefreshing(false);
+                }
+            });
+
+        }
+
     }
 }

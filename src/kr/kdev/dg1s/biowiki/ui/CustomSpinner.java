@@ -5,10 +5,10 @@ import android.util.AttributeSet;
 
 import com.actionbarsherlock.internal.widget.IcsSpinner;
 
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.ui.media.MediaGridFragment.Filter;
-
 import java.lang.reflect.Field;
+
+import kr.kdev.dg1s.biowiki.ui.media.MediaGridFragment.Filter;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 
 public class CustomSpinner extends IcsSpinner {
     OnItemSelectedListener listener;
@@ -29,7 +29,7 @@ public class CustomSpinner extends IcsSpinner {
             OnItemSelectedListener listener) {
         this.listener = listener;
     }
-    
+
     private void ignoreOldSelectionByReflection() {
         try {
             Class<?> c = this.getClass().getSuperclass().getSuperclass().getSuperclass();

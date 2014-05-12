@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Post;
 import kr.kdev.dg1s.biowiki.models.PostStatus;
 import kr.kdev.dg1s.biowiki.ui.AuthenticatedWebViewActivity;
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 /**
@@ -17,7 +17,7 @@ import kr.kdev.dg1s.biowiki.util.StringUtils;
 public class PreviewPostActivity extends AuthenticatedWebViewActivity {
 
     @SuppressLint("SetJavaScriptEnabled")
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
@@ -43,8 +43,7 @@ public class PreviewPostActivity extends AuthenticatedWebViewActivity {
                 loadPostPreview(post);
         } else if (BioWiki.currentPost != null) {
             loadPostPreview(BioWiki.currentPost);
-        }
-        else {
+        } else {
             Toast.makeText(this, R.string.post_not_found, Toast.LENGTH_SHORT).show();
         }
     }
@@ -60,7 +59,7 @@ public class PreviewPostActivity extends AuthenticatedWebViewActivity {
         if (post != null) {
             String url = post.getPermaLink();
 
-            if ( BioWiki.getCurrentBlog().isPrivate() //blog private
+            if (BioWiki.getCurrentBlog().isPrivate() //blog private
                     || post.isLocalDraft()
                     || post.isLocalChange()
                     || post.getStatusEnum() != PostStatus.PUBLISHED) {

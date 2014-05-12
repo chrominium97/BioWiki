@@ -3,6 +3,7 @@ package kr.kdev.dg1s.biowiki.models;
 import android.text.TextUtils;
 
 import org.json.JSONObject;
+
 import kr.kdev.dg1s.biowiki.util.DateTimeUtils;
 import kr.kdev.dg1s.biowiki.util.HtmlUtils;
 import kr.kdev.dg1s.biowiki.util.JSONUtil;
@@ -17,22 +18,18 @@ public class ReaderComment {
     public long blogId;
     public long postId;
     public long parentId;
-
+    public long timestamp;
+    // not stored in db - denotes the indentation level when displaying this comment
+    public transient int level = 0;
     private String authorName;
     private String authorAvatar;
-
     private String authorUrl;
     private String status;
     private String text;
-
-    public long timestamp;
     private String published;
 
-    // not stored in db - denotes the indentation level when displaying this comment
-    public transient int level = 0;
-
     public static ReaderComment fromJson(JSONObject json, long blogId) {
-        if (json==null)
+        if (json == null)
             throw new IllegalArgumentException("null json comment");
 
         ReaderComment comment = new ReaderComment();
@@ -48,11 +45,11 @@ public class ReaderComment {
         comment.timestamp = DateTimeUtils.iso8601ToTimestamp(comment.published);
 
         JSONObject jsonPost = json.optJSONObject("post");
-        if (jsonPost!=null)
+        if (jsonPost != null)
             comment.postId = jsonPost.optLong("ID");
 
         JSONObject jsonAuthor = json.optJSONObject("author");
-        if (jsonAuthor!=null) {
+        if (jsonAuthor != null) {
             // author names may contain html entities (esp. pingbacks)
             comment.authorName = JSONUtil.getStringDecoded(jsonAuthor, "name");
             comment.authorAvatar = JSONUtil.getString(jsonAuthor, "avatar_URL");
@@ -60,7 +57,7 @@ public class ReaderComment {
         }
 
         JSONObject jsonParent = json.optJSONObject("parent");
-        if (jsonParent!=null)
+        if (jsonParent != null)
             comment.parentId = jsonParent.optLong("ID");
 
         return comment;
@@ -77,6 +74,7 @@ public class ReaderComment {
     public String getAuthorAvatar() {
         return StringUtils.notNullStr(authorAvatar);
     }
+
     public void setAuthorAvatar(String authorAvatar) {
         this.authorAvatar = StringUtils.notNullStr(authorAvatar);
     }
@@ -84,6 +82,7 @@ public class ReaderComment {
     public String getAuthorUrl() {
         return StringUtils.notNullStr(authorUrl);
     }
+
     public void setAuthorUrl(String authorUrl) {
         this.authorUrl = StringUtils.notNullStr(authorUrl);
     }
@@ -91,6 +90,7 @@ public class ReaderComment {
     public String getText() {
         return StringUtils.notNullStr(text);
     }
+
     public void setText(String text) {
         this.text = StringUtils.notNullStr(text);
     }
@@ -98,6 +98,7 @@ public class ReaderComment {
     public String getStatus() {
         return StringUtils.notNullStr(status);
     }
+
     public void setStatus(String status) {
         this.status = StringUtils.notNullStr(status);
     }
@@ -105,6 +106,7 @@ public class ReaderComment {
     public String getPublished() {
         return StringUtils.notNullStr(published);
     }
+
     public void setPublished(String published) {
         this.published = StringUtils.notNullStr(published);
     }

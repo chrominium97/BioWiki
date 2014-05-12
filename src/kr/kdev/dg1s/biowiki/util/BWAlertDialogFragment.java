@@ -15,24 +15,17 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 
 public class BWAlertDialogFragment extends SherlockDialogFragment implements DialogInterface.OnClickListener {
-    private static enum WPAlertDialogType {ALERT,    // simple ok dialog with error message
-                                           CONFIRM,  // dialog with yes/no and callback when positive button clicked
-                                           URL_INFO} // info dialog that shows url when positive button clicked
-
-    private static final String ARG_TITLE      = "title";
-    private static final String ARG_MESSAGE    = "message";
-    private static final String ARG_TYPE       = "type";
+    private static final String ARG_TITLE = "title";
+    private static final String ARG_MESSAGE = "message";
+    private static final String ARG_TYPE = "type";
     private static final String ARG_INFO_TITLE = "info-title";
-    private static final String ARG_INFO_URL   = "info-url";
-
-    public interface OnDialogConfirmListener {
-        public void onDialogConfirm();
-    }
+    private static final String ARG_INFO_URL = "info-url";
 
     public static BWAlertDialogFragment newAlertDialog(String message) {
         String title = BioWiki.getContext().getString(R.string.error_generic);
         return newAlertDialog(title, message);
     }
+
     public static BWAlertDialogFragment newAlertDialog(String title, String message) {
         return newInstance(title, message, WPAlertDialogType.ALERT, null, null);
     }
@@ -122,11 +115,11 @@ public class BWAlertDialogFragment extends SherlockDialogFragment implements Dia
                 final String infoTitle = StringUtils.notNullStr(bundle.getString(ARG_INFO_TITLE));
                 final String infoURL = StringUtils.notNullStr(bundle.getString(ARG_INFO_URL));
                 builder.setPositiveButton(infoTitle, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(infoURL))
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(infoURL)));
-                        }
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!TextUtils.isEmpty(infoURL))
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(infoURL)));
+                    }
                 });
                 break;
         }
@@ -137,6 +130,16 @@ public class BWAlertDialogFragment extends SherlockDialogFragment implements Dia
     @Override
     public void onClick(DialogInterface dialog, int which) {
 
+    }
+
+    private static enum WPAlertDialogType {
+        ALERT,    // simple ok dialog with error message
+        CONFIRM,  // dialog with yes/no and callback when positive button clicked
+        URL_INFO
+    } // info dialog that shows url when positive button clicked
+
+    public interface OnDialogConfirmListener {
+        public void onDialogConfirm();
     }
 }
 

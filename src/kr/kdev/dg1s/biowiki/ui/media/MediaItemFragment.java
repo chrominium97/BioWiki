@@ -27,16 +27,16 @@ import com.actionbarsherlock.view.MenuItem;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.MediaUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.util.StringUtils;
-import kr.kdev.dg1s.biowiki.util.ImageHelper.BitmapWorkerCallback;
-import kr.kdev.dg1s.biowiki.util.ImageHelper.BitmapWorkerTask;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.util.ImageHelper.BitmapWorkerCallback;
+import kr.kdev.dg1s.biowiki.util.ImageHelper.BitmapWorkerTask;
+import kr.kdev.dg1s.biowiki.util.MediaUtils;
+import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 /**
  * A fragment display a media item's details.
@@ -44,10 +44,8 @@ import java.util.List;
  */
 public class MediaItemFragment extends SherlockFragment {
 
-    private static final String ARGS_MEDIA_ID = "media_id";
-
     public static final String TAG = MediaItemFragment.class.getName();
-
+    private static final String ARGS_MEDIA_ID = "media_id";
     private View mView;
 
     private ImageView mImageView;
@@ -62,12 +60,6 @@ public class MediaItemFragment extends SherlockFragment {
     private ImageLoader mImageLoader;
 
     private boolean mIsLocal;
-
-    public interface MediaItemFragmentCallback {
-        public void onResume(Fragment fragment);
-        public void onPause(Fragment fragment);
-        public void onDeleteMedia(final List<String> ids);
-    }
 
     public static MediaItemFragment newInstance(String mediaId) {
         MediaItemFragment fragment = new MediaItemFragment();
@@ -134,7 +126,9 @@ public class MediaItemFragment extends SherlockFragment {
         return mView;
     }
 
-    /** Loads the first media item for the current blog from the database **/
+    /**
+     * Loads the first media item for the current blog from the database *
+     */
     public void loadDefaultMedia() {
         loadMedia(null);
     }
@@ -230,7 +224,7 @@ public class MediaItemFragment extends SherlockFragment {
 
             //differentiating between tablet and phone
             if (this.isInLayout()) {
-                screenWidth =  parentView.getMeasuredWidth();
+                screenWidth = parentView.getMeasuredWidth();
             } else {
                 screenWidth = getActivity().getResources().getDisplayMetrics().widthPixels;
             }
@@ -245,10 +239,10 @@ public class MediaItemFragment extends SherlockFragment {
             }
 
             if (width > screenWidth) {
-                height = (int) (height / (width/screenWidth));
+                height = (int) (height / (width / screenWidth));
                 width = (int) screenWidth;
             } else if (height > screenHeight) {
-                width = (int) (width / (height/screenHeight));
+                width = (int) (width / (height / screenHeight));
                 height = (int) screenHeight;
             }
 
@@ -257,8 +251,8 @@ public class MediaItemFragment extends SherlockFragment {
                 loadLocalImage(mImageView, filePath, width, height);
             } else {
                 // Allow non-private wp.com and Jetpack blogs to use photon to get a higher res thumbnail
-                if (BioWiki.getCurrentBlog() != null && BioWiki.getCurrentBlog().isPhotonCapable()){
-                    String thumbnailURL = StringUtils.getPhotonUrl(imageUri, (int)screenWidth);
+                if (BioWiki.getCurrentBlog() != null && BioWiki.getCurrentBlog().isPhotonCapable()) {
+                    String thumbnailURL = StringUtils.getPhotonUrl(imageUri, (int) screenWidth);
                     ((NetworkImageView) mImageView).setImageUrl(thumbnailURL, mImageLoader);
                 } else {
                     ((NetworkImageView) mImageView).setImageUrl(imageUri + "?w=" + screenWidth, mImageLoader);
@@ -321,7 +315,7 @@ public class MediaItemFragment extends SherlockFragment {
         menu.findItem(R.id.menu_new_media).setVisible(false);
         menu.findItem(R.id.menu_search).setVisible(false);
 
-        if (mIsLocal || ! MediaUtils.isWordPressVersionWithMediaEditingCapabilities() )
+        if (mIsLocal || !MediaUtils.isWordPressVersionWithMediaEditingCapabilities())
             menu.findItem(R.id.menu_edit_media).setVisible(false);
     }
 
@@ -344,9 +338,9 @@ public class MediaItemFragment extends SherlockFragment {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                                ArrayList<String> ids = new ArrayList<String>(1);
-                                ids.add(getMediaId());
-                                mCallback.onDeleteMedia(ids);
+                            ArrayList<String> ids = new ArrayList<String>(1);
+                            ids.add(getMediaId());
+                            mCallback.onDeleteMedia(ids);
                         }
                     })
                     .setNegativeButton(R.string.cancel, null);
@@ -357,6 +351,14 @@ public class MediaItemFragment extends SherlockFragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public interface MediaItemFragmentCallback {
+        public void onResume(Fragment fragment);
+
+        public void onPause(Fragment fragment);
+
+        public void onDeleteMedia(final List<String> ids);
     }
 
 }

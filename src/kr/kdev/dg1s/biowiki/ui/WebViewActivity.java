@@ -1,4 +1,3 @@
-
 package kr.kdev.dg1s.biowiki.ui;
 
 import android.annotation.TargetApi;
@@ -19,16 +18,18 @@ import kr.kdev.dg1s.biowiki.R;
  * Basic activity for displaying a WebView.
  */
 public class WebViewActivity extends BWActionBarActivity {
-    /** Primary webview used to display content. */
+    /**
+     * Primary webview used to display content.
+     */
     protected WebView mWebView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         requestWindowFeature(Window.FEATURE_PROGRESS);
-        
+
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.webview);
 
         ActionBar ab = getSupportActionBar();
@@ -75,7 +76,7 @@ public class WebViewActivity extends BWActionBarActivity {
 
     /**
      * Load the specified URL in the webview.
-     * 
+     *
      * @param url URL to load in the webview.
      */
     protected void loadUrl(String url) {
@@ -90,7 +91,7 @@ public class WebViewActivity extends BWActionBarActivity {
         else
             super.onBackPressed();
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

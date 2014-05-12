@@ -12,23 +12,22 @@ import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.Config;
-import kr.kdev.dg1s.biowiki.Constants;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.Config;
+import kr.kdev.dg1s.biowiki.Constants;
+
 
 /**
  * Created by Eric on 11/20/13.
- *
+ * <p/>
  * WPMobileStatsUtils handles stats logging. Its public methods should for the most part be service
  * neutral to allow to ease possible changes in the stats libs we use in the future.
- *
+ * <p/>
  * WPMobileStatsUtils is not thread safe so only call it from the main thread.
- *
  */
 public class BWMobileStatsUtil {
 
@@ -38,7 +37,7 @@ public class BWMobileStatsUtil {
 
     // Posts
     public static final String StatsEventPostsOpened = "Posts - Opened";
-    public static final String StatsEventPostsClosed= "Posts - Closed";
+    public static final String StatsEventPostsClosed = "Posts - Closed";
     public static final String StatsEventPostsClickedNewPost = "Posts - Clicked New Post";
 
     // Post Detail
@@ -78,7 +77,7 @@ public class BWMobileStatsUtil {
     // Pages
     public static final String StatsPropertyPagesOpened = "pages_opened";
     public static final String StatsEventPagesOpened = "Pages - Opened";
-    public static final String StatsEventPagesClosed= "Pages - Closed";
+    public static final String StatsEventPagesClosed = "Pages - Closed";
     public static final String StatsEventPagesClickedNewPage = "Pages - Clicked New Page";
     public static final String StatsEventPageDetailOpenedEditor = "Page - Opened Editor";
     public static final String StatsEventPageDetailClosedEditor = "Page - Closed Editor";
@@ -99,15 +98,15 @@ public class BWMobileStatsUtil {
     private static MixpanelAPI mixpanel;
     private HashMap<String, JSONObject> aggregatedProperties;
 
+    private BWMobileStatsUtil() {
+        aggregatedProperties = new HashMap<String, JSONObject>();
+    }
+
     /*
         Singleton
      */
     public static BWMobileStatsUtil getInstance() {
         return instance;
-    }
-
-    private BWMobileStatsUtil(){
-        aggregatedProperties = new HashMap<String, JSONObject>();
     }
 
     /*
@@ -135,7 +134,7 @@ public class BWMobileStatsUtil {
             properties.put("connected_to_dotcom", connected);
             properties.put("number_of_blogs", numBlogs);
             mixpanel.registerSuperProperties(properties);
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             AppLog.e(AppLog.T.UTILS, e);
         }
 
@@ -172,8 +171,8 @@ public class BWMobileStatsUtil {
             }
         };
 
-        int rnd = (int)(Math.random() * 100000);
-        String statsURL = String.format("%s%s%s%s%d", Constants.readerURL_v3, "&template=stats&stats_name=", statName, "&rnd=", rnd );
+        int rnd = (int) (Math.random() * 100000);
+        String statsURL = String.format("%s%s%s%s%d", Constants.readerURL_v3, "&template=stats&stats_name=", statName, "&rnd=", rnd);
         StringRequest req = new StringRequest(Request.Method.GET, statsURL, null, errorListener);
         BioWiki.requestQueue.add(req);
     }
@@ -232,7 +231,7 @@ public class BWMobileStatsUtil {
 
         @param event One of the constants representing the event to track.
      */
-    public static void trackEventForWPComWithSavedProperties( String event ) {
+    public static void trackEventForWPComWithSavedProperties(String event) {
         BWMobileStatsUtil.instance.trackWithSavedProperties(true, event);
     }
 
@@ -251,7 +250,7 @@ public class BWMobileStatsUtil {
         @param event One of the constants representing the event to track.
         @param property The property to increment.
      */
-    public static void incrementProperty( String event, String property ) {
+    public static void incrementProperty(String event, String property) {
         BWMobileStatsUtil.instance.increment(event, property);
     }
 
@@ -263,14 +262,14 @@ public class BWMobileStatsUtil {
         @param event One of the constants representing the event to track.
         @param property The property to flag.
      */
-    public static void flagProperty( String event, String property ) {
+    public static void flagProperty(String event, String property) {
         BWMobileStatsUtil.instance.flag(event, property);
     }
 
     /**
      * Tracks the exception stack trace associated to a String id
      *
-     * @param throwable contains stack trace
+     * @param throwable   contains stack trace
      * @param exceptionId a string id (short name that helps to distinguish different tracked
      *                    exception)
      */
@@ -280,10 +279,11 @@ public class BWMobileStatsUtil {
 
     /**
      * Tracks the exception stack trace associated to a String id
-     *
+     * <p/>
      * param exception exception we want to track - contains stack trace
-     * @param exceptionId a string id (short name that helps to distinguish different tracked
-     *                    exception)
+     *
+     * @param exceptionId    a string id (short name that helps to distinguish different tracked
+     *                       exception)
      * @param additionalData a JSON Object to track additional data that could help solve this
      *                       exception
      */
@@ -351,7 +351,7 @@ public class BWMobileStatsUtil {
         @param property The name of the property.
      */
     private void increment(String event, String property) {
-        Integer count = (Integer)propertyForEvent(event, property);
+        Integer count = (Integer) propertyForEvent(event, property);
         count++;
         saveProperty(event, property, count);
     }

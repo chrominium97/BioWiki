@@ -11,14 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.CategoryNode;
-import kr.kdev.dg1s.biowiki.R;
-
 import java.util.ArrayList;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.CategoryNode;
 
 public class AddCategoryActivity extends Activity {
     private int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +27,8 @@ public class AddCategoryActivity extends Activity {
         setContentView(R.layout.add_category);
 
         Bundle extras = getIntent().getExtras();
-        if(extras !=null)
-        {
-         id = extras.getInt("id");
+        if (extras != null) {
+            id = extras.getInt("id");
         }
 
         loadCategories();
@@ -39,38 +39,37 @@ public class AddCategoryActivity extends Activity {
         okButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                EditText categoryNameET = (EditText)findViewById(R.id.category_name);
+                EditText categoryNameET = (EditText) findViewById(R.id.category_name);
                 String category_name = categoryNameET.getText().toString();
-                EditText categorySlugET = (EditText)findViewById(R.id.category_slug);
+                EditText categorySlugET = (EditText) findViewById(R.id.category_slug);
                 String category_slug = categorySlugET.getText().toString();
-                EditText categoryDescET = (EditText)findViewById(R.id.category_desc);
+                EditText categoryDescET = (EditText) findViewById(R.id.category_desc);
                 String category_desc = categoryDescET.getText().toString();
                 Spinner sCategories = (Spinner) findViewById(R.id.parent_category);
                 String parent_category = "";
                 if (sCategories.getSelectedItem() != null)
-                    parent_category = ((CategoryNode)sCategories.getSelectedItem()).getName().trim();
+                    parent_category = ((CategoryNode) sCategories.getSelectedItem()).getName().trim();
                 int parent_id = 0;
-                if (sCategories.getSelectedItemPosition() != 0){
+                if (sCategories.getSelectedItemPosition() != 0) {
                     parent_id = BioWiki.wpDB.getCategoryId(id, parent_category);
                 }
 
                 if (category_name.replaceAll(" ", "").equals("")) {
                     //    Name field cannot be empty
 
-                  AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AddCategoryActivity.this);
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AddCategoryActivity.this);
                     dialogBuilder.setTitle(getResources().getText(R.string.required_field));
                     dialogBuilder.setMessage(getResources().getText(R.string.cat_name_required));
-                    dialogBuilder.setPositiveButton("OK",  new
+                    dialogBuilder.setPositiveButton("OK", new
                             DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            // Just close the window.
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // Just close the window.
 
-                        }
-                    });
+                                }
+                            });
                     dialogBuilder.setCancelable(true);
-                   dialogBuilder.create().show();
-                }
-                else {
+                    dialogBuilder.create().show();
+                } else {
                     Bundle bundle = new Bundle();
 
                     bundle.putString("category_name", category_name);
@@ -90,13 +89,13 @@ public class AddCategoryActivity extends Activity {
         cancelButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
 
-                 Bundle bundle = new Bundle();
+                Bundle bundle = new Bundle();
 
-                 bundle.putString("continue", "FALSE");
-                 Intent mIntent = new Intent();
-                 mIntent.putExtras(bundle);
-                 setResult(RESULT_OK, mIntent);
-                 finish();
+                bundle.putString("continue", "FALSE");
+                Intent mIntent = new Intent();
+                mIntent.putExtras(bundle);
+                setResult(RESULT_OK, mIntent);
+                finish();
             }
         });
     }
@@ -115,7 +114,7 @@ public class AddCategoryActivity extends Activity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-      //ignore orientation change
-      super.onConfigurationChanged(newConfig);
+        //ignore orientation change
+        super.onConfigurationChanged(newConfig);
     }
 }

@@ -15,9 +15,6 @@ import android.support.v4.content.CursorLoader;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.MediaFile;
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.io.DataInputStream;
@@ -36,18 +33,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.MediaFile;
+
 public class MediaUtils {
-
-    public class RequestCode {
-        public static final int ACTIVITY_REQUEST_CODE_PICTURE_LIBRARY = 1000;
-        public static final int ACTIVITY_REQUEST_CODE_TAKE_PHOTO = 1100;
-        public static final int ACTIVITY_REQUEST_CODE_VIDEO_LIBRARY = 1200;
-        public static final int ACTIVITY_REQUEST_CODE_TAKE_VIDEO = 1300;
-    }
-
-    public interface LaunchCameraCallback {
-        public void onMediaCapturePathReady(String mediaCapturePath);
-    }
 
     public static boolean isValidImage(String url) {
         if (url == null)
@@ -97,18 +87,20 @@ public class MediaUtils {
     public static int getPlaceholder(String url) {
         if (isValidImage(url))
             return R.drawable.media_image_placeholder;
-        else if(isDocument(url))
+        else if (isDocument(url))
             return R.drawable.media_document;
-        else if(isPowerpoint(url))
+        else if (isPowerpoint(url))
             return R.drawable.media_powerpoint;
-        else if(isSpreadsheet(url))
+        else if (isSpreadsheet(url))
             return R.drawable.media_spreadsheet;
-        else if(isVideo(url))
+        else if (isVideo(url))
             return R.drawable.media_movieclip;
         return 0;
     }
 
-    /** E.g. Jul 2, 2013 @ 21:57 **/
+    /**
+     * E.g. Jul 2, 2013 @ 21:57 *
+     */
     public static String getDate(long ms) {
         Date date = new Date(ms);
         SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy '@' HH:mm", Locale.ENGLISH);
@@ -118,7 +110,6 @@ public class MediaUtils {
 
         return sdf.format(date);
     }
-
 
     public static void launchPictureLibrary(Fragment fragment) {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -203,7 +194,7 @@ public class MediaUtils {
     }
 
     public static Uri getLastRecordedVideoUri(Activity activity) {
-        String[] proj = { MediaStore.Video.Media._ID };
+        String[] proj = {MediaStore.Video.Media._ID};
         Uri contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         String sortOrder = MediaStore.Video.VideoColumns.DATE_TAKEN + " DESC";
         CursorLoader loader = new CursorLoader(activity, contentUri, proj, null, null, sortOrder);
@@ -216,6 +207,7 @@ public class MediaUtils {
     /**
      * This is a workaround for WP3.4.2 that deletes the media from the server when editing media properties within the app.
      * See: https://github.com/wordpress-mobile/WordPress-Android/issues/204
+     *
      * @return
      */
     public static boolean isWordPressVersionWithMediaEditingCapabilities() {
@@ -225,7 +217,7 @@ public class MediaUtils {
 
         if (BioWiki.currentBlog.getWpVersion() == null)
             return true;
-        
+
         if (BioWiki.currentBlog.isDotcomFlag())
             return true;
 
@@ -235,7 +227,7 @@ public class MediaUtils {
             minVersion = new Version("3.5.2");
             currentVersion = new Version(BioWiki.currentBlog.getWpVersion());
 
-            if( currentVersion.compareTo(minVersion) == -1 )
+            if (currentVersion.compareTo(minVersion) == -1)
                 return false;
 
         } catch (IllegalArgumentException e) {
@@ -262,7 +254,7 @@ public class MediaUtils {
 
     public static BWImageSpan prepareWPImageSpan(Context context, String blogId, final String mediaId) {
         Cursor cursor = BioWiki.wpDB.getMediaFile(blogId, mediaId);
-        if (cursor == null || !cursor.moveToFirst()){
+        if (cursor == null || !cursor.moveToFirst()) {
             if (cursor != null)
                 cursor.close();
             return null;
@@ -412,7 +404,7 @@ public class MediaUtils {
 
         if (TextUtils.isEmpty(mimeType)) {
             try {
-                String filePathForGuessingMime = mediaFile.getPath().contains("://") ? mediaFile.getPath() : "file://"+mediaFile.getPath();
+                String filePathForGuessingMime = mediaFile.getPath().contains("://") ? mediaFile.getPath() : "file://" + mediaFile.getPath();
                 URL urlForGuessingMime = new URL(filePathForGuessingMime);
                 URLConnection uc = urlForGuessingMime.openConnection();
                 String guessedContentType = uc.getContentType(); //internally calls guessContentTypeFromName(url.getFile()); and guessContentTypeFromStream(is);
@@ -422,9 +414,8 @@ public class MediaUtils {
                 }
             } catch (MalformedURLException e) {
                 AppLog.e(AppLog.T.API, "MalformedURLException while trying to guess the content type for the file here " + mediaFile.getPath() + " with URLConnection", e);
-            }
-            catch (IOException e) {
-                AppLog.e(AppLog.T.API, "Error while trying to guess the content type for the file here " + mediaFile.getPath() +" with URLConnection", e);
+            } catch (IOException e) {
+                AppLog.e(AppLog.T.API, "Error while trying to guess the content type for the file here " + mediaFile.getPath() + " with URLConnection", e);
             }
         }
 
@@ -487,5 +478,16 @@ public class MediaUtils {
         }
 
         return fileExtensionFromMimeType.toLowerCase();
+    }
+
+    public interface LaunchCameraCallback {
+        public void onMediaCapturePathReady(String mediaCapturePath);
+    }
+
+    public class RequestCode {
+        public static final int ACTIVITY_REQUEST_CODE_PICTURE_LIBRARY = 1000;
+        public static final int ACTIVITY_REQUEST_CODE_TAKE_PHOTO = 1100;
+        public static final int ACTIVITY_REQUEST_CODE_VIDEO_LIBRARY = 1200;
+        public static final int ACTIVITY_REQUEST_CODE_TAKE_VIDEO = 1300;
     }
 }

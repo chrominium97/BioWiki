@@ -11,125 +11,125 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+
 import kr.kdev.dg1s.biowiki.R;
 
 public class FlowLayout extends ViewGroup {
-	private int mHorizontalSpacing;
-	private int mVerticalSpacing;
-	private Paint mPaint;
+    private int mHorizontalSpacing;
+    private int mVerticalSpacing;
+    private Paint mPaint;
 
-	public FlowLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public FlowLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout);
-		try {
-			mHorizontalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_horizontalSpacing, 0);
-			mVerticalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_verticalSpacing, 0);
-		} finally {
-			a.recycle();
-		}
-	}
-
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int widthSize = MeasureSpec.getSize(widthMeasureSpec) - getPaddingRight() - getPaddingLeft();
-		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-
-		boolean growHeight = widthMode != MeasureSpec.UNSPECIFIED;
-
-		int width = 0;
-		int height = getPaddingTop();
-
-		int currentWidth = getPaddingLeft();
-		int currentHeight = 0;
-
-		boolean newLine = false;
-		int spacing = 0;
-
-		final int count = getChildCount();
-		for (int i = 0; i < count; i++) {
-			View child = getChildAt(i);
-			measureChild(child, widthMeasureSpec, heightMeasureSpec);
-
-			LayoutParams lp = (LayoutParams) child.getLayoutParams();
-		    spacing = mHorizontalSpacing;
-			if (lp.horizontalSpacing >= 0) {
-				spacing = lp.horizontalSpacing;
-			}
-
-			if (growHeight && currentWidth + child.getMeasuredWidth() > widthSize) {
-				height += currentHeight + mVerticalSpacing;
-				currentHeight = 0;
-				width = Math.max(width, currentWidth - spacing);
-				currentWidth = getPaddingLeft();
-				newLine = true;
-			} else {
-				newLine = false;
-			}
-
-			lp.x = currentWidth;
-			lp.y = height;
-
-			currentWidth += child.getMeasuredWidth() + spacing;
-			currentHeight = Math.max(currentHeight, child.getMeasuredHeight());
-		}
-
-		if (!newLine) {
-			width = Math.max(width, currentWidth - spacing);
+        try {
+            mHorizontalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_horizontalSpacing, 0);
+            mVerticalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_verticalSpacing, 0);
+        } finally {
+            a.recycle();
         }
-		width += getPaddingRight();
-		height += currentHeight + getPaddingBottom();
+    }
 
-		setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));
-	}
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec) - getPaddingRight() - getPaddingLeft();
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 
-	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		final int count = getChildCount();
-		for (int i = 0; i < count; i++) {
-			View child = getChildAt(i);
-			LayoutParams lp = (LayoutParams) child.getLayoutParams();
-			child.layout(lp.x, lp.y, lp.x + child.getMeasuredWidth(), lp.y + child.getMeasuredHeight());
-		}
-	}
+        boolean growHeight = widthMode != MeasureSpec.UNSPECIFIED;
 
-	@Override
-	protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
-		return p instanceof LayoutParams;
-	}
+        int width = 0;
+        int height = getPaddingTop();
 
-	@Override
-	protected LayoutParams generateDefaultLayoutParams() {
-		return new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-	}
+        int currentWidth = getPaddingLeft();
+        int currentHeight = 0;
 
-	@Override
-	public LayoutParams generateLayoutParams(AttributeSet attrs) {
-		return new LayoutParams(getContext(), attrs);
-	}
-	
-	@Override
-	protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
-		return new LayoutParams(p.width, p.height);
-	}
+        boolean newLine = false;
+        int spacing = 0;
 
-	public static class LayoutParams extends ViewGroup.LayoutParams {
-		int x;
-		int y;
-		
-		public int horizontalSpacing;
+        final int count = getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = getChildAt(i);
+            measureChild(child, widthMeasureSpec, heightMeasureSpec);
 
-		public LayoutParams(Context context, AttributeSet attrs) {
-			super(context, attrs);
-			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout_LayoutParams);
-			try {
-				horizontalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_LayoutParams_layout_horizontalSpacing, -1);
-			} finally {
-				a.recycle();
-			}
-		}
+            LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            spacing = mHorizontalSpacing;
+            if (lp.horizontalSpacing >= 0) {
+                spacing = lp.horizontalSpacing;
+            }
 
-		public LayoutParams(int w, int h) {
-			super(w, h);
-		}
-	}
+            if (growHeight && currentWidth + child.getMeasuredWidth() > widthSize) {
+                height += currentHeight + mVerticalSpacing;
+                currentHeight = 0;
+                width = Math.max(width, currentWidth - spacing);
+                currentWidth = getPaddingLeft();
+                newLine = true;
+            } else {
+                newLine = false;
+            }
+
+            lp.x = currentWidth;
+            lp.y = height;
+
+            currentWidth += child.getMeasuredWidth() + spacing;
+            currentHeight = Math.max(currentHeight, child.getMeasuredHeight());
+        }
+
+        if (!newLine) {
+            width = Math.max(width, currentWidth - spacing);
+        }
+        width += getPaddingRight();
+        height += currentHeight + getPaddingBottom();
+
+        setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        final int count = getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = getChildAt(i);
+            LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            child.layout(lp.x, lp.y, lp.x + child.getMeasuredWidth(), lp.y + child.getMeasuredHeight());
+        }
+    }
+
+    @Override
+    protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+        return p instanceof LayoutParams;
+    }
+
+    @Override
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    }
+
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new LayoutParams(getContext(), attrs);
+    }
+
+    @Override
+    protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+        return new LayoutParams(p.width, p.height);
+    }
+
+    public static class LayoutParams extends ViewGroup.LayoutParams {
+        public int horizontalSpacing;
+        int x;
+        int y;
+
+        public LayoutParams(Context context, AttributeSet attrs) {
+            super(context, attrs);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FlowLayout_LayoutParams);
+            try {
+                horizontalSpacing = a.getDimensionPixelSize(R.styleable.FlowLayout_LayoutParams_layout_horizontalSpacing, -1);
+            } finally {
+                a.recycle();
+            }
+        }
+
+        public LayoutParams(int w, int h) {
+            super(w, h);
+        }
+    }
 }

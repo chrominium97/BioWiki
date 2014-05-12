@@ -22,45 +22,54 @@ import com.wordpress.rest.RestRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-//import kr.kdev.dg1s.biowiki.GCMIntentService;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Note;
-import kr.kdev.dg1s.biowiki.ui.comments.CommentActions;
-import kr.kdev.dg1s.biowiki.ui.comments.CommentDetailFragment;
-import kr.kdev.dg1s.biowiki.ui.comments.CommentDialogs;
-import kr.kdev.dg1s.biowiki.util.NetworkUtils;
-import kr.kdev.dg1s.biowiki.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Note;
+import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.comments.CommentActions;
+import kr.kdev.dg1s.biowiki.ui.comments.CommentDetailFragment;
+import kr.kdev.dg1s.biowiki.ui.comments.CommentDialogs;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.NetworkUtils;
+import kr.kdev.dg1s.biowiki.util.StringUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
+
 import static kr.kdev.dg1s.biowiki.BioWiki.getRestClientUtils;
 
-public class NotificationsActivity extends BWActionBarActivity
-                                   implements CommentActions.OnCommentChangeListener,
-                                              NotificationFragment.OnPostClickListener,
-                                              NotificationFragment.OnCommentClickListener {
+//import kr.kdev.dg1s.biowiki.GCMIntentService;
 
-    public static final String NOTIFICATION_ACTION      = "kr.kdev.dg1s.biowiki.NOTIFICATION";
-    public static final String NOTE_ID_EXTRA            = "noteId";
-    public static final String FROM_NOTIFICATION_EXTRA  = "fromNotification";
+//import kr.kdev.dg1s.biowiki.GCMIntentService;
+
+public class NotificationsActivity extends BWActionBarActivity
+        implements CommentActions.OnCommentChangeListener,
+        NotificationFragment.OnPostClickListener,
+        NotificationFragment.OnCommentClickListener {
+
+    public static final String NOTIFICATION_ACTION = "kr.kdev.dg1s.biowiki.NOTIFICATION";
+    public static final String NOTE_ID_EXTRA = "noteId";
+    public static final String FROM_NOTIFICATION_EXTRA = "fromNotification";
     public static final String NOTE_INSTANT_REPLY_EXTRA = "instantReply";
 
     private static final String KEY_INITIAL_UPDATE = "initial_update";
-
+    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+        public void onBackStackChanged() {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
+                mMenuDrawer.setDrawerIndicatorEnabled(true);
+        }
+    };
     private NotificationsListFragment mNotesList;
     private boolean mLoadingMore = false;
     private boolean mFirstLoadComplete = false;
     private BroadcastReceiver mBroadcastReceiver;
+    private boolean mHasPerformedInitialUpdate;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createMenuDrawer(R.layout.notifications);
 
@@ -132,18 +141,10 @@ public class NotificationsActivity extends BWActionBarActivity
         launchWithNoteId();
     }
 
-    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
-        public void onBackStackChanged() {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
-                mMenuDrawer.setDrawerIndicatorEnabled(true);
-        }
-    };
-    private boolean mHasPerformedInitialUpdate;
-
     /**
      * Detect if Intent has a noteId extra and display that specific note detail fragment
      */
-    private void launchWithNoteId(){
+    private void launchWithNoteId() {
         final Intent intent = getIntent();
         if (intent.hasExtra(NOTE_ID_EXTRA)) {
             int noteID = Integer.valueOf(intent.getStringExtra(NOTE_ID_EXTRA));
@@ -154,9 +155,9 @@ public class NotificationsActivity extends BWActionBarActivity
                 // find it/load it etc
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("ids", intent.getStringExtra(NOTE_ID_EXTRA));
-                NotesResponseHandler handler = new NotesResponseHandler(){
+                NotesResponseHandler handler = new NotesResponseHandler() {
                     @Override
-                    public void onNotes(List<Note> notes){
+                    public void onNotes(List<Note> notes) {
                         // there should only be one note!
                         if (!notes.isEmpty()) {
                             openNote(notes.get(0));
@@ -207,7 +208,7 @@ public class NotificationsActivity extends BWActionBarActivity
         return true;
     }
 
-    void popNoteDetail(){
+    void popNoteDetail() {
         FragmentManager fm = getSupportFragmentManager();
         Fragment f = fm.findFragmentById(R.id.fragment_comment_detail);
         if (f == null) {
@@ -218,7 +219,7 @@ public class NotificationsActivity extends BWActionBarActivity
     /**
      * Tries to pick the correct fragment detail type for a given note
      */
-    private Fragment getDetailFragmentForNote(Note note){
+    private Fragment getDetailFragmentForNote(Note note) {
         if (note == null)
             return null;
 
@@ -230,7 +231,7 @@ public class NotificationsActivity extends BWActionBarActivity
         } else if (note.isAutomattcherType()) {
             // show reader post detail for automattchers about posts - note that comment
             // automattchers are handled by note.isCommentType() above
-            boolean isPost = (note.getBlogId() !=0 && note.getPostId() != 0 && note.getCommentId() == 0);
+            boolean isPost = (note.getBlogId() != 0 && note.getPostId() != 0 && note.getCommentId() == 0);
             if (isPost) {
                 // return ReaderPostDetailFragment.newInstance(note.getBlogId(), note.getPostId());
             } else {
@@ -274,9 +275,9 @@ public class NotificationsActivity extends BWActionBarActivity
     }
 
     /**
-     *  Open a note fragment based on the type of note
+     * Open a note fragment based on the type of note
      */
-    private void openNote(final Note note){
+    private void openNote(final Note note) {
         if (note == null || isFinishing())
             return;
 
@@ -288,7 +289,7 @@ public class NotificationsActivity extends BWActionBarActivity
         FragmentManager fm = getSupportFragmentManager();
 
         // remove the note detail if it's already on there
-        if (fm.getBackStackEntryCount() > 0){
+        if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
         }
 
@@ -316,7 +317,7 @@ public class NotificationsActivity extends BWActionBarActivity
         // swap the fragment
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_fragment_container, detailFragment)
-          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         // only add to backstack if we're removing the list view from the fragment container
         View container = findViewById(R.id.layout_fragment_container);
@@ -364,7 +365,7 @@ public class NotificationsActivity extends BWActionBarActivity
         }
 
         mFirstLoadComplete = false;
-        NotesResponseHandler notesHandler = new NotesResponseHandler(){
+        NotesResponseHandler notesHandler = new NotesResponseHandler() {
             @Override
             public void onNotes(final List<Note> notes) {
                 mFirstLoadComplete = true;
@@ -384,8 +385,9 @@ public class NotificationsActivity extends BWActionBarActivity
                     }
                 }.start();
             }
+
             @Override
-            public void onErrorResponse(VolleyError error){
+            public void onErrorResponse(VolleyError error) {
                 //We need to show an error message? and remove the loading indicator from the list?
                 mFirstLoadComplete = true;
                 mNotesList.getNotesAdapter().addAll(new ArrayList<Note>(), true);
@@ -411,13 +413,13 @@ public class NotificationsActivity extends BWActionBarActivity
         );
     }
 
-    private void requestNotesBefore(final Note note){
+    private void requestNotesBefore(final Note note) {
         Map<String, String> params = new HashMap<String, String>();
         AppLog.d(AppLog.T.NOTIFS, String.format("Requesting more notes before %s", note.queryJSON("timestamp", "")));
         params.put("before", note.queryJSON("timestamp", ""));
-        NotesResponseHandler notesHandler = new NotesResponseHandler(){
+        NotesResponseHandler notesHandler = new NotesResponseHandler() {
             @Override
-            public void onNotes(List<Note> notes){
+            public void onNotes(List<Note> notes) {
                 // API returns 'on or before' timestamp, so remove first item
                 if (notes.size() >= 1)
                     notes.remove(0);
@@ -426,79 +428,6 @@ public class NotificationsActivity extends BWActionBarActivity
             }
         };
         getRestClientUtils().getNotifications(params, notesHandler, notesHandler);
-    }
-
-    private class NoteProvider implements NotificationsListFragment.NoteProvider {
-        @Override
-        public boolean canRequestMore() {
-            return mFirstLoadComplete && !mLoadingMore;
-        }
-
-        @Override
-        public void onRequestMoreNotifications(){
-            if (canRequestMore()) {
-                NotesAdapter adapter = mNotesList.getNotesAdapter();
-                if (adapter.getCount() > 0) {
-                    Note lastNote = adapter.getItem(adapter.getCount()-1);
-                    requestNotesBefore(lastNote);
-                }
-            }
-        }
-    }
-
-    private class NoteClickListener implements NotificationsListFragment.OnNoteClickListener {
-        @Override
-        public void onClickNote(Note note){
-            if (note == null)
-                return;
-            // open the latest version of this note just in case it has changed - this can
-            // happen if the note was tapped from the list fragment after it was updated
-            // by another fragment (such as NotificationCommentLikeFragment)
-            Note updatedNote = BioWiki.wpDB.getNoteById(StringUtils.stringToInt(note.getId()));
-            openNote(updatedNote != null ? updatedNote : note);
-        }
-    }
-
-    abstract class NotesResponseHandler implements RestRequest.Listener, RestRequest.ErrorListener {
-        NotesResponseHandler(){
-            mLoadingMore = true;
-        }
-        abstract void onNotes(List<Note> notes);
-
-        @Override
-        public void onResponse(JSONObject response){
-            mLoadingMore = false;
-
-            if( response == null ) {
-                //Not sure this could ever happen, but make sure we're catching all response types
-                AppLog.w(AppLog.T.NOTIFS, "Success, but did not receive any notes");
-                onNotes(new ArrayList<Note>(0));
-                return;
-            }
-
-            try {
-                List<Note> notes = NotificationUtils.parseNotes(response);
-                onNotes(notes);
-            } catch (JSONException e) {
-                AppLog.e(AppLog.T.NOTIFS, "Success, but can't parse the response", e);
-                showError(getString(R.string.error_parsing_response));
-            }
-        }
-
-        @Override
-        public void onErrorResponse(VolleyError error){
-            mLoadingMore = false;
-            showError();
-            AppLog.d(AppLog.T.NOTIFS, String.format("Error retrieving notes: %s", error));
-        }
-
-        public void showError(final String errorMessage){
-            Toast.makeText(NotificationsActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-        }
-
-        public void showError(){
-            showError(getString(R.string.error_generic));
-        }
     }
 
     @Override
@@ -556,6 +485,7 @@ public class NotificationsActivity extends BWActionBarActivity
           .commit();
           */
     }
+
     /*
      * called from fragment when a link to a comment is tapped - shows the comment in the comment
      * detail fragment
@@ -566,9 +496,83 @@ public class NotificationsActivity extends BWActionBarActivity
         String tagForFragment = getString(R.string.fragment_tag_comment_detail);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.layout_fragment_container, commentFragment, tagForFragment)
-          .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-          .addToBackStack(tagForFragment)
-          .commit();
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(tagForFragment)
+                .commit();
+    }
+
+    private class NoteProvider implements NotificationsListFragment.NoteProvider {
+        @Override
+        public boolean canRequestMore() {
+            return mFirstLoadComplete && !mLoadingMore;
+        }
+
+        @Override
+        public void onRequestMoreNotifications() {
+            if (canRequestMore()) {
+                NotesAdapter adapter = mNotesList.getNotesAdapter();
+                if (adapter.getCount() > 0) {
+                    Note lastNote = adapter.getItem(adapter.getCount() - 1);
+                    requestNotesBefore(lastNote);
+                }
+            }
+        }
+    }
+
+    private class NoteClickListener implements NotificationsListFragment.OnNoteClickListener {
+        @Override
+        public void onClickNote(Note note) {
+            if (note == null)
+                return;
+            // open the latest version of this note just in case it has changed - this can
+            // happen if the note was tapped from the list fragment after it was updated
+            // by another fragment (such as NotificationCommentLikeFragment)
+            Note updatedNote = BioWiki.wpDB.getNoteById(StringUtils.stringToInt(note.getId()));
+            openNote(updatedNote != null ? updatedNote : note);
+        }
+    }
+
+    abstract class NotesResponseHandler implements RestRequest.Listener, RestRequest.ErrorListener {
+        NotesResponseHandler() {
+            mLoadingMore = true;
+        }
+
+        abstract void onNotes(List<Note> notes);
+
+        @Override
+        public void onResponse(JSONObject response) {
+            mLoadingMore = false;
+
+            if (response == null) {
+                //Not sure this could ever happen, but make sure we're catching all response types
+                AppLog.w(AppLog.T.NOTIFS, "Success, but did not receive any notes");
+                onNotes(new ArrayList<Note>(0));
+                return;
+            }
+
+            try {
+                List<Note> notes = NotificationUtils.parseNotes(response);
+                onNotes(notes);
+            } catch (JSONException e) {
+                AppLog.e(AppLog.T.NOTIFS, "Success, but can't parse the response", e);
+                showError(getString(R.string.error_parsing_response));
+            }
+        }
+
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            mLoadingMore = false;
+            showError();
+            AppLog.d(AppLog.T.NOTIFS, String.format("Error retrieving notes: %s", error));
+        }
+
+        public void showError(final String errorMessage) {
+            Toast.makeText(NotificationsActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+        }
+
+        public void showError() {
+            showError(getString(R.string.error_generic));
+        }
     }
 
 }

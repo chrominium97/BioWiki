@@ -11,17 +11,17 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
 
 /**
  * Created by nbradbury on 7/16/13.
  * views the activity log (see utils/AppLog.java)
  */
 public class AppLogViewerActivity extends SherlockFragmentActivity {
-    private TextView mTxtLogViewer;
     private static final int ID_SHARE = 1;
+    private TextView mTxtLogViewer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

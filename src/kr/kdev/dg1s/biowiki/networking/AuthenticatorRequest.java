@@ -42,10 +42,10 @@ public class AuthenticatorRequest {
     /**
      * Attempt to send the request, checks to see if we have an access token and if not
      * asks the Authenticator to authenticate the request.
-     *
+     * <p/>
      * If no Authenticator is provided the request is always sent.
      */
-    protected void send(){
+    protected void send() {
         if (mAuthenticator == null) {
             mRestClient.send(mRequest);
         } else {
@@ -53,12 +53,12 @@ public class AuthenticatorRequest {
         }
     }
 
-    public void sendWithAccessToken(String token){
+    public void sendWithAccessToken(String token) {
         mRequest.setAccessToken(token.toString());
         mRestClient.send(mRequest);
     }
 
-    public void sendWithAccessToken(Oauth.Token token){
+    public void sendWithAccessToken(Oauth.Token token) {
         sendWithAccessToken(token.toString());
     }
 
@@ -66,7 +66,7 @@ public class AuthenticatorRequest {
      * If an access token cannot be obtained the request can be aborted and the
      * handler's onFailure method is called
      */
-    public void abort(VolleyError error){
+    public void abort(VolleyError error) {
         if (mListener != null) {
             mListener.onErrorResponse(error);
         }

@@ -5,8 +5,9 @@ import com.wordpress.rest.RestRequest.ErrorListener;
 import com.wordpress.rest.RestRequest.Listener;
 
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.util.AppLog;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 
 class FollowListener implements FollowRow.OnFollowListener {
     private final int mNoteId;
@@ -14,6 +15,18 @@ class FollowListener implements FollowRow.OnFollowListener {
     public FollowListener(int noteId) {
         super();
         mNoteId = noteId;
+    }
+
+    @Override
+    public void onFollow(final FollowRow row, final String siteId) {
+        FollowResponseHandler handler = new FollowResponseHandler(row, siteId, true);
+        BioWiki.getRestClientUtils().followSite(siteId, handler, handler);
+    }
+
+    @Override
+    public void onUnfollow(final FollowRow row, final String siteId) {
+        FollowResponseHandler handler = new FollowResponseHandler(row, siteId, false);
+        BioWiki.getRestClientUtils().unfollowSite(siteId, handler, handler);
     }
 
     class FollowResponseHandler implements Listener, ErrorListener {
@@ -56,17 +69,5 @@ class FollowListener implements FollowRow.OnFollowListener {
                 mRow.getFollowButton().setEnabled(true);
             }
         }
-    }
-
-    @Override
-    public void onFollow(final FollowRow row, final String siteId) {
-        FollowResponseHandler handler = new FollowResponseHandler(row, siteId, true);
-        BioWiki.getRestClientUtils().followSite(siteId, handler, handler);
-    }
-
-    @Override
-    public void onUnfollow(final FollowRow row, final String siteId) {
-        FollowResponseHandler handler = new FollowResponseHandler(row, siteId, false);
-        BioWiki.getRestClientUtils().unfollowSite(siteId, handler, handler);
     }
 }

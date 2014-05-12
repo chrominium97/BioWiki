@@ -38,7 +38,8 @@ public class OnTopMessage {
         mHideAnimation.setDuration(activity.getResources().getInteger(android.R.integer.config_mediumAnimTime));
         mHideAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -46,7 +47,8 @@ public class OnTopMessage {
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
         mShowAnimation = new AlphaAnimation(0.0f, 1.0f);
         mShowAnimation.setInterpolator(new AccelerateInterpolator());

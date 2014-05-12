@@ -19,20 +19,24 @@ public class DetailHeader extends LinearLayout {
     private NotificationFragment.OnPostClickListener mOnPostClickListener;
     private NotificationFragment.OnCommentClickListener mOnCommentClickListener;
 
-    public DetailHeader(Context context){
+    public DetailHeader(Context context) {
         super(context);
     }
-    public DetailHeader(Context context, AttributeSet attributes){
+
+    public DetailHeader(Context context, AttributeSet attributes) {
         super(context, attributes);
     }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public DetailHeader(Context context, AttributeSet attributes, int defStyle){
+    public DetailHeader(Context context, AttributeSet attributes, int defStyle) {
         super(context, attributes, defStyle);
     }
-    TextView getTextView(){
+
+    TextView getTextView() {
         return (TextView) findViewById(R.id.label);
     }
-    public void setText(CharSequence text){
+
+    public void setText(CharSequence text) {
         getTextView().setText(text);
     }
 
@@ -43,6 +47,7 @@ public class DetailHeader extends LinearLayout {
     public void setOnPostClickListener(NotificationFragment.OnPostClickListener listener) {
         mOnPostClickListener = listener;
     }
+
     public void setOnCommentClickListener(NotificationFragment.OnCommentClickListener listener) {
         mOnCommentClickListener = listener;
     }

@@ -23,27 +23,22 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.util.AppLog;
+
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.util.AniUtils;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.HtmlUtils;
 import kr.kdev.dg1s.biowiki.util.NetworkUtils;
 
 public class FollowRow extends LinearLayout {
 
-    public static interface OnFollowListener {
-        public void onUnfollow(FollowRow row, String blogId);
-        public void onFollow(FollowRow row, String blogId);
-    }
-
-    private static final String PARAMS_FIELD       = "params";
-    private static final String TYPE_FIELD         = "type";
-    private static final String ACTION_TYPE        = "follow";
-    private static final String BLOG_ID_PARAM      = "blog_id";
+    private static final String PARAMS_FIELD = "params";
+    private static final String TYPE_FIELD = "type";
+    private static final String ACTION_TYPE = "follow";
+    private static final String BLOG_ID_PARAM = "blog_id";
     private static final String IS_FOLLOWING_PARAM = "is_following";
-    private static final String BLOG_URL_PARAM     = "blog_url";
-    private static final String BLOG_DOMAIN_PARAM  = "blog_domain";
-
+    private static final String BLOG_URL_PARAM = "blog_url";
+    private static final String BLOG_DOMAIN_PARAM = "blog_domain";
     private OnFollowListener mFollowListener;
     private JSONObject mParams;
     private String mBlogURL;
@@ -134,6 +129,10 @@ public class FollowRow extends LinearLayout {
         return (thisSiteId != null && thisSiteId.equals(siteId));
     }
 
+    boolean isFollowing() {
+        return hasParams() && mParams.optBoolean(IS_FOLLOWING_PARAM, false);
+    }
+
     void setFollowing(boolean following) {
         if (hasParams()) {
             try {
@@ -143,10 +142,6 @@ public class FollowRow extends LinearLayout {
             }
         }
         updateFollowButton(following);
-    }
-
-    boolean isFollowing() {
-        return hasParams() && mParams.optBoolean(IS_FOLLOWING_PARAM, false);
     }
 
     String getSiteId() {
@@ -204,6 +199,12 @@ public class FollowRow extends LinearLayout {
         followButton.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0);
         followButton.setSelected(isFollowing);
         followButton.setText(isFollowing ? R.string.reader_btn_unfollow : R.string.reader_btn_follow);
+    }
+
+    public static interface OnFollowListener {
+        public void onUnfollow(FollowRow row, String blogId);
+
+        public void onFollow(FollowRow row, String blogId);
     }
 
     private class ClickListener implements View.OnClickListener {

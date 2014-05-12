@@ -38,7 +38,9 @@ public enum CommentStatus {
             default:
                 return "";
         } */
-    };
+    }
+
+    ;
 
     /*
      * returns the status associated with the passed strings - handles both XMLRPC and REST

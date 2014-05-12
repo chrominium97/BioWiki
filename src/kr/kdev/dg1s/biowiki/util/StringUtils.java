@@ -62,7 +62,7 @@ public class StringUtils {
                 String trimmed = asploded[i].trim();
                 if (trimmed.length() > 0) {
                     trimmed = trimmed.replace("<br />", "<br>").replace("<br/>", "<br>").replace("<br>\n", "<br>")
-                                     .replace("\n", "<br>");
+                            .replace("\n", "<br>");
                     wrappedHTML.append("<p>");
                     wrappedHTML.append(trimmed);
                     wrappedHTML.append("</p>");
@@ -249,11 +249,11 @@ public class StringUtils {
         for (int i = 0; i < in.length(); i++) {
             current = in.charAt(i); // NOTE: No IndexOutOfBoundsException caught here; it should not happen.
             if ((current == 0x9) ||
-                (current == 0xA) ||
-                (current == 0xD) ||
-                ((current >= 0x20) && (current <= 0xD7FF)) ||
-                ((current >= 0xE000) && (current <= 0xFFFD)) ||
-                ((current >= 0x10000) && (current <= 0x10FFFF))) {
+                    (current == 0xA) ||
+                    (current == 0xD) ||
+                    ((current >= 0x20) && (current <= 0xD7FF)) ||
+                    ((current >= 0xE000) && (current <= 0xFFFD)) ||
+                    ((current >= 0x10000) && (current <= 0x10FFFF))) {
                 out.append(current);
             }
         }
@@ -266,6 +266,7 @@ public class StringUtils {
     public static int stringToInt(String s) {
         return stringToInt(s, 0);
     }
+
     public static int stringToInt(String s, int defaultValue) {
         if (s == null)
             return defaultValue;

@@ -1,4 +1,3 @@
-
 package kr.kdev.dg1s.biowiki.util;
 
 import android.content.Context;

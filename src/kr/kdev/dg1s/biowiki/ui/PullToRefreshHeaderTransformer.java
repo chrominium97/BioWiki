@@ -24,10 +24,6 @@ public class PullToRefreshHeaderTransformer extends AbsDefaultHeaderTransformer 
     private Animation mSetMaxAlpha;
     private OnTopScrollChangedListener mOnTopScrollChangedListener;
 
-    public interface OnTopScrollChangedListener {
-        public void onTopScrollChanged(boolean scrolledOnTop);
-    }
-
     public void setShowProgressBarOnly(boolean progressBarOnly) {
         mShowProgressBarOnly = progressBarOnly;
     }
@@ -164,6 +160,10 @@ public class PullToRefreshHeaderTransformer extends AbsDefaultHeaderTransformer 
 
     public void setOnTopScrollChangedListener(OnTopScrollChangedListener listener) {
         mOnTopScrollChangedListener = listener;
+    }
+
+    public interface OnTopScrollChangedListener {
+        public void onTopScrollChanged(boolean scrolledOnTop);
     }
 
     class AnimationCallback implements Animation.AnimationListener {

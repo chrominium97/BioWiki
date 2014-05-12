@@ -21,9 +21,10 @@ import com.wordpress.rest.RestRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.util.AppLog;
+
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.networking.RestClientUtils;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 
 /**
  * A fragment representing a single step in a wizard. The fragment shows a dummy title indicating
@@ -68,7 +69,7 @@ public abstract class NewAccountAbstractPageFragment extends SherlockFragment {
 
     protected boolean onDoneEvent(int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE || event != null && (event.getAction() == KeyEvent.ACTION_DOWN &&
-                                                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
             if (!isUserDataValid()) {
                 return true;
             }

@@ -2,9 +2,6 @@ package kr.kdev.dg1s.biowiki.util;
 
 import android.text.format.DateUtils;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.R;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,14 +9,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+
 /**
  * Created by nbradbury on 7/3/13.
  */
 public class DateTimeUtils {
-
-    private DateTimeUtils() {
-        throw new AssertionError();
-    }
 
     /*
      * see http://drdobbs.com/java/184405382
@@ -30,6 +26,10 @@ public class DateTimeUtils {
             return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
         }
     };
+
+    private DateTimeUtils() {
+        throw new AssertionError();
+    }
 
     /*
      * converts a date to a relative time span ("8h", "3d", etc.) - similar to
@@ -86,7 +86,7 @@ public class DateTimeUtils {
      * converts a Java date to ISO8601
      */
     public static String javaDateToIso8601(Date date) {
-        if (date==null)
+        if (date == null)
             return "";
         DateFormat formatter = ISO8601Format.get();
         return formatter.format(date);
@@ -101,7 +101,7 @@ public class DateTimeUtils {
     }
 
     public static Date localDateToUTC(Date dtLocal) {
-        if (dtLocal==null)
+        if (dtLocal == null)
             return null;
         TimeZone tz = TimeZone.getDefault();
         int currentOffsetFromUTC = tz.getRawOffset() + (tz.inDaylightTime(dtLocal) ? tz.getDSTSavings() : 0);
@@ -113,18 +113,20 @@ public class DateTimeUtils {
      */
     public static int minutesBetween(Date dt1, Date dt2) {
         long msDiff = millisecondsBetween(dt1, dt2);
-        if (msDiff==0)
+        if (msDiff == 0)
             return 0;
-        return (int)(msDiff / 60000);
+        return (int) (msDiff / 60000);
     }
+
     public static long millisecondsBetween(Date dt1, Date dt2) {
-        if (dt1==null || dt2==null)
+        if (dt1 == null || dt2 == null)
             return 0;
         return Math.abs(dt1.getTime() - dt2.getTime());
     }
+
     public static long iso8601ToTimestamp(final String strDate) {
         Date date = iso8601ToJavaDate(strDate);
-        if (date==null)
+        if (date == null)
             return 0;
         return (date.getTime() / 1000);
     }
@@ -133,11 +135,13 @@ public class DateTimeUtils {
      * routines involving Unix timestamps (GMT assumed)
      */
     public static Date timestampToDate(long timeStamp) {
-        return new java.util.Date(timeStamp*1000);
+        return new java.util.Date(timeStamp * 1000);
     }
+
     public static String timestampToIso8601Str(long timestamp) {
         return javaDateToIso8601(timestampToDate(timestamp));
     }
+
     public static String timestampToTimeSpan(long timeStamp) {
         Date dtGmt = timestampToDate(timeStamp);
         return javaDateToTimeSpan(dtGmt);

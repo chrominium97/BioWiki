@@ -9,16 +9,16 @@ import java.util.Map;
 public class FeatureSet {
 
     private int mBlogId;
-    
+
     private boolean mIsVideopressEnabled = false;
     // add future features here
-    
-    public FeatureSet(int blogId, Map<?,?> map) {
+
+    public FeatureSet(int blogId, Map<?, ?> map) {
         setBlogId(blogId);
-        
+
         if (map.containsKey("videopress_enabled"))
             setIsVideopressEnabled((Boolean) map.get("videopress_enabled"));
-        
+
     }
 
     public boolean isVideopressEnabled() {
@@ -36,5 +36,5 @@ public class FeatureSet {
     public void setBlogId(int blogId) {
         this.mBlogId = blogId;
     }
-    
+
 }

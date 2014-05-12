@@ -18,25 +18,24 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import java.util.List;
+import java.util.Map;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.BioWikiDB;
-import kr.kdev.dg1s.biowiki.util.MapUtils;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
 import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
 import kr.kdev.dg1s.biowiki.util.ListScrollPositionManager;
+import kr.kdev.dg1s.biowiki.util.MapUtils;
 import kr.kdev.dg1s.biowiki.util.NetworkUtils;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
-
-import java.util.List;
-import java.util.Map;
-
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 
 public class ManageBlogsActivity extends SherlockListActivity {
-    private List<Map<String, Object>> mAccounts;
     private static boolean mIsRefreshing;
+    private List<Map<String, Object>> mAccounts;
     private ListScrollPositionManager mListScrollPositionManager;
     private PullToRefreshHelper mPullToRefreshHelper;
 
@@ -61,7 +60,8 @@ public class ManageBlogsActivity extends SherlockListActivity {
                         }
                         new SetupBlogTask().execute();
                     }
-                });
+                }
+        );
 
         // Load accounts and update from server
         loadAccounts();
@@ -106,7 +106,7 @@ public class ManageBlogsActivity extends SherlockListActivity {
             item.put("isHidden", false);
         }
         BioWiki.wpDB.setAllDotComAccountsVisibility(true);
-        ((BlogsAdapter)getListView().getAdapter()).notifyDataSetChanged();
+        ((BlogsAdapter) getListView().getAdapter()).notifyDataSetChanged();
     }
 
     private void deselectAll() {
@@ -114,7 +114,7 @@ public class ManageBlogsActivity extends SherlockListActivity {
             item.put("isHidden", true);
         }
         BioWiki.wpDB.setAllDotComAccountsVisibility(false);
-        ((BlogsAdapter)getListView().getAdapter()).notifyDataSetChanged();
+        ((BlogsAdapter) getListView().getAdapter()).notifyDataSetChanged();
     }
 
     private void refreshBlogs() {
@@ -124,7 +124,7 @@ public class ManageBlogsActivity extends SherlockListActivity {
 
     private void loadAccounts() {
         ListView listView = getListView();
-        mAccounts = BioWiki.wpDB.getAccountsBy("dotcomFlag=1", new String[] {"isHidden"});
+        mAccounts = BioWiki.wpDB.getAccountsBy("dotcomFlag=1", new String[]{"isHidden"});
         listView.setAdapter(new BlogsAdapter(this, R.layout.manageblogs_listitem, mAccounts));
     }
 

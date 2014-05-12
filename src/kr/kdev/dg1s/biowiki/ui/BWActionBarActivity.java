@@ -1,4 +1,3 @@
-
 package kr.kdev.dg1s.biowiki.ui;
 
 import android.app.AlertDialog;
@@ -34,17 +33,19 @@ import com.actionbarsherlock.view.MenuItem;
 import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.Position;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.ui.dictionary.Classify;
-import kr.kdev.dg1s.biowiki.ui.map.DistributionActivity;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
-//import kr.kdev.dg1s.biowiki.networking.SelfSignedSSLCertsManager;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.comments.CommentsActivity;
+import kr.kdev.dg1s.biowiki.ui.dictionary.Classify;
+import kr.kdev.dg1s.biowiki.ui.map.DistributionActivity;
 import kr.kdev.dg1s.biowiki.ui.media.MediaBrowserActivity;
 import kr.kdev.dg1s.biowiki.ui.notifications.NotificationsActivity;
 import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
@@ -52,36 +53,21 @@ import kr.kdev.dg1s.biowiki.ui.posts.PagesActivity;
 import kr.kdev.dg1s.biowiki.ui.posts.PostsActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.ui.themes.ThemeBrowserActivity;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DeviceUtils;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+//import kr.kdev.dg1s.biowiki.networking.SelfSignedSSLCertsManager;
+
+//import kr.kdev.dg1s.biowiki.networking.SelfSignedSSLCertsManager;
 
 /**
  * Base class for Activities that include a standard action bar and menu drawer.
  */
 public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     public static final int NEW_BLOG_CANCELED = 10;
-    private static final String TAG = "BWActionBarActivity";
-
-    /**
-     * AuthenticatorRequest code used when no accounts exist, and user is prompted to add an
-     * account.
-     */
-    private static final int ADD_ACCOUNT_REQUEST = 100;
-    /**
-     * AuthenticatorRequest code for reloading menu after returning from  the PreferencesActivity.
-     */
-    private static final int SETTINGS_REQUEST = 200;
-    /**
-     * AuthenticatorRequest code for re-authentication
-     */
-    private static final int AUTHENTICATE_REQUEST = 300;
-
     /**
      * Used to restore active activity on app creation
      */
@@ -99,22 +85,105 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     protected static final int NOTIFICATIONS_ACTIVITY = 10;
     protected static final int MAPS_ACTIVITY = 11;
     protected static final int DICTIONARY_ACTIVITY = 12;
-
     protected static final String LAST_ACTIVITY_PREFERENCE = "wp_pref_last_activity";
-
-    protected MenuDrawer mMenuDrawer;
+    private static final String TAG = "BWActionBarActivity";
+    /**
+     * AuthenticatorRequest code used when no accounts exist, and user is prompted to add an
+     * account.
+     */
+    private static final int ADD_ACCOUNT_REQUEST = 100;
+    /**
+     * AuthenticatorRequest code for reloading menu after returning from  the PreferencesActivity.
+     */
+    private static final int SETTINGS_REQUEST = 200;
+    /**
+     * AuthenticatorRequest code for re-authentication
+     */
+    private static final int AUTHENTICATE_REQUEST = 300;
     private static int[] blogIDs;
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent == null || intent.getAction() == null)
+                return;
+            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_SIGNOUT)) {
+                onSignout();
+            }
+            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_INVALID_CREDENTIALS)) {
+                ToastUtils.showAuthErrorDialog(BWActionBarActivity.this);
+            }
+            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_TWO_FA_AUTH)) {
+                // TODO: add a specific message like "you must use a specific app password"
+                ToastUtils.showAuthErrorDialog(BWActionBarActivity.this);
+            }
+            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_INVALID_SSL_CERTIFICATE)) {
+                // SelfSignedSSLCertsManager.askForSslTrust(BWActionBarActivity.this);
+            }
+            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_LOGIN_LIMIT)) {
+                ToastUtils.showToast(context, R.string.limit_reached, ToastUtils.Duration.LONG);
+            }
+        }
+    };
+    protected MenuDrawer mMenuDrawer;
     protected boolean isAnimatingRefreshButton;
     protected boolean mShouldFinish;
+    protected List<MenuDrawerItem> mMenuItems = new ArrayList<MenuDrawerItem>();
+    protected boolean mFirstLaunch = false;
     private boolean mBlogSpinnerInitialized;
+    private IcsAdapterView.OnItemSelectedListener mItemSelectedListener = new IcsAdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(IcsAdapterView<?> arg0, View arg1, int position, long arg3) {
+            // http://stackoverflow.com/questions/5624825/spinner-onitemselected-executes-when-it-is-not-suppose-to/5918177#5918177
+            if (!mBlogSpinnerInitialized) {
+                mBlogSpinnerInitialized = true;
+            } else {
+                BioWiki.setCurrentBlog(blogIDs[position]);
+                updateMenuDrawer();
+                onBlogChanged();
+            }
+        }
+
+        @Override
+        public void onNothingSelected(IcsAdapterView<?> arg0) {
+        }
+    };
     private boolean mReauthCanceled;
     private boolean mNewBlogActivityRunning;
-
     private MenuAdapter mAdapter;
-    protected List<MenuDrawerItem> mMenuItems = new ArrayList<MenuDrawerItem>();
     private ListView mListView;
     private IcsSpinner mBlogSpinner;
-    protected boolean mFirstLaunch = false;
+
+    /**
+     * Get the names of all the blogs configured within the application. If a
+     * blog does not have a specific name, the blog URL is returned.
+     *
+     * @return array of blog names
+     */
+    private static String[] getBlogNames() {
+        List<Map<String, Object>> accounts = BioWiki.wpDB.getVisibleAccounts();
+
+        int blogCount = accounts.size();
+        blogIDs = new int[blogCount];
+        String[] blogNames = new String[blogCount];
+
+        for (int i = 0; i < blogCount; i++) {
+            Map<String, Object> account = accounts.get(i);
+            String name;
+            if (account.get("blogName") != null) {
+                name = StringUtils.unescapeHTML(account.get("blogName").toString());
+                if (name.trim().length() == 0) {
+                    name = StringUtils.getHost(account.get("url").toString());
+                }
+            } else {
+                name = StringUtils.getHost(account.get("url").toString());
+            }
+            blogNames[i] = name;
+            blogIDs[i] = Integer.valueOf(account.get("id").toString());
+        }
+
+        return blogNames;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,7 +227,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         refreshMenuDrawer();
     }
 
-    protected void refreshMenuDrawer(){
+    protected void refreshMenuDrawer() {
         // the current blog may have changed while we were away
         setupCurrentBlog();
         if (mMenuDrawer != null) {
@@ -221,7 +290,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     protected boolean isLargeOrXLarge() {
         int mask = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
         return (mask == Configuration.SCREENLAYOUT_SIZE_LARGE
-             || mask == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+                || mask == Configuration.SCREENLAYOUT_SIZE_XLARGE);
     }
 
     /**
@@ -280,7 +349,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
             addBlogSpinner(blogNames);
         }
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // account for header views
                 int menuPosition = position - mListView.getHeaderViewsCount();
@@ -289,7 +358,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
                     return;
                 MenuDrawerItem item = mAdapter.getItem(menuPosition);
                 // if the item has an id, remember it for launch
-                if (item.hasItemId()){
+                if (item.hasItemId()) {
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(BWActionBarActivity.this);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putInt(LAST_ACTIVITY_PREFERENCE, item.getItemId());
@@ -311,7 +380,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                    int totalItemCount) {
+                                 int totalItemCount) {
                 mMenuDrawer.invalidate();
             }
         });
@@ -379,7 +448,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         mAdapter.clear();
         // iterate over the available menu items and only show the ones that should be visible
         Iterator<MenuDrawerItem> availableItems = mMenuItems.iterator();
-        while(availableItems.hasNext()){
+        while (availableItems.hasNext()) {
             MenuDrawerItem item = availableItems.next();
             if (item.isVisible()) {
                 mAdapter.add(item);
@@ -388,44 +457,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         mAdapter.notifyDataSetChanged();
 
     }
-
-    public static class MenuAdapter extends ArrayAdapter<MenuDrawerItem> {
-
-        MenuAdapter(Context context) {
-            super(context, R.layout.menu_drawer_row, R.id.menu_row_title, new ArrayList<MenuDrawerItem>());
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = super.getView(position, convertView, parent);
-            MenuDrawerItem item = getItem(position);
-
-            TextView titleTextView = (TextView) view.findViewById(R.id.menu_row_title);
-            titleTextView.setText(item.getTitleRes());
-
-            ImageView iconImageView = (ImageView) view.findViewById(R.id.menu_row_icon);
-            iconImageView.setImageResource(item.getIconRes());
-            // Hide the badge always
-            view.findViewById(R.id.menu_row_badge).setVisibility(View.GONE);
-
-            if (item.isSelected()) {
-                // http://stackoverflow.com/questions/5890379/setbackgroundresource-discards-my-xml-layout-attributes
-                int bottom = view.getPaddingBottom();
-                int top = view.getPaddingTop();
-                int right = view.getPaddingRight();
-                int left = view.getPaddingLeft();
-                view.setBackgroundResource(R.color.blue_dark);
-                view.setPadding(left, top, right, bottom);
-            } else {
-                view.setBackgroundResource(R.drawable.md_list_selector);
-            }
-            // allow the menudrawer item to configure the view
-            item.configureView(view);
-
-            return view;
-        }
-    }
-
 
     /**
      * Called when the activity has detected the user's press of the back key.
@@ -444,37 +475,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         }
 
         super.onBackPressed();
-    }
-
-    /**
-     * Get the names of all the blogs configured within the application. If a
-     * blog does not have a specific name, the blog URL is returned.
-     *
-     * @return array of blog names
-     */
-    private static String[] getBlogNames() {
-        List<Map<String, Object>> accounts = BioWiki.wpDB.getVisibleAccounts();
-
-        int blogCount = accounts.size();
-        blogIDs = new int[blogCount];
-        String[] blogNames = new String[blogCount];
-
-        for (int i = 0; i < blogCount; i++) {
-            Map<String, Object> account = accounts.get(i);
-            String name;
-            if (account.get("blogName") != null) {
-                name = StringUtils.unescapeHTML(account.get("blogName").toString());
-                if (name.trim().length() == 0) {
-                    name = StringUtils.getHost(account.get("url").toString());
-                }
-            } else {
-                name = StringUtils.getHost(account.get("url").toString());
-            }
-            blogNames[i] = name;
-            blogIDs[i] = Integer.valueOf(account.get("id").toString());
-        }
-
-        return blogNames;
     }
 
     private boolean askToSignInIfNot() {
@@ -498,21 +498,22 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
             BioWiki.getCurrentBlog();
         }
     }
-/*
-    private void showReader() {
-        Intent intent;
-        intent = new Intent(BWActionBarActivity.this, ReaderActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(intent);
-    }
 
-    protected void showReaderIfNoBlog() {
-        // If logged in without blog, redirect to the Reader view
-        if (BioWiki.wpDB.getNumVisibleAccounts() == 0) {
-            showReader();
+    /*
+        private void showReader() {
+            Intent intent;
+            intent = new Intent(BWActionBarActivity.this, ReaderActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         }
-    }
-*/
+
+        protected void showReaderIfNoBlog() {
+            // If logged in without blog, redirect to the Reader view
+            if (BioWiki.wpDB.getNumVisibleAccounts() == 0) {
+                showReader();
+            }
+        }
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -578,24 +579,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         }
     }
 
-    private IcsAdapterView.OnItemSelectedListener mItemSelectedListener = new IcsAdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(IcsAdapterView<?> arg0, View arg1, int position, long arg3) {
-            // http://stackoverflow.com/questions/5624825/spinner-onitemselected-executes-when-it-is-not-suppose-to/5918177#5918177
-            if (!mBlogSpinnerInitialized) {
-                mBlogSpinnerInitialized = true;
-            } else {
-                BioWiki.setCurrentBlog(blogIDs[position]);
-                updateMenuDrawer();
-                onBlogChanged();
-            }
-        }
-
-        @Override
-        public void onNothingSelected(IcsAdapterView<?> arg0) {
-        }
-    };
-
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if (mMenuDrawer != null) {
@@ -616,14 +599,16 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
                             BioWiki.signOut(BWActionBarActivity.this);
                             refreshMenuDrawer();
                         }
-                    });
+                    }
+            );
             dialogBuilder.setNegativeButton(R.string.cancel,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
                             // Just close the window.
                         }
-                    });
+                    }
+            );
             dialogBuilder.setCancelable(true);
             if (!isFinishing())
                 dialogBuilder.create().show();
@@ -688,329 +673,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         }
         super.onConfigurationChanged(newConfig);
     }
-/*
-    private class ReaderMenuItem extends MenuDrawerItem {
-        ReaderMenuItem(){
-            super(READER_ACTIVITY, R.string.reader, R.drawable.dashboard_icon_subs);
-        }
-
-        @Override
-        public Boolean isVisible(){
-            return false;
-            // return BioWiki.hasValidWPComCredentials(BWActionBarActivity.this);
-        }
-
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof ReaderActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (!isSelected())
-                mShouldFinish = true;
-            Intent intent;
-            intent = new Intent(BWActionBarActivity.this, ReaderActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-    }
-*/
-    private class PostsMenuItem extends MenuDrawerItem {
-        PostsMenuItem() {
-            super(POSTS_ACTIVITY, R.string.posts, R.drawable.dashboard_icon_posts);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            BWActionBarActivity activity = BWActionBarActivity.this;
-            return (activity instanceof PostsActivity) && !(activity instanceof PagesActivity);
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof PostsActivity)
-                    || (BWActionBarActivity.this instanceof PagesActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, PostsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class MediaMenuItem extends MenuDrawerItem {
-        MediaMenuItem(){
-            super(MEDIA_ACTIVITY, R.string.media, R.drawable.dashboard_icon_media);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof MediaBrowserActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (!(BWActionBarActivity.this instanceof MediaBrowserActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, MediaBrowserActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class PagesMenuItem extends MenuDrawerItem {
-        PagesMenuItem(){
-            super(PAGES_ACTIVITY, R.string.pages, R.drawable.dashboard_icon_pages);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof PagesActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (BioWiki.getCurrentBlog() == null)
-                return;
-            if (!(BWActionBarActivity.this instanceof PagesActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, PagesActivity.class);
-            intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
-            intent.putExtra("isNew", true);
-            intent.putExtra(PostsActivity.EXTRA_VIEW_PAGES, true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class CommentsMenuItem extends MenuDrawerItem {
-        CommentsMenuItem(){
-            super(COMMENTS_ACTIVITY, R.string.tab_comments, R.drawable.dashboard_icon_comments);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof CommentsActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (BioWiki.getCurrentBlog() == null)
-                return;
-            if (!(BWActionBarActivity.this instanceof CommentsActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, CommentsActivity.class);
-            intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
-            intent.putExtra("isNew", true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public void configureView(View view){
-            if (BioWiki.getCurrentBlog() != null) {
-            TextView bagdeTextView = (TextView) view.findViewById(R.id.menu_row_badge);
-                int commentCount = BioWiki.getCurrentBlog().getUnmoderatedCommentCount();
-                if (commentCount > 0) {
-                    bagdeTextView.setVisibility(View.VISIBLE);
-                } else
-                {
-                    bagdeTextView.setVisibility(View.GONE);
-                }
-                bagdeTextView.setText(String.valueOf(commentCount));
-            }
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class ThemesMenuItem extends MenuDrawerItem {
-        ThemesMenuItem(){
-            super(THEMES_ACTIVITY, R.string.themes, R.drawable.dashboard_icon_themes);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof ThemeBrowserActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (!(BWActionBarActivity.this instanceof ThemeBrowserActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, ThemeBrowserActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            if (BioWiki.getCurrentBlog() != null && BioWiki.getCurrentBlog().isAdmin() && BioWiki.getCurrentBlog().isDotcomFlag())
-                return true;
-            return false;
-        }
-    }
-
-/*
-    private class StatsMenuItem extends MenuDrawerItem {
-        StatsMenuItem(){
-            super(STATS_ACTIVITY, R.string.tab_stats, R.drawable.dashboard_icon_stats);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof StatsActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (BioWiki.getCurrentBlog() == null)
-                return;
-            if (!isSelected())
-                mShouldFinish = true;
-
-            Intent intent = new Intent(BWActionBarActivity.this, StatsActivity.class);
-            intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
-            intent.putExtra("isNew", true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-*/
-    private class QuickPhotoMenuItem extends MenuDrawerItem {
-        QuickPhotoMenuItem(){
-            super(R.string.quick_photo, R.drawable.dashboard_icon_photo);
-        }
-        @Override
-        public void onSelectItem(){
-            mShouldFinish = false;
-            Intent intent = new Intent(BWActionBarActivity.this, EditPostActivity.class);
-            intent.putExtra("quick-media", DeviceUtils.getInstance().hasCamera(getApplicationContext())
-                    ? Constants.QUICK_POST_PHOTO_CAMERA
-                    : Constants.QUICK_POST_PHOTO_LIBRARY);
-            intent.putExtra("isNew", true);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class QuickVideoMenuItem extends MenuDrawerItem {
-        QuickVideoMenuItem(){
-            super(R.string.quick_video, R.drawable.dashboard_icon_video);
-        }
-        @Override
-        public void onSelectItem(){
-            mShouldFinish = false;
-            Intent intent = new Intent(BWActionBarActivity.this, EditPostActivity.class);
-            intent.putExtra("quick-media", DeviceUtils.getInstance().hasCamera(getApplicationContext())
-                    ? Constants.QUICK_POST_VIDEO_CAMERA
-                    : Constants.QUICK_POST_VIDEO_LIBRARY);
-            intent.putExtra("isNew", true);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class ViewSiteMenuItem extends MenuDrawerItem {
-        ViewSiteMenuItem(){
-            super(VIEW_SITE_ACTIVITY, R.string.view_site, R.drawable.dashboard_icon_view);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof ViewSiteActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (!(BWActionBarActivity.this instanceof ViewSiteActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, ViewSiteActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class MapsItem extends MenuDrawerItem {
-        MapsItem(){
-            super(MAPS_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof DistributionActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (!(BWActionBarActivity.this instanceof DistributionActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, DistributionActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class DictionaryItem extends MenuDrawerItem {
-        DictionaryItem() {
-            super(DICTIONARY_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof Classify;
-        }
-        @Override
-        public void onSelectItem(){
-            if (!(BWActionBarActivity.this instanceof Classify))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, Classify.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class NotificationsMenuItem extends MenuDrawerItem {
-        NotificationsMenuItem(){
-            super(NOTIFICATIONS_ACTIVITY, R.string.notifications, R.drawable.dashboard_icon_notifications);
-        }
-        @Override
-        public Boolean isVisible(){
-            // return BioWiki.hasValidWPComCredentials(BWActionBarActivity.this);
-            return false;
-        }
-        @Override
-        public Boolean isSelected(){
-            return BWActionBarActivity.this instanceof NotificationsActivity;
-        }
-        @Override
-        public void onSelectItem(){
-            if (!(BWActionBarActivity.this instanceof NotificationsActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, NotificationsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-    }
 
     /**
      * broadcast receiver which detects when user signs out of the app and calls onSignout()
@@ -1034,27 +696,392 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         }
     }
 
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    public static class MenuAdapter extends ArrayAdapter<MenuDrawerItem> {
+
+        MenuAdapter(Context context) {
+            super(context, R.layout.menu_drawer_row, R.id.menu_row_title, new ArrayList<MenuDrawerItem>());
+        }
+
         @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent == null || intent.getAction() == null)
-                return;
-            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_SIGNOUT)) {
-                onSignout();
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = super.getView(position, convertView, parent);
+            MenuDrawerItem item = getItem(position);
+
+            TextView titleTextView = (TextView) view.findViewById(R.id.menu_row_title);
+            titleTextView.setText(item.getTitleRes());
+
+            ImageView iconImageView = (ImageView) view.findViewById(R.id.menu_row_icon);
+            iconImageView.setImageResource(item.getIconRes());
+            // Hide the badge always
+            view.findViewById(R.id.menu_row_badge).setVisibility(View.GONE);
+
+            if (item.isSelected()) {
+                // http://stackoverflow.com/questions/5890379/setbackgroundresource-discards-my-xml-layout-attributes
+                int bottom = view.getPaddingBottom();
+                int top = view.getPaddingTop();
+                int right = view.getPaddingRight();
+                int left = view.getPaddingLeft();
+                view.setBackgroundResource(R.color.blue_dark);
+                view.setPadding(left, top, right, bottom);
+            } else {
+                view.setBackgroundResource(R.drawable.md_list_selector);
             }
-            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_INVALID_CREDENTIALS)) {
-                ToastUtils.showAuthErrorDialog(BWActionBarActivity.this);
+            // allow the menudrawer item to configure the view
+            item.configureView(view);
+
+            return view;
+        }
+    }
+
+    /*
+        private class ReaderMenuItem extends MenuDrawerItem {
+            ReaderMenuItem(){
+                super(READER_ACTIVITY, R.string.reader, R.drawable.dashboard_icon_subs);
             }
-            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_TWO_FA_AUTH)) {
-                // TODO: add a specific message like "you must use a specific app password"
-                ToastUtils.showAuthErrorDialog(BWActionBarActivity.this);
+
+            @Override
+            public Boolean isVisible(){
+                return false;
+                // return BioWiki.hasValidWPComCredentials(BWActionBarActivity.this);
             }
-            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_INVALID_SSL_CERTIFICATE)) {
-                // SelfSignedSSLCertsManager.askForSslTrust(BWActionBarActivity.this);
+
+            @Override
+            public Boolean isSelected(){
+                return BWActionBarActivity.this instanceof ReaderActivity;
             }
-            if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_LOGIN_LIMIT)) {
-                ToastUtils.showToast(context, R.string.limit_reached, ToastUtils.Duration.LONG);
+            @Override
+            public void onSelectItem(){
+                if (!isSelected())
+                    mShouldFinish = true;
+                Intent intent;
+                intent = new Intent(BWActionBarActivity.this, ReaderActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityWithDelay(intent);
             }
         }
-    };
+    */
+    private class PostsMenuItem extends MenuDrawerItem {
+        PostsMenuItem() {
+            super(POSTS_ACTIVITY, R.string.posts, R.drawable.dashboard_icon_posts);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            BWActionBarActivity activity = BWActionBarActivity.this;
+            return (activity instanceof PostsActivity) && !(activity instanceof PagesActivity);
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BWActionBarActivity.this instanceof PostsActivity)
+                    || (BWActionBarActivity.this instanceof PagesActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, PostsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class MediaMenuItem extends MenuDrawerItem {
+        MediaMenuItem() {
+            super(MEDIA_ACTIVITY, R.string.media, R.drawable.dashboard_icon_media);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof MediaBrowserActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BWActionBarActivity.this instanceof MediaBrowserActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, MediaBrowserActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class PagesMenuItem extends MenuDrawerItem {
+        PagesMenuItem() {
+            super(PAGES_ACTIVITY, R.string.pages, R.drawable.dashboard_icon_pages);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof PagesActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (BioWiki.getCurrentBlog() == null)
+                return;
+            if (!(BWActionBarActivity.this instanceof PagesActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, PagesActivity.class);
+            intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
+            intent.putExtra("isNew", true);
+            intent.putExtra(PostsActivity.EXTRA_VIEW_PAGES, true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class CommentsMenuItem extends MenuDrawerItem {
+        CommentsMenuItem() {
+            super(COMMENTS_ACTIVITY, R.string.tab_comments, R.drawable.dashboard_icon_comments);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof CommentsActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (BioWiki.getCurrentBlog() == null)
+                return;
+            if (!(BWActionBarActivity.this instanceof CommentsActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, CommentsActivity.class);
+            intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
+            intent.putExtra("isNew", true);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public void configureView(View view) {
+            if (BioWiki.getCurrentBlog() != null) {
+                TextView bagdeTextView = (TextView) view.findViewById(R.id.menu_row_badge);
+                int commentCount = BioWiki.getCurrentBlog().getUnmoderatedCommentCount();
+                if (commentCount > 0) {
+                    bagdeTextView.setVisibility(View.VISIBLE);
+                } else {
+                    bagdeTextView.setVisibility(View.GONE);
+                }
+                bagdeTextView.setText(String.valueOf(commentCount));
+            }
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class ThemesMenuItem extends MenuDrawerItem {
+        ThemesMenuItem() {
+            super(THEMES_ACTIVITY, R.string.themes, R.drawable.dashboard_icon_themes);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof ThemeBrowserActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BWActionBarActivity.this instanceof ThemeBrowserActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, ThemeBrowserActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            if (BioWiki.getCurrentBlog() != null && BioWiki.getCurrentBlog().isAdmin() && BioWiki.getCurrentBlog().isDotcomFlag())
+                return true;
+            return false;
+        }
+    }
+
+    /*
+        private class StatsMenuItem extends MenuDrawerItem {
+            StatsMenuItem(){
+                super(STATS_ACTIVITY, R.string.tab_stats, R.drawable.dashboard_icon_stats);
+            }
+            @Override
+            public Boolean isSelected(){
+                return BWActionBarActivity.this instanceof StatsActivity;
+            }
+            @Override
+            public void onSelectItem(){
+                if (BioWiki.getCurrentBlog() == null)
+                    return;
+                if (!isSelected())
+                    mShouldFinish = true;
+
+                Intent intent = new Intent(BWActionBarActivity.this, StatsActivity.class);
+                intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
+                intent.putExtra("isNew", true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityWithDelay(intent);
+            }
+            @Override
+            public Boolean isVisible() {
+                return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+            }
+        }
+    */
+    private class QuickPhotoMenuItem extends MenuDrawerItem {
+        QuickPhotoMenuItem() {
+            super(R.string.quick_photo, R.drawable.dashboard_icon_photo);
+        }
+
+        @Override
+        public void onSelectItem() {
+            mShouldFinish = false;
+            Intent intent = new Intent(BWActionBarActivity.this, EditPostActivity.class);
+            intent.putExtra("quick-media", DeviceUtils.getInstance().hasCamera(getApplicationContext())
+                    ? Constants.QUICK_POST_PHOTO_CAMERA
+                    : Constants.QUICK_POST_PHOTO_LIBRARY);
+            intent.putExtra("isNew", true);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class QuickVideoMenuItem extends MenuDrawerItem {
+        QuickVideoMenuItem() {
+            super(R.string.quick_video, R.drawable.dashboard_icon_video);
+        }
+
+        @Override
+        public void onSelectItem() {
+            mShouldFinish = false;
+            Intent intent = new Intent(BWActionBarActivity.this, EditPostActivity.class);
+            intent.putExtra("quick-media", DeviceUtils.getInstance().hasCamera(getApplicationContext())
+                    ? Constants.QUICK_POST_VIDEO_CAMERA
+                    : Constants.QUICK_POST_VIDEO_LIBRARY);
+            intent.putExtra("isNew", true);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class ViewSiteMenuItem extends MenuDrawerItem {
+        ViewSiteMenuItem() {
+            super(VIEW_SITE_ACTIVITY, R.string.view_site, R.drawable.dashboard_icon_view);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof ViewSiteActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BWActionBarActivity.this instanceof ViewSiteActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, ViewSiteActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class MapsItem extends MenuDrawerItem {
+        MapsItem() {
+            super(MAPS_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof DistributionActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BWActionBarActivity.this instanceof DistributionActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, DistributionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class DictionaryItem extends MenuDrawerItem {
+        DictionaryItem() {
+            super(DICTIONARY_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof Classify;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BWActionBarActivity.this instanceof Classify))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, Classify.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class NotificationsMenuItem extends MenuDrawerItem {
+        NotificationsMenuItem() {
+            super(NOTIFICATIONS_ACTIVITY, R.string.notifications, R.drawable.dashboard_icon_notifications);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            // return BioWiki.hasValidWPComCredentials(BWActionBarActivity.this);
+            return false;
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BWActionBarActivity.this instanceof NotificationsActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BWActionBarActivity.this instanceof NotificationsActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BWActionBarActivity.this, NotificationsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+    }
 }

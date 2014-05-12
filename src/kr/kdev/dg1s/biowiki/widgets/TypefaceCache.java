@@ -6,9 +6,9 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import kr.kdev.dg1s.biowiki.R;
-
 import java.util.Hashtable;
+
+import kr.kdev.dg1s.biowiki.R;
 
 /**
  * Created by nbradbury on 1/10/14.
@@ -24,6 +24,7 @@ public class TypefaceCache {
     protected static Typeface getTypeface(Context context) {
         return getTypeface(context, Typeface.NORMAL, VARIATION_NORMAL);
     }
+
     protected static Typeface getTypeface(Context context, int fontStyle, int variation) {
         if (context == null)
             return null;

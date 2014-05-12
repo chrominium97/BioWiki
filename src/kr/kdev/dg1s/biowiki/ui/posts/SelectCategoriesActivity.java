@@ -11,23 +11,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.CategoryNode;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
-import kr.kdev.dg1s.biowiki.util.ListScrollPositionManager;
-import kr.kdev.dg1s.biowiki.util.NetworkUtils;
-import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlrpc.android.XMLRPCClientInterface;
@@ -40,12 +29,45 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.CategoryNode;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.ListScrollPositionManager;
+import kr.kdev.dg1s.biowiki.util.NetworkUtils;
+import kr.kdev.dg1s.biowiki.util.StringUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 
 public class SelectCategoriesActivity extends SherlockListActivity {
-    String finalResult = "";
-    public String categoryErrorMsg = "";
+    final Runnable mUpdateResults = new Runnable() {
+        public void run() {
+            mPullToRefreshHelper.setRefreshing(false);
+            if (finalResult.equals("addCategory_success")) {
+                populateOrFetchCategories();
+                if (!isFinishing()) {
+                    ToastUtils.showToast(SelectCategoriesActivity.this, R.string.adding_cat_success, ToastUtils.Duration.SHORT);
+                }
+            } else if (finalResult.equals("addCategory_failed")) {
+                if (!isFinishing()) {
+                    ToastUtils.showToast(SelectCategoriesActivity.this, R.string.adding_cat_failed, ToastUtils.Duration.LONG);
+                }
+            } else if (finalResult.equals("gotCategories")) {
+                populateOrFetchCategories();
+            } else if (finalResult.equals("FAIL")) {
+                if (!isFinishing()) {
+                    ToastUtils.showToast(SelectCategoriesActivity.this, R.string.category_refresh_error, ToastUtils.Duration.LONG);
+                }
+            }
+        }
+    };
     private final Handler mHandler = new Handler();
+    public String categoryErrorMsg = "";
+    String finalResult = "";
+    XMLRPCClientInterface mClient;
     private Blog blog;
     private ListView mListView;
     private ListScrollPositionManager mListScrollPositionManager;
@@ -54,7 +76,6 @@ public class SelectCategoriesActivity extends SherlockListActivity {
     private CategoryNode mCategories;
     private ArrayList<CategoryNode> mCategoryLevels;
     private Map<String, Integer> mCategoryNames = new HashMap<String, Integer>();
-    XMLRPCClientInterface mClient;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -72,7 +93,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         mListView.setItemsCanFocus(false);
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (getCheckedItemCount(mListView) > 1) {
@@ -115,7 +136,8 @@ public class SelectCategoriesActivity extends SherlockListActivity {
                         }
                         refreshCategories();
                     }
-                });
+                }
+        );
 
         populateOrFetchCategories();
     }
@@ -123,7 +145,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
     private void populateCategoryList() {
         mCategoryLevels = CategoryNode.getSortedListOfCategoriesFromRoot(mCategories);
         for (int i = 0; i < mCategoryLevels.size(); i++) {
-            mCategoryNames.put( StringUtils.unescapeHTML( mCategoryLevels.get(i).getName() ), i);
+            mCategoryNames.put(StringUtils.unescapeHTML(mCategoryLevels.get(i).getName()), i);
         }
 
         CategoryArrayAdapter categoryAdapter = new CategoryArrayAdapter(this, R.layout.categories_row, mCategoryLevels);
@@ -139,7 +161,6 @@ public class SelectCategoriesActivity extends SherlockListActivity {
         mListScrollPositionManager.restoreScrollOffset();
     }
 
-
     private void populateOrFetchCategories() {
         mCategories = CategoryNode.createCategoryTreeFromDB(blog.getLocalTableBlogId());
         if (mCategories.getChildren().size() > 0) {
@@ -150,30 +171,9 @@ public class SelectCategoriesActivity extends SherlockListActivity {
         }
     }
 
-    final Runnable mUpdateResults = new Runnable() {
-        public void run() {
-            mPullToRefreshHelper.setRefreshing(false);
-            if (finalResult.equals("addCategory_success")) {
-                populateOrFetchCategories();
-                if (!isFinishing()) {
-                    ToastUtils.showToast(SelectCategoriesActivity.this, R.string.adding_cat_success, ToastUtils.Duration.SHORT);
-                }
-            } else if (finalResult.equals("addCategory_failed")) {
-                if (!isFinishing()) {
-                    ToastUtils.showToast(SelectCategoriesActivity.this, R.string.adding_cat_failed, ToastUtils.Duration.LONG);
-                }
-            } else if (finalResult.equals("gotCategories")) {
-                populateOrFetchCategories();
-            } else if (finalResult.equals("FAIL")) {
-                if (!isFinishing()) {
-                    ToastUtils.showToast(SelectCategoriesActivity.this, R.string.category_refresh_error, ToastUtils.Duration.LONG);
-                }
-            }
-        }
-    };
-
     /**
      * Gets the categories via a xmlrpc call
+     *
      * @return result message
      */
     public String fetchCategories() {
@@ -216,8 +216,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
     /**
      * function addCategory
      *
-     * @param String
-     *            category_name
+     * @param String category_name
      * @return
      * @description Adds a new category
      */
@@ -236,7 +235,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
         struct.put("description", category_desc);
         struct.put("parent_id", parent_id);
         mClient = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(), blog.getHttppassword());
-        Object[] params = { blog.getRemoteBlogId(), blog.getUsername(), blog.getPassword(), struct };
+        Object[] params = {blog.getRemoteBlogId(), blog.getUsername(), blog.getPassword(), struct};
 
         Object result = null;
         try {
@@ -290,27 +289,27 @@ public class SelectCategoriesActivity extends SherlockListActivity {
             final Bundle extras = data.getExtras();
 
             switch (requestCode) {
-            case 0: // Add category
-                // Does the user want to continue, or did he press "dismiss"?
-                if (extras.getString("continue").equals("TRUE")) {
-                    // Get name, slug and desc from Intent
-                    final String category_name = extras.getString("category_name");
-                    final String category_slug = extras.getString("category_slug");
-                    final String category_desc = extras.getString("category_desc");
-                    final int parent_id = extras.getInt("parent_id");
+                case 0: // Add category
+                    // Does the user want to continue, or did he press "dismiss"?
+                    if (extras.getString("continue").equals("TRUE")) {
+                        // Get name, slug and desc from Intent
+                        final String category_name = extras.getString("category_name");
+                        final String category_slug = extras.getString("category_slug");
+                        final String category_desc = extras.getString("category_desc");
+                        final int parent_id = extras.getInt("parent_id");
 
-                    // Check if the category name already exists
-                    if (!mCategoryNames.keySet().contains(category_name)) {
-                        Thread th = new Thread() {
-                            public void run() {
-                                finalResult = addCategory(category_name, category_slug, category_desc, parent_id);
-                                mHandler.post(mUpdateResults);
-                            }
-                        };
-                        th.start();
+                        // Check if the category name already exists
+                        if (!mCategoryNames.keySet().contains(category_name)) {
+                            Thread th = new Thread() {
+                                public void run() {
+                                    finalResult = addCategory(category_name, category_slug, category_desc, parent_id);
+                                    mHandler.post(mUpdateResults);
+                                }
+                            };
+                            th.start();
+                        }
+                        break;
                     }
-                    break;
-                }
             }// end null check
         }
     }
@@ -344,7 +343,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
     private String getCanonicalCategoryName(int category_id) {
         String new_category_name = null;
         Map<?, ?> result = null;
-        Object[] params = { blog.getRemoteBlogId(), blog.getUsername(), blog.getPassword(), "category", category_id };
+        Object[] params = {blog.getRemoteBlogId(), blog.getUsername(), blog.getPassword(), "category", category_id};
         mClient = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(), blog.getHttppassword());
         try {
             result = (Map<?, ?>) mClient.call("wp.getTerm", params);

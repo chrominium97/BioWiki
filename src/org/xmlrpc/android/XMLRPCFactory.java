@@ -1,9 +1,9 @@
 package org.xmlrpc.android;
 
+import java.net.URI;
+
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.AppLog.T;
-
-import java.net.URI;
 
 public class XMLRPCFactory {
     public static XMLRPCFactoryAbstract sFactory;

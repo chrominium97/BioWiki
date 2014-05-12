@@ -13,8 +13,8 @@ public class DeviceUtils {
     private static DeviceUtils instance;
     private boolean isKindleFire = false;
 
-    public boolean isKindleFire() {
-        return isKindleFire;
+    private DeviceUtils() {
+        isKindleFire = android.os.Build.MODEL.equalsIgnoreCase("kindle fire") ? true : false;
     }
 
     public static DeviceUtils getInstance() {
@@ -24,16 +24,16 @@ public class DeviceUtils {
         return instance;
     }
 
-    private DeviceUtils() {
-        isKindleFire = android.os.Build.MODEL.equalsIgnoreCase("kindle fire") ? true: false;
+    public boolean isKindleFire() {
+        return isKindleFire;
     }
 
     /**
      * Checks camera availability recursively based on API level.
-     *
+     * <p/>
      * TODO: change "android.hardware.camera.front" and "android.hardware.camera.any" to
-     *     {@link PackageManager#FEATURE_CAMERA_FRONT} and {@link PackageManager#FEATURE_CAMERA_ANY},
-     *     respectively, once they become accessible or minSdk version is incremented.
+     * {@link PackageManager#FEATURE_CAMERA_FRONT} and {@link PackageManager#FEATURE_CAMERA_ANY},
+     * respectively, once they become accessible or minSdk version is incremented.
      *
      * @param context The context.
      * @return Whether camera is available.

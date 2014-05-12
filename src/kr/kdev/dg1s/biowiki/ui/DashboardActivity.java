@@ -1,4 +1,3 @@
-
 package kr.kdev.dg1s.biowiki.ui;
 
 import android.content.Intent;
@@ -17,22 +16,25 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.BWWebChromeClient;
-import kr.kdev.dg1s.biowiki.util.BWWebViewClient;
-import kr.kdev.dg1s.biowiki.R;
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.BWWebChromeClient;
+import kr.kdev.dg1s.biowiki.util.BWWebViewClient;
+
 /**
  * Basic activity for displaying a WebView.
  */
 public class DashboardActivity extends SherlockActivity {
-    /** Primary webview used to display content. */
+    /**
+     * Primary webview used to display content.
+     */
     protected WebView mWebView;
 
     /**

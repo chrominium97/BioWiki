@@ -4,16 +4,17 @@ import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 import java.io.Serializable;
+
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 public class Post implements Serializable {
 
     // Increment this value if this model changes
     // See: http://www.javapractices.com/topic/TopicAction.do?Id=45
-    static final long serialVersionUID  = 2L;
+    static final long serialVersionUID = 2L;
 
     public static String QUICK_MEDIA_TYPE_PHOTO = "QuickPhoto";
     public static String QUICK_MEDIA_TYPE_VIDEO = "QuickVideo";
@@ -65,6 +66,10 @@ public class Post implements Serializable {
 
     public long getLocalTablePostId() {
         return localTablePostId;
+    }
+
+    public void setLocalTablePostId(long id) {
+        this.localTablePostId = id;
     }
 
     public long getDateCreated() {
@@ -184,7 +189,7 @@ public class Post implements Serializable {
     }
 
     public String getKeywords() {
-            return StringUtils.notNullStr(keywords);
+        return StringUtils.notNullStr(keywords);
     }
 
     public void setKeywords(String mtKeywords) {
@@ -347,16 +352,12 @@ public class Post implements Serializable {
         this.isLocalChange = isLocalChange;
     }
 
-    public void setLocalTablePostId(long id) {
-        this.localTablePostId = id;
+    public String getQuickPostType() {
+        return StringUtils.notNullStr(quickPostType);
     }
 
     public void setQuickPostType(String type) {
         this.quickPostType = type;
-    }
-
-    public String getQuickPostType() {
-        return StringUtils.notNullStr(quickPostType);
     }
 
     /**
@@ -367,16 +368,16 @@ public class Post implements Serializable {
      */
     public boolean hasChanges(Post otherPost) {
         return otherPost == null || !(StringUtils.equals(title, otherPost.title) &&
-                                      StringUtils.equals(description, otherPost.description) &&
-                                      StringUtils.equals(excerpt, otherPost.excerpt) &&
-                                      StringUtils.equals(keywords, otherPost.keywords) &&
-                                      StringUtils.equals(categories, otherPost.categories) &&
-                                      StringUtils.equals(status, otherPost.status) &&
-                                      StringUtils.equals(password, otherPost.password) &&
-                                      StringUtils.equals(postFormat, otherPost.postFormat) &&
-                                      this.dateCreatedGmt == otherPost.dateCreatedGmt &&
-                                      this.latitude == otherPost.latitude &&
-                                      this.longitude == otherPost.longitude);
+                StringUtils.equals(description, otherPost.description) &&
+                StringUtils.equals(excerpt, otherPost.excerpt) &&
+                StringUtils.equals(keywords, otherPost.keywords) &&
+                StringUtils.equals(categories, otherPost.categories) &&
+                StringUtils.equals(status, otherPost.status) &&
+                StringUtils.equals(password, otherPost.password) &&
+                StringUtils.equals(postFormat, otherPost.postFormat) &&
+                this.dateCreatedGmt == otherPost.dateCreatedGmt &&
+                this.latitude == otherPost.latitude &&
+                this.longitude == otherPost.longitude);
     }
 
     @Override
@@ -407,6 +408,7 @@ public class Post implements Serializable {
     /**
      * Get the entire post content
      * Joins description and moreText fields if both are valid
+     *
      * @return post content as String
      */
     public String getContent() {

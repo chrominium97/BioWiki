@@ -29,11 +29,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
-import kr.kdev.dg1s.biowiki.util.BWViewPager;
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.util.BWViewPager;
 import kr.kdev.dg1s.biowiki.util.PostUploadService;
 
 public class EditPostActivity extends SherlockFragmentActivity {
@@ -45,14 +44,17 @@ public class EditPostActivity extends SherlockFragmentActivity {
     public static final String EXTRA_QUICKPRESS_BLOG_ID = "quickPressBlogId";
     public static final String STATE_KEY_CURRENT_POST = "stateKeyCurrentPost";
     public static final String STATE_KEY_ORIGINAL_POST = "stateKeyOriginalPost";
-
+    private static final int AUTOSAVE_INTERVAL_MILLIS = 30000;
+    private Runnable autoSaveRunnable = new Runnable() {
+        @Override
+        public void run() {
+            savePost(true);
+            mAutoSaveHandler.postDelayed(this, AUTOSAVE_INTERVAL_MILLIS);
+        }
+    };
     private static int PAGE_CONTENT = 0;
     private static int PAGE_SETTINGS = 1;
     private static int PAGE_PREVIEW = 2;
-
-    private static final int AUTOSAVE_INTERVAL_MILLIS = 30000;
-    private Handler mAutoSaveHandler;
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -67,16 +69,39 @@ public class EditPostActivity extends SherlockFragmentActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     BWViewPager mViewPager;
-
+    private Handler mAutoSaveHandler;
     private Post mPost;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            if (message.what != 573) {
+                ArrayList<String> attr = message.getData().getStringArrayList("attributes");
+                String desc = "";
+                desc = desc + attr.get(0) + "K, " +
+                        attr.get(1) + "%Φ, " +
+                        attr.get(2) + "hPa, " +
+                        attr.get(3) + "m/s " + attr.get(5) + "(" + attr.get(4) + "°), " +
+                        attr.get(6) + "% Cloudy (" + attr.get(7) + "), @" +
+                        mPost.getLatitude() + "，" + mPost.getLongitude();
+                if (attr.get(8).equals("yes")) {
+                    desc = desc + ", Raining";
+                }
+                Log.d("Post", desc);
+                mPost.setKeywords(desc);
+            }
+            PostUploadService.addPostToUpload(mPost);
+            startService(new Intent(getApplicationContext(), PostUploadService.class));
+            Intent i = new Intent();
+            i.putExtra("shouldRefresh", true);
+            setResult(RESULT_OK, i);
+            finish();
+        }
+    };
     private Post mOriginalPost;
-
     private EditPostContentFragment mEditPostContentFragment;
     private EditPostSettingsFragment mEditPostSettingsFragment;
     private EditPostPreviewFragment mEditPostPreviewFragment;
-
     private boolean mIsNewPost;
-
     private String mStatEventEditorClosed = "";
 
     @Override
@@ -251,67 +276,6 @@ public class EditPostActivity extends SherlockFragmentActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message message) {
-            if (message.what != 573) {
-                ArrayList<String> attr = message.getData().getStringArrayList("attributes");
-                String desc = "";
-                desc = desc + attr.get(0) + "K, " +
-                        attr.get(1) + "%Φ, " +
-                        attr.get(2) + "hPa, " +
-                        attr.get(3) + "m/s " + attr.get(5) + "(" + attr.get(4) + "°), " +
-                        attr.get(6) + "% Cloudy (" + attr.get(7) + "), @" +
-                        mPost.getLatitude() + "，" + mPost.getLongitude();
-                if (attr.get(8).equals("yes")) {
-                    desc = desc + ", Raining";
-                }
-                Log.d("Post", desc);
-                mPost.setKeywords(desc);
-            }
-            PostUploadService.addPostToUpload(mPost);
-            startService(new Intent(getApplicationContext(), PostUploadService.class));
-            Intent i = new Intent();
-            i.putExtra("shouldRefresh", true);
-            setResult(RESULT_OK, i);
-            finish();
-        }
-    };
-
-    class updateWeather extends Thread {
-        public void run() {
-            try {
-                Source source = bringSource(new URL("http://api.openweathermap.org/data/2.5/weather?lat=" +
-                        mPost.getLatitude() + "&lon=" + mPost.getLongitude() + "&mode=xml"));
-                ArrayList<String> attr = new ArrayList<String>();
-                attr.add(source.getFirstElement("temperature").getAttributeValue("value"));
-                attr.add(source.getFirstElement("humidity").getAttributeValue("value"));
-                attr.add(source.getFirstElement("pressure").getAttributeValue("value"));
-                attr.add(source.getFirstElement("speed").getAttributeValue("value"));
-                attr.add(source.getFirstElement("direction").getAttributeValue("value"));
-                attr.add(source.getFirstElement("direction").getAttributeValue("code"));
-                attr.add(source.getFirstElement("clouds").getAttributeValue("value"));
-                attr.add(source.getFirstElement("clouds").getAttributeValue("name"));
-                attr.add(source.getFirstElement("precipitation").getAttributeValue("mode"));
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("attributes", attr);
-                Message message = new Message();
-                message.setData(bundle);
-                handler.sendMessage(message);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Message message = new Message();
-                message.what = 573;
-                handler.sendMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Message message = new Message();
-                message.what = 0;
-                handler.sendMessage(message);
-            }
-        }
-    }
-
     private Source bringSource(URL url) throws IOException {
         return new Source(new InputStreamReader(url.openStream(), "UTF-8"));
     }
@@ -362,14 +326,6 @@ public class EditPostActivity extends SherlockFragmentActivity {
         Toast.makeText(this, getResources().getText(errorMessageId), Toast.LENGTH_LONG).show();
         finish();
     }
-
-    private Runnable autoSaveRunnable = new Runnable() {
-        @Override
-        public void run() {
-            savePost(true);
-            mAutoSaveHandler.postDelayed(this, AUTOSAVE_INTERVAL_MILLIS);
-        }
-    };
 
     public Post getPost() {
         return mPost;
@@ -462,6 +418,44 @@ public class EditPostActivity extends SherlockFragmentActivity {
         mViewPager.setCurrentItem(PAGE_SETTINGS);
     }
 
+    public boolean isEditingPostContent() {
+        return (mViewPager.getCurrentItem() == PAGE_CONTENT);
+    }
+
+    class updateWeather extends Thread {
+        public void run() {
+            try {
+                Source source = bringSource(new URL("http://api.openweathermap.org/data/2.5/weather?lat=" +
+                        mPost.getLatitude() + "&lon=" + mPost.getLongitude() + "&mode=xml"));
+                ArrayList<String> attr = new ArrayList<String>();
+                attr.add(source.getFirstElement("temperature").getAttributeValue("value"));
+                attr.add(source.getFirstElement("humidity").getAttributeValue("value"));
+                attr.add(source.getFirstElement("pressure").getAttributeValue("value"));
+                attr.add(source.getFirstElement("speed").getAttributeValue("value"));
+                attr.add(source.getFirstElement("direction").getAttributeValue("value"));
+                attr.add(source.getFirstElement("direction").getAttributeValue("code"));
+                attr.add(source.getFirstElement("clouds").getAttributeValue("value"));
+                attr.add(source.getFirstElement("clouds").getAttributeValue("name"));
+                attr.add(source.getFirstElement("precipitation").getAttributeValue("mode"));
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("attributes", attr);
+                Message message = new Message();
+                message.setData(bundle);
+                handler.sendMessage(message);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Message message = new Message();
+                message.what = 573;
+                handler.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Message message = new Message();
+                message.what = 0;
+                handler.sendMessage(message);
+            }
+        }
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -490,13 +484,13 @@ public class EditPostActivity extends SherlockFragmentActivity {
             Fragment fragment = (Fragment) super.instantiateItem(container, position);
             switch (position) {
                 case 0:
-                    mEditPostContentFragment = (EditPostContentFragment)fragment;
+                    mEditPostContentFragment = (EditPostContentFragment) fragment;
                     break;
                 case 1:
-                    mEditPostSettingsFragment = (EditPostSettingsFragment)fragment;
+                    mEditPostSettingsFragment = (EditPostSettingsFragment) fragment;
                     break;
                 case 2:
-                    mEditPostPreviewFragment = (EditPostPreviewFragment)fragment;
+                    mEditPostPreviewFragment = (EditPostPreviewFragment) fragment;
                     break;
             }
             return fragment;
@@ -507,9 +501,5 @@ public class EditPostActivity extends SherlockFragmentActivity {
             // Show 3 total pages.
             return 3;
         }
-    }
-
-    public boolean isEditingPostContent() {
-        return (mViewPager.getCurrentItem() == PAGE_CONTENT);
     }
 }

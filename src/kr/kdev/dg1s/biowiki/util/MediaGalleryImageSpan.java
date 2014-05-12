@@ -3,8 +3,8 @@ package kr.kdev.dg1s.biowiki.util;
 import android.content.Context;
 import android.text.style.ImageSpan;
 
-import kr.kdev.dg1s.biowiki.models.MediaGallery;
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.MediaGallery;
 
 public class MediaGalleryImageSpan extends ImageSpan {
 
@@ -22,5 +22,5 @@ public class MediaGalleryImageSpan extends ImageSpan {
     public void setMediaGallery(MediaGallery mediaGallery) {
         this.mMediaGallery = mediaGallery;
     }
-    
+
 }

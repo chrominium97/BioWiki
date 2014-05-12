@@ -18,7 +18,7 @@ public class ImageUtils {
      * used for round avatars in Reader
      */
     public static Bitmap getRoundedBitmap(final Bitmap bitmap) {
-        if (bitmap==null)
+        if (bitmap == null)
             return null;
 
         final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);

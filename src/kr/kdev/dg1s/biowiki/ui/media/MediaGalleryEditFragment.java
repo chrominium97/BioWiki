@@ -17,33 +17,32 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.mobeta.android.dslv.DragSortListView.DropListener;
 import com.mobeta.android.dslv.DragSortListView.RemoveListener;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.R;
-
 import java.util.ArrayList;
 import java.util.Collections;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 
 /**
  * Fragment where containing a drag-sort listview where the user can drag items
  * to change their position in a media gallery
- *
  */
 public class MediaGalleryEditFragment extends SherlockFragment implements DropListener, RemoveListener {
 
     private static final String SAVED_MEDIA_IDS = "SAVED_MEDIA_IDS";
     private MediaGalleryAdapter mGridAdapter;
     private ArrayList<String> mIds;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        
+
         mIds = new ArrayList<String>();
         if (savedInstanceState != null)
             mIds = savedInstanceState.getStringArrayList(SAVED_MEDIA_IDS);
-            
+
         mGridAdapter = new MediaGalleryAdapter(getActivity(), R.layout.media_gallery_item, null, true, MediaImageLoader.getInstance());
-        
+
         View view = inflater.inflate(R.layout.media_gallery_edit_fragment, container, false);
 
         DragSortListView gridView = (DragSortListView) view.findViewById(R.id.edit_media_gallery_gridview);
@@ -52,30 +51,30 @@ public class MediaGalleryEditFragment extends SherlockFragment implements DropLi
         gridView.setDropListener(this);
         gridView.setRemoveListener(this);
         refreshGridView();
-        
+
         return view;
     }
-    
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putStringArrayList(SAVED_MEDIA_IDS, mIds);
     }
 
-    
+
     private void refreshGridView() {
         if (BioWiki.getCurrentBlog() == null)
             return;
-        
+
         String blogId = String.valueOf(BioWiki.getCurrentBlog().getLocalTableBlogId());
-        
+
         Cursor cursor = BioWiki.wpDB.getMediaFiles(blogId, mIds);
-        
+
         if (cursor == null) {
             mGridAdapter.changeCursor(null);
             return;
         }
-        
+
         SparseIntArray positions = mapIdsToCursorPositions(cursor);
         mGridAdapter.swapCursor(new OrderedCursor(cursor, positions));
     }
@@ -96,69 +95,18 @@ public class MediaGalleryEditFragment extends SherlockFragment implements DropLi
         return positions;
     }
 
+    public ArrayList<String> getMediaIds() {
+        return mIds;
+    }
+
     public void setMediaIds(ArrayList<String> ids) {
         mIds = ids;
         refreshGridView();
-    }
-    
-    public ArrayList<String> getMediaIds() {
-        return mIds;
     }
 
     public void reverseIds() {
         Collections.reverse(mIds);
         refreshGridView();
-    }
- 
-    
-    private class OrderedCursor extends CursorWrapper {
-
-        final int mPos;
-        private final int mCount;
-        
-        // a map of custom position to cursor position
-        private final SparseIntArray mPositions;
-        
-        /** A wrapper to allow for a custom order of items in a cursor **/
-        public OrderedCursor(Cursor cursor, SparseIntArray positions) {
-            super(cursor);
-            cursor.moveToPosition(-1);
-            mPos = 0;
-            mCount = cursor.getCount();
-            mPositions = positions;
-        }
-        
-        @Override
-        public boolean move(int offset) {
-            return this.moveToPosition(this.mPos+offset);
-        }
-
-        @Override
-        public boolean moveToNext() {
-            return this.moveToPosition(this.mPos+1);
-        }
-
-        @Override
-        public boolean moveToPrevious() {
-            return this.moveToPosition(this.mPos-1);
-        }
-
-        @Override
-        public boolean moveToFirst() {
-            return this.moveToPosition(0);
-        }
-
-        @Override
-        public boolean moveToLast() {
-            return this.moveToPosition(this.mCount-1);
-        }
-        
-        @Override
-        public boolean moveToPosition(int position) {
-            return super.moveToPosition(mPositions.get(position));
-        }
-
-        
     }
 
     @Override
@@ -173,7 +121,7 @@ public class MediaGalleryEditFragment extends SherlockFragment implements DropLi
 
         menu.add(ContextMenu.NONE, mIds.indexOf(mediaId), ContextMenu.NONE, R.string.delete);
     }
-    
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int index = item.getItemId();
@@ -192,6 +140,58 @@ public class MediaGalleryEditFragment extends SherlockFragment implements DropLi
 
     @Override
     public void remove(int position) {
-        
+
+    }
+
+    private class OrderedCursor extends CursorWrapper {
+
+        final int mPos;
+        private final int mCount;
+
+        // a map of custom position to cursor position
+        private final SparseIntArray mPositions;
+
+        /**
+         * A wrapper to allow for a custom order of items in a cursor *
+         */
+        public OrderedCursor(Cursor cursor, SparseIntArray positions) {
+            super(cursor);
+            cursor.moveToPosition(-1);
+            mPos = 0;
+            mCount = cursor.getCount();
+            mPositions = positions;
+        }
+
+        @Override
+        public boolean move(int offset) {
+            return this.moveToPosition(this.mPos + offset);
+        }
+
+        @Override
+        public boolean moveToNext() {
+            return this.moveToPosition(this.mPos + 1);
+        }
+
+        @Override
+        public boolean moveToPrevious() {
+            return this.moveToPosition(this.mPos - 1);
+        }
+
+        @Override
+        public boolean moveToFirst() {
+            return this.moveToPosition(0);
+        }
+
+        @Override
+        public boolean moveToLast() {
+            return this.moveToPosition(this.mCount - 1);
+        }
+
+        @Override
+        public boolean moveToPosition(int position) {
+            return super.moveToPosition(mPositions.get(position));
+        }
+
+
     }
 }

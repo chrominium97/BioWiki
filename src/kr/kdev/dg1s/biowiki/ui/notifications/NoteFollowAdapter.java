@@ -11,16 +11,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Note;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.HtmlUtils;
 import kr.kdev.dg1s.biowiki.util.JSONUtil;
 import kr.kdev.dg1s.biowiki.util.PhotonUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Note;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Created by nbradbury on 3/12/14 - adapter used by NoteSingleLineListFragment and
@@ -28,12 +28,12 @@ import java.lang.ref.WeakReference;
  * following/unfollowing each of them
  */
 public class NoteFollowAdapter extends BaseAdapter implements NotificationUtils.NoteUpdatedListener {
-    private JSONArray mItems;
-    private Note mNote;
     private final boolean mDiscardFirstItem;
     private final int mAvatarSz;
     private final WeakReference<Context> mWeakContext;
     private final LayoutInflater mInflater;
+    private JSONArray mItems;
+    private Note mNote;
 
     NoteFollowAdapter(Context context, Note note, boolean discardFirstItem) {
         mWeakContext = new WeakReference<Context>(context);
@@ -94,7 +94,7 @@ public class NoteFollowAdapter extends BaseAdapter implements NotificationUtils.
         }
     }
 
-    public View getView(int position, View cachedView, ViewGroup parent){
+    public View getView(int position, View cachedView, ViewGroup parent) {
         View view;
         if (cachedView == null) {
             view = mInflater.inflate(R.layout.notifications_follow_row, null);
@@ -123,15 +123,15 @@ public class NoteFollowAdapter extends BaseAdapter implements NotificationUtils.
         return view;
     }
 
-    public long getItemId(int position){
+    public long getItemId(int position) {
         return position;
     }
 
-    public JSONObject getItem(int position){
+    public JSONObject getItem(int position) {
         return JSONUtil.queryJSON(mItems, String.format("[%d]", position), new JSONObject());
     }
 
-    public int getCount(){
+    public int getCount() {
         return (mItems != null ? mItems.length() : 0);
     }
 

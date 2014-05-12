@@ -21,10 +21,13 @@ import kr.kdev.dg1s.biowiki.R;
  * A fragment for display the results of a theme search
  */
 public class ThemeSearchFragment extends ThemeTabFragment
-    implements OnQueryTextListener, OnActionExpandListener {
+        implements OnQueryTextListener, OnActionExpandListener {
 
-    private static final String BUNDLE_LAST_SEARCH = "BUNDLE_LAST_SEARCH";
     public static final String TAG = ThemeSearchFragment.class.getName();
+    private static final String BUNDLE_LAST_SEARCH = "BUNDLE_LAST_SEARCH";
+    private String mLastSearch = "";
+    private SearchView mSearchView;
+    private MenuItem mSearchMenuItem;
 
     public static ThemeSearchFragment newInstance() {
 
@@ -36,10 +39,6 @@ public class ThemeSearchFragment extends ThemeTabFragment
 
         return fragment;
     }
-
-    private String mLastSearch = "";
-    private SearchView mSearchView;
-    private MenuItem mSearchMenuItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -137,7 +136,7 @@ public class ThemeSearchFragment extends ThemeTabFragment
         mLastSearch = searchTerm;
 
         String blogId = getBlogId();
-        Cursor cursor =  BioWiki.wpDB.getThemes(blogId, searchTerm);
+        Cursor cursor = BioWiki.wpDB.getThemes(blogId, searchTerm);
         if (mAdapter == null) {
             return;
         } else {

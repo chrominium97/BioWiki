@@ -10,10 +10,10 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
+import java.lang.ref.WeakReference;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Created by nbradbury on 10/11/13.
@@ -56,16 +56,17 @@ public class BWImageGetter implements Html.ImageGetter {
         Drawable failed = view.getContext().getResources().getDrawable(R.drawable.remote_failed);
         final RemoteDrawable remote = new RemoteDrawable(loading, failed);
 
-        BioWiki.imageLoader.get(source, new ImageLoader.ImageListener(){
+        BioWiki.imageLoader.get(source, new ImageLoader.ImageListener() {
             @Override
-            public void onErrorResponse(VolleyError error){
+            public void onErrorResponse(VolleyError error) {
                 remote.displayFailed();
                 TextView view = getView();
                 if (view != null)
                     view.invalidate();
             }
+
             @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate){
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 if (response.getBitmap() != null) {
                     // make sure view is still valid
                     TextView view = getView();
@@ -101,16 +102,19 @@ public class BWImageGetter implements Html.ImageGetter {
         protected Drawable mRemoteDrawable;
         protected Drawable mLoadingDrawable;
         protected Drawable mFailedDrawable;
-        private boolean mDidFail=false;
-        public RemoteDrawable(Drawable loadingDrawable, Drawable failedDrawable){
+        private boolean mDidFail = false;
+
+        public RemoteDrawable(Drawable loadingDrawable, Drawable failedDrawable) {
             mLoadingDrawable = loadingDrawable;
             mFailedDrawable = failedDrawable;
             setBounds(0, 0, mLoadingDrawable.getIntrinsicWidth(), mLoadingDrawable.getIntrinsicHeight());
         }
-        public void displayFailed(){
+
+        public void displayFailed() {
             mDidFail = true;
         }
-        public void setBounds(int x, int y, int width, int height){
+
+        public void setBounds(int x, int y, int width, int height) {
             super.setBounds(x, y, width, height);
             if (mRemoteDrawable != null) {
                 mRemoteDrawable.setBounds(x, y, width, height);
@@ -121,11 +125,13 @@ public class BWImageGetter implements Html.ImageGetter {
                 mFailedDrawable.setBounds(x, y, width, height);
             }
         }
-        public void setRemoteDrawable(Drawable remote){
+
+        public void setRemoteDrawable(Drawable remote) {
             mRemoteDrawable = remote;
             setBounds(0, 0, mRemoteDrawable.getIntrinsicWidth(), mRemoteDrawable.getIntrinsicHeight());
         }
-        public void setRemoteDrawable(Drawable remote, int maxWidth){
+
+        public void setRemoteDrawable(Drawable remote, int maxWidth) {
             // null sentinel for now
             if (remote == null) {
                 // throw error
@@ -135,17 +141,19 @@ public class BWImageGetter implements Html.ImageGetter {
             // determine if we need to scale the image to fit in view
             int imgWidth = remote.getIntrinsicWidth();
             int imgHeight = remote.getIntrinsicHeight();
-            float xScale = (float) imgWidth/(float) maxWidth;
+            float xScale = (float) imgWidth / (float) maxWidth;
             if (xScale > 1.0f) {
-                setBounds(0, 0, Math.round(imgWidth/xScale), Math.round(imgHeight/xScale));
+                setBounds(0, 0, Math.round(imgWidth / xScale), Math.round(imgHeight / xScale));
             } else {
                 setBounds(0, 0, imgWidth, imgHeight);
             }
         }
-        public boolean didFail(){
+
+        public boolean didFail() {
             return mDidFail;
         }
-        public void draw(Canvas canvas){
+
+        public void draw(Canvas canvas) {
             if (mRemoteDrawable != null) {
                 mRemoteDrawable.draw(canvas);
             } else if (didFail()) {

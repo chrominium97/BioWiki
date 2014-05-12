@@ -10,13 +10,12 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Note;
 import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
 import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.NetworkUtils;
-
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 
 public class NotificationsListFragment extends ListFragment implements NotesAdapter.DataLoadedListener {
@@ -27,21 +26,6 @@ public class NotificationsListFragment extends ListFragment implements NotesAdap
     private View mProgressFooterView;
     private boolean mAllNotesLoaded;
     private PullToRefreshHelper mPullToRefreshHelper;
-
-    /**
-     * For responding to tapping of notes
-     */
-    public interface OnNoteClickListener {
-        public void onClickNote(Note note);
-    }
-
-    /**
-     * For providing more notes data when getting to the end of the list
-     */
-    public interface NoteProvider {
-        public boolean canRequestMore();
-        public void onRequestMoreNotifications();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,7 +83,8 @@ public class NotificationsListFragment extends ListFragment implements NotesAdap
                             ((NotificationsActivity) getActivity()).refreshNotes();
                         }
                     }
-                }, TextView.class);
+                }, TextView.class
+        );
     }
 
     @Override
@@ -184,6 +169,30 @@ public class NotificationsListFragment extends ListFragment implements NotesAdap
             mProgressFooterView.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (outState.isEmpty()) {
+            outState.putBoolean("bug_19917_fix", true);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    /**
+     * For responding to tapping of notes
+     */
+    public interface OnNoteClickListener {
+        public void onClickNote(Note note);
+    }
+
+    /**
+     * For providing more notes data when getting to the end of the list
+     */
+    public interface NoteProvider {
+        public boolean canRequestMore();
+
+        public void onRequestMoreNotifications();
+    }
+
     private class ListScrollListener implements AbsListView.OnScrollListener {
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
@@ -203,13 +212,5 @@ public class NotificationsListFragment extends ListFragment implements NotesAdap
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (outState.isEmpty()) {
-            outState.putBoolean("bug_19917_fix", true);
-        }
-        super.onSaveInstanceState(outState);
     }
 }

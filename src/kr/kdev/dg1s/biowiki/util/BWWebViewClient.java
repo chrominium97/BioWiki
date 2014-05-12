@@ -1,8 +1,5 @@
 package kr.kdev.dg1s.biowiki.util;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.webkit.HttpAuthHandler;

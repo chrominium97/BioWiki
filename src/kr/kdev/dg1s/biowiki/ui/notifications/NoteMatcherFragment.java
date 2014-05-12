@@ -21,25 +21,25 @@ import kr.kdev.dg1s.biowiki.util.JSONUtil;
 
 public class NoteMatcherFragment extends Fragment implements NotificationFragment {
     private Note mNote;
-    
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle state){
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle state) {
         View view = inflater.inflate(R.layout.notifications_matcher, parent, false);
 
         // No note? No service.
         if (getNote() == null)
-            return view;        
+            return view;
 
         JSONObject noteBody = getNote().queryJSON("body", new JSONObject());
         JSONArray noteBodyItems = getNote().queryJSON("body.items", new JSONArray());
         JSONObject noteBodyItemAtPositionZero = JSONUtil.queryJSON(noteBodyItems, String.format("[%d]", 0), new JSONObject());
-        
+
         DetailHeader noteHeader = (DetailHeader) view.findViewById(R.id.header);
         JSONObject subject = getNote().queryJSON("subject", new JSONObject());
         String headerText = JSONUtil.getStringDecoded(subject, "text");
         noteHeader.setText(headerText);
         noteHeader.setClickable(false);
-        
+
         String gravURL = JSONUtil.queryJSON(noteBodyItemAtPositionZero, "icon", "");
         if (!gravURL.equals("")) {
             NetworkImageView mBadgeImageView = (NetworkImageView) view.findViewById(R.id.gravatar);
@@ -55,25 +55,26 @@ public class NoteMatcherFragment extends Fragment implements NotificationFragmen
         DetailHeader noteFooter = (DetailHeader) view.findViewById(R.id.footer);
         String footerText = JSONUtil.getStringDecoded(noteBody, "header_text");
         noteFooter.setText(footerText);
-        JSONObject bodyObject =  getNote().queryJSON("body", new JSONObject());
+        JSONObject bodyObject = getNote().queryJSON("body", new JSONObject());
         String itemURL = JSONUtil.getString(bodyObject, "header_link");
         noteFooter.setNote(getNote(), itemURL);
 
         if (getActivity() instanceof OnPostClickListener) {
-            noteFooter.setOnPostClickListener(((OnPostClickListener)getActivity()));
+            noteFooter.setOnPostClickListener(((OnPostClickListener) getActivity()));
         }
         if (getActivity() instanceof OnCommentClickListener) {
-            noteFooter.setOnCommentClickListener(((OnCommentClickListener)getActivity()));
+            noteFooter.setOnCommentClickListener(((OnCommentClickListener) getActivity()));
         }
 
         return view;
     }
-    
-    public void setNote(Note note){
-        mNote = note;
-    }
-    public Note getNote(){
+
+    public Note getNote() {
         return mNote;
     }
-    
+
+    public void setNote(Note note) {
+        mNote = note;
+    }
+
 }

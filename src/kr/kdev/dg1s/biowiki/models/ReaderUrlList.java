@@ -1,8 +1,8 @@
 package kr.kdev.dg1s.biowiki.models;
 
-import kr.kdev.dg1s.biowiki.util.UrlUtils;
-
 import java.util.HashSet;
+
+import kr.kdev.dg1s.biowiki.util.UrlUtils;
 
 /**
  * Created by nbradbury on 9/3/13.
@@ -33,7 +33,6 @@ public class ReaderUrlList extends HashSet<String> {
             return super.contains(object);
         }
     }
-
 
 
 }

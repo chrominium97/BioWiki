@@ -32,25 +32,26 @@ import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
 import com.actionbarsherlock.widget.SearchView;
 import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.Constants;
-import kr.kdev.dg1s.biowiki.models.FeatureSet;
-import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.posts.EditPostContentFragment;
-import kr.kdev.dg1s.biowiki.util.BWAlertDialogFragment;
-import kr.kdev.dg1s.biowiki.util.Utils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.media.MediaAddFragment.MediaAddFragmentCallback;
-import kr.kdev.dg1s.biowiki.ui.media.MediaEditFragment.MediaEditFragmentCallback;
-import kr.kdev.dg1s.biowiki.ui.media.MediaItemFragment.MediaItemFragmentCallback;
-import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
-import kr.kdev.dg1s.biowiki.util.MediaDeleteService;
-import kr.kdev.dg1s.biowiki.util.MediaUtils;
 import org.xmlrpc.android.ApiHelper;
 import org.xmlrpc.android.ApiHelper.GetFeatures.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.Constants;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.FeatureSet;
+import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.media.MediaAddFragment.MediaAddFragmentCallback;
+import kr.kdev.dg1s.biowiki.ui.media.MediaEditFragment.MediaEditFragmentCallback;
+import kr.kdev.dg1s.biowiki.ui.media.MediaItemFragment.MediaItemFragmentCallback;
+import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
+import kr.kdev.dg1s.biowiki.ui.posts.EditPostContentFragment;
+import kr.kdev.dg1s.biowiki.util.BWAlertDialogFragment;
+import kr.kdev.dg1s.biowiki.util.MediaDeleteService;
+import kr.kdev.dg1s.biowiki.util.MediaUtils;
+import kr.kdev.dg1s.biowiki.util.Utils;
 
 /**
  * The main activity in which the user can browse their media.
@@ -64,19 +65,21 @@ public class MediaBrowserActivity extends BWActionBarActivity implements MediaGr
         com.actionbarsherlock.view.ActionMode.Callback {
 
     private static final String SAVED_QUERY = "SAVED_QUERY";
-
+    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+        public void onBackStackChanged() {
+            setupBaseLayout();
+        }
+    };
     private MediaGridFragment mMediaGridFragment;
     private MediaItemFragment mMediaItemFragment;
     private MediaEditFragment mMediaEditFragment;
     private MediaAddFragment mMediaAddFragment;
     private PopupWindow mAddMediaPopup;
-
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
     private Menu mMenu;
     private FeatureSet mFeatureSet;
     private ActionMode mActionMode;
-
     private int mMultiSelectCount;
     private String mQuery;
 
@@ -153,12 +156,6 @@ public class MediaBrowserActivity extends BWActionBarActivity implements MediaGr
         getIntent().setAction(null);
     }
 
-    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
-        public void onBackStackChanged() {
-            setupBaseLayout();
-        }
-    };
-
     private void setupBaseLayout() {
         // hide access to the drawer when there are fragments in the back stack
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -168,7 +165,9 @@ public class MediaBrowserActivity extends BWActionBarActivity implements MediaGr
         }
     }
 
-    /** Setup the popup that allows you to add new media from camera, video camera or local files **/
+    /**
+     * Setup the popup that allows you to add new media from camera, video camera or local files *
+     */
     private void setupAddMenuPopup() {
 
         String capturePhoto = getResources().getString(R.string.media_add_popup_capture_photo);
@@ -179,9 +178,10 @@ public class MediaBrowserActivity extends BWActionBarActivity implements MediaGr
                 R.string.select_video);
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MediaBrowserActivity.this,
                 R.layout.actionbar_add_media_cell,
-                new String[] {
+                new String[]{
                         capturePhoto, captureVideo, pickPhotoFromGallery, pickVideoFromGallery
-                });
+                }
+        );
 
         View layoutView = getLayoutInflater().inflate(R.layout.actionbar_add_media, null, false);
         ListView listView = (ListView) layoutView.findViewById(R.id.actionbar_add_media_listview);
@@ -245,7 +245,9 @@ public class MediaBrowserActivity extends BWActionBarActivity implements MediaGr
         getFeatureSet();
     }
 
-    /** Get the feature set for a wordpress.com hosted blog **/
+    /**
+     * Get the feature set for a wordpress.com hosted blog *
+     */
     private void getFeatureSet() {
         if (BioWiki.getCurrentBlog() == null || !BioWiki.getCurrentBlog().isDotcomFlag())
             return;
@@ -542,8 +544,8 @@ public class MediaBrowserActivity extends BWActionBarActivity implements MediaGr
                 sanitizedIds.add(currentID);
         }
 
-        if( sanitizedIds.size() != ids.size()) {
-            if ( ids.size() == 1  )
+        if (sanitizedIds.size() != ids.size()) {
+            if (ids.size() == 1)
                 Toast.makeText(this, R.string.wait_until_upload_completes, Toast.LENGTH_LONG).show();
             else
                 Toast.makeText(this, R.string.cannot_delete_multi_media_items, Toast.LENGTH_LONG).show();

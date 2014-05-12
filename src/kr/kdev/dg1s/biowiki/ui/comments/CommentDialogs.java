@@ -24,7 +24,7 @@ public class CommentDialogs {
     public static Dialog createCommentDialog(Activity activity, int dialogId) {
         final int resId;
         switch (dialogId) {
-            case ID_COMMENT_DLG_APPROVING :
+            case ID_COMMENT_DLG_APPROVING:
                 resId = R.string.dlg_approving_comments;
                 break;
             case ID_COMMENT_DLG_UNAPPROVING:
@@ -36,7 +36,7 @@ public class CommentDialogs {
             case ID_COMMENT_DLG_SPAMMING:
                 resId = R.string.dlg_spamming_comments;
                 break;
-            default :
+            default:
                 return null;
         }
 
