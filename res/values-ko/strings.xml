@@ -494,15 +494,71 @@
     <string name="app_title">DG1S BioWiki</string>
     <string name="publisher">제작자 : 김덕우, 류호성</string>
     <string name="copyright">ⓒ 2014 대구일과학고등학교</string>
-    <string name="blogusername">blogusername</string>
-    <string name="ok">확인</string>
     <string name="version">버전</string>
     <string name="tos">이용 약관</string>
+    <string name="privacy_policy">개인 정보 보호 정책</string>
 
-    <string name="passcode_manage">PIN 번호 잠금 관리</string>
+    <!-- Remote Post Changes -->
+    <string name="local_changes">로컬 변경</string>
+    <string name="remote_changes">아직 업로드 하지 않는 게시물 을 수정 했습니다. 다시로드 하여 로컬 에서 변경 을 바꾸시겠습니까 ?</string>
 
+    <string name="ok">확인</string>
+    <string name="image_settings">이미지 설정</string>
+    <string name="add_account_blog_url">위키 주소</string>
+    <string name="wordpress_blog">BioWiki 위키</string>
+    <string name="blogusername">blogusername</string>
+
+    <!--  Error Messages -->
+    <string name="error_delete_post">%s를 삭제하는 동안 에러가 발생했습니다.</string>
+    <!-- The 4 following messages can\'t be factorized due to i18n -->
+    <string name="error_refresh_posts">게시물을 다시로드 할 수 없습니다.</string>
+    <string name="error_refresh_pages">고정 페이지를 다시로드 할 수 없습니다.</string>
+    <string name="error_refresh_notifications">알림을 다시로드 할 수 없습니다.</string>
+    <string name="error_refresh_comments">댓글을 다시로드 할 수 없습니다 .</string>
+    <string name="error_refresh_stats">통계를 다시로드 할 수 없습니다.</string>
+    <string name="error_refresh_media">미디어 라이브러리를 새로고침 할때 오류가 발생했습니다. 나중에 다시 시도하십시오.</string>
+    <string name="error_generic">오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
+    <string name="error_parsing_response">데이터 검색 시 오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
+    <string name="error_moderate_comment">진행중에 에러가 발생했습니다.</string>
+    <string name="error_edit_comment">코멘트 편집 할 때 오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
+    <string name="error_upload">%s을 업로드 할 때 오류가 발생 했습니다.</string>
     <string name="error_media_upload">미디어를 업로드할때 오류가 발생했습니다</string>
+    <string name="error_blog_hidden">이 위키는 비공개 설정이되어 로드 할 수 없습니다. 설정 화면에서 다시 활성하고 다시 시도하십시오.</string>
+    <string name="fatal_db_error">앱 데이터베이스를 생성하는 동안 에러가 발생했습니다. 앱을 다시 설치하시기 바랍니다.</string>
+
+    <!--  Image Descriptions for Accessibility -->
     <string name="content_description_add_media">미디어를 추가</string>
+    <string name="error_load_comment">코멘트 를 로드 할 수 없습니다. 다시 시도 하십시오.</string>
+    <string name="manage">관리</string>
+    <string name="discard">제거</string>
+    <string name="prompt_save_changes">변경 내용을 저장 하시겠습니까?</string>
+    <string name="error_downloading_image">이미지를 다운로드하는 중에 오류가 발생했습니다. 다시 시도하십시오.</string>
+
+    <!-- Passcode lock -->
+    <string name="passcode_manage">PIN 번호 잠금 관리</string>
+    <string name="passcode_enter_passcode">PIN 번호를 입력</string>
+    <string name="passcode_enter_old_passcode">이전 PIN 번호를 입력</string>
+    <string name="passcode_re_enter_passcode">PIN 번호 다시 입력</string>
+    <string name="passcode_change_passcode">PIN 번호 변경</string>
+    <string name="passcode_set">PIN 번호 변경</string>
+    <string name="passcode_wrong_passcode">PIN 번호가 잘못되었습니다 . 다시 시도 하십시오.</string>
+    <string name="passcode_preference_title">PIN 번호 잠금</string>
+    <string name="passcode_turn_off">PIN 번호 잠금을 해제</string>
+    <string name="passcode_turn_on">PIN 번호 잠금을 활성화</string>
+    <string name="jetpack_message">통계를 보려면 Jetpack 플러그인이 필요합니다. Jetpack을 설치하시겠습니까 ?</string>
+    <string name="jetpack_message_not_admin">제트 팩 플러그인은 통계가 필요합니다. 사이트 관리자에게 문의하세요.</string>
+    <string name="jetpack_not_found">Jetpack 플러그인 을 찾을 수 없습니다</string>
+    <string name="jetpack_stats_unauthorized">통계에 액세스 할 수 없습니다</string>
+    <string name="jetpack_stats_switch_user">이 BioWiki 계정이 위키의 통계에 대한 액세스 권한이 없는 것 같습니다. 다른 계정으로 로그인 하시겠습니까?</string>
+
+    <!--
+       ****
+       *  strings used by the native reader
+       ***
+    -->
+
+    <!-- timespan shown for posts/comments published within the past 60 seconds -->
+
 
     <string name="adding_cat_failed_check">설정을 확인하고 다시 시도하십시오.</string>
 
@@ -519,20 +575,6 @@
     <string name="ssl_certificate_ask_trust">일반적으로 문제없이 이 사이트에 연결하는 경우, 이 오류는 누군가가 사이트를 사칭하는 것을 의미 할 수 있습니다, 그렇다면 연결하면 안됩니다.  그래도 인증서를 신뢰 하시겠습니까?</string>
     <string name="reader_empty_followed_blogs_title">아직 위키를 팔로우하지 않습니다.</string>
 
-    <string name="error_delete_post">%s를 삭제하는 동안 에러가 발생했습니다.</string>
-    <string name="error_refresh_posts">게시물을 다시로드 할 수 없습니다.</string>
-    <string name="error_refresh_pages">고정 페이지를 다시로드 할 수 없습니다.</string>
-    <string name="error_refresh_notifications">알림을 다시로드 할 수 없습니다.</string>
-    <string name="error_refresh_comments">댓글을 다시로드 할 수 없습니다 .</string>
-    <string name="error_refresh_stats">통계를 다시로드 할 수 없습니다.</string>
-    <string name="error_generic">오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
-    <string name="error_parsing_response">데이터 검색 시 오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
-    <string name="error_moderate_comment">진행중에 에러가 발생했습니다.</string>
-    <string name="error_edit_comment">코멘트 편집 할 때 오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
-    <string name="error_upload">%s을 업로드 할 때 오류가 발생 했습니다.</string>
-    <string name="error_load_comment">코멘트 를 로드 할 수 없습니다. 다시 시도 하십시오.</string>
-    <string name="error_downloading_image">이미지를 다운로드하는 중에 오류가 발생했습니다. 다시 시도하십시오.</string>
-    <string name="passcode_wrong_passcode">PIN 번호가 잘못되었습니다 . 다시 시도 하십시오.</string>
     <string name="reader_empty_posts_in_tag">이 태그가 붙여진 게시물이 없습니다.</string>
     <string name="reader_empty_followed_tags">태그를 팔로우 하지 않습니다.</string>
     <string name="reader_empty_posts_liked">아직 "좋아요"를 클릭한 게시물이 없습니다.</string>
@@ -568,18 +610,8 @@
     <string name="ptr_tip_message">팁: 밑으로 당겨서 새로고칠 수 있습니다.</string>
 
 
-    <string name="privacy_policy">개인 정보 보호 정책</string>
-    <string name="local_changes">로컬 변경</string>
-	<string name="image_settings">이미지 설정</string>
-	<string name="add_account_blog_url">위키 주소</string>
-	<string name="wordpress_blog">BioWiki 위키</string>
-	<string name="error_blog_hidden">이 위키는 비공개 설정이되어 로드 할 수 없습니다. 설정 화면에서 다시 활성하고 다시 시도하십시오.</string>
-	<string name="fatal_db_error">앱 데이터베이스를 생성하는 동안 에러가 발생했습니다. 앱을 다시 설치하시기 바랍니다.</string>
-	<string name="jetpack_message_not_admin">제트 팩 플러그인은 통계가 필요합니다. 사이트 관리자에게 문의하세요.</string>
-	<string name="jetpack_stats_unauthorized">통계에 액세스 할 수 없습니다</string>
-	<string name="jetpack_stats_switch_user">이 BioWiki 계정이 위키의 통계에 대한 액세스 권한이 없는 것 같습니다. 다른 계정으로 로그인 하시겠습니까?</string>
-	<string name="reader_title_applog">애플리케이션 로그</string>
-	<string name="reader_title_followed_tags">팔로잉 태그</string>
+    <string name="reader_title_applog">애플리케이션 로그</string>
+    <string name="reader_title_followed_tags">팔로잉 태그</string>
 	<string name="reader_title_popular_tags">인기 태그</string>
 	<string name="reader_share_link">링크를 공유</string>
 	<string name="reader_toast_err_reblog_requires_blog">위키를 선택 하십시오</string>
@@ -601,12 +633,10 @@
 	<string name="creating_your_site">사이트를 만들 수 있습니다</string>
 	<string name="reader_empty_posts_in_tag_updating">리뷰 가져 오는 중&#8230;</string>
 	<string name="create_account_wpcom">dg1s.hs.kr 계정을 생성</string>
-	<string name="error_refresh_media">미디어 라이브러리를 새로고침 할때 오류가 발생했습니다. 나중에 다시 시도하십시오.</string>
 	<string name="reader_likes_you_and_multi">당신에게 %d명이 "좋아요"를 하고 있습니다.</string>
 	<string name="reader_likes_multi">%d명이 "좋아요"를 눌렀습니다.</string>
 	<string name="reader_toast_err_get_comment">이 코멘트를 읽을 수 없습니다</string>
 	<string name="reader_label_reply">회신</string>
-	<string name="copyright">ⓒ 2014 대구일과학고등학교</string>
 	<string name="reader_label_new_posts_multi">%d개의 새 게시물</string>
 	<string name="reader_label_new_posts_one">1건의 새 게시물</string>
 	<string name="reader_empty_followed_blogs_description">태그 아이콘을 탭하면 시작할 수 있습니다.</string>
@@ -620,10 +650,8 @@
 	<string name="nux_welcome_create_account">계정 만들기</string>
 	<string name="nux_add_selfhosted_blog">사용자 정의 URL 사용</string>
 	<string name="nux_oops_not_selfhosted_blog">dg1s.hs.kr에 로그인</string>
-	<string name="jetpack_message">통계를 보려면 Jetpack 플러그인이 필요합니다. Jetpack을 설치하시겠습니까 ?</string>
-	<string name="jetpack_not_found">Jetpack 플러그인 을 찾을 수 없습니다</string>
-	<string name="reader_timespan_now">지금</string>
-	<string name="reader_untitled_post">(제목 없음)</string>
+    <string name="reader_timespan_now">지금</string>
+    <string name="reader_untitled_post">(제목 없음)</string>
 	<string name="reader_title_userlist_default">인</string>
 	<string name="reader_title_reblog">리블로그</string>
 	<string name="reader_share_subject">%s에서 공유</string>
@@ -656,18 +684,6 @@
 	<string name="limit_reached">한도에 도달했습니다. 1분 후에 다시 시도해 수 있습니다. 이전에 로그인을 시도하면 제한 해제까지의 시간이 더 길어집니다. 오류라고 생각되면 지원에 문의하십시오.</string>
 	<string name="nux_tutorial_get_started_title">시작 하자</string>
 
-    <string name="passcode_enter_passcode">PIN 번호를 입력</string>
-    <string name="passcode_enter_old_passcode">이전 PIN 번호를 입력</string>
-	<string name="passcode_re_enter_passcode">PIN 번호 다시 입력</string>
-	<string name="passcode_change_passcode">PIN 번호 변경</string>
-	<string name="passcode_set">PIN 번호 변경</string>
-	<string name="passcode_preference_title">PIN 번호 잠금</string>
-	<string name="passcode_turn_off">PIN 번호 잠금을 해제</string>
-	<string name="passcode_turn_on">PIN 번호 잠금을 활성화</string>
-	<string name="remote_changes">아직 업로드 하지 않는 게시물 을 수정 했습니다. 다시로드 하여 로컬 에서 변경 을 바꾸시겠습니까 ?</string>
-	<string name="manage">관리</string>
-	<string name="discard">제거</string>
-	<string name="prompt_save_changes">변경 내용을 저장 하시겠습니까?</string>
 
 
 
