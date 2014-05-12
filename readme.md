@@ -1,8 +1,6 @@
-# WordPress for Android #
+# BioWiki #
 
-If you're just looking to install WordPress for Android, you can find
-it on [Google Play][1]. If you're a developer wanting to contribute,
-read on.
+This app is based on the source code of Wordpress for Android.
 
 ## Build Instructions ##
 
@@ -26,8 +24,8 @@ Gradle project.
 
 ## Need help to build or hack? ##
 
-Say hello on our IRC channel: `#WordPress-Mobile` (freenode). Read our
-[Developer Handbook][4] and [Development Blog][5].
+The original source code was made by the Wordpress team, so check them out on their IRC channel: `#WordPress-Mobile` (freenode). Read
+[Wordpress Developer Handbook][4] and [Wordpress Development Blog][5].
 
 [1]: https://play.google.com/store/apps/details?id=org.wordpress.android
 [2]: http://tools.android.com/tech-docs/new-build-system/user-guide
