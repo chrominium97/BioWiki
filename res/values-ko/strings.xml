@@ -470,6 +470,37 @@
         <item>동영상</item>
     </string-array>
 
+    <!--  Menu Buttons -->
+    <string name="new_post">새 게시물</string>
+    <string name="new_page">새 페이지</string>
+    <string name="new_media">새 미디어</string>
+    <string name="menu_search">검색</string>
+    <string name="quick_photo">빠른 사진</string>
+    <string name="quick_video">빠른 비디오</string>
+    <string name="view_site">사이트보기</string>
+    <string name="view_admin">관리 화면을 표시</string>
+
+    <!-- Image Alignment -->
+    <string name="image_alignment">배치</string>
+    <string name="categories_refreshed">카테고리를 다시로드 완료되었습니다</string>
+    <string-array name="alignment_array">
+        <item>없음</item>
+        <item>왼쪽</item>
+        <item>중앙</item>
+        <item>오른쪽</item>
+    </string-array>
+
+    <!-- About View -->
+    <string name="app_title">DG1S BioWiki</string>
+    <string name="publisher">제작자 : 김덕우, 류호성</string>
+    <string name="copyright">ⓒ 2014 대구일과학고등학교</string>
+    <string name="blogusername">blogusername</string>
+    <string name="ok">확인</string>
+    <string name="version">버전</string>
+    <string name="tos">이용 약관</string>
+
+    <string name="passcode_manage">PIN 번호 잠금 관리</string>
+
     <string name="error_media_upload">미디어를 업로드할때 오류가 발생했습니다</string>
     <string name="content_description_add_media">미디어를 추가</string>
 
@@ -537,15 +568,8 @@
     <string name="ptr_tip_message">팁: 밑으로 당겨서 새로고칠 수 있습니다.</string>
 
 
-    <string name="new_post">새 게시물</string>
-    <string name="new_page">새 페이지</string>
-    <string name="new_media">새 미디어</string>
-	<string name="quick_photo">빠른 사진</string>
-	<string name="quick_video">빠른 비디오</string>
-	<string name="view_site">사이트보기</string>
-	<string name="view_admin">관리 화면을 표시</string>
-	<string name="privacy_policy">개인 정보 보호 정책</string>
-	<string name="local_changes">로컬 변경</string>
+    <string name="privacy_policy">개인 정보 보호 정책</string>
+    <string name="local_changes">로컬 변경</string>
 	<string name="image_settings">이미지 설정</string>
 	<string name="add_account_blog_url">위키 주소</string>
 	<string name="wordpress_blog">BioWiki 위키</string>
@@ -632,8 +656,6 @@
 	<string name="limit_reached">한도에 도달했습니다. 1분 후에 다시 시도해 수 있습니다. 이전에 로그인을 시도하면 제한 해제까지의 시간이 더 길어집니다. 오류라고 생각되면 지원에 문의하십시오.</string>
 	<string name="nux_tutorial_get_started_title">시작 하자</string>
 
-    <string name="menu_search">검색</string>
-    <string name="passcode_manage">PIN 번호 잠금 관리</string>
     <string name="passcode_enter_passcode">PIN 번호를 입력</string>
     <string name="passcode_enter_old_passcode">이전 PIN 번호를 입력</string>
 	<string name="passcode_re_enter_passcode">PIN 번호 다시 입력</string>
@@ -648,21 +670,5 @@
 	<string name="prompt_save_changes">변경 내용을 저장 하시겠습니까?</string>
 
 
-    <string name="blogusername">blogusername</string>
-    <string name="ok">확인</string>
-	<string name="version">버전</string>
-	<string name="tos">이용 약관</string>
-	<string name="app_title">DG1S BioWiki</string>
-	<string name="publisher">제작자 : 김덕우, 류호성</string>
-	<string name="image_alignment">배치</string>
-
-
-    <string name="categories_refreshed">카테고리를 다시로드 완료되었습니다</string>
-	<string-array name="alignment_array">
-		<item>없음</item>
-		<item>왼쪽</item>
-		<item>중앙</item>
-		<item>오른쪽</item>
-	</string-array>
 
 </resources>
