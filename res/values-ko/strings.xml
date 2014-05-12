@@ -482,8 +482,7 @@
 
     <!-- Image Alignment -->
     <string name="image_alignment">배치</string>
-    <string name="categories_refreshed">카테고리를 다시로드 완료되었습니다</string>
-    <string-array name="alignment_array">
+     <string-array name="alignment_array">
         <item>없음</item>
         <item>왼쪽</item>
         <item>중앙</item>
@@ -558,14 +557,81 @@
     -->
 
     <!-- timespan shown for posts/comments published within the past 60 seconds -->
+    <string name="reader_timespan_now">지금</string>
 
+    <!-- title shown for untitled posts -->
+    <string name="reader_untitled_post">(제목 없음)</string>
+
+    <!-- activity titles -->
+    <string name="reader_title_applog">애플리케이션 로그</string>
+    <string name="reader_title_userlist_default">인</string>
+    <string name="reader_title_followed_tags">팔로잉 태그</string>
+    <string name="reader_title_popular_tags">인기 태그</string>
+    <string name="reader_title_reblog">리블로그</string>
+
+    <!-- share dialog title when sharing a reader url -->
+    <string name="reader_share_link">링크를 공유</string>
+
+    <!-- subject line when sharing a reader url -->
+    <string name="reader_share_subject">%s에서 공유</string>
+
+    <!-- menu text-->
+    <string name="reader_menu_tags">태그</string>
+
+    <!-- button text -->
+    <string name="reader_btn_share">공유</string>
+    <string name="reader_btn_reblog">리부로구</string>
+    <string name="reader_btn_follow">팔로우</string>
+    <string name="reader_btn_unfollow">팔로잉</string>
+
+    <!-- EditText hints -->
+    <string name="reader_hint_comment_on_post">댓글 을 추가</string>
+    <string name="reader_hint_comment_on_comment">코멘트에 회신</string>
+    <string name="reader_hint_add_tag">태그를 입력</string>
+    <string name="reader_hint_reblog_comment">코멘트(옵션)</string>
+
+    <!-- TextView labels -->
+    <string name="reader_label_new_posts_one">1건의 새 게시물</string>
+    <string name="reader_label_new_posts_multi">%d개의 새 게시물</string>
+    <string name="reader_label_added_tag">%s를 추가</string>
+    <string name="reader_label_removed_tag">%s를 제거</string>
+    <string name="reader_label_reblog_to">이 게시물을 리블로그 하기 :</string>
+    <string name="reader_label_reply">회신</string>
+    <string name="reader_label_reblog_empty">워드프레스 위키에 감춰진 게시물은 리블로그 할 수 없습니다.</string>
+    <string name="reader_label_reblog_empty_link">위키 노출 변경</string>
+
+    <!-- like counts liking users activity-->
+    <string name="reader_likes_one">1명이 "좋아요"를 달았습니다</string>
+    <string name="reader_likes_multi">%d명이 "좋아요"를 눌렀습니다.</string>
+    <string name="reader_likes_only_you">"좋아요"를 클릭 했습니다</string>
+    <string name="reader_likes_you_and_one">당신과 다른 1명이 "좋아요"를 눌렀습니다.</string>
+    <string name="reader_likes_you_and_multi">당신에게 %d명이 "좋아요"를 하고 있습니다.</string>
+
+    <!-- toast messages -->
+    <string name="reader_toast_reblog_success">게시물 리블로그했습니다</string>
+    <string name="reader_toast_err_comment_failed">의견을 게시 할 수 없습니다</string>
+    <string name="reader_toast_err_reblog_failed">이 게시물을 리블로그 할 수 없습니다</string>
+    <string name="reader_toast_err_already_reblogged">이 게시물은 이미 리블로그되었습니다</string>
+    <string name="reader_toast_err_reblog_requires_blog">위키를 선택 하십시오</string>
+    <string name="reader_toast_err_tag_exists">이미 이 태그를 팔로우 중입니다</string>
+    <string name="reader_toast_err_tag_invalid">유효한 태그가 없습니다</string>
+    <string name="reader_toast_err_add_tag">태그를 추가할 수 없습니다.</string>
+    <string name="reader_toast_err_remove_tag">태그를 삭제할 수 없습니다.</string>
+    <string name="reader_toast_err_share_intent">공유에 실패</string>
+    <string name="reader_toast_err_view_image">이미지를 표시 할 수 없습니다</string>
+    <string name="reader_toast_err_url_intent">%s를 열 수 없습니다</string>
+    <string name="reader_toast_err_no_connection">연결할 수 없습니다</string>
+    <string name="reader_toast_err_get_post">이 게시물 을 로드 할 수 없습니다</string>
+
+    <string name="reader_empty_popular_tags">인기 태그가 없습니다.</string>
+
+
+    <string name="categories_refreshed">카테고리를 다시로드 완료되었습니다</string>
 
     <string name="adding_cat_failed_check">설정을 확인하고 다시 시도하십시오.</string>
 
 
-    <string name="reader_label_reblog_empty">워드프레스 위키에 감춰진 게시물은 리블로그 할 수 없습니다.</string>
 
-    <string name="reader_label_reblog_empty_link">위키 노출 변경</string>
     <string name="help">도우미</string>
     <string name="forgot_password">패스워드를 잊으셨나요?</string>
     <string name="nux_help_description">도우미 센터에 방문하면 일반적인 질문에 대한 답을 얻을 수 있습니다. 또는 포럼에 방문하여 신규 질문을 하시기 바랍니다.</string>
@@ -610,14 +676,7 @@
     <string name="ptr_tip_message">팁: 밑으로 당겨서 새로고칠 수 있습니다.</string>
 
 
-    <string name="reader_title_applog">애플리케이션 로그</string>
-    <string name="reader_title_followed_tags">팔로잉 태그</string>
-	<string name="reader_title_popular_tags">인기 태그</string>
-	<string name="reader_share_link">링크를 공유</string>
-	<string name="reader_toast_err_reblog_requires_blog">위키를 선택 하십시오</string>
-	<string name="reader_toast_err_add_tag">태그를 추가할 수 없습니다.</string>
-	<string name="reader_toast_err_remove_tag">태그를 삭제할 수 없습니다.</string>
-	<string name="create_new_blog_wpcom">dg1s.hs.kr 위키 만들기</string>
+<string name="create_new_blog_wpcom">dg1s.hs.kr 위키 만들기</string>
 	<string name="required_field">필수 항목</string>
 	<string name="email_hint">이메일</string>
 	<string name="username_email">사용자 이름 또는 이메일</string>
@@ -633,53 +692,16 @@
 	<string name="creating_your_site">사이트를 만들 수 있습니다</string>
 	<string name="reader_empty_posts_in_tag_updating">리뷰 가져 오는 중&#8230;</string>
 	<string name="create_account_wpcom">dg1s.hs.kr 계정을 생성</string>
-	<string name="reader_likes_you_and_multi">당신에게 %d명이 "좋아요"를 하고 있습니다.</string>
-	<string name="reader_likes_multi">%d명이 "좋아요"를 눌렀습니다.</string>
-	<string name="reader_toast_err_get_comment">이 코멘트를 읽을 수 없습니다</string>
-	<string name="reader_label_reply">회신</string>
-	<string name="reader_label_new_posts_multi">%d개의 새 게시물</string>
-	<string name="reader_label_new_posts_one">1건의 새 게시물</string>
-	<string name="reader_empty_followed_blogs_description">태그 아이콘을 탭하면 시작할 수 있습니다.</string>
-	<string name="reader_likes_you_and_one">당신과 다른 1명이 "좋아요"를 눌렀습니다.</string>
-	<string name="reader_toast_err_no_connection">연결할 수 없습니다</string>
-	<string name="reader_toast_err_get_post">이 게시물 을 로드 할 수 없습니다</string>
-	<string name="validating_user_data">사용자의 데이터를 체크 합니다</string>
+<string name="reader_toast_err_get_comment">이 코멘트를 읽을 수 없습니다</string>
+<string name="reader_empty_followed_blogs_description">태그 아이콘을 탭하면 시작할 수 있습니다.</string>
+<string name="validating_user_data">사용자의 데이터를 체크 합니다</string>
 	<string name="validating_site_data">사이트의 데이터를 체크 합니다</string>
 	<string name="password_invalid">보안 강도 높은 암호가 필요합니다. 7자 이상의 대문자/소문자와 숫자와 기호를 포함하는 것을 추천합니다.</string>
 	<string name="nux_tap_continue">다음</string>
 	<string name="nux_welcome_create_account">계정 만들기</string>
 	<string name="nux_add_selfhosted_blog">사용자 정의 URL 사용</string>
 	<string name="nux_oops_not_selfhosted_blog">dg1s.hs.kr에 로그인</string>
-    <string name="reader_timespan_now">지금</string>
-    <string name="reader_untitled_post">(제목 없음)</string>
-	<string name="reader_title_userlist_default">인</string>
-	<string name="reader_title_reblog">리블로그</string>
-	<string name="reader_share_subject">%s에서 공유</string>
-	<string name="reader_menu_tags">태그</string>
-	<string name="reader_btn_share">공유</string>
-	<string name="reader_btn_reblog">리부로구</string>
-	<string name="reader_btn_follow">팔로우</string>
-	<string name="reader_btn_unfollow">팔로잉</string>
-	<string name="reader_hint_comment_on_post">댓글 을 추가</string>
-	<string name="reader_hint_comment_on_comment">코멘트에 회신</string>
-	<string name="reader_hint_add_tag">태그를 입력</string>
-	<string name="reader_hint_reblog_comment">코멘트(옵션)</string>
-	<string name="reader_label_added_tag">%s를 추가</string>
-	<string name="reader_label_removed_tag">%s를 제거</string>
-	<string name="reader_label_reblog_to">이 게시물을 리블로그 하기 :</string>
-	<string name="reader_likes_one">1명이 "좋아요"를 달았습니다</string>
-	<string name="reader_likes_only_you">"좋아요"를 클릭 했습니다</string>
-	<string name="reader_toast_reblog_success">게시물 리블로그했습니다</string>
-	<string name="reader_toast_err_comment_failed">의견을 게시 할 수 없습니다</string>
-	<string name="reader_toast_err_reblog_failed">이 게시물을 리블로그 할 수 없습니다</string>
-	<string name="reader_toast_err_already_reblogged">이 게시물은 이미 리블로그되었습니다</string>
-	<string name="reader_toast_err_tag_exists">이미 이 태그를 팔로우 중입니다</string>
-	<string name="reader_toast_err_tag_invalid">유효한 태그가 없습니다</string>
-	<string name="reader_toast_err_share_intent">공유에 실패</string>
-	<string name="reader_toast_err_view_image">이미지를 표시 할 수 없습니다</string>
-	<string name="reader_toast_err_url_intent">%s를 열 수 없습니다</string>
-	<string name="reader_empty_popular_tags">인기 태그가 없습니다.</string>
-	<string name="connecting_wpcom">dg1s.hs.kr에 연결 중</string>
+<string name="connecting_wpcom">dg1s.hs.kr에 연결 중</string>
 	<string name="username_invalid">잘못된 사용자 이름</string>
 	<string name="limit_reached">한도에 도달했습니다. 1분 후에 다시 시도해 수 있습니다. 이전에 로그인을 시도하면 제한 해제까지의 시간이 더 길어집니다. 오류라고 생각되면 지원에 문의하십시오.</string>
 	<string name="nux_tutorial_get_started_title">시작 하자</string>
