@@ -23,7 +23,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -38,13 +37,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -66,6 +65,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 
@@ -85,28 +85,45 @@ public class DistributionActivity extends BWActionBarActivity
 
     private static final LatLng LOCATION_DEFAULT = new LatLng(35.886826, 128.721226);
     private static final LatLng DG1S = new LatLng(35.886545, 128.722626);
-
-    private GoogleMap mMap;
-    private LocationClient mLocationClient;
-
-    private Marker mDG1S;
-    private Marker mUser;
-
-    private final List<Marker> mDistributionStats = new ArrayList<Marker>();
-    private final List<MarkerOptions> mMarkerOptions = new ArrayList<MarkerOptions>();
-
-    private boolean loadedMarkers = false;
-
-    private TextView mTopText;
-    SeekBar mRotationBar;
-    private CheckBox mFlatBox;
-
     // These settings are the same as the settings for the map. They will in fact give you updates
     // at the maximal rates currently possible.
     private static final LocationRequest REQUEST = LocationRequest.create()
             .setInterval(5000)         // 5 seconds
             .setFastestInterval(16)    // 16ms = 60fps
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    private final List<Marker> mDistributionStats = new ArrayList<Marker>();
+    private final List<MarkerOptions> mMarkerOptions = new ArrayList<MarkerOptions>();
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            if (message.what == 573) {
+                loadMarkers(mMarkerOptions);
+                if (getApplicationContext() != null) {
+                    Toast.makeText(getApplicationContext(), "Loaded locations.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            if (message.getData().getStringArrayList("position") != null) {
+                List<String> mImport = message.getData().getStringArrayList("position");
+                Log.d("Handler", "Message received and initializing");
+                mMarkerOptions.add(new MarkerOptions()
+                                .position(new LatLng(
+                                        Double.parseDouble(mImport.get(1)),
+                                        Double.parseDouble(mImport.get(2))))
+                                .title(mImport.get(0))
+                                .icon(BitmapDescriptorFactory.defaultMarker(getHue(mImport.get(3))))
+                );
+                Log.d("Marker", "Added Marker : " + mImport.get(0) + " @" + mImport.get(1) + ", " + mImport.get(2));
+            }
+        }
+    };
+    SeekBar mRotationBar;
+    private GoogleMap mMap;
+    private LocationClient mLocationClient;
+    private Marker mDG1S;
+    private Marker mUser;
+    private boolean loadedMarkers = false;
+    private TextView mTopText;
+    private CheckBox mFlatBox;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -166,80 +183,6 @@ public class DistributionActivity extends BWActionBarActivity
         // Do nothing
     }
 
-    /**
-     * Demonstrates customizing the info window and/or its contents.
-     */
-    class CustomInfoWindowAdapter implements InfoWindowAdapter {
-        private final RadioGroup mOptions;
-
-        // These a both viewgroups containing an ImageView with id "badge" and two TextViews with id
-        // "title" and "snippet".
-        private final View mWindow;
-        private final View mContents;
-
-        CustomInfoWindowAdapter() {
-            mWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-            mContents = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
-            mOptions = (RadioGroup) findViewById(R.id.custom_info_window_options);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_window) {
-                // This means that getInfoContents will be called.
-                return null;
-            }
-            render(marker, mWindow);
-            return mWindow;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_contents) {
-                // This means that the default info contents will be used.
-                return null;
-            }
-            render(marker, mContents);
-            return mContents;
-        }
-
-        private void render(Marker marker, View view) {
-            int badge;
-            // Use the equals() method on a Marker to check for equals.  Do not use ==.
-            if (marker.equals(DG1S)) {
-                badge = R.drawable.badge_qld;
-            } else if (marker.equals(mUser)) {
-                badge = R.drawable.badge_victoria;
-            } else {
-                // Passing 0 to setImageResource will clear the image view.
-                badge = 0;
-            }
-            ((ImageView) view.findViewById(R.id.badge)).setImageResource(badge);
-
-            String title = marker.getTitle();
-            TextView titleUi = ((TextView) view.findViewById(R.id.title));
-            if (title != null) {
-                // Spannable string allows us to edit the formatting of the text.
-                SpannableString titleText = new SpannableString(title);
-                titleText.setSpan(new ForegroundColorSpan(Color.RED), 0, titleText.length(), 0);
-                titleUi.setText(titleText);
-            } else {
-                titleUi.setText("");
-            }
-
-            String snippet = marker.getSnippet();
-            TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
-            if (snippet != null && snippet.length() > 12) {
-                SpannableString snippetText = new SpannableString(snippet);
-                snippetText.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, 10, 0);
-                snippetText.setSpan(new ForegroundColorSpan(Color.BLUE), 12, snippet.length(), 0);
-                snippetUi.setText(snippetText);
-            } else {
-                snippetUi.setText("");
-            }
-        }
-    }
-
     private void setUpMapIfNeeded() {
         Log.d("Map", "Checking if needed");
         // Do a null check to confirm that we have not already instantiated the map.
@@ -264,28 +207,6 @@ public class DistributionActivity extends BWActionBarActivity
                     getApplicationContext(),
                     this,  // ConnectionCallbacks
                     this); // OnConnectionFailedListener
-        }
-    }
-
-    class updateMarkers extends Thread {
-        public void run() {
-            try {
-                Log.d("Network", "Initiating...");
-                URL url = new URL(getString(R.string.server_ip) + getString(R.string.server_subdomain)
-                        + getString(R.string.distribution_sample));
-                List<Message> messages = parseMarkers(bringSource(url));
-                Log.d("Network", "Received source");
-                if (messages == null) {
-                    Log.d("Network", "SOURCE IS NULL!");
-                } else for (Message message : messages) {
-                    handler.sendMessage(message);
-                    Log.d("Handler", "Message sent");
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -474,30 +395,6 @@ public class DistributionActivity extends BWActionBarActivity
         }
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message message) {
-            if (message.what == 573) {
-                loadMarkers(mMarkerOptions);
-                if (getApplicationContext() != null) {
-                    Toast.makeText(getApplicationContext(), "Loaded locations.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            if (message.getData().getStringArrayList("position") != null) {
-                List<String> mImport = message.getData().getStringArrayList("position");
-                Log.d("Handler", "Message received and initializing");
-                mMarkerOptions.add(new MarkerOptions()
-                                .position(new LatLng(
-                                        Double.parseDouble(mImport.get(1)),
-                                        Double.parseDouble(mImport.get(2))))
-                                .title(mImport.get(0))
-                                .icon(BitmapDescriptorFactory.defaultMarker(getHue(mImport.get(3))))
-                );
-                Log.d("Marker", "Added Marker : " + mImport.get(0) + " @" + mImport.get(1) + ", " + mImport.get(2));
-            }
-        }
-    };
-
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (!checkReady()) {
@@ -518,10 +415,6 @@ public class DistributionActivity extends BWActionBarActivity
     public void onStopTrackingTouch(SeekBar seekBar) {
         // Do nothing.
     }
-
-    //
-    // Marker related listeners.
-    //
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
@@ -566,6 +459,10 @@ public class DistributionActivity extends BWActionBarActivity
         Toast.makeText(this, "Click Info Window", Toast.LENGTH_SHORT).show();
     }
 
+    //
+    // Marker related listeners.
+    //
+
     @Override
     public void onMarkerDragStart(Marker marker) {
         mTopText.setText("onMarkerDragStart");
@@ -579,5 +476,101 @@ public class DistributionActivity extends BWActionBarActivity
     @Override
     public void onMarkerDrag(Marker marker) {
         mTopText.setText("onMarkerDrag.  Current Position: " + marker.getPosition());
+    }
+
+    /**
+     * Demonstrates customizing the info window and/or its contents.
+     */
+    class CustomInfoWindowAdapter implements InfoWindowAdapter {
+        private final RadioGroup mOptions;
+
+        // These a both viewgroups containing an ImageView with id "badge" and two TextViews with id
+        // "title" and "snippet".
+        private final View mWindow;
+        private final View mContents;
+
+        CustomInfoWindowAdapter() {
+            mWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+            mContents = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
+            mOptions = (RadioGroup) findViewById(R.id.custom_info_window_options);
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_window) {
+                // This means that getInfoContents will be called.
+                return null;
+            }
+            render(marker, mWindow);
+            return mWindow;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_contents) {
+                // This means that the default info contents will be used.
+                return null;
+            }
+            render(marker, mContents);
+            return mContents;
+        }
+
+        private void render(Marker marker, View view) {
+            int badge;
+            // Use the equals() method on a Marker to check for equals.  Do not use ==.
+            if (marker.equals(DG1S)) {
+                badge = R.drawable.badge_qld;
+            } else if (marker.equals(mUser)) {
+                badge = R.drawable.badge_victoria;
+            } else {
+                // Passing 0 to setImageResource will clear the image view.
+                badge = 0;
+            }
+            ((ImageView) view.findViewById(R.id.badge)).setImageResource(badge);
+
+            String title = marker.getTitle();
+            TextView titleUi = ((TextView) view.findViewById(R.id.title));
+            if (title != null) {
+                // Spannable string allows us to edit the formatting of the text.
+                SpannableString titleText = new SpannableString(title);
+                titleText.setSpan(new ForegroundColorSpan(Color.RED), 0, titleText.length(), 0);
+                titleUi.setText(titleText);
+            } else {
+                titleUi.setText("");
+            }
+
+            String snippet = marker.getSnippet();
+            TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
+            if (snippet != null && snippet.length() > 12) {
+                SpannableString snippetText = new SpannableString(snippet);
+                snippetText.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, 10, 0);
+                snippetText.setSpan(new ForegroundColorSpan(Color.BLUE), 12, snippet.length(), 0);
+                snippetUi.setText(snippetText);
+            } else {
+                snippetUi.setText("");
+            }
+        }
+    }
+
+    class updateMarkers extends Thread {
+        public void run() {
+            try {
+                Log.d("Network", "Initiating...");
+                URL url = new URL(getString(R.string.server_ip) + getString(R.string.server_subdomain)
+                        + getString(R.string.distribution_sample));
+                List<Message> messages = parseMarkers(bringSource(url));
+                Log.d("Network", "Received source");
+                if (messages == null) {
+                    Log.d("Network", "SOURCE IS NULL!");
+                } else for (Message message : messages) {
+                    handler.sendMessage(message);
+                    Log.d("Handler", "Message sent");
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

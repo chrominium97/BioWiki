@@ -10,16 +10,23 @@ import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import kr.kdev.dg1s.biowiki.models.CategoryNode;
-import kr.kdev.dg1s.biowiki.R;
-
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.CategoryNode;
 
 
 public class ParentCategorySpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
     int mResourceId;
     List<CategoryNode> mObjects;
     Context mContext;
+
+    public ParentCategorySpinnerAdapter(Context context, int resource, List<CategoryNode> objects) {
+        super();
+        mContext = context;
+        mObjects = objects;
+        mResourceId = resource;
+    }
 
     public int getCount() {
         return mObjects.size();
@@ -31,13 +38,6 @@ public class ParentCategorySpinnerAdapter extends BaseAdapter implements Spinner
 
     public long getItemId(int position) {
         return position;
-    }
-
-    public ParentCategorySpinnerAdapter(Context context, int resource, List<CategoryNode> objects) {
-        super();
-        mContext = context;
-        mObjects = objects;
-        mResourceId = resource;
     }
 
     @Override

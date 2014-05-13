@@ -22,41 +22,48 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gcm.GCMRegistrar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import kr.kdev.dg1s.biowiki.datasets.ReaderDatabase;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.Post;
-import kr.kdev.dg1s.biowiki.networking.OAuthAuthenticator;
-import kr.kdev.dg1s.biowiki.networking.OAuthAuthenticatorFactory;
-import kr.kdev.dg1s.biowiki.networking.RestClientUtils;
-import kr.kdev.dg1s.biowiki.ui.notifications.NotificationUtils;
-import kr.kdev.dg1s.biowiki.ui.prefs.UserPrefs;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
-import kr.kdev.dg1s.biowiki.util.BitmapLruCache;
-import kr.kdev.dg1s.biowiki.util.VolleyUtils;
-
 import org.wordpress.passcodelock.AppLockManager;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class BioWiki extends Application {
-    public static final String ACCESS_TOKEN_PREFERENCE="wp_pref_wpcom_access_token";
-    public static final String WPCOM_USERNAME_PREFERENCE="wp_pref_wpcom_username";
-    public static final String WPCOM_PASSWORD_PREFERENCE="wp_pref_wpcom_password";
-    private static final String APP_ID_PROPERTY="oauth.app_id";
-    private static final String APP_SECRET_PROPERTY="oauth.app_secret";
-    private static final String APP_REDIRECT_PROPERTY="oauth.redirect_uri";
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.networking.OAuthAuthenticator;
+import kr.kdev.dg1s.biowiki.networking.OAuthAuthenticatorFactory;
+import kr.kdev.dg1s.biowiki.networking.RestClientUtils;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.BitmapLruCache;
+import kr.kdev.dg1s.biowiki.util.VolleyUtils;
 
+public class BioWiki extends Application {
+    public static final String ACCESS_TOKEN_PREFERENCE = "wp_pref_wpcom_access_token";
+    public static final String WPCOM_USERNAME_PREFERENCE = "wp_pref_wpcom_username";
+    public static final String WPCOM_PASSWORD_PREFERENCE = "wp_pref_wpcom_password";
+    public static final String TAG = "BioWiki";
+    public static final String BROADCAST_ACTION_SIGNOUT = "wp-signout";
+    public static final String BROADCAST_ACTION_XMLRPC_INVALID_CREDENTIALS = "XMLRPC_INVALID_CREDENTIALS";
+    public static final String BROADCAST_ACTION_XMLRPC_INVALID_SSL_CERTIFICATE = "INVALID_SSL_CERTIFICATE";
+    public static final String BROADCAST_ACTION_XMLRPC_TWO_FA_AUTH = "TWO_FA_AUTH";
+    public static final String BROADCAST_ACTION_XMLRPC_LOGIN_LIMIT = "LOGIN_LIMIT";
+    private static final String APP_ID_PROPERTY = "oauth.app_id";
+    private static final String APP_SECRET_PROPERTY = "oauth.app_secret";
+    private static final String APP_REDIRECT_PROPERTY = "oauth.redirect_uri";
+    /**
+     * User-Agent string when making HTTP connections, for both API traffic and WebViews.
+     * Follows the format detailed at http://tools.ietf.org/html/rfc2616#section-14.43,
+     * ie: "AppName/AppVersion (OS Version; Locale; Device)"
+     * "wp-android/2.6.4 (Android 4.3; en_US; samsung GT-I9505/jfltezh)"
+     * "wp-android/2.6.3 (Android 4.4.2; en_US; LGE Nexus 5/hammerhead)"
+     * Note that app versions prior to 2.7 simply used "wp-android" as the user agent
+     */
+    private static final String USER_AGENT_APPNAME = "wp-android";
     public static String versionName;
     public static Blog currentBlog;
     public static Post currentPost;
@@ -68,15 +75,9 @@ public class BioWiki extends Application {
     public static RestClientUtils mRestClientUtils;
     public static RequestQueue requestQueue;
     public static ImageLoader imageLoader;
-    public static final String TAG = "BioWiki";
-    public static final String BROADCAST_ACTION_SIGNOUT = "wp-signout";
-    public static final String BROADCAST_ACTION_XMLRPC_INVALID_CREDENTIALS = "XMLRPC_INVALID_CREDENTIALS";
-    public static final String BROADCAST_ACTION_XMLRPC_INVALID_SSL_CERTIFICATE = "INVALID_SSL_CERTIFICATE";
-    public static final String BROADCAST_ACTION_XMLRPC_TWO_FA_AUTH = "TWO_FA_AUTH";
-    public static final String BROADCAST_ACTION_XMLRPC_LOGIN_LIMIT = "LOGIN_LIMIT";
-
     private static Context mContext;
     private static BitmapLruCache mBitmapCache;
+    private static String mUserAgent;
 
     public static BitmapLruCache getBitmapCache() {
         if (mBitmapCache == null) {
@@ -89,90 +90,11 @@ public class BioWiki extends Application {
         return mBitmapCache;
     }
 
-    @Override
-    public void onCreate() {
-        // Enable log recording
-        AppLog.enableRecording(true);
-
-        versionName = getVersionName(this);
-        initWpDb();
-        //wpStatsDB = new BioWikiStatsDB(this);
-        mContext = this;
-
-        // Volley networking setup
-        setupVolleyQueue();
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        if (settings.getInt("wp_pref_last_activity", -1) >= 0) {
-            shouldRestoreSelectedActivity = true;
-        }
-        //registerForCloudMessaging(this);
-
-        // Uncomment this line if you want to test the app locking feature
-        AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
-        if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
-            AppLockManager.getInstance().getCurrentAppLock().setDisabledActivities(
-                    new String[]{"kr.kdev.dg1s.biowiki.ui.ShareIntentReceiverActivity"});
-        }
-
-        /*
-        BWMobileStatsUtil.initialize();
-        BWMobileStatsUtil.trackEventForSelfHostedAndWPCom(BWMobileStatsUtil.StatsEventAppOpened);
-        */
-
-        super.onCreate();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            PushNotificationsBackendMonitor pnBackendMponitor = new PushNotificationsBackendMonitor();
-            registerComponentCallbacks(pnBackendMponitor);
-            registerActivityLifecycleCallbacks(pnBackendMponitor);
-         }
-    }
-
     public static void setupVolleyQueue() {
         requestQueue = Volley.newRequestQueue(mContext, VolleyUtils.getHTTPClientStack(mContext));
         imageLoader = new ImageLoader(requestQueue, getBitmapCache());
         VolleyLog.setTag(TAG);
         imageLoader.setBatchedResponseDelay(0);
-    }
-
-    private void initWpDb() {
-        if (!createAndVerifyWpDb()) {
-            AppLog.e(AppLog.T.DB, "Invalid database, sign out user and delete database");
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-            currentBlog = null;
-            /*
-            editor.remove(BioWiki.WPCOM_USERNAME_PREFERENCE);
-            editor.remove(BioWiki.WPCOM_PASSWORD_PREFERENCE);
-            editor.remove(BioWiki.ACCESS_TOKEN_PREFERENCE);
-            */
-            editor.commit();
-            if (wpDB != null) {
-                wpDB.updateLastBlogId(-1);
-                wpDB.deleteDatabase(this);
-            }
-            wpDB = new BioWikiDB(this);
-        }
-    }
-
-    private boolean createAndVerifyWpDb() {
-        try {
-            wpDB = new BioWikiDB(this);
-            // verify account data
-            List<Map<String, Object>> accounts = wpDB.getAllAccounts();
-            for (Map<String, Object> account : accounts) {
-                if (account == null || account.get("blogName") == null || account.get("url") == null) {
-                    return false;
-                }
-            }
-            return true;
-        } catch (SQLiteException sqle) {
-            AppLog.e(AppLog.T.DB, sqle);
-            return false;
-        } catch (RuntimeException re) {
-            AppLog.e(AppLog.T.DB, re);
-            return false;
-        }
     }
 
     public static Context getContext() {
@@ -213,32 +135,6 @@ public class BioWiki extends Application {
                 .build());
 
         AppLog.w(AppLog.T.UTILS, "Strict mode enabled");
-    }
-/*
-    public static void registerForCloudMessaging(Context ctx) {
-        if (BioWiki.hasValidWPComCredentials(ctx)) {
-            String token = null;
-            try {
-                // Register for Google Cloud Messaging
-                GCMRegistrar.checkDevice(ctx);
-                GCMRegistrar.checkManifest(ctx);
-                token = GCMRegistrar.getRegistrationId(ctx);
-                String gcmId = Config.GCM_ID;
-                if (gcmId != null && token.equals("")) {
-                    GCMRegistrar.register(ctx, gcmId);
-                } else {
-                    // Send the token to WP.com in case it was invalidated
-                    NotificationUtils.registerDeviceForPushNotifications(ctx, token);
-                    AppLog.v(AppLog.T.NOTIFS, "Already registered for GCM");
-                }
-            } catch (Exception e) {
-                AppLog.e(AppLog.T.NOTIFS, "Could not register for GCM: " + e.getMessage());
-            }
-        }
-    }
-*/
-    public interface OnPostUploadedListener {
-        public abstract void OnPostUploaded(String postId);
     }
 
     public static String getVersionName(Context context) {
@@ -365,7 +261,6 @@ public class BioWiki extends Application {
         return username != null && password != null;
     }
     */
-
     public static boolean isSignedIn(Context context) {
         /*
         if (BioWiki.hasValidWPComCredentials(context)) {
@@ -374,19 +269,6 @@ public class BioWiki extends Application {
         */
         return BioWiki.wpDB.getNumVisibleAccounts() != 0;
     }
-
-
-    /**
-     * Returns WordPress.com Auth Token
-     *
-     * @return String - The wpcom Auth token, or null if not authenticated.
-     */
-    /*
-    public static String getWPComAuthToken(Context context) {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        return settings.getString(BioWiki.ACCESS_TOKEN_PREFERENCE, null);
-    }
-    */
 
     /**
      * Sign out from all accounts by clearing out the password, which will require user to sign in
@@ -413,6 +295,60 @@ public class BioWiki extends Application {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(BROADCAST_ACTION_SIGNOUT);
         context.sendBroadcast(broadcastIntent);
+    }
+
+    public static String getLoginUrl(Blog blog) {
+        String loginURL = null;
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<?, ?>>() {
+        }.getType();
+        Map<?, ?> blogOptions = gson.fromJson(blog.getBlogOptions(), type);
+        if (blogOptions != null) {
+            Map<?, ?> homeURLMap = (Map<?, ?>) blogOptions.get("login_url");
+            if (homeURLMap != null)
+                loginURL = homeURLMap.get("value").toString();
+        }
+        // Try to guess the login URL if blogOptions is null (blog not added to the app), or WP version is < 3.6
+        if (loginURL == null) {
+            if (blog.getUrl().lastIndexOf("/") != -1) {
+                return blog.getUrl().substring(0, blog.getUrl().lastIndexOf("/"))
+                        + "/wp-login.php";
+            } else {
+                return blog.getUrl().replace("xmlrpc.php", "wp-login.php");
+            }
+        }
+
+        return loginURL;
+    }
+
+
+    /**
+     * Returns WordPress.com Auth Token
+     *
+     * @return String - The wpcom Auth token, or null if not authenticated.
+     */
+    /*
+    public static String getWPComAuthToken(Context context) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        return settings.getString(BioWiki.ACCESS_TOKEN_PREFERENCE, null);
+    }
+    */
+    public static String getUserAgent() {
+        if (mUserAgent == null) {
+            PackageInfo pkgInfo;
+            try {
+                String pkgName = getContext().getApplicationInfo().packageName;
+                pkgInfo = getContext().getPackageManager().getPackageInfo(pkgName, 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                return USER_AGENT_APPNAME;
+            }
+
+            mUserAgent = USER_AGENT_APPNAME + "/" + pkgInfo.versionName
+                    + " (Android " + Build.VERSION.RELEASE + "; "
+                    + Locale.getDefault().toString() + "; "
+                    + Build.MANUFACTURER + " " + Build.MODEL + "/" + Build.PRODUCT + ")";
+        }
+        return mUserAgent;
     }
 /*
     public static void removeWpComUserRelatedData(Context context) {
@@ -446,56 +382,110 @@ public class BioWiki extends Application {
     }
 */
 
-    public static String getLoginUrl(Blog blog) {
-        String loginURL = null;
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<?, ?>>() {
-        }.getType();
-        Map<?, ?> blogOptions = gson.fromJson(blog.getBlogOptions(), type);
-        if (blogOptions != null) {
-            Map<?, ?> homeURLMap = (Map<?, ?>) blogOptions.get("login_url");
-            if (homeURLMap != null)
-                loginURL = homeURLMap.get("value").toString();
+    @Override
+    public void onCreate() {
+        // Enable log recording
+        AppLog.enableRecording(true);
+
+        versionName = getVersionName(this);
+        initWpDb();
+        //wpStatsDB = new BioWikiStatsDB(this);
+        mContext = this;
+
+        // Volley networking setup
+        setupVolleyQueue();
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if (settings.getInt("wp_pref_last_activity", -1) >= 0) {
+            shouldRestoreSelectedActivity = true;
         }
-        // Try to guess the login URL if blogOptions is null (blog not added to the app), or WP version is < 3.6
-        if (loginURL == null) {
-            if (blog.getUrl().lastIndexOf("/") != -1) {
-                return blog.getUrl().substring(0, blog.getUrl().lastIndexOf("/"))
-                        + "/wp-login.php";
-            } else {
-                return blog.getUrl().replace("xmlrpc.php", "wp-login.php");
-            }
+        //registerForCloudMessaging(this);
+
+        // Uncomment this line if you want to test the app locking feature
+        AppLockManager.getInstance().enableDefaultAppLockIfAvailable(this);
+        if (AppLockManager.getInstance().isAppLockFeatureEnabled()) {
+            AppLockManager.getInstance().getCurrentAppLock().setDisabledActivities(
+                    new String[]{"kr.kdev.dg1s.biowiki.ui.ShareIntentReceiverActivity"});
         }
 
-        return loginURL;
+        /*
+        BWMobileStatsUtil.initialize();
+        BWMobileStatsUtil.trackEventForSelfHostedAndWPCom(BWMobileStatsUtil.StatsEventAppOpened);
+        */
+
+        super.onCreate();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            PushNotificationsBackendMonitor pnBackendMponitor = new PushNotificationsBackendMonitor();
+            registerComponentCallbacks(pnBackendMponitor);
+            registerActivityLifecycleCallbacks(pnBackendMponitor);
+        }
     }
 
-    /**
-     * User-Agent string when making HTTP connections, for both API traffic and WebViews.
-     * Follows the format detailed at http://tools.ietf.org/html/rfc2616#section-14.43,
-     * ie: "AppName/AppVersion (OS Version; Locale; Device)"
-     *    "wp-android/2.6.4 (Android 4.3; en_US; samsung GT-I9505/jfltezh)"
-     *    "wp-android/2.6.3 (Android 4.4.2; en_US; LGE Nexus 5/hammerhead)"
-     * Note that app versions prior to 2.7 simply used "wp-android" as the user agent
-     **/
-    private static final String USER_AGENT_APPNAME = "wp-android";
-    private static String mUserAgent;
-    public static String getUserAgent() {
-        if (mUserAgent == null) {
-            PackageInfo pkgInfo;
-            try {
-                String pkgName = getContext().getApplicationInfo().packageName;
-                pkgInfo = getContext().getPackageManager().getPackageInfo(pkgName, 0);
-            } catch (PackageManager.NameNotFoundException e) {
-                return USER_AGENT_APPNAME;
+    private void initWpDb() {
+        if (!createAndVerifyWpDb()) {
+            AppLog.e(AppLog.T.DB, "Invalid database, sign out user and delete database");
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            currentBlog = null;
+            /*
+            editor.remove(BioWiki.WPCOM_USERNAME_PREFERENCE);
+            editor.remove(BioWiki.WPCOM_PASSWORD_PREFERENCE);
+            editor.remove(BioWiki.ACCESS_TOKEN_PREFERENCE);
+            */
+            editor.commit();
+            if (wpDB != null) {
+                wpDB.updateLastBlogId(-1);
+                wpDB.deleteDatabase(this);
             }
-
-            mUserAgent = USER_AGENT_APPNAME + "/" + pkgInfo.versionName
-                       + " (Android " + Build.VERSION.RELEASE + "; "
-                       + Locale.getDefault().toString() + "; "
-                       + Build.MANUFACTURER + " " + Build.MODEL + "/" + Build.PRODUCT + ")";
+            wpDB = new BioWikiDB(this);
         }
-        return mUserAgent;
+    }
+
+    private boolean createAndVerifyWpDb() {
+        try {
+            wpDB = new BioWikiDB(this);
+            // verify account data
+            List<Map<String, Object>> accounts = wpDB.getAllAccounts();
+            for (Map<String, Object> account : accounts) {
+                if (account == null || account.get("blogName") == null || account.get("url") == null) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (SQLiteException sqle) {
+            AppLog.e(AppLog.T.DB, sqle);
+            return false;
+        } catch (RuntimeException re) {
+            AppLog.e(AppLog.T.DB, re);
+            return false;
+        }
+    }
+
+    /*
+        public static void registerForCloudMessaging(Context ctx) {
+            if (BioWiki.hasValidWPComCredentials(ctx)) {
+                String token = null;
+                try {
+                    // Register for Google Cloud Messaging
+                    GCMRegistrar.checkDevice(ctx);
+                    GCMRegistrar.checkManifest(ctx);
+                    token = GCMRegistrar.getRegistrationId(ctx);
+                    String gcmId = Config.GCM_ID;
+                    if (gcmId != null && token.equals("")) {
+                        GCMRegistrar.register(ctx, gcmId);
+                    } else {
+                        // Send the token to WP.com in case it was invalidated
+                        NotificationUtils.registerDeviceForPushNotifications(ctx, token);
+                        AppLog.v(AppLog.T.NOTIFS, "Already registered for GCM");
+                    }
+                } catch (Exception e) {
+                    AppLog.e(AppLog.T.NOTIFS, "Could not register for GCM: " + e.getMessage());
+                }
+            }
+        }
+    */
+    public interface OnPostUploadedListener {
+        public abstract void OnPostUploaded(String postId);
     }
 
     /*
@@ -512,9 +502,8 @@ public class BioWiki extends Application {
     private class PushNotificationsBackendMonitor implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
 
         private final int DEFAULT_TIMEOUT = 2 * 60; //2 minutes
-        private Date lastPingDate;
-
         boolean background = false;
+        private Date lastPingDate;
 
         @Override
         public void onConfigurationChanged(final Configuration newConfig) {
@@ -540,32 +529,33 @@ public class BioWiki extends Application {
             }
 
         }
-/*
-        private boolean mustPingPushNotificationsBackend() {
 
-            if (BioWiki.hasValidWPComCredentials(mContext) == false)
-                return false;
+        /*
+                private boolean mustPingPushNotificationsBackend() {
 
-            if (background == false)
-                return false;
+                    if (BioWiki.hasValidWPComCredentials(mContext) == false)
+                        return false;
 
-            background = false;
+                    if (background == false)
+                        return false;
 
-            if (lastPingDate == null)
-                return false; //first startup
+                    background = false;
 
-            Date now = new Date();
-            long nowInMilliseconds = now.getTime();
-            long lastPingDateInMilliseconds = lastPingDate.getTime();
-            int secondsPassed = (int) (nowInMilliseconds - lastPingDateInMilliseconds)/(1000);
-            if (secondsPassed >= DEFAULT_TIMEOUT) {
-                lastPingDate = now;
-                return true;
-            }
+                    if (lastPingDate == null)
+                        return false; //first startup
 
-            return false;
-        }
-*/
+                    Date now = new Date();
+                    long nowInMilliseconds = now.getTime();
+                    long lastPingDateInMilliseconds = lastPingDate.getTime();
+                    int secondsPassed = (int) (nowInMilliseconds - lastPingDateInMilliseconds)/(1000);
+                    if (secondsPassed >= DEFAULT_TIMEOUT) {
+                        lastPingDate = now;
+                        return true;
+                    }
+
+                    return false;
+                }
+        */
         @Override
         public void onActivityResumed(Activity arg0) {
             /*
@@ -608,6 +598,7 @@ public class BioWiki extends Application {
         public void onActivityPaused(Activity arg0) {
             lastPingDate = new Date();
         }
+
         @Override
         public void onActivitySaveInstanceState(Activity arg0, Bundle arg1) {
         }

@@ -19,7 +19,7 @@ public class EditTextUtils {
      * returns text string from passed EditText
      */
     public static String getText(EditText edit) {
-        if (edit.getText()==null)
+        if (edit.getText() == null)
             return "";
         return edit.getText().toString();
     }
@@ -28,7 +28,7 @@ public class EditTextUtils {
      * moves caret to end of text
      */
     public static void moveToEnd(EditText edit) {
-        if (edit.getText()==null)
+        if (edit.getText() == null)
             return;
         edit.setSelection(edit.getText().toString().length());
     }
@@ -44,11 +44,11 @@ public class EditTextUtils {
      * hide the soft keyboard for the passed EditText
       */
     public static void hideSoftInput(EditText edit) {
-        if (edit==null)
+        if (edit == null)
             return;
         Context context = edit.getContext();
-        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm!=null)
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null)
             imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
     }
 

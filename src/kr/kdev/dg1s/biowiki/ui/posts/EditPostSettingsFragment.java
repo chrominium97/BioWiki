@@ -37,16 +37,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
-
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Post;
-import kr.kdev.dg1s.biowiki.models.PostStatus;
-import kr.kdev.dg1s.biowiki.util.MediaUtils;
-import kr.kdev.dg1s.biowiki.util.JSONUtil;
-import kr.kdev.dg1s.biowiki.util.LocationHelper;
 import org.xmlrpc.android.ApiHelper;
 
 import java.io.IOException;
@@ -59,6 +49,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.models.PostStatus;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
+import kr.kdev.dg1s.biowiki.util.JSONUtil;
+import kr.kdev.dg1s.biowiki.util.LocationHelper;
+import kr.kdev.dg1s.biowiki.util.MediaUtils;
 
 /**
  * Created by dan on 11/20/13.
@@ -87,8 +87,19 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
 
     private String[] mPostFormats;
     private String[] mPostFormatTitles;
-
-    private static enum LocationStatus {NONE, FOUND, NOT_FOUND, SEARCHING}
+    private LocationHelper.LocationResult locationResult = new LocationHelper.LocationResult() {
+        @Override
+        public void gotLocation(final Location location) {
+            if (getActivity() == null)
+                return;
+            // note that location will be null when requesting location fails
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    setLocation(location);
+                }
+            });
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,7 +150,7 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
             mPostFormatTitles = getResources().getStringArray(R.array.post_formats_array);
             mPostFormats =
                     new String[]{"aside", "audio", "chat", "gallery", "image", "link", "quote", "standard", "status",
-                                 "video"};
+                            "video"};
             if (BioWiki.getCurrentBlog().getPostFormats().equals("")) {
                 List<Object> args = new Vector<Object>();
                 args.add(BioWiki.getCurrentBlog());
@@ -148,7 +159,8 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
             } else {
                 try {
                     Gson gson = new Gson();
-                    Type type = new TypeToken<Map<String, String>>() {}.getType();
+                    Type type = new TypeToken<Map<String, String>>() {
+                    }.getType();
                     Map<String, String> jsonPostFormats = gson.fromJson(BioWiki.getCurrentBlog().getPostFormats(),
                             type);
                     mPostFormats = new String[jsonPostFormats.size()];
@@ -376,7 +388,8 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
                                 mIsCustomPubDate = true;
                                 mPubDateText.setText(R.string.immediately);
                             }
-                        })
+                        }
+                )
                 .setNegativeButton(android.R.string.cancel,
                         new DialogInterface.OnClickListener() {
 
@@ -384,7 +397,8 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
                             public void onClick(DialogInterface dialog,
                                                 int which) {
                             }
-                        }).setView(datePicker).show();
+                        }
+                ).setView(datePicker).show();
 
     }
 
@@ -428,7 +442,8 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
                             public void onClick(DialogInterface dialog,
                                                 int which) {
                             }
-                        }).setView(timePicker).show();
+                        }
+                ).setView(timePicker).show();
     }
 
     public void savePostSettings() {
@@ -502,87 +517,6 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
 
         BioWiki.wpDB.updatePost(post);
     }
-
-    /**
-     * Location methods
-     */
-
-    /*
-     * retrieves and displays the friendly address for a lat/long location
-     */
-    private class GetAddressTask extends AsyncTask<Double, Void, String> {
-        double latitude;
-        double longitude;
-
-        @Override
-        protected String doInBackground(Double... args) {
-            // args will be the latitude, longitude to look up
-            latitude = args[0];
-            longitude = args[1];
-
-            // first make sure a Geocoder service exists on this device (requires API 9)
-            if (!Geocoder.isPresent())
-                return null;
-
-            Geocoder gcd;
-            try {
-                gcd = new Geocoder(getActivity(), Locale.getDefault());
-            } catch (NullPointerException cannotIstantiateEx) {
-                AppLog.e(AppLog.T.EDITOR, "Cannot Istantiate Geocoder", cannotIstantiateEx);
-                return null;
-            }
-
-            List<Address> addresses;
-            try {
-                addresses = gcd.getFromLocation(latitude, longitude, 1);
-
-                // addresses may be null or empty if network isn't connected
-                if (addresses == null || addresses.size() == 0)
-                    return null;
-
-                String locality = "", adminArea = "", country = "";
-                if (addresses.get(0).getLocality() != null)
-                    locality = addresses.get(0).getLocality();
-                if (addresses.get(0).getAdminArea() != null)
-                    adminArea = addresses.get(0).getAdminArea();
-                if (addresses.get(0).getCountryName() != null)
-                    country = addresses.get(0).getCountryName();
-
-                return ((locality.equals("")) ? locality : locality + ", ")
-                        + ((adminArea.equals("")) ? adminArea : adminArea + " ") + country;
-            } catch (IOException e) {
-                // may get "Unable to parse response from server" IOException here if Geocoder
-                // service is hit too frequently
-                AppLog.e(AppLog.T.EDITOR, "Unable to parse response from server. Is Geocoder service hitting the server too frequently?", e);
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String result) {
-            setLocationStatus(LocationStatus.FOUND);
-            if (result == null || result.isEmpty()) {
-                // show lat/long when Geocoder fails (ugly, but better than not showing anything
-                // or showing an error since the location has been assigned to the post already)
-                mLocationText.setText(Double.toString(latitude) + ", " + Double.toString(longitude));
-            } else {
-                mLocationText.setText(result);
-            }
-        }
-    }
-
-    private LocationHelper.LocationResult locationResult = new LocationHelper.LocationResult() {
-        @Override
-        public void gotLocation(final Location location) {
-            if (getActivity() == null)
-                return;
-            // note that location will be null when requesting location fails
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    setLocation(location);
-                }
-            });
-        }
-    };
 
     /*
      * called when activity is created to initialize the location provider, show views related
@@ -753,6 +687,75 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
         if (selectCategory != null) {
             selectCategory.setOnClickListener(this);
             mSectionCategories.addView(selectCategory);
+        }
+    }
+
+    private static enum LocationStatus {NONE, FOUND, NOT_FOUND, SEARCHING}
+
+    /**
+     * Location methods
+     */
+
+    /*
+     * retrieves and displays the friendly address for a lat/long location
+     */
+    private class GetAddressTask extends AsyncTask<Double, Void, String> {
+        double latitude;
+        double longitude;
+
+        @Override
+        protected String doInBackground(Double... args) {
+            // args will be the latitude, longitude to look up
+            latitude = args[0];
+            longitude = args[1];
+
+            // first make sure a Geocoder service exists on this device (requires API 9)
+            if (!Geocoder.isPresent())
+                return null;
+
+            Geocoder gcd;
+            try {
+                gcd = new Geocoder(getActivity(), Locale.getDefault());
+            } catch (NullPointerException cannotIstantiateEx) {
+                AppLog.e(AppLog.T.EDITOR, "Cannot Istantiate Geocoder", cannotIstantiateEx);
+                return null;
+            }
+
+            List<Address> addresses;
+            try {
+                addresses = gcd.getFromLocation(latitude, longitude, 1);
+
+                // addresses may be null or empty if network isn't connected
+                if (addresses == null || addresses.size() == 0)
+                    return null;
+
+                String locality = "", adminArea = "", country = "";
+                if (addresses.get(0).getLocality() != null)
+                    locality = addresses.get(0).getLocality();
+                if (addresses.get(0).getAdminArea() != null)
+                    adminArea = addresses.get(0).getAdminArea();
+                if (addresses.get(0).getCountryName() != null)
+                    country = addresses.get(0).getCountryName();
+
+                return ((locality.equals("")) ? locality : locality + ", ")
+                        + ((adminArea.equals("")) ? adminArea : adminArea + " ") + country;
+            } catch (IOException e) {
+                // may get "Unable to parse response from server" IOException here if Geocoder
+                // service is hit too frequently
+                AppLog.e(AppLog.T.EDITOR, "Unable to parse response from server. Is Geocoder service hitting the server too frequently?", e);
+                return null;
+            }
+        }
+
+        protected void onPostExecute(String result) {
+            setLocationStatus(LocationStatus.FOUND);
+            if (result == null || result.isEmpty()) {
+                // show lat/long when Geocoder fails (ugly, but better than not showing anything
+                // or showing an error since the location has been assigned to the post already)
+                mLocationText.setText(Double.toString(latitude) + ", " + Double.toString(longitude));
+            } else {
+                mLocationText.setText(result);
+            }
         }
     }
 }

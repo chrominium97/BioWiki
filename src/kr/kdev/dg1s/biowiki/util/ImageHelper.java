@@ -31,13 +31,13 @@ import java.lang.ref.WeakReference;
 
 public class ImageHelper {
 
-    public static int[] getImageSize(Uri uri, Context context){
+    public static int[] getImageSize(Uri uri, Context context) {
         String path = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
 
         if (uri.toString().contains("content:")) {
-            String[] projection = new String[] { Images.Media._ID, Images.Media.DATA };
+            String[] projection = new String[]{Images.Media._ID, Images.Media.DATA};
             Cursor cur = context.getContentResolver().query(uri, projection, null, null, null);
             if (cur != null) {
                 if (cur.moveToFirst()) {
@@ -58,61 +58,6 @@ public class ImageHelper {
         int imageHeight = options.outHeight;
         int imageWidth = options.outWidth;
         return new int[]{imageWidth, imageHeight};
-    }
-
-    // Read the orientation from ContentResolver. If it fails, read from EXIF.
-    public int getImageOrientation(Context ctx, String filePath) {
-        Uri curStream;
-        int orientation = 0;
-
-        if (!filePath.contains("content://"))
-            curStream = Uri.parse("content://media" + filePath);
-        else
-            curStream = Uri.parse(filePath);
-
-        try {
-            Cursor cur = ctx.getContentResolver().query(curStream, new String[]{Images.Media.ORIENTATION}, null, null, null);
-            if (cur != null) {
-                if (cur.moveToFirst()) {
-                    orientation = cur.getInt(cur.getColumnIndex(Images.Media.ORIENTATION));
-                }
-                cur.close();
-            }
-        } catch (Exception errReadingContentResolver) {
-            AppLog.e(AppLog.T.UTILS, errReadingContentResolver);
-        }
-
-        if (orientation == 0) {
-            orientation = getExifOrientation(filePath);
-        }
-
-        return orientation;
-    }
-
-
-    public int getExifOrientation(String path) {
-        ExifInterface exif;
-        try {
-            exif = new ExifInterface(path);
-        } catch (IOException e) {
-            AppLog.e(AppLog.T.UTILS, e);
-            return 0;
-        }
-
-        int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
-
-        switch (exifOrientation) {
-            case ExifInterface.ORIENTATION_NORMAL:
-                return 0;
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                return 90;
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                return 180;
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                return 270;
-            default:
-                return 0;
-        }
     }
 
     public static Bitmap downloadBitmap(String url) {
@@ -150,20 +95,22 @@ public class ImageHelper {
         }
         return null;
     }
-    
-    /** From http://developer.android.com/training/displaying-bitmaps/load-bitmap.html **/
+
+    /**
+     * From http://developer.android.com/training/displaying-bitmaps/load-bitmap.html *
+     */
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
-    
+
         if (height > reqHeight || width > reqWidth) {
-    
+
             // Calculate ratios of height and width to requested height and width
             final int heightRatio = Math.round((float) height / (float) reqHeight);
             final int widthRatio = Math.round((float) width / (float) reqWidth);
-    
+
             // Choose the smallest ratio as inSampleSize value, this will guarantee
             // a final image with both dimensions larger than or equal to the
             // requested height and width.
@@ -173,91 +120,61 @@ public class ImageHelper {
         return inSampleSize;
     }
 
+    // Read the orientation from ContentResolver. If it fails, read from EXIF.
+    public int getImageOrientation(Context ctx, String filePath) {
+        Uri curStream;
+        int orientation = 0;
 
-    public interface BitmapWorkerCallback {
-        public void onBitmapReady(String filePath, ImageView imageView, Bitmap bitmap); 
-    }
-    
-    public static class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
-        private final BitmapWorkerCallback callback;
-        private int targetWidth;
-        private int targetHeight;
-        private String path;
-        
-        public BitmapWorkerTask(ImageView imageView, int width, int height, BitmapWorkerCallback callback) {
-            // Use a WeakReference to ensure the ImageView can be garbage collected
-            imageViewReference = new WeakReference<ImageView>(imageView);
-            this.callback = callback;
-            targetWidth = width;
-            targetHeight = height;
-        }
+        if (!filePath.contains("content://"))
+            curStream = Uri.parse("content://media" + filePath);
+        else
+            curStream = Uri.parse(filePath);
 
-        // Decode image in background.
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            path = params[0];
-            
-            BitmapFactory.Options bfo = new BitmapFactory.Options();
-            bfo.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(path, bfo);
-            
-            bfo.inSampleSize = calculateInSampleSize(bfo, targetWidth, targetHeight);
-            bfo.inJustDecodeBounds = false;
-            
-            // get proper rotation
-            try {
-                File f = new File(path);
-                ExifInterface exif = new ExifInterface(f.getPath());
-                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-                int angle = 0;
-
-                if (orientation == ExifInterface.ORIENTATION_NORMAL) { // no need to rotate
-                    return BitmapFactory.decodeFile(path, bfo);
-                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
-                    angle = 90;
-                } 
-                else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
-                    angle = 180;
-                } 
-                else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
-                    angle = 270;
+        try {
+            Cursor cur = ctx.getContentResolver().query(curStream, new String[]{Images.Media.ORIENTATION}, null, null, null);
+            if (cur != null) {
+                if (cur.moveToFirst()) {
+                    orientation = cur.getInt(cur.getColumnIndex(Images.Media.ORIENTATION));
                 }
-
-                Matrix mat = new Matrix();
-                mat.postRotate(angle);
-
-                Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(f), null, bfo);
-                return Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);                 
+                cur.close();
             }
-            catch (IOException e) {
-                AppLog.e(AppLog.T.UTILS, "Error in setting image", e);
-            }   
-            catch(OutOfMemoryError oom) {
-                BWMobileStatsUtil.trackEventForSelfHostedAndWPCom(BWMobileStatsUtil.StatsEventMediaOutOfMemory);
-                AppLog.e(AppLog.T.UTILS, "OutOfMemoryError Error in setting image: " + oom);
-            }
-            
-            return null;
+        } catch (Exception errReadingContentResolver) {
+            AppLog.e(AppLog.T.UTILS, errReadingContentResolver);
         }
 
-        // Once complete, see if ImageView is still around and set bitmap.
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (imageViewReference == null || bitmap == null) 
-                return;
+        if (orientation == 0) {
+            orientation = getExifOrientation(filePath);
+        }
 
-            final ImageView imageView = imageViewReference.get();
-            
-            if (callback != null) 
-                callback.onBitmapReady(path, imageView, bitmap);
-            
+        return orientation;
+    }
+
+    public int getExifOrientation(String path) {
+        ExifInterface exif;
+        try {
+            exif = new ExifInterface(path);
+        } catch (IOException e) {
+            AppLog.e(AppLog.T.UTILS, e);
+            return 0;
+        }
+
+        int exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
+
+        switch (exifOrientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return 0;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                return 90;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                return 180;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                return 270;
+            default:
+                return 0;
         }
     }
 
-
-    public  String getTitleForWPImageSpan(Context ctx, String filePath) {
+    public String getTitleForWPImageSpan(Context ctx, String filePath) {
         if (filePath == null)
             return null;
 
@@ -272,8 +189,8 @@ public class ImageHelper {
         if (filePath.contains("video")) {
             return "Video";
         } else {
-            String[] projection = new String[] { Images.Thumbnails.DATA };
-            
+            String[] projection = new String[]{Images.Thumbnails.DATA};
+
             Cursor cur;
             try {
                 cur = ctx.getContentResolver().query(curStream, projection, null, null, null);
@@ -301,30 +218,31 @@ public class ImageHelper {
             return title;
         }
     }
-    
+
     /**
      * Resizes an image to be placed in the Post Content Editor
+     *
      * @param ctx
      * @param filePath
      * @return resized bitmap
      */
     public Bitmap getThumbnailForWPImageSpan(Context ctx, String filePath) {
-        if (filePath==null)
+        if (filePath == null)
             return null;
-        
-        Display display = ((Activity)ctx).getWindowManager().getDefaultDisplay();
+
+        Display display = ((Activity) ctx).getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         int height = display.getHeight();
         if (width > height)
             width = height;
 
         Uri curUri;
-        
+
         if (!filePath.contains("content://"))
             curUri = Uri.parse("content://media" + filePath);
         else
             curUri = Uri.parse(filePath);
-        
+
         if (filePath.contains("video")) {
             int videoId = 0;
             try {
@@ -355,12 +273,12 @@ public class ImageHelper {
             }
         }
     }
-    
+
     public Bitmap getThumbnailForWPImageSpan(Bitmap largeBitmap, int resizeWidth) {
-        
+
         if (largeBitmap.getWidth() < resizeWidth)
             return largeBitmap; //Do not resize.
-        
+
         float percentage = (float) resizeWidth / largeBitmap.getWidth();
         float proportionateHeight = largeBitmap.getHeight() * percentage;
         int resizeHeight = (int) Math.rint(proportionateHeight);
@@ -373,17 +291,17 @@ public class ImageHelper {
      * require passing the full-size image as an array of bytes[]
      */
     public byte[] createThumbnailFromUri(Context context,
-            Uri imageUri,
-            int maxWidth,
-            String fileExtension,
-            int rotation) {
+                                         Uri imageUri,
+                                         int maxWidth,
+                                         String fileExtension,
+                                         int rotation) {
 
         if (context == null || imageUri == null)
             return null;
 
         String filePath = null;
         if (imageUri.toString().contains("content:")) {
-            String[] projection = new String[] { Images.Media.DATA };
+            String[] projection = new String[]{Images.Media.DATA};
             Cursor cur = context.getContentResolver().query(imageUri, projection, null, null, null);
             if (cur != null) {
                 if (cur.moveToFirst()) {
@@ -474,5 +392,83 @@ public class ImageHelper {
         bmpRotated.recycle();
 
         return stream.toByteArray();
+    }
+
+    public interface BitmapWorkerCallback {
+        public void onBitmapReady(String filePath, ImageView imageView, Bitmap bitmap);
+    }
+
+    public static class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
+        private final WeakReference<ImageView> imageViewReference;
+        private final BitmapWorkerCallback callback;
+        private int targetWidth;
+        private int targetHeight;
+        private String path;
+
+        public BitmapWorkerTask(ImageView imageView, int width, int height, BitmapWorkerCallback callback) {
+            // Use a WeakReference to ensure the ImageView can be garbage collected
+            imageViewReference = new WeakReference<ImageView>(imageView);
+            this.callback = callback;
+            targetWidth = width;
+            targetHeight = height;
+        }
+
+        // Decode image in background.
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            path = params[0];
+
+            BitmapFactory.Options bfo = new BitmapFactory.Options();
+            bfo.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(path, bfo);
+
+            bfo.inSampleSize = calculateInSampleSize(bfo, targetWidth, targetHeight);
+            bfo.inJustDecodeBounds = false;
+
+            // get proper rotation
+            try {
+                File f = new File(path);
+                ExifInterface exif = new ExifInterface(f.getPath());
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+                int angle = 0;
+
+                if (orientation == ExifInterface.ORIENTATION_NORMAL) { // no need to rotate
+                    return BitmapFactory.decodeFile(path, bfo);
+                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                    angle = 90;
+                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                    angle = 180;
+                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                    angle = 270;
+                }
+
+                Matrix mat = new Matrix();
+                mat.postRotate(angle);
+
+                Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(f), null, bfo);
+                return Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), mat, true);
+            } catch (IOException e) {
+                AppLog.e(AppLog.T.UTILS, "Error in setting image", e);
+            } catch (OutOfMemoryError oom) {
+                BWMobileStatsUtil.trackEventForSelfHostedAndWPCom(BWMobileStatsUtil.StatsEventMediaOutOfMemory);
+                AppLog.e(AppLog.T.UTILS, "OutOfMemoryError Error in setting image: " + oom);
+            }
+
+            return null;
+        }
+
+        // Once complete, see if ImageView is still around and set bitmap.
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (imageViewReference == null || bitmap == null)
+                return;
+
+            final ImageView imageView = imageViewReference.get();
+
+            if (callback != null)
+                callback.onBitmapReady(path, imageView, bitmap);
+
+        }
     }
 }

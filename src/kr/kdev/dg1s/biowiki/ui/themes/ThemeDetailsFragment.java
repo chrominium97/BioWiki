@@ -25,14 +25,14 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.view.Menu;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.util.ArrayList;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Theme;
 import kr.kdev.dg1s.biowiki.ui.ViewSiteActivity;
 import kr.kdev.dg1s.biowiki.util.BWLinkMovementMethod;
 import kr.kdev.dg1s.biowiki.util.Utils;
-import kr.kdev.dg1s.biowiki.R;
-
-import java.util.ArrayList;
 
 /**
  * A fragment to show the theme's details, including its description and features.
@@ -41,24 +41,12 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
 
     public static final String TAG = ThemeDetailsFragment.class.getName();
     private static final String ARGS_THEME_ID = "ARGS_THEME_ID";
-
-    public static ThemeDetailsFragment newInstance(String themeId) {
-        ThemeDetailsFragment fragment = new ThemeDetailsFragment();
-
-        Bundle args = new Bundle();
-        args.putString(ARGS_THEME_ID, themeId);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     private TextView mNameView;
     private NetworkImageView mImageView;
     private TextView mDescriptionView;
     private Button mLivePreviewButton;
     private String mPreviewURL;
     private Button mActivateThemeButton;
-
     private ThemeDetailsFragmentCallback mCallback;
     private Button mViewSiteButton;
     private View mCurrentThemeView;
@@ -69,11 +57,14 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
     private View mLeftContainer;
     private View mParentView;
 
-    public interface ThemeDetailsFragmentCallback {
-        public void onResume(Fragment fragment);
-        public void onPause(Fragment fragment);
-        public void onLivePreviewClicked(String themeId, String previewURL);
-        public void onActivateThemeClicked(String themeId, Fragment fragment);
+    public static ThemeDetailsFragment newInstance(String themeId) {
+        ThemeDetailsFragment fragment = new ThemeDetailsFragment();
+
+        Bundle args = new Bundle();
+        args.putString(ARGS_THEME_ID, themeId);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     public String getThemeId() {
@@ -115,22 +106,20 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public void onStart()
-    {
-      super.onStart();
+    public void onStart() {
+        super.onStart();
 
-      // safety check
-      if (getDialog() == null)
-        return;
+        // safety check
+        if (getDialog() == null)
+            return;
 
-      int dialogWidth = (int) getActivity().getResources().getDimension(R.dimen.theme_details_fragment_width);
+        int dialogWidth = (int) getActivity().getResources().getDimension(R.dimen.theme_details_fragment_width);
 
-      int dialogHeight = (int) getActivity().getResources().getDimension(R.dimen.theme_details_fragment_height);
+        int dialogHeight = (int) getActivity().getResources().getDimension(R.dimen.theme_details_fragment_height);
 
-      getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
+        getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -210,12 +199,14 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
         super.onPause();
         if (hasCallback())
             mCallback.onPause(this);
-    };
+    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.removeItem(R.id.menu_search);
     }
+
+    ;
 
     /*
      * update views to indicate that a theme is being activated, or has finished being activated
@@ -275,9 +266,9 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
 
         for (int i = 0; i < size; i++) {
-             TextView tv = (TextView) inflater.inflate(R.layout.theme_feature_text, mFeaturesContainer, false);
-             tv.setText(featuresArray.get(i));
-             views[i] = tv;
+            TextView tv = (TextView) inflater.inflate(R.layout.theme_feature_text, mFeaturesContainer, false);
+            tv.setText(featuresArray.get(i));
+            views[i] = tv;
         }
 
         // make the list of features appear in such a way that the text appear on the next line
@@ -288,13 +279,13 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
     /**
      * Copyright 2011 Sherif
      * Updated by Karim Varela to handle LinearLayouts with other views on either side.
+     *
      * @param linearLayout
-     * @param views : The views to wrap within LinearLayout
+     * @param views        : The views to wrap within LinearLayout
      * @param context
      * @author Karim Varela
-     **/
-    private void populateViews(LinearLayout linearLayout, View[] views, Context context)
-    {
+     */
+    private void populateViews(LinearLayout linearLayout, View[] views, Context context) {
 
         RelativeLayout.LayoutParams llParams = (android.widget.RelativeLayout.LayoutParams) linearLayout.getLayoutParams();
 
@@ -332,8 +323,7 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
         int dp4 = (int) Utils.dpToPx(4);
         int dp2 = (int) Utils.dpToPx(2);
 
-        for (int i = 0; i < views.length; i++)
-        {
+        for (int i = 0; i < views.length; i++) {
             LinearLayout LL = new LinearLayout(context);
             LL.setOrientation(LinearLayout.HORIZONTAL);
             LL.setLayoutParams(new ListView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -345,8 +335,7 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
             LL.addView(views[i], params);
             LL.measure(0, 0);
             widthSoFar += views[i].getMeasuredWidth() + views[i].getPaddingLeft() + views[i].getPaddingRight();
-            if (widthSoFar >= maxWidth)
-            {
+            if (widthSoFar >= maxWidth) {
                 linearLayout.addView(newLL);
 
                 newLL = new LinearLayout(context);
@@ -356,13 +345,21 @@ public class ThemeDetailsFragment extends SherlockDialogFragment {
                 params = new LinearLayout.LayoutParams(LL.getMeasuredWidth(), LL.getMeasuredHeight());
                 newLL.addView(LL, params);
                 widthSoFar = LL.getMeasuredWidth();
-            }
-            else
-            {
+            } else {
                 newLL.addView(LL);
             }
         }
         linearLayout.addView(newLL);
+    }
+
+    public interface ThemeDetailsFragmentCallback {
+        public void onResume(Fragment fragment);
+
+        public void onPause(Fragment fragment);
+
+        public void onLivePreviewClicked(String themeId, String previewURL);
+
+        public void onActivateThemeClicked(String themeId, Fragment fragment);
     }
 
 }

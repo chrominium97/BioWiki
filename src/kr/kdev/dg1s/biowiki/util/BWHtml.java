@@ -51,14 +51,6 @@ import android.text.style.URLSpan;
 
 import org.ccil.cowan.tagsoup.HTMLSchema;
 import org.ccil.cowan.tagsoup.Parser;
-
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.MediaGallery;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.MediaFile;
-import kr.kdev.dg1s.biowiki.models.Post;
-import kr.kdev.dg1s.biowiki.util.AppLog.T;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -70,91 +62,19 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.MediaFile;
+import kr.kdev.dg1s.biowiki.models.MediaGallery;
+import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.util.AppLog.T;
+
 /**
  * This class processes HTML strings into displayable styled text. Not all HTML
  * tags are supported.
  */
 public class BWHtml {
-    /**
-     * Customzed QuoteSpan for use in SpannableString's
-     */
-    public static class WPQuoteSpan extends QuoteSpan {
-        private static final int STRIPE_WIDTH=5;
-        private static final int GAP_WIDTH=20;
-        public static final int STRIPE_COLOR=0xFF21759B;
-        private static final boolean IS_ICS= Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-
-        public WPQuoteSpan(){
-            super(STRIPE_COLOR);
-        }
-
-        @Override
-        public int getLeadingMargin(boolean first){
-            if (IS_ICS) {
-                int margin = GAP_WIDTH * 2 + STRIPE_WIDTH;
-                return margin;
-            } else {
-                return super.getLeadingMargin(first);
-            }
-        }
-        /**
-         * Draw a nice thick gray bar if Ice Cream Sandwhich or newer. There's a
-         * bug on older devices that does not respect the increased margin.
-         */
-        @Override
-        public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
-                                      int top, int baseline, int bottom,
-                                      CharSequence text, int start, int end,
-                                      boolean first, Layout layout) {
-
-            if (IS_ICS) {
-                Paint.Style style = p.getStyle();
-                int color = p.getColor();
-
-                p.setStyle(Paint.Style.FILL);
-                p.setColor(STRIPE_COLOR);
-
-                c.drawRect(GAP_WIDTH + x, top, x + dir * STRIPE_WIDTH, bottom, p);
-
-                p.setStyle(style);
-                p.setColor(color);
-            } else {
-                super.drawLeadingMargin(c, p, x, dir, top, baseline, bottom,
-                                        text, start, end, first, layout);
-            }
-        }
-    }
-
-    /**
-     * Retrieves images for HTML &lt;img&gt; tags.
-     */
-    public static interface ImageGetter {
-        /**
-         * This method is called when the HTML parser encounters an &lt;img&gt;
-         * tag. The <code>source</code> argument is the string from the "src"
-         * attribute; the return value should be a Drawable representation of
-         * the image or <code>null</code> for a generic replacement image. Make
-         * sure you call setBounds() on your Drawable if it doesn't already have
-         * its bounds set.
-         */
-        public Drawable getDrawable(String source);
-    }
-
-    /**
-     * Is notified when HTML tags are encountered that the parser does not know
-     * how to interpret.
-     */
-    public static interface TagHandler {
-        /**
-         * This method will be called whenn the HTML parser encounters a tag
-         * that it does not know how to interpret.
-         *
-         * @param mysteryTagContent
-         */
-        public void handleTag(boolean opening, String tag, Editable output,
-                XMLReader xmlReader, String mysteryTagContent);
-    }
-
     private BWHtml() {
     }
 
@@ -162,8 +82,8 @@ public class BWHtml {
      * Returns displayable styled text from the provided HTML string. Any
      * &lt;img&gt; tags in the HTML will display as a generic replacement image
      * which your program can then go through and replace with real images.
-     *
-     * <p>
+     * <p/>
+     * <p/>
      * This uses TagSoup to handle real HTML, including all of the brokenness
      * found in the wild.
      */
@@ -172,26 +92,18 @@ public class BWHtml {
     }
 
     /**
-     * Lazy initialization holder for HTML parser. This class will a) be
-     * preloaded by the zygote, or b) not loaded until absolutely necessary.
-     */
-    private static class HtmlParser {
-        private static final HTMLSchema schema = new HTMLSchema();
-    }
-
-    /**
      * Returns displayable styled text from the provided HTML string. Any
      * &lt;img&gt; tags in the HTML will use the specified ImageGetter to
      * request a representation of the image (use null if you don't want this)
      * and the specified TagHandler to handle unknown tags (specify null if you
      * don't want this).
-     *
-     * <p>
+     * <p/>
+     * <p/>
      * This uses TagSoup to handle real HTML, including all of the brokenness
      * found in the wild.
      */
     public static Spanned fromHtml(String source, ImageGetter imageGetter,
-            TagHandler tagHandler, Context ctx, Post post) {
+                                   TagHandler tagHandler, Context ctx, Post post) {
         Parser parser = new Parser();
         try {
             parser.setProperty(Parser.schemaProperty, HtmlParser.schema);
@@ -256,7 +168,7 @@ public class BWHtml {
 
     @SuppressWarnings("unused")
     private static void withinDiv(StringBuilder out, Spanned text, int start,
-            int end) {
+                                  int end) {
         int next;
         for (int i = start; i < end; i = next) {
             next = text.nextSpanTransition(i, end, QuoteSpan.class);
@@ -275,7 +187,7 @@ public class BWHtml {
     }
 
     private static void withinBlockquote(StringBuilder out, Spanned text,
-            int start, int end) {
+                                         int start, int end) {
         out.append("<p>");
 
         int next;
@@ -299,7 +211,7 @@ public class BWHtml {
     }
 
     private static void withinParagraph(StringBuilder out, Spanned text,
-            int start, int end, int nl, boolean last) {
+                                        int start, int end, int nl, boolean last) {
         int next;
         for (int i = start; i < end; i = next) {
             next = text.nextSpanTransition(i, end, CharacterStyle.class);
@@ -350,7 +262,7 @@ public class BWHtml {
                     out.append(((BWImageSpan) style[j]).getSource());
                     out.append("\" android-uri=\""
                             + ((BWImageSpan) style[j]).getImageSource()
-                                    .toString() + "\"");
+                            .toString() + "\"");
                     out.append(" />");
                     // Don't output the dummy character underlying the image.
                     i = next;
@@ -432,7 +344,9 @@ public class BWHtml {
         }
     }
 
-    /** Get gallery shortcode for a MediaGalleryImageSpan */
+    /**
+     * Get gallery shortcode for a MediaGalleryImageSpan
+     */
     public static String getGalleryShortcode(MediaGalleryImageSpan gallerySpan) {
         String shortcode = "";
         MediaGallery gallery = gallerySpan.getMediaGallery();
@@ -449,7 +363,9 @@ public class BWHtml {
         return shortcode;
     }
 
-    /** Retrieve an image span content for a media file that exists on the server **/
+    /**
+     * Retrieve an image span content for a media file that exists on the server *
+     */
     public static String getContent(BWImageSpan imageSpan) {
         // based on PostUploadService
 
@@ -477,18 +393,18 @@ public class BWHtml {
         } else {
             String alignment = "";
             switch (mediaFile.getHorizontalAlignment()) {
-            case 0:
-                alignment = "alignnone";
-                break;
-            case 1:
-                alignment = "alignleft";
-                break;
-            case 2:
-                alignment = "aligncenter";
-                break;
-            case 3:
-                alignment = "alignright";
-                break;
+                case 0:
+                    alignment = "alignnone";
+                    break;
+                case 1:
+                    alignment = "alignleft";
+                    break;
+                case 2:
+                    alignment = "aligncenter";
+                    break;
+                case 3:
+                    alignment = "alignright";
+                    break;
             }
             String alignmentCSS = "class=\"" + alignment + " size-full\" ";
             String title = mediaFile.getTitle();
@@ -512,7 +428,7 @@ public class BWHtml {
             }
 
             content = content + "<a href=\"" + url + "\"><img" + inlineCSS + "title=\"" + title + "\" "
-                    + alignmentCSS + "alt=\"image\" src=\"" + url + "?w=" + width +"\" /></a>";
+                    + alignmentCSS + "alt=\"image\" src=\"" + url + "?w=" + width + "\" /></a>";
 
             if (!caption.equals("")) {
                 content = String.format("[caption id=\"\" align=\"%s\" width=\"%d\" caption=\"%s\"]%s[/caption]",
@@ -524,7 +440,7 @@ public class BWHtml {
     }
 
     private static void processWPImage(StringBuilder out, Spanned text,
-            int start, int end) {
+                                       int start, int end) {
         int next;
 
         for (int i = start; i < end; i = next) {
@@ -542,7 +458,7 @@ public class BWHtml {
     }
 
     private static void withinStyle(StringBuilder out, Spanned text, int start,
-            int end) {
+                                    int end) {
         for (int i = start; i < end; i++) {
             char c = text.charAt(i);
 
@@ -564,27 +480,115 @@ public class BWHtml {
             }
         }
     }
+
+    /**
+     * Retrieves images for HTML &lt;img&gt; tags.
+     */
+    public static interface ImageGetter {
+        /**
+         * This method is called when the HTML parser encounters an &lt;img&gt;
+         * tag. The <code>source</code> argument is the string from the "src"
+         * attribute; the return value should be a Drawable representation of
+         * the image or <code>null</code> for a generic replacement image. Make
+         * sure you call setBounds() on your Drawable if it doesn't already have
+         * its bounds set.
+         */
+        public Drawable getDrawable(String source);
+    }
+
+    /**
+     * Is notified when HTML tags are encountered that the parser does not know
+     * how to interpret.
+     */
+    public static interface TagHandler {
+        /**
+         * This method will be called whenn the HTML parser encounters a tag
+         * that it does not know how to interpret.
+         *
+         * @param mysteryTagContent
+         */
+        public void handleTag(boolean opening, String tag, Editable output,
+                              XMLReader xmlReader, String mysteryTagContent);
+    }
+
+    /**
+     * Customzed QuoteSpan for use in SpannableString's
+     */
+    public static class WPQuoteSpan extends QuoteSpan {
+        public static final int STRIPE_COLOR = 0xFF21759B;
+        private static final int STRIPE_WIDTH = 5;
+        private static final int GAP_WIDTH = 20;
+        private static final boolean IS_ICS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+
+        public WPQuoteSpan() {
+            super(STRIPE_COLOR);
+        }
+
+        @Override
+        public int getLeadingMargin(boolean first) {
+            if (IS_ICS) {
+                int margin = GAP_WIDTH * 2 + STRIPE_WIDTH;
+                return margin;
+            } else {
+                return super.getLeadingMargin(first);
+            }
+        }
+
+        /**
+         * Draw a nice thick gray bar if Ice Cream Sandwhich or newer. There's a
+         * bug on older devices that does not respect the increased margin.
+         */
+        @Override
+        public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
+                                      int top, int baseline, int bottom,
+                                      CharSequence text, int start, int end,
+                                      boolean first, Layout layout) {
+
+            if (IS_ICS) {
+                Paint.Style style = p.getStyle();
+                int color = p.getColor();
+
+                p.setStyle(Paint.Style.FILL);
+                p.setColor(STRIPE_COLOR);
+
+                c.drawRect(GAP_WIDTH + x, top, x + dir * STRIPE_WIDTH, bottom, p);
+
+                p.setStyle(style);
+                p.setColor(color);
+            } else {
+                super.drawLeadingMargin(c, p, x, dir, top, baseline, bottom,
+                        text, start, end, first, layout);
+            }
+        }
+    }
+
+    /**
+     * Lazy initialization holder for HTML parser. This class will a) be
+     * preloaded by the zygote, or b) not loaded until absolutely necessary.
+     */
+    private static class HtmlParser {
+        private static final HTMLSchema schema = new HTMLSchema();
+    }
 }
 
 class HtmlToSpannedConverter implements ContentHandler {
 
-    private static final float[] HEADER_SIZES = { 1.5f, 1.4f, 1.3f, 1.2f, 1.1f,
-            1f, };
-
+    private static final float[] HEADER_SIZES = {1.5f, 1.4f, 1.3f, 1.2f, 1.1f,
+            1f,};
+    private static Context ctx;
+    private static Post post;
+    private static HashMap<String, Integer> COLORS = buildColorMap();
     private String mSource;
     private XMLReader mReader;
     private SpannableStringBuilder mSpannableStringBuilder;
     private BWHtml.ImageGetter mImageGetter;
     private String mysteryTagContent;
     private boolean mysteryTagFound;
-    private static Context ctx;
-    private static Post post;
-
     private String mysteryTagName;
 
     public HtmlToSpannedConverter(String source,
-            BWHtml.ImageGetter imageGetter, BWHtml.TagHandler tagHandler,
-            Parser parser, Context context, Post p) {
+                                  BWHtml.ImageGetter imageGetter, BWHtml.TagHandler tagHandler,
+                                  Parser parser, Context context, Post p) {
         mSource = source;
         mSpannableStringBuilder = new SpannableStringBuilder();
         mImageGetter = imageGetter;
@@ -593,6 +597,298 @@ class HtmlToSpannedConverter implements ContentHandler {
         mysteryTagName = null;
         ctx = context;
         post = p;
+    }
+
+    private static void handleP(SpannableStringBuilder text) {
+        int len = text.length();
+
+        if (len >= 1 && text.charAt(len - 1) == '\n') {
+            if (len >= 2 && text.charAt(len - 2) == '\n') {
+                return;
+            }
+
+            text.append("\n");
+            return;
+        }
+
+        if (len != 0) {
+            text.append("\n\n");
+        }
+    }
+
+    private static void handleBr(SpannableStringBuilder text) {
+        text.append("\n");
+    }
+
+    private static Object getLast(Spanned text, Class<?> kind) {
+        /*
+         * This knows that the last returned object from getSpans() will be the
+         * most recently added.
+         */
+        Object[] objs = text.getSpans(0, text.length(), kind);
+
+        if (objs.length == 0) {
+            return null;
+        } else {
+            return objs[objs.length - 1];
+        }
+    }
+
+    private static void start(SpannableStringBuilder text, Object mark) {
+        int len = text.length();
+        text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
+    }
+
+    private static void end(SpannableStringBuilder text, Class<?> kind,
+                            Object repl) {
+        int len = text.length();
+        Object obj = getLast(text, kind);
+        int where = text.getSpanStart(obj);
+        if (where < 0)
+            where = 0;
+
+        text.removeSpan(obj);
+
+        if (where != len) {
+            text.setSpan(repl, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        return;
+    }
+
+    private static void startImg(SpannableStringBuilder text,
+                                 Attributes attributes, BWHtml.ImageGetter img) {
+        String src = attributes.getValue("android-uri");
+        ImageHelper ih = new ImageHelper();
+
+        Bitmap resizedBitmap = ih.getThumbnailForWPImageSpan(ctx, src);
+        if (resizedBitmap == null && src != null) {
+            if (src.contains("video")) {
+                resizedBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.media_movieclip);
+            } else {
+                resizedBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.media_image_placeholder);
+            }
+        }
+
+        if (resizedBitmap != null) {
+            int len = text.length();
+            text.append("\uFFFC");
+
+            Uri curStream = Uri.parse(src);
+
+            if (curStream == null) {
+                return;
+            }
+
+            BWImageSpan is = new BWImageSpan(ctx, resizedBitmap, curStream);
+
+            // get the MediaFile data from db
+            MediaFile mf = BioWiki.wpDB.getMediaFile(src, post);
+            if (mf != null) {
+                is.setMediaFile(mf);
+                is.setImageSource(curStream);
+                text.setSpan(is, len, text.length(),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                AlignmentSpan.Standard as = new AlignmentSpan.Standard(
+                        Layout.Alignment.ALIGN_CENTER);
+                text.setSpan(as, text.getSpanStart(is), text.getSpanEnd(is),
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        } else if (post != null) {
+            if (post.isLocalDraft()) {
+                if (attributes != null) {
+                    text.append("<img");
+                    for (int i = 0; i < attributes.getLength(); i++) {
+                        String aName = attributes.getLocalName(i); // Attr name
+                        if ("".equals(aName))
+                            aName = attributes.getQName(i);
+                        text.append(" ");
+                        text.append(aName + "=\"" + attributes.getValue(i) + "\"");
+                    }
+                    text.append(" />\n");
+                }
+            }
+        }
+    }
+
+    private static void startFont(SpannableStringBuilder text,
+                                  Attributes attributes) {
+        String color = attributes.getValue("", "color");
+        String face = attributes.getValue("", "face");
+
+        int len = text.length();
+        text.setSpan(new Font(color, face), len, len, Spannable.SPAN_MARK_MARK);
+    }
+
+    private static void endFont(SpannableStringBuilder text) {
+        int len = text.length();
+        Object obj = getLast(text, Font.class);
+        int where = text.getSpanStart(obj);
+
+        text.removeSpan(obj);
+
+        if (where != len) {
+            Font f = (Font) obj;
+
+            if (!TextUtils.isEmpty(f.mColor)) {
+                if (f.mColor.startsWith("@")) {
+                    Resources res = Resources.getSystem();
+                    String name = f.mColor.substring(1);
+                    int colorRes = res.getIdentifier(name, "color", "android");
+                    if (colorRes != 0) {
+                        ColorStateList colors = res.getColorStateList(colorRes);
+                        text.setSpan(new TextAppearanceSpan(null, 0, 0, colors,
+                                        null), where, len,
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        );
+                    }
+                } else {
+                    int c = getHtmlColor(f.mColor);
+                    if (c != -1) {
+                        text.setSpan(new ForegroundColorSpan(c | 0xFF000000),
+                                where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                }
+            }
+
+            if (f.mFace != null) {
+                text.setSpan(new TypefaceSpan(f.mFace), where, len,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+    }
+
+    private static void startA(SpannableStringBuilder text,
+                               Attributes attributes) {
+        String href = attributes.getValue("", "href");
+
+        int len = text.length();
+        text.setSpan(new Href(href), len, len, Spannable.SPAN_MARK_MARK);
+    }
+
+    private static void endA(SpannableStringBuilder text) {
+        int len = text.length();
+        Object obj = getLast(text, Href.class);
+        int where = text.getSpanStart(obj);
+
+        text.removeSpan(obj);
+
+        if (where != len) {
+            Href h = (Href) obj;
+
+            if (h != null) {
+                if (h.mHref != null) {
+                    text.setSpan(new URLSpan(h.mHref), where, len,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
+    }
+
+    private static void endHeader(SpannableStringBuilder text) {
+        int len = text.length();
+        Object obj = getLast(text, Header.class);
+
+        int where = text.getSpanStart(obj);
+
+        text.removeSpan(obj);
+
+        // Back off not to change only the text, not the blank line.
+        while (len > where && text.charAt(len - 1) == '\n') {
+            len--;
+        }
+
+        if (where != len) {
+            Header h = (Header) obj;
+
+            text.setSpan(new RelativeSizeSpan(HEADER_SIZES[h.mLevel]), where,
+                    len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            text.setSpan(new StyleSpan(Typeface.BOLD), where, len,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+    }
+
+    private static HashMap<String, Integer> buildColorMap() {
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        map.put("aqua", 0x00FFFF);
+        map.put("black", 0x000000);
+        map.put("blue", 0x0000FF);
+        map.put("fuchsia", 0xFF00FF);
+        map.put("green", 0x008000);
+        map.put("grey", 0x808080);
+        map.put("lime", 0x00FF00);
+        map.put("maroon", 0x800000);
+        map.put("navy", 0x000080);
+        map.put("olive", 0x808000);
+        map.put("purple", 0x800080);
+        map.put("red", 0xFF0000);
+        map.put("silver", 0xC0C0C0);
+        map.put("teal", 0x008080);
+        map.put("white", 0xFFFFFF);
+        map.put("yellow", 0xFFFF00);
+        return map;
+    }
+
+    /**
+     * Converts an HTML color (named or numeric) to an integer RGB value.
+     *
+     * @param color Non-null color string.
+     * @return A color value, or {@code -1} if the color string could not be
+     * interpreted.
+     */
+    private static int getHtmlColor(String color) {
+        Integer i = COLORS.get(color.toLowerCase());
+        if (i != null) {
+            return i;
+        } else {
+            try {
+                return convertValueToInt(color, -1);
+            } catch (NumberFormatException nfe) {
+                return -1;
+            }
+        }
+    }
+
+    public static final int convertValueToInt(CharSequence charSeq,
+                                              int defaultValue) {
+        if (null == charSeq)
+            return defaultValue;
+
+        String nm = charSeq.toString();
+
+        // XXX This code is copied from Integer.decode() so we don't
+        // have to instantiate an Integer!
+
+        int sign = 1;
+        int index = 0;
+        int len = nm.length();
+        int base = 10;
+
+        if ('-' == nm.charAt(0)) {
+            sign = -1;
+            index++;
+        }
+
+        if ('0' == nm.charAt(index)) {
+            // Quick check for a zero by itself
+            if (index == (len - 1))
+                return 0;
+
+            char c = nm.charAt(index + 1);
+
+            if ('x' == c || 'X' == c) {
+                index += 2;
+                base = 16;
+            } else {
+                index++;
+                base = 8;
+            }
+        } else if ('#' == nm.charAt(index)) {
+            index++;
+            base = 16;
+        }
+
+        return Integer.parseInt(nm.substring(index), base) * sign;
     }
 
     public Spanned convert() {
@@ -793,214 +1089,6 @@ class HtmlToSpannedConverter implements ContentHandler {
         }
     }
 
-    private static void handleP(SpannableStringBuilder text) {
-        int len = text.length();
-
-        if (len >= 1 && text.charAt(len - 1) == '\n') {
-            if (len >= 2 && text.charAt(len - 2) == '\n') {
-                return;
-            }
-
-            text.append("\n");
-            return;
-        }
-
-        if (len != 0) {
-            text.append("\n\n");
-        }
-    }
-
-    private static void handleBr(SpannableStringBuilder text) {
-        text.append("\n");
-    }
-
-    private static Object getLast(Spanned text, Class<?> kind) {
-        /*
-         * This knows that the last returned object from getSpans() will be the
-         * most recently added.
-         */
-        Object[] objs = text.getSpans(0, text.length(), kind);
-
-        if (objs.length == 0) {
-            return null;
-        } else {
-            return objs[objs.length - 1];
-        }
-    }
-
-    private static void start(SpannableStringBuilder text, Object mark) {
-        int len = text.length();
-        text.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
-    }
-
-    private static void end(SpannableStringBuilder text, Class<?> kind,
-            Object repl) {
-        int len = text.length();
-        Object obj = getLast(text, kind);
-        int where = text.getSpanStart(obj);
-        if (where < 0)
-            where = 0;
-
-        text.removeSpan(obj);
-
-        if (where != len) {
-            text.setSpan(repl, where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        return;
-    }
-
-    private static void startImg(SpannableStringBuilder text,
-            Attributes attributes, BWHtml.ImageGetter img) {
-        String src = attributes.getValue("android-uri");
-        ImageHelper ih = new ImageHelper();
-
-        Bitmap resizedBitmap = ih.getThumbnailForWPImageSpan(ctx, src);
-        if (resizedBitmap == null && src != null) {
-            if (src.contains("video")) {
-                resizedBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.media_movieclip);
-            } else {
-                resizedBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.media_image_placeholder);
-            }
-        }
-
-        if (resizedBitmap != null) {
-            int len = text.length();
-            text.append("\uFFFC");
-
-            Uri curStream = Uri.parse(src);
-
-            if (curStream == null) {
-                return;
-            }
-
-            BWImageSpan is = new BWImageSpan(ctx, resizedBitmap, curStream);
-
-            // get the MediaFile data from db
-            MediaFile mf = BioWiki.wpDB.getMediaFile(src, post);
-            if (mf != null) {
-                is.setMediaFile(mf);
-                is.setImageSource(curStream);
-                text.setSpan(is, len, text.length(),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                AlignmentSpan.Standard as = new AlignmentSpan.Standard(
-                        Layout.Alignment.ALIGN_CENTER);
-                text.setSpan(as, text.getSpanStart(is), text.getSpanEnd(is),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-        } else if (post != null) {
-            if (post.isLocalDraft()) {
-                if (attributes != null) {
-                    text.append("<img");
-                    for (int i = 0; i < attributes.getLength(); i++) {
-                        String aName = attributes.getLocalName(i); // Attr name
-                        if ("".equals(aName))
-                            aName = attributes.getQName(i);
-                        text.append(" ");
-                        text.append(aName + "=\"" + attributes.getValue(i) + "\"");
-                    }
-                    text.append(" />\n");
-                }
-            }
-        }
-    }
-
-    private static void startFont(SpannableStringBuilder text,
-            Attributes attributes) {
-        String color = attributes.getValue("", "color");
-        String face = attributes.getValue("", "face");
-
-        int len = text.length();
-        text.setSpan(new Font(color, face), len, len, Spannable.SPAN_MARK_MARK);
-    }
-
-    private static void endFont(SpannableStringBuilder text) {
-        int len = text.length();
-        Object obj = getLast(text, Font.class);
-        int where = text.getSpanStart(obj);
-
-        text.removeSpan(obj);
-
-        if (where != len) {
-            Font f = (Font) obj;
-
-            if (!TextUtils.isEmpty(f.mColor)) {
-                if (f.mColor.startsWith("@")) {
-                    Resources res = Resources.getSystem();
-                    String name = f.mColor.substring(1);
-                    int colorRes = res.getIdentifier(name, "color", "android");
-                    if (colorRes != 0) {
-                        ColorStateList colors = res.getColorStateList(colorRes);
-                        text.setSpan(new TextAppearanceSpan(null, 0, 0, colors,
-                                null), where, len,
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    }
-                } else {
-                    int c = getHtmlColor(f.mColor);
-                    if (c != -1) {
-                        text.setSpan(new ForegroundColorSpan(c | 0xFF000000),
-                                where, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    }
-                }
-            }
-
-            if (f.mFace != null) {
-                text.setSpan(new TypefaceSpan(f.mFace), where, len,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-        }
-    }
-
-    private static void startA(SpannableStringBuilder text,
-            Attributes attributes) {
-        String href = attributes.getValue("", "href");
-
-        int len = text.length();
-        text.setSpan(new Href(href), len, len, Spannable.SPAN_MARK_MARK);
-    }
-
-    private static void endA(SpannableStringBuilder text) {
-        int len = text.length();
-        Object obj = getLast(text, Href.class);
-        int where = text.getSpanStart(obj);
-
-        text.removeSpan(obj);
-
-        if (where != len) {
-            Href h = (Href) obj;
-
-            if (h != null) {
-                if (h.mHref != null) {
-                    text.setSpan(new URLSpan(h.mHref), where, len,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-        }
-    }
-
-    private static void endHeader(SpannableStringBuilder text) {
-        int len = text.length();
-        Object obj = getLast(text, Header.class);
-
-        int where = text.getSpanStart(obj);
-
-        text.removeSpan(obj);
-
-        // Back off not to change only the text, not the blank line.
-        while (len > where && text.charAt(len - 1) == '\n') {
-            len--;
-        }
-
-        if (where != len) {
-            Header h = (Header) obj;
-
-            text.setSpan(new RelativeSizeSpan(HEADER_SIZES[h.mLevel]), where,
-                    len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            text.setSpan(new StyleSpan(Typeface.BOLD), where, len,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-    }
-
     public void setDocumentLocator(Locator locator) {
     }
 
@@ -1018,7 +1106,7 @@ class HtmlToSpannedConverter implements ContentHandler {
     }
 
     public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws SAXException {
+                             Attributes attributes) throws SAXException {
 
         if (!mysteryTagFound) {
             mysteryTagContent = "";
@@ -1166,92 +1254,6 @@ class HtmlToSpannedConverter implements ContentHandler {
         public Header(int level) {
             mLevel = level;
         }
-    }
-
-    private static HashMap<String, Integer> COLORS = buildColorMap();
-
-    private static HashMap<String, Integer> buildColorMap() {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        map.put("aqua", 0x00FFFF);
-        map.put("black", 0x000000);
-        map.put("blue", 0x0000FF);
-        map.put("fuchsia", 0xFF00FF);
-        map.put("green", 0x008000);
-        map.put("grey", 0x808080);
-        map.put("lime", 0x00FF00);
-        map.put("maroon", 0x800000);
-        map.put("navy", 0x000080);
-        map.put("olive", 0x808000);
-        map.put("purple", 0x800080);
-        map.put("red", 0xFF0000);
-        map.put("silver", 0xC0C0C0);
-        map.put("teal", 0x008080);
-        map.put("white", 0xFFFFFF);
-        map.put("yellow", 0xFFFF00);
-        return map;
-    }
-
-    /**
-     * Converts an HTML color (named or numeric) to an integer RGB value.
-     *
-     * @param color
-     *            Non-null color string.
-     * @return A color value, or {@code -1} if the color string could not be
-     *         interpreted.
-     */
-    private static int getHtmlColor(String color) {
-        Integer i = COLORS.get(color.toLowerCase());
-        if (i != null) {
-            return i;
-        } else {
-            try {
-                return convertValueToInt(color, -1);
-            } catch (NumberFormatException nfe) {
-                return -1;
-            }
-        }
-    }
-
-    public static final int convertValueToInt(CharSequence charSeq,
-            int defaultValue) {
-        if (null == charSeq)
-            return defaultValue;
-
-        String nm = charSeq.toString();
-
-        // XXX This code is copied from Integer.decode() so we don't
-        // have to instantiate an Integer!
-
-        int sign = 1;
-        int index = 0;
-        int len = nm.length();
-        int base = 10;
-
-        if ('-' == nm.charAt(0)) {
-            sign = -1;
-            index++;
-        }
-
-        if ('0' == nm.charAt(index)) {
-            // Quick check for a zero by itself
-            if (index == (len - 1))
-                return 0;
-
-            char c = nm.charAt(index + 1);
-
-            if ('x' == c || 'X' == c) {
-                index += 2;
-                base = 16;
-            } else {
-                index++;
-                base = 8;
-            }
-        } else if ('#' == nm.charAt(index)) {
-            index++;
-            base = 16;
-        }
-
-        return Integer.parseInt(nm.substring(index), base) * sign;
     }
 
 

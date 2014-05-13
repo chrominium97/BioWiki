@@ -1,27 +1,5 @@
 package org.xmlrpc.android;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.SequenceInputStream;
-import java.io.StringWriter;
-import java.net.URI;
-import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.net.ssl.SSLHandshakeException;
-
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Xml;
@@ -58,6 +36,28 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
+import java.io.StringWriter;
+import java.net.URI;
+import java.net.URL;
+import java.security.GeneralSecurityException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.SSLHandshakeException;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.AppLog.T;
@@ -81,7 +81,7 @@ public class XMLRPCClient implements XMLRPCClientInterface {
     private static final int DEFAULT_CONNECTION_TIMEOUT = 30000;
     private static final int DEFAULT_SOCKET_TIMEOUT = 60000;
 
-    private Map<Long,Caller> backgroundCalls = new HashMap<Long, Caller>();
+    private Map<Long, Caller> backgroundCalls = new HashMap<Long, Caller>();
 
     private DefaultHttpClient mClient;
     private HttpPost mPostMethod;
@@ -91,6 +91,7 @@ public class XMLRPCClient implements XMLRPCClientInterface {
 
     /**
      * XMLRPCClient constructor. Creates new instance based on server URI
+     *
      * @param XMLRPC server URI
      */
     public XMLRPCClient(URI uri, String httpuser, String httppasswd) {
@@ -111,87 +112,9 @@ public class XMLRPCClient implements XMLRPCClientInterface {
         mSerializer = Xml.newSerializer();
     }
 
-    private class ConnectionClient extends DefaultHttpClient {
-        public ConnectionClient(int port) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
-            super();
-            TrustUserSSLCertsSocketFactory tasslf = new TrustUserSSLCertsSocketFactory();
-            Scheme scheme = new Scheme("https", tasslf, port);
-            getConnectionManager().getSchemeRegistry().register(scheme);
-        }
-    }
-
-    private DefaultHttpClient instantiateClientForUri(URI uri, UsernamePasswordCredentials usernamePasswordCredentials) {
-        DefaultHttpClient client = null;
-        if (uri.getHost().endsWith("wordpress.com")) {
-            mIsWpcom = true;
-        }
-        if (mIsWpcom || (uri.getScheme() == null || uri.getScheme().equals("http"))) {
-            //wpcom blog or self-hosted blog on plain HTTP
-            client = new DefaultHttpClient();
-        } else {
-            int port = uri.getPort();
-            if (port == -1) {
-                port = 443;
-            }
-
-            try {
-                client = new ConnectionClient(port);
-            } catch (NoSuchAlgorithmException e) {
-                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
-                client = null;
-            } catch (KeyStoreException e) {
-                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
-                client = null;
-            } catch (UnrecoverableKeyException e) {
-                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
-                client = null;
-            } catch (GeneralSecurityException e) {
-                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
-                client = null;
-            }
-
-            if (client == null) {
-                client = new DefaultHttpClient();
-            }
-        }
-
-        // This is probably superfluous, since we're setting the timeouts in the method parameters. See preparePostMethod
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), DEFAULT_CONNECTION_TIMEOUT);
-        HttpConnectionParams.setSoTimeout(client.getParams(), DEFAULT_SOCKET_TIMEOUT);
-
-        //Setup HTTP Basic Auth if necessary
-        if (usernamePasswordCredentials != null) {
-            BasicCredentialsProvider cP = new BasicCredentialsProvider();
-            cP.setCredentials(AuthScope.ANY, usernamePasswordCredentials);
-            client.setCredentialsProvider(cP);
-
-            // add an interceptor to sent the credentials preemptively
-            HttpRequestInterceptor preemptiveAuth = new HttpRequestInterceptor() {
-                @Override
-                public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
-                    AuthState authState = (AuthState) context.getAttribute(ClientContext.TARGET_AUTH_STATE);
-                    if (authState.getAuthScheme() == null) {
-                        CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(ClientContext.CREDS_PROVIDER);
-                        HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
-                        AuthScope authScope = new AuthScope(targetHost.getHostName(), targetHost.getPort());
-                        Credentials creds = credsProvider.getCredentials(authScope);
-                        authState.setCredentials(creds);
-                        authState.setAuthScheme(new BasicScheme());
-                    }
-                }
-            };
-            client.addRequestInterceptor(preemptiveAuth, 0);
-        }
-
-        return client;
-    }
-
-    public void addQuickPostHeader(String type) {
-        mPostMethod.addHeader("WP-QUICK-POST", type);
-    }
-
     /**
      * Convenience constructor. Creates new instance based on server String address
+     *
      * @param url server url
      */
     public XMLRPCClient(String url, String httpuser, String httppasswd) {
@@ -200,75 +123,11 @@ public class XMLRPCClient implements XMLRPCClientInterface {
 
     /**
      * Convenience XMLRPCClient constructor. Creates new instance based on server URL
+     *
      * @param url server URL
      */
     public XMLRPCClient(URL url, String httpuser, String httppasswd) {
         this(URI.create(url.toExternalForm()), httpuser, httppasswd);
-    }
-
-    /**
-     * Set WP.com auth header
-     * @param authToken authorization token
-     */
-    public void setAuthorizationHeader(String authToken) {
-        if( authToken != null)
-            mPostMethod.addHeader("Authorization", String.format("Bearer %s", authToken));
-        else
-            mPostMethod.removeHeaders("Authorization");
-    }
-
-    /**
-     * Call method with optional parameters. This is general method.
-     * If you want to call your method with 0-8 parameters, you can use more
-     * convenience call methods
-     *
-     * @param method name of method to call
-     * @param params parameters to pass to method (may be null if method has no parameters)
-     * @return deserialized method return value
-     * @throws XMLRPCException
-     */
-    public Object call(String method, Object[] params) throws XMLRPCException, IOException, XmlPullParserException {
-        return call(method, params, null);
-    }
-
-    /**
-     * Convenience method call with no parameters
-     *
-     * @param method name of method to call
-     * @return deserialized method return value
-     * @throws XMLRPCException
-     */
-    public Object call(String method) throws XMLRPCException, IOException, XmlPullParserException {
-        return call(method, null, null);
-    }
-
-
-    public Object call(String method, Object[] params, File tempFile) throws XMLRPCException, IOException, XmlPullParserException {
-        return new Caller().callXMLRPC(method, params, tempFile);
-    }
-
-    /**
-     * Convenience call for callAsync with two paramaters
-     *
-     * @param XMLRPCCallback listener, XMLRPC methodName, XMLRPC parameters
-     * @return unique id of this async call
-     * @throws XMLRPCException
-     */
-    public long callAsync(XMLRPCCallback listener, String methodName, Object[] params) {
-        return callAsync(listener, methodName, params, null);
-    }
-
-    /**
-     * Asynchronous XMLRPC call
-     *
-     * @param XMLRPCCallback listener, XMLRPC methodName, XMLRPC parameters, File for large uploads
-     * @return unique id of this async call
-     * @throws XMLRPCException
-     */
-    public long callAsync(XMLRPCCallback listener, String methodName, Object[] params, File tempFile) {
-        long id = System.currentTimeMillis();
-        new Caller(listener, id, methodName, params, tempFile).start();
-        return id;
     }
 
     public static Object parseXMLRPCResponse(InputStream is)
@@ -349,6 +208,141 @@ public class XMLRPCClient implements XMLRPCClientInterface {
         }
     }
 
+    private DefaultHttpClient instantiateClientForUri(URI uri, UsernamePasswordCredentials usernamePasswordCredentials) {
+        DefaultHttpClient client = null;
+        if (uri.getHost().endsWith("wordpress.com")) {
+            mIsWpcom = true;
+        }
+        if (mIsWpcom || (uri.getScheme() == null || uri.getScheme().equals("http"))) {
+            //wpcom blog or self-hosted blog on plain HTTP
+            client = new DefaultHttpClient();
+        } else {
+            int port = uri.getPort();
+            if (port == -1) {
+                port = 443;
+            }
+
+            try {
+                client = new ConnectionClient(port);
+            } catch (NoSuchAlgorithmException e) {
+                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
+                client = null;
+            } catch (KeyStoreException e) {
+                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
+                client = null;
+            } catch (UnrecoverableKeyException e) {
+                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
+                client = null;
+            } catch (GeneralSecurityException e) {
+                AppLog.e(T.API, "Cannot create the DefaultHttpClient object with our TrustAllSSLSocketFactory", e);
+                client = null;
+            }
+
+            if (client == null) {
+                client = new DefaultHttpClient();
+            }
+        }
+
+        // This is probably superfluous, since we're setting the timeouts in the method parameters. See preparePostMethod
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), DEFAULT_CONNECTION_TIMEOUT);
+        HttpConnectionParams.setSoTimeout(client.getParams(), DEFAULT_SOCKET_TIMEOUT);
+
+        //Setup HTTP Basic Auth if necessary
+        if (usernamePasswordCredentials != null) {
+            BasicCredentialsProvider cP = new BasicCredentialsProvider();
+            cP.setCredentials(AuthScope.ANY, usernamePasswordCredentials);
+            client.setCredentialsProvider(cP);
+
+            // add an interceptor to sent the credentials preemptively
+            HttpRequestInterceptor preemptiveAuth = new HttpRequestInterceptor() {
+                @Override
+                public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+                    AuthState authState = (AuthState) context.getAttribute(ClientContext.TARGET_AUTH_STATE);
+                    if (authState.getAuthScheme() == null) {
+                        CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(ClientContext.CREDS_PROVIDER);
+                        HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+                        AuthScope authScope = new AuthScope(targetHost.getHostName(), targetHost.getPort());
+                        Credentials creds = credsProvider.getCredentials(authScope);
+                        authState.setCredentials(creds);
+                        authState.setAuthScheme(new BasicScheme());
+                    }
+                }
+            };
+            client.addRequestInterceptor(preemptiveAuth, 0);
+        }
+
+        return client;
+    }
+
+    public void addQuickPostHeader(String type) {
+        mPostMethod.addHeader("WP-QUICK-POST", type);
+    }
+
+    /**
+     * Set WP.com auth header
+     *
+     * @param authToken authorization token
+     */
+    public void setAuthorizationHeader(String authToken) {
+        if (authToken != null)
+            mPostMethod.addHeader("Authorization", String.format("Bearer %s", authToken));
+        else
+            mPostMethod.removeHeaders("Authorization");
+    }
+
+    /**
+     * Call method with optional parameters. This is general method.
+     * If you want to call your method with 0-8 parameters, you can use more
+     * convenience call methods
+     *
+     * @param method name of method to call
+     * @param params parameters to pass to method (may be null if method has no parameters)
+     * @return deserialized method return value
+     * @throws XMLRPCException
+     */
+    public Object call(String method, Object[] params) throws XMLRPCException, IOException, XmlPullParserException {
+        return call(method, params, null);
+    }
+
+    /**
+     * Convenience method call with no parameters
+     *
+     * @param method name of method to call
+     * @return deserialized method return value
+     * @throws XMLRPCException
+     */
+    public Object call(String method) throws XMLRPCException, IOException, XmlPullParserException {
+        return call(method, null, null);
+    }
+
+    public Object call(String method, Object[] params, File tempFile) throws XMLRPCException, IOException, XmlPullParserException {
+        return new Caller().callXMLRPC(method, params, tempFile);
+    }
+
+    /**
+     * Convenience call for callAsync with two paramaters
+     *
+     * @param XMLRPCCallback listener, XMLRPC methodName, XMLRPC parameters
+     * @return unique id of this async call
+     * @throws XMLRPCException
+     */
+    public long callAsync(XMLRPCCallback listener, String methodName, Object[] params) {
+        return callAsync(listener, methodName, params, null);
+    }
+
+    /**
+     * Asynchronous XMLRPC call
+     *
+     * @param XMLRPCCallback listener, XMLRPC methodName, XMLRPC parameters, File for large uploads
+     * @return unique id of this async call
+     * @throws XMLRPCException
+     */
+    public long callAsync(XMLRPCCallback listener, String methodName, Object[] params, File tempFile) {
+        long id = System.currentTimeMillis();
+        new Caller(listener, id, methodName, params, tempFile).start();
+        return id;
+    }
+
     public void preparePostMethod(String method, Object[] params, File tempFile) throws IOException, XMLRPCException, IllegalArgumentException, IllegalStateException {
         // prepare POST body
         if (method.equals("wp.uploadFile")) {
@@ -422,6 +416,47 @@ public class XMLRPCClient implements XMLRPCClientInterface {
     }
 
     /**
+     * Detect login issues and broadcast a message if the error is known, App Activities should listen to these
+     * broadcasted events and present user action to take
+     *
+     * @return true if error is known and event broadcasted, false else
+     */
+    private boolean checkXMLRPCErrorMessage(Exception exception) {
+        String errorMessage = exception.getMessage().toLowerCase();
+        if ((errorMessage.contains("code: 503") || errorMessage.contains("code 503"))//TODO Not sure 503 is the correct error code returned by wpcom
+                &&
+                (errorMessage.contains("limit reached") || errorMessage.contains("login limit"))) {
+            broadcastAction(BioWiki.BROADCAST_ACTION_XMLRPC_LOGIN_LIMIT);
+            return true;
+        }
+        return false;
+    }
+
+    private void broadcastAction(String action) {
+        Intent intent = new Intent();
+        intent.setAction(action);
+        BioWiki.getContext().sendBroadcast(intent);
+    }
+
+    private void deleteTempFile(String method, File tempFile) {
+        if (tempFile != null) {
+            if ((method.equals("wp.uploadFile"))) { //get rid of the temp file
+                tempFile.delete();
+            }
+        }
+
+    }
+
+    private class ConnectionClient extends DefaultHttpClient {
+        public ConnectionClient(int port) throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+            super();
+            TrustUserSSLCertsSocketFactory tasslf = new TrustUserSSLCertsSocketFactory();
+            Scheme scheme = new Scheme("https", tasslf, port);
+            getConnectionManager().getSchemeRegistry().register(scheme);
+        }
+    }
+
+    /**
      * The Caller class is used to make asynchronous calls to the server.
      * For synchronous calls the Thread function of this class isn't used.
      */
@@ -436,10 +471,10 @@ public class XMLRPCClient implements XMLRPCClientInterface {
         /**
          * Create a new Caller for asynchronous use.
          *
-         * @param listener The listener to notice about the response or an error.
-         * @param threadId An id that will be send to the listener.
+         * @param listener   The listener to notice about the response or an error.
+         * @param threadId   An id that will be send to the listener.
          * @param methodName The method name to call.
-         * @param params The parameters of the call or null.
+         * @param params     The parameters of the call or null.
          */
         public Caller(XMLRPCCallback listener, long threadId, String methodName, Object[] params, File tempFile) {
             this.listener = listener;
@@ -455,7 +490,8 @@ public class XMLRPCClient implements XMLRPCClientInterface {
          * start method to start it as a thread. But you can call the call method
          * on it for synchronous use.
          */
-        public Caller() { }
+        public Caller() {
+        }
 
         /**
          * The run method is invoked when the thread gets started.
@@ -465,14 +501,14 @@ public class XMLRPCClient implements XMLRPCClientInterface {
         @Override
         public void run() {
 
-            if(listener == null)
+            if (listener == null)
                 return;
 
             try {
                 backgroundCalls.put(threadId, this);
                 Object o = this.callXMLRPC(methodName, params, tempFile);
                 listener.onSuccess(threadId, o);
-            } catch(CancelException ex) {
+            } catch (CancelException ex) {
                 // Don't notify the listener, if the call has been canceled.
             } catch (Exception ex) {
                 listener.onFailure(threadId, ex);
@@ -498,23 +534,23 @@ public class XMLRPCClient implements XMLRPCClientInterface {
 
                 // execute HTTP POST request
                 HttpResponse response = mClient.execute(mPostMethod);
-                
+
                 if (response.getStatusLine() == null) // StatusLine is null. We can't read the response code.
-                    throw new XMLRPCException( "HTTP Status code is missing!" );
-                    
+                    throw new XMLRPCException("HTTP Status code is missing!");
+
                 int statusCode = response.getStatusLine().getStatusCode();
                 HttpEntity entity = response.getEntity();
-               
+
                 if (entity == null) {
                     //This is an error since the parser will fail here.
-                    throw new XMLRPCException( "HTTP status code: " + statusCode + " was returned AND no response from the server." );
+                    throw new XMLRPCException("HTTP status code: " + statusCode + " was returned AND no response from the server.");
                 }
-                
+
                 if (statusCode == HttpStatus.SC_OK) {
                     loggedInputStream = new LoggedInputStream(entity.getContent());
                     return XMLRPCClient.parseXMLRPCResponse(loggedInputStream, entity);
                 }
-                
+
                 String statusLineReasonPhrase = StringUtils.notNullStr(response.getStatusLine().getReasonPhrase());
                 try {
                     String responseString = EntityUtils.toString(entity, "UTF-8");
@@ -536,17 +572,17 @@ public class XMLRPCClient implements XMLRPCClientInterface {
                                 newErrorMsg =
                                         "The server doesn't have enough memory to fulfill the request. You may need to increase the PHP memory limit on your site.";
                             }
-                            throw new XMLRPCException( statusLineReasonPhrase + ".\n\n" + newErrorMsg);
+                            throw new XMLRPCException(statusLineReasonPhrase + ".\n\n" + newErrorMsg);
                         }
                     }
-     
+
                 } catch (Exception e) {
                     // eat all the exceptions here, we dont want to crash the app when trying to show a
                     // better error message.
                 }
-                throw new XMLRPCException( "HTTP status code: " + statusCode + " was returned. " + statusLineReasonPhrase);
+                throw new XMLRPCException("HTTP status code: " + statusCode + " was returned. " + statusLineReasonPhrase);
             } catch (XMLRPCFault e) {
-                if (loggedInputStream!=null) {
+                if (loggedInputStream != null) {
                     AppLog.w(T.API, "Response document received from the server: " + loggedInputStream.getResponseDocument());
                 }
                 // Detect login issues and broadcast a message if the error is known
@@ -564,13 +600,13 @@ public class XMLRPCClient implements XMLRPCClientInterface {
                 throw e;
             } catch (XmlPullParserException e) {
                 AppLog.e(T.API, "Error while parsing the XML-RPC response document received from the server.", e);
-                if (loggedInputStream!=null) {
+                if (loggedInputStream != null) {
                     AppLog.e(T.API, "Response document received from the server: " + loggedInputStream.getResponseDocument());
                 }
                 checkXMLRPCErrorMessage(e);
                 throw e;
             } catch (XMLRPCException e) {
-                if (loggedInputStream!=null) {
+                if (loggedInputStream != null) {
                     AppLog.e(T.API, "Response document received from the server: " + loggedInputStream.getResponseDocument());
                 }
                 checkXMLRPCErrorMessage(e);
@@ -586,46 +622,13 @@ public class XMLRPCClient implements XMLRPCClientInterface {
             } finally {
                 deleteTempFile(method, tempFile);
                 try {
-                    if (loggedInputStream!=null) {
+                    if (loggedInputStream != null) {
                         loggedInputStream.close();
                     }
                 } catch (Exception e) {
                 }
             }
         }
-    }
-
-    /**
-     * Detect login issues and broadcast a message if the error is known, App Activities should listen to these
-     * broadcasted events and present user action to take
-     *
-     * @return true if error is known and event broadcasted, false else
-     */
-    private boolean checkXMLRPCErrorMessage(Exception exception) {
-        String errorMessage = exception.getMessage().toLowerCase();
-        if ((errorMessage.contains("code: 503") || errorMessage.contains("code 503"))//TODO Not sure 503 is the correct error code returned by wpcom 
-                && 
-            (errorMessage.contains("limit reached") || errorMessage.contains("login limit"))) 
-        {
-            broadcastAction(BioWiki.BROADCAST_ACTION_XMLRPC_LOGIN_LIMIT);
-            return true;
-        }
-        return false;
-    }
-
-    private void broadcastAction(String action) {
-        Intent intent = new Intent();
-        intent.setAction(action);
-        BioWiki.getContext().sendBroadcast(intent);
-    }
-
-    private void deleteTempFile(String method, File tempFile) {
-        if (tempFile != null) {
-            if ((method.equals("wp.uploadFile"))){ //get rid of the temp file
-                tempFile.delete();
-            }
-        }
-
     }
 
     private class CancelException extends RuntimeException {

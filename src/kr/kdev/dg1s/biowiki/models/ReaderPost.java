@@ -4,6 +4,12 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import org.json.JSONObject;
+
+import java.text.BreakIterator;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import kr.kdev.dg1s.biowiki.util.DateTimeUtils;
 import kr.kdev.dg1s.biowiki.util.HtmlUtils;
 import kr.kdev.dg1s.biowiki.util.JSONUtil;
@@ -11,19 +17,23 @@ import kr.kdev.dg1s.biowiki.util.PhotonUtils;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
 import kr.kdev.dg1s.biowiki.util.UrlUtils;
 
-import java.text.BreakIterator;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
 /**
  * Created by nbradbury on 6/27/13.
  */
 public class ReaderPost {
-    private String pseudoId;
     public long postId;
     public long blogId;
-
+    public long timestamp;        // used for sorting
+    public int numReplies;        // includes comments, trackbacks & pingbacks
+    public int numLikes;
+    public boolean isLikedByCurrentUser;
+    public boolean isFollowedByCurrentUser;
+    public boolean isRebloggedByCurrentUser;
+    public boolean isCommentsOpen;
+    public boolean isExternal;
+    public boolean isPrivate;
+    public boolean isVideoPress;
+    private String pseudoId;
     private String title;
     private String text;
     private String excerpt;
@@ -32,27 +42,71 @@ public class ReaderPost {
     private String blogUrl;
     private String postAvatar;
     private String tags;          // comma-separated list of tags
-
-    public long timestamp;        // used for sorting
     private String published;
-
     private String url;
     private String featuredImage;
     private String featuredVideo;
+    /**
+     * *
+     * the following are transient variables - not stored in the db or returned in the json - whose
+     * sole purpose is to cache commonly-used values for the post that speeds up using them inside
+     * adapters
+     * **
+     */
 
-    public int numReplies;        // includes comments, trackbacks & pingbacks
-    public int numLikes;
+    /*
+     * returns the featured image url as a photon url set to the passed width/height
+     */
+    private transient String featuredImageForDisplay;
+    /*
+     * returns the avatar url as a photon url set to the passed size
+     */
+    private transient String avatarForDisplay;
+    /*
+     * converts iso8601 published date to an actual java date
+     */
+    private transient java.util.Date dtPublished;
+    private transient String firstTag;
 
-    public boolean isLikedByCurrentUser;
-    public boolean isFollowedByCurrentUser;
-    public boolean isRebloggedByCurrentUser;
-    public boolean isCommentsOpen;
-    public boolean isExternal;
-    public boolean isPrivate;
-    public boolean isVideoPress;
+    /*
+     * This is necessary to get VideoPress videos to work in the Reader since the v1
+     * REST API returns VideoPress videos in a script block that relies on jQuery - which obviously
+     * fails on mobile - here we extract the video thumbnail and insert a DIV at the top of the
+     * post content which links the thumbnail IMG to the video so the user can tap the thumb to
+     * play the video
+     * iOS: https://github.com/wordpress-mobile/WordPress-iOS/blob/develop/WordPress/Classes/ReaderPost.m#L702
+     */
+    /*private static void cleanupVideoPress(ReaderPost post) {
+        if (post==null || !post.hasText() || !post.hasFeaturedVideo())
+            return;
+
+        // extract the video thumbnail from them "videopress-poster" image class
+        String text = post.getText();
+        int pos = text.indexOf("videopress-poster");
+        if (pos == -1)
+            return;
+        int srcStart = text.indexOf("src=\"", pos);
+        if (srcStart == -1)
+            return;
+        srcStart += 5;
+        int srcEnd = text.indexOf("\"", srcStart);
+        if (srcEnd == -1)
+            return;
+
+        // set the featured image to the thumbnail if a featured image isn't already assigned
+        String thumb = text.substring(srcStart, srcEnd);
+        if (!post.hasFeaturedImage())
+            post.featuredImage = thumb;
+
+        // add the thumbnail linked to the actual video to the top of the content
+        String videoLink = String.format("<div><a href='%s'><img src='%s'/></a></div>", post.getFeaturedVideo(), thumb);
+        post.text = videoLink + text;
+    }*/
+
+    // --------------------------------------------------------------------------------------------
 
     public static ReaderPost fromJson(JSONObject json) {
-        if (json==null)
+        if (json == null)
             throw new IllegalArgumentException("null json post");
 
         ReaderPost post = new ReaderPost();
@@ -84,14 +138,14 @@ public class ReaderPost {
         post.isPrivate = JSONUtil.getBool(json, "site_is_private");
 
         JSONObject jsonAuthor = json.optJSONObject("author");
-        if (jsonAuthor!=null) {
+        if (jsonAuthor != null) {
             post.authorName = JSONUtil.getString(jsonAuthor, "name");
             post.postAvatar = JSONUtil.getString(jsonAuthor, "avatar_URL");
         }
 
         // only freshly-pressed posts have the "editorial" section
         JSONObject jsonEditorial = json.optJSONObject("editorial");
-        if (jsonEditorial!=null) {
+        if (jsonEditorial != null) {
             post.blogId = jsonEditorial.optLong("blog_id");
             post.blogName = JSONUtil.getStringDecoded(jsonEditorial, "blog_name");
             post.featuredImage = getImageUrlFromFeaturedImageUrl(JSONUtil.getString(jsonEditorial, "image"));
@@ -115,7 +169,7 @@ public class ReaderPost {
 
         // parse attachments to get the VideoPress thumbnail & url
         /*"attachments": {
-				"321": {
+                "321": {
 					"ID": 321,
 					"URL": "http://dissolvingbuildings.files.wordpress.com/2013/08/webcam-video-from-25-august-2013-18-33.mp4",
 					"guid": "http://dissolvingbuildings.files.wordpress.com/2013/08/webcam-video-from-25-august-2013-18-33.mp4",
@@ -251,7 +305,7 @@ public class ReaderPost {
             end = wordIterator.next();
         }
 
-        if (totalLen==0)
+        if (totalLen == 0)
             return null;
         return result.toString().trim() + "...";
     }
@@ -262,7 +316,7 @@ public class ReaderPost {
      * specific WP image classes (but will also work with RSS posts that come from WP blogs)
      */
     private static String findFeaturedImage(final String text) {
-        if (text==null || !text.contains("<img "))
+        if (text == null || !text.contains("<img "))
             return null;
 
         final String className;
@@ -285,15 +339,15 @@ public class ReaderPost {
             if (imgEnd == -1)
                 return null;
 
-            String img = text.substring(imgStart, imgEnd+1);
+            String img = text.substring(imgStart, imgEnd + 1);
             if (img.contains(className)) {
                 int srcStart = img.indexOf(usesSingleQuotes ? "src='" : "src=\"");
                 if (srcStart == -1)
                     return null;
-                int srcEnd = img.indexOf(usesSingleQuotes ? "'" : "\"", srcStart+5);
+                int srcEnd = img.indexOf(usesSingleQuotes ? "'" : "\"", srcStart + 5);
                 if (srcEnd == -1)
                     return null;
-                return img.substring(srcStart+5, srcEnd);
+                return img.substring(srcStart + 5, srcEnd);
             }
 
             imgStart = text.indexOf("<img ", imgEnd);
@@ -324,7 +378,7 @@ public class ReaderPost {
         if (featuredImageUrl.contains("imgpress")) {
             // parse the url parameter
             String actualImageUrl = Uri.parse(featuredImageUrl).getQueryParameter("url");
-            if (actualImageUrl==null)
+            if (actualImageUrl == null)
                 return featuredImageUrl;
 
             // at this point the imageUrl may still be an ImagePress url, so check the url param again (see above example)
@@ -344,46 +398,10 @@ public class ReaderPost {
         return featuredImageUrl.substring(0, pos);
     }
 
-    /*
-     * This is necessary to get VideoPress videos to work in the Reader since the v1
-     * REST API returns VideoPress videos in a script block that relies on jQuery - which obviously
-     * fails on mobile - here we extract the video thumbnail and insert a DIV at the top of the
-     * post content which links the thumbnail IMG to the video so the user can tap the thumb to
-     * play the video
-     * iOS: https://github.com/wordpress-mobile/WordPress-iOS/blob/develop/WordPress/Classes/ReaderPost.m#L702
-     */
-    /*private static void cleanupVideoPress(ReaderPost post) {
-        if (post==null || !post.hasText() || !post.hasFeaturedVideo())
-            return;
-
-        // extract the video thumbnail from them "videopress-poster" image class
-        String text = post.getText();
-        int pos = text.indexOf("videopress-poster");
-        if (pos == -1)
-            return;
-        int srcStart = text.indexOf("src=\"", pos);
-        if (srcStart == -1)
-            return;
-        srcStart += 5;
-        int srcEnd = text.indexOf("\"", srcStart);
-        if (srcEnd == -1)
-            return;
-
-        // set the featured image to the thumbnail if a featured image isn't already assigned
-        String thumb = text.substring(srcStart, srcEnd);
-        if (!post.hasFeaturedImage())
-            post.featuredImage = thumb;
-
-        // add the thumbnail linked to the actual video to the top of the content
-        String videoLink = String.format("<div><a href='%s'><img src='%s'/></a></div>", post.getFeaturedVideo(), thumb);
-        post.text = videoLink + text;
-    }*/
-
-    // --------------------------------------------------------------------------------------------
-
     public String getAuthorName() {
         return StringUtils.notNullStr(authorName);
     }
+
     public void setAuthorName(String authorName) {
         this.authorName = StringUtils.notNullStr(authorName);
     }
@@ -391,6 +409,7 @@ public class ReaderPost {
     public String getTitle() {
         return StringUtils.notNullStr(title);
     }
+
     public void setTitle(String title) {
         this.title = StringUtils.notNullStr(title);
     }
@@ -398,6 +417,7 @@ public class ReaderPost {
     public String getText() {
         return StringUtils.notNullStr(text);
     }
+
     public void setText(String text) {
         this.text = StringUtils.notNullStr(text);
     }
@@ -405,6 +425,7 @@ public class ReaderPost {
     public String getExcerpt() {
         return StringUtils.notNullStr(excerpt);
     }
+
     public void setExcerpt(String excerpt) {
         this.excerpt = StringUtils.notNullStr(excerpt);
     }
@@ -412,6 +433,7 @@ public class ReaderPost {
     public String getUrl() {
         return StringUtils.notNullStr(url);
     }
+
     public void setUrl(String url) {
         this.url = StringUtils.notNullStr(url);
     }
@@ -419,6 +441,7 @@ public class ReaderPost {
     public String getFeaturedImage() {
         return StringUtils.notNullStr(featuredImage);
     }
+
     public void setFeaturedImage(String featuredImage) {
         this.featuredImage = StringUtils.notNullStr(featuredImage);
     }
@@ -426,6 +449,7 @@ public class ReaderPost {
     public String getFeaturedVideo() {
         return StringUtils.notNullStr(featuredVideo);
     }
+
     public void setFeaturedVideo(String featuredVideo) {
         this.featuredVideo = StringUtils.notNullStr(featuredVideo);
     }
@@ -433,6 +457,7 @@ public class ReaderPost {
     public String getBlogName() {
         return StringUtils.notNullStr(blogName);
     }
+
     public void setBlogName(String blogName) {
         this.blogName = StringUtils.notNullStr(blogName);
     }
@@ -440,6 +465,7 @@ public class ReaderPost {
     public String getBlogUrl() {
         return StringUtils.notNullStr(blogUrl);
     }
+
     public void setBlogUrl(String blogUrl) {
         this.blogUrl = StringUtils.notNullStr(blogUrl);
     }
@@ -447,13 +473,17 @@ public class ReaderPost {
     public String getPostAvatar() {
         return StringUtils.notNullStr(postAvatar);
     }
+
     public void setPostAvatar(String postAvatar) {
         this.postAvatar = StringUtils.notNullStr(postAvatar);
     }
 
+    // --------------------------------------------------------------------------------------------
+
     public String getPseudoId() {
         return StringUtils.notNullStr(pseudoId);
     }
+
     public void setPseudoId(String pseudoId) {
         this.pseudoId = StringUtils.notNullStr(pseudoId);
     }
@@ -461,6 +491,7 @@ public class ReaderPost {
     public String getPublished() {
         return StringUtils.notNullStr(published);
     }
+
     public void setPublished(String published) {
         this.published = StringUtils.notNullStr(published);
     }
@@ -473,9 +504,11 @@ public class ReaderPost {
     public String getTags() {
         return StringUtils.notNullStr(tags);
     }
+
     public void setTags(String tags) {
         this.tags = StringUtils.notNullStr(tags);
     }
+
     public boolean hasTags() {
         return !TextUtils.isEmpty(tags);
     }
@@ -483,8 +516,6 @@ public class ReaderPost {
     List<String> getTagList() {
         return Arrays.asList(getTags().split(","));
     }
-
-    // --------------------------------------------------------------------------------------------
 
     public boolean hasText() {
         return !TextUtils.isEmpty(text);
@@ -529,18 +560,8 @@ public class ReaderPost {
         return !isExternal;
     }
 
-    /****
-     * the following are transient variables - not stored in the db or returned in the json - whose
-     * sole purpose is to cache commonly-used values for the post that speeds up using them inside
-     * adapters
-     ****/
-
-    /*
-     * returns the featured image url as a photon url set to the passed width/height
-     */
-    private transient String featuredImageForDisplay;
     public String getFeaturedImageForDisplay(int width, int height) {
-        if (featuredImageForDisplay==null) {
+        if (featuredImageForDisplay == null) {
             if (!hasFeaturedImage())
                 return "";
             if (isPrivate) {
@@ -558,12 +579,8 @@ public class ReaderPost {
         return featuredImageForDisplay;
     }
 
-    /*
-     * returns the avatar url as a photon url set to the passed size
-     */
-    private transient String avatarForDisplay;
     public String getPostAvatarForDisplay(int avatarSize) {
-        if (avatarForDisplay==null) {
+        if (avatarForDisplay == null) {
             if (!hasPostAvatar())
                 return "";
             avatarForDisplay = PhotonUtils.fixAvatar(postAvatar, avatarSize);
@@ -571,17 +588,12 @@ public class ReaderPost {
         return avatarForDisplay;
     }
 
-    /*
-     * converts iso8601 published date to an actual java date
-     */
-    private transient java.util.Date dtPublished;
     public java.util.Date getDatePublished() {
-        if (dtPublished==null)
+        if (dtPublished == null)
             dtPublished = DateTimeUtils.iso8601ToJavaDate(published);
         return dtPublished;
     }
 
-    private transient String firstTag;
     public String getFirstTag() {
         if (firstTag == null) {
             List<String> tags = getTagList();

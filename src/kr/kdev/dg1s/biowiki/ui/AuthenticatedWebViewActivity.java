@@ -1,4 +1,3 @@
-
 package kr.kdev.dg1s.biowiki.ui;
 
 import android.content.Intent;
@@ -14,19 +13,19 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.BWWebChromeClient;
-import kr.kdev.dg1s.biowiki.util.BWWebViewClient;
-import kr.kdev.dg1s.biowiki.R;
-
 import org.wordpress.passcodelock.AppLockManager;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.Map;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.BWWebChromeClient;
+import kr.kdev.dg1s.biowiki.util.BWWebViewClient;
 
 /**
  * Activity for displaying WordPress content in a webview which may require authentication.
@@ -73,7 +72,8 @@ public class AuthenticatedWebViewActivity extends WebViewActivity {
     protected String getLoginUrl() {
         String loginURL = null;
         Gson gson = new Gson();
-        Type type = new TypeToken<Map<?, ?>>() {}.getType();
+        Type type = new TypeToken<Map<?, ?>>() {
+        }.getType();
         Map<?, ?> blogOptions = gson.fromJson(mBlog.getBlogOptions(), type);
         if (blogOptions != null) {
             Map<?, ?> homeURLMap = (Map<?, ?>) blogOptions.get("login_url");
@@ -81,7 +81,7 @@ public class AuthenticatedWebViewActivity extends WebViewActivity {
                 loginURL = homeURLMap.get("value").toString();
         }
         // Try to guess the login URL if blogOptions is null (blog not added to the app), or WP version is < 3.6
-        if( loginURL == null ) {
+        if (loginURL == null) {
             if (mBlog.getUrl().lastIndexOf("/") != -1) {
                 return mBlog.getUrl().substring(0, mBlog.getUrl().lastIndexOf("/"))
                         + "/wp-login.php";

@@ -14,30 +14,15 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Video;
 import android.support.v4.content.IntentCompat;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
-import android.widget.Toast;
-
-import net.htmlparser.jericho.Source;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.Constants;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.FeatureSet;
-import kr.kdev.dg1s.biowiki.models.MediaFile;
-import kr.kdev.dg1s.biowiki.models.Post;
-import kr.kdev.dg1s.biowiki.ui.posts.PagesActivity;
-import kr.kdev.dg1s.biowiki.ui.posts.PostsActivity;
-import kr.kdev.dg1s.biowiki.R;
-
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlrpc.android.ApiHelper;
 import org.xmlrpc.android.XMLRPCClientInterface;
@@ -48,9 +33,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,18 +42,42 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.Constants;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.FeatureSet;
+import kr.kdev.dg1s.biowiki.models.MediaFile;
+import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.ui.posts.PagesActivity;
+import kr.kdev.dg1s.biowiki.ui.posts.PostsActivity;
+
 public class PostUploadService extends Service {
-    private static Context context;
     private static final ArrayList<Post> listOfPosts = new ArrayList<Post>();
+    private static Context context;
     private static NotificationManager nm;
     private static Post currentUploadingPost = null;
     private UploadPostTask currentTask = null;
     private FeatureSet mFeatureSet;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+
+        }
+    };
 
     public static void addPostToUpload(Post currentPost) {
         synchronized (listOfPosts) {
             listOfPosts.add(currentPost);
         }
+    }
+
+    public static boolean isUploading(Post post) {
+        if (currentUploadingPost != null && currentUploadingPost.equals(post))
+            return true;
+        if (listOfPosts != null && listOfPosts.size() > 0 && listOfPosts.contains(post))
+            return true;
+        return false;
     }
 
     @Override
@@ -96,13 +102,6 @@ public class PostUploadService extends Service {
         uploadNextPost();
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message message) {
-
-        }
-    };
-
     private FeatureSet synchronousGetFeatureSet() {
         if (BioWiki.getCurrentBlog() == null || !BioWiki.getCurrentBlog().isDotcomFlag())
             return null;
@@ -113,11 +112,11 @@ public class PostUploadService extends Service {
         return mFeatureSet;
     }
 
-    private void uploadNextPost(){
+    private void uploadNextPost() {
         synchronized (listOfPosts) {
-            if( currentTask == null ) { //make sure nothing is running
+            if (currentTask == null) { //make sure nothing is running
                 currentUploadingPost = null;
-                if ( listOfPosts.size() > 0 ) {
+                if (listOfPosts.size() > 0) {
                     currentUploadingPost = listOfPosts.remove(0);
                     currentTask = new UploadPostTask();
                     currentTask.execute(currentUploadingPost);
@@ -136,12 +135,8 @@ public class PostUploadService extends Service {
         uploadNextPost();
     }
 
-    public static boolean isUploading(Post post) {
-        if ( currentUploadingPost != null && currentUploadingPost.equals(post) )
-            return true;
-        if( listOfPosts != null && listOfPosts.size() > 0 && listOfPosts.contains(post))
-            return true;
-        return false;
+    private File createTempUploadFile(String fileExtension) throws IOException {
+        return File.createTempFile("wp-", fileExtension, context.getCacheDir());
     }
 
     private class UploadPostTask extends AsyncTask<Post, Boolean, Boolean> {
@@ -164,8 +159,8 @@ public class PostUploadService extends Service {
                         .getText(R.string.post_id));
                 Intent notificationIntent = new Intent(context, post.isPage() ? PagesActivity.class : PostsActivity.class);
                 notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                          | Intent.FLAG_ACTIVITY_NEW_TASK
-                                          | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                        | Intent.FLAG_ACTIVITY_NEW_TASK
+                        | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
                 notificationIntent.setAction(Intent.ACTION_MAIN);
                 notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                 notificationIntent.setData((Uri.parse("custom://wordpressNotificationIntent" + post.getLocalTableBlogId())));
@@ -207,8 +202,8 @@ public class PostUploadService extends Service {
 
             Intent notificationIntent = new Intent(context, post.isPage() ? PagesActivity.class : PostsActivity.class);
             notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                      | Intent.FLAG_ACTIVITY_NEW_TASK
-                                      | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                    | Intent.FLAG_ACTIVITY_NEW_TASK
+                    | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
             notificationIntent.setAction(Intent.ACTION_MAIN);
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             notificationIntent.setData((Uri.parse("custom://wordpressNotificationIntent" + post.getLocalTableBlogId())));
@@ -312,9 +307,9 @@ public class PostUploadService extends Service {
             if (!post.isPage() && post.isLocalDraft()) {
                 // add the tagline
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                String tag= "";
+                String tag = "";
 
-                if(prefs.getString("bw_location_city", "").equals("") ) {
+                if (prefs.getString("bw_location_city", "").equals("")) {
                     String location_tag = prefs.getString("bw_location_city", "");
                     if (!TextUtils.isEmpty(location_tag)) {
                         tag += "\n\n<span class=\"post_sig\">" + "@" + location_tag + "</span>\n\n";
@@ -325,7 +320,7 @@ public class PostUploadService extends Service {
                     }
                 }
 
-                if(post.getLatitude() > 0) {
+                if (post.getLatitude() > 0) {
                     tag += "\n\n<span class=\"post_sig\">" + "" + post.getLatitude() + "," + post.getLongitude() + "</span>\n\n";
                     if (TextUtils.isEmpty(moreContent))
                         descriptionContent += tag;
@@ -394,7 +389,7 @@ public class PostUploadService extends Service {
 
                     Map<Object, Object> hLongitude = new HashMap<Object, Object>();
                     hLongitude.put("key", "geo_longitude");
-                    hLongitude.put("value",post.getLongitude());
+                    hLongitude.put("value", post.getLongitude());
 
                     Map<Object, Object> hPublic = new HashMap<Object, Object>();
                     hPublic.put("key", "geo_public");
@@ -453,7 +448,7 @@ public class PostUploadService extends Service {
             return false;
         }
 
-        
+
         private void setUploadPostErrorMessage(Exception e) {
             mErrorMessage = String.format(context.getResources().getText(R.string.error_upload).toString(), post.isPage() ? context
                     .getResources().getText(R.string.page).toString() : context.getResources().getText(R.string.post).toString())
@@ -461,7 +456,7 @@ public class PostUploadService extends Service {
             mIsMediaError = false;
             AppLog.e(AppLog.T.EDITOR, mErrorMessage, e);
         }
-        
+
         public String uploadMediaFile(MediaFile mf, Blog blog) {
             String content = "";
 
@@ -754,7 +749,7 @@ public class PostUploadService extends Service {
 
                 if (fullSizeUrl == null && resizedPictureURL != null) {
                     fullSizeUrl = resizedPictureURL;
-                } else if (fullSizeUrl != null && resizedPictureURL == null){
+                } else if (fullSizeUrl != null && resizedPictureURL == null) {
                     resizedPictureURL = fullSizeUrl;
                 }
 
@@ -786,7 +781,7 @@ public class PostUploadService extends Service {
                 return null;
             }
 
-            Object[] params = { 1, blog.getUsername(), blog.getPassword(), pictureParams };
+            Object[] params = {1, blog.getUsername(), blog.getPassword(), pictureParams};
             Object result = uploadFileHelper(client, params, tempFile);
             if (result == null) {
                 mIsMediaError = true;
@@ -832,9 +827,5 @@ public class PostUploadService extends Service {
                     tempFile.delete();
             }
         }
-    }
-
-    private File createTempUploadFile(String fileExtension) throws IOException {
-        return File.createTempFile("wp-", fileExtension, context.getCacheDir());
     }
 }

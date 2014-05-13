@@ -8,38 +8,28 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.PostStatus;
-import kr.kdev.dg1s.biowiki.ui.posts.PostsListFragment;
-import kr.kdev.dg1s.biowiki.util.SysUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.PostsListPost;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.PostStatus;
+import kr.kdev.dg1s.biowiki.models.PostsListPost;
+import kr.kdev.dg1s.biowiki.ui.posts.PostsListFragment;
+import kr.kdev.dg1s.biowiki.util.SysUtils;
 
 /**
  * Adapter for Posts/Pages list
  * Created by Dan Roundhill on 11/5/13.
  */
 public class PostsListAdapter extends BaseAdapter {
-    public static interface OnLoadMoreListener {
-        public void onLoadMore();
-    }
-
-    public static interface OnPostsLoadedListener {
-        public void onPostsLoaded(int postCount);
-    }
-
     private final OnLoadMoreListener mOnLoadMoreListener;
     private final OnPostsLoadedListener mOnPostsLoadedListener;
     private Context mContext;
     private boolean mIsPage;
     private LayoutInflater mLayoutInflater;
-
     private List<PostsListPost> mPosts = new ArrayList<PostsListPost>();
-
 
     public PostsListAdapter(Context context, boolean isPage, OnLoadMoreListener onLoadMoreListener, OnPostsLoadedListener onPostsLoadedListener) {
         mContext = context;
@@ -167,64 +157,6 @@ public class PostsListAdapter extends BaseAdapter {
         }
     }
 
-    class PostViewWrapper {
-        View base;
-        TextView title = null;
-        TextView date = null;
-        TextView status = null;
-
-        PostViewWrapper(View base) {
-            this.base = base;
-        }
-
-        TextView getTitle() {
-            if (title == null) {
-                title = (TextView) base.findViewById(R.id.post_list_title);
-            }
-            return (title);
-        }
-
-        TextView getDate() {
-            if (date == null) {
-                date = (TextView) base.findViewById(R.id.post_list_date);
-            }
-            return (date);
-        }
-
-        TextView getStatus() {
-            if (status == null) {
-                status = (TextView) base.findViewById(R.id.post_list_status);
-            }
-            return (status);
-        }
-    }
-
-    private class LoadPostsTask extends AsyncTask <Void, Void, Boolean> {
-        List<PostsListPost> loadedPosts;
-
-        @Override
-        protected Boolean doInBackground(Void... nada) {
-            loadedPosts = BioWiki.wpDB.getPostsListPosts(BioWiki.getCurrentLocalTableBlogId(), mIsPage);
-            if (postsListMatch(loadedPosts)) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if (result) {
-                setPosts(loadedPosts);
-                notifyDataSetChanged();
-
-                if (mOnPostsLoadedListener != null && mPosts != null) {
-                    mOnPostsLoadedListener.onPostsLoaded(mPosts.size());
-                }
-            }
-        }
-    }
-
     public boolean postsListMatch(List<PostsListPost> newPostsList) {
         if (newPostsList == null || newPostsList.size() == 0 || mPosts == null || mPosts.size() != newPostsList.size())
             return false;
@@ -261,5 +193,71 @@ public class PostsListAdapter extends BaseAdapter {
         }
 
         return remotePostCount;
+    }
+
+    public static interface OnLoadMoreListener {
+        public void onLoadMore();
+    }
+
+    public static interface OnPostsLoadedListener {
+        public void onPostsLoaded(int postCount);
+    }
+
+    class PostViewWrapper {
+        View base;
+        TextView title = null;
+        TextView date = null;
+        TextView status = null;
+
+        PostViewWrapper(View base) {
+            this.base = base;
+        }
+
+        TextView getTitle() {
+            if (title == null) {
+                title = (TextView) base.findViewById(R.id.post_list_title);
+            }
+            return (title);
+        }
+
+        TextView getDate() {
+            if (date == null) {
+                date = (TextView) base.findViewById(R.id.post_list_date);
+            }
+            return (date);
+        }
+
+        TextView getStatus() {
+            if (status == null) {
+                status = (TextView) base.findViewById(R.id.post_list_status);
+            }
+            return (status);
+        }
+    }
+
+    private class LoadPostsTask extends AsyncTask<Void, Void, Boolean> {
+        List<PostsListPost> loadedPosts;
+
+        @Override
+        protected Boolean doInBackground(Void... nada) {
+            loadedPosts = BioWiki.wpDB.getPostsListPosts(BioWiki.getCurrentLocalTableBlogId(), mIsPage);
+            if (postsListMatch(loadedPosts)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                setPosts(loadedPosts);
+                notifyDataSetChanged();
+
+                if (mOnPostsLoadedListener != null && mPosts != null) {
+                    mOnPostsLoadedListener.onPostsLoaded(mPosts.size());
+                }
+            }
+        }
     }
 }

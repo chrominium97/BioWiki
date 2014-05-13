@@ -1,9 +1,9 @@
 package kr.kdev.dg1s.biowiki.models;
 
+import android.webkit.MimeTypeMap;
+
 import java.util.Date;
 import java.util.Map;
-
-import android.webkit.MimeTypeMap;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.util.MapUtils;
@@ -34,9 +34,9 @@ public class MediaFile {
     private String mediaId;
 
     public MediaFile(String blogId, Map<?, ?> resultMap) {
-        
+
         boolean isDotCom = (BioWiki.getCurrentBlog() != null && BioWiki.getCurrentBlog().isDotcomFlag());
-        
+
         setBlogId(blogId);
         setMediaId(MapUtils.getMapStr(resultMap, "attachment_id"));
         setPostID(MapUtils.getMapLong(resultMap, "parent"));
@@ -44,22 +44,22 @@ public class MediaFile {
         setCaption(MapUtils.getMapStr(resultMap, "caption"));
         setDescription(MapUtils.getMapStr(resultMap, "description"));
         setVideoPressShortCode(MapUtils.getMapStr(resultMap, "videopress_shortcode"));
-        
+
         // get the file name from the link
         String link = MapUtils.getMapStr(resultMap, "link");
         setFileName(new String(link).replaceAll("^.*/([A-Za-z0-9_-]+)\\.\\w+$", "$1"));
-        
+
         String fileType = new String(link).replaceAll(".*\\.(\\w+)$", "$1").toLowerCase();
         String fileMimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileType);
         setMimeType(fileMimeType);
-        
+
         // make the file urls be https://... so that we can get these images with oauth when the blogs are private
         // assume no https for images in self-hosted blogs
         String fileUrl = MapUtils.getMapStr(resultMap, "link");
         if (isDotCom)
-            fileUrl = fileUrl.replace("http:", "https:"); 
+            fileUrl = fileUrl.replace("http:", "https:");
         setFileURL(fileUrl);
-        
+
         String thumbnailURL = MapUtils.getMapStr(resultMap, "thumbnail");
         if (thumbnailURL.startsWith("http")) {
             if (isDotCom)
@@ -68,19 +68,18 @@ public class MediaFile {
         }
 
 
-
         Date date = MapUtils.getMapDate(resultMap, "date_created_gmt");
         if (date != null)
             setDateCreatedGMT(date.getTime());
 
         Object meta = resultMap.get("metadata");
-        if(meta != null && meta instanceof Map) {
+        if (meta != null && meta instanceof Map) {
             Map<?, ?> metadata = (Map<?, ?>) meta;
             setWidth(MapUtils.getMapInt(metadata, "width"));
             setHeight(MapUtils.getMapInt(metadata, "height"));
         }
     }
-    
+
     public MediaFile() {
         // TODO Auto-generated constructor stub
     }
@@ -96,11 +95,11 @@ public class MediaFile {
     public String getMediaId() {
         return mediaId;
     }
-    
+
     public void setMediaId(String id) {
         mediaId = id;
     }
-    
+
     public boolean isFeatured() {
         return featured;
     }
@@ -164,7 +163,7 @@ public class MediaFile {
     public void setThumbnailURL(String thumbnailURL) {
         this.thumbnailURL = thumbnailURL;
     }
-    
+
     public boolean isVerticalAlignmentOnTop() {
         return verticalAligment;
     }
@@ -247,24 +246,23 @@ public class MediaFile {
 
     public void setBlogId(String blogId) {
         this.blogId = blogId;
-        
-    }
 
-    public void setDateCreatedGMT(long date_created_gmt) {
-        this.dateCreatedGmt = date_created_gmt;
     }
-    
 
     public long getDateCreatedGMT() {
         return dateCreatedGmt;
     }
 
-    public void setUploadState(String uploadState) {
-        this.uploadState = uploadState;
+    public void setDateCreatedGMT(long date_created_gmt) {
+        this.dateCreatedGmt = date_created_gmt;
     }
-    
+
     public String getUploadState() {
         return uploadState;
+    }
+
+    public void setUploadState(String uploadState) {
+        this.uploadState = uploadState;
     }
 
 }

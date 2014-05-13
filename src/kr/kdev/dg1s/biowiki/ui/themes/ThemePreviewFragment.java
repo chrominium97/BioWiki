@@ -15,19 +15,18 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.BWWebChromeClient;
 import kr.kdev.dg1s.biowiki.util.BWWebViewClient;
-import kr.kdev.dg1s.biowiki.R;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * A fragment to display a preview of the theme being applied on a blog.
- *
  */
 public class ThemePreviewFragment extends SherlockFragment {
 
@@ -45,13 +44,6 @@ public class ThemePreviewFragment extends SherlockFragment {
     private ProgressBar mProgressBar;
     private String mThemeId;
     private String mPreviewURL;
-
-    public interface ThemePreviewFragmentCallback {
-        public void onResume(Fragment fragment);
-        public void onPause(Fragment fragment);
-        public void onActivateThemeClicked(String themeId, Fragment fragment);
-    }
-
 
     public static ThemePreviewFragment newInstance(String themeId, String previewURL) {
         ThemePreviewFragment fragment = new ThemePreviewFragment();
@@ -156,7 +148,6 @@ public class ThemePreviewFragment extends SherlockFragment {
         loadAuthenticatedUrl(getPreviewURL());
     }
 
-
     /**
      * Login to the WordPress blog and load the specified URL.
      *
@@ -193,5 +184,13 @@ public class ThemePreviewFragment extends SherlockFragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.removeItem(R.id.menu_search);
+    }
+
+    public interface ThemePreviewFragmentCallback {
+        public void onResume(Fragment fragment);
+
+        public void onPause(Fragment fragment);
+
+        public void onActivateThemeClicked(String themeId, Fragment fragment);
     }
 }

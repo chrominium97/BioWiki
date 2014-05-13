@@ -3,15 +3,6 @@ package kr.kdev.dg1s.biowiki.ui.accounts;
 import android.content.Context;
 import android.webkit.URLUtil;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.Constants;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.MapUtils;
-import kr.kdev.dg1s.biowiki.util.UrlUtils;
-import kr.kdev.dg1s.biowiki.util.Utils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.util.StringUtils;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlrpc.android.ApiHelper;
 import org.xmlrpc.android.XMLRPCClientInterface;
@@ -29,6 +20,16 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.net.ssl.SSLHandshakeException;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.Constants;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.MapUtils;
+import kr.kdev.dg1s.biowiki.util.StringUtils;
+import kr.kdev.dg1s.biowiki.util.UrlUtils;
+import kr.kdev.dg1s.biowiki.util.Utils;
 
 public class SetupBlog {
     private static final String DEFAULT_IMAGE_SIZE = "2000";
@@ -58,20 +59,20 @@ public class SetupBlog {
         return mXmlrpcUrl;
     }
 
-    public void setUsername(String mUsername) {
-        this.mUsername = mUsername;
+    public String getPassword() {
+        return mPassword;
     }
 
     public void setPassword(String mPassword) {
         this.mPassword = mPassword;
     }
 
-    public String getPassword() {
-        return mPassword;
-    }
-
     public String getUsername() {
         return mUsername;
+    }
+
+    public void setUsername(String mUsername) {
+        this.mUsername = mUsername;
     }
 
     public void setHttpUsername(String mHttpUsername) {
@@ -86,12 +87,12 @@ public class SetupBlog {
         this.mSelfHostedURL = mSelfHostedURL;
     }
 
-    public void setHttpAuthRequired(boolean mHttpAuthRequired) {
-        this.mHttpAuthRequired = mHttpAuthRequired;
-    }
-
     public boolean isHttpAuthRequired() {
         return mHttpAuthRequired;
+    }
+
+    public void setHttpAuthRequired(boolean mHttpAuthRequired) {
+        this.mHttpAuthRequired = mHttpAuthRequired;
     }
 
     public boolean isErroneousSslCertificates() {
@@ -126,7 +127,8 @@ public class SetupBlog {
         try {
             Object[] userBlogs = (Object[]) client.call("wp.getUsersBlogs", params);
             if (userBlogs == null) { // Could happen if the returned server response is truncated
-                mErrorMsgId = R.string.xmlrpc_error;;
+                mErrorMsgId = R.string.xmlrpc_error;
+                ;
                 return null;
             }
             Arrays.sort(userBlogs, Utils.BlogNameComparator);
@@ -139,12 +141,10 @@ public class SetupBlog {
                 }
             }
             return userBlogList;
-        }
-        catch (XmlPullParserException parserException) {
+        } catch (XmlPullParserException parserException) {
             mErrorMsgId = R.string.xmlrpc_error;
             AppLog.e(AppLog.T.NUX, "invalid data received from XMLRPC call wp.getUsersBlogs", parserException);
-        }
-        catch (XMLRPCFault xmlRpcFault) {
+        } catch (XMLRPCFault xmlRpcFault) {
             AppLog.e(AppLog.T.NUX, "XMLRPCFault received from XMLRPC call wp.getUsersBlogs", xmlRpcFault);
             switch (xmlRpcFault.getFaultCode()) {
                 case 403:
@@ -160,8 +160,7 @@ public class SetupBlog {
                     mErrorMsgId = R.string.no_site_error;
                     break;
             }
-        }
-        catch (XMLRPCException xmlRpcException) {
+        } catch (XMLRPCException xmlRpcException) {
             AppLog.e(AppLog.T.NUX, "XMLRPCException received from XMLRPC call wp.getUsersBlogs", xmlRpcException);
             mErrorMsgId = R.string.no_site_error;
         } catch (SSLHandshakeException e) {

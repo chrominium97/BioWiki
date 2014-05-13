@@ -43,13 +43,13 @@ public class BWEditText extends EditText {
         mOnImeBack = listener;
     }
 
+    public void setOnSelectionChangedListener(OnSelectionChangedListener listener) {
+        onSelectionChangedListener = listener;
+    }
+
     public interface EditTextImeBackListener {
 
         public abstract void onImeBack(BWEditText ctrl, String text);
-    }
-
-    public void setOnSelectionChangedListener(OnSelectionChangedListener listener) {
-        onSelectionChangedListener = listener;
     }
 
     public interface OnSelectionChangedListener {

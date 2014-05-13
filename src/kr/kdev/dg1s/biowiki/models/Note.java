@@ -12,10 +12,6 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.DateTimeUtils;
-import kr.kdev.dg1s.biowiki.util.HtmlUtils;
-import kr.kdev.dg1s.biowiki.util.JSONUtil;
 
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -23,32 +19,35 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.DateTimeUtils;
+import kr.kdev.dg1s.biowiki.util.HtmlUtils;
+import kr.kdev.dg1s.biowiki.util.JSONUtil;
+
 public class Note {
-    private static final String NOTE_UNKNOWN_TYPE     = "unknown";
-    private static final String NOTE_COMMENT_TYPE     = "comment";
     public static final String NOTE_COMMENT_LIKE_TYPE = "comment_like";
-    public static final String NOTE_LIKE_TYPE         = "like";
-    private static final String NOTE_MATCHER_TYPE     = "automattcher";
+    public static final String NOTE_LIKE_TYPE = "like";
+    private static final String NOTE_UNKNOWN_TYPE = "unknown";
+    private static final String NOTE_COMMENT_TYPE = "comment";
+    private static final String NOTE_MATCHER_TYPE = "automattcher";
 
     // Notes have different types of "templates" for displaying differently
     // this is not a canonical list but covers all the types currently in use
     private static final String SINGLE_LINE_LIST_TEMPLATE = "single-line-list";
-    private static final String MULTI_LINE_LIST_TEMPLATE  = "multi-line-list";
-    private static final String BIG_BADGE_TEMPLATE        = "big-badge";
+    private static final String MULTI_LINE_LIST_TEMPLATE = "multi-line-list";
+    private static final String BIG_BADGE_TEMPLATE = "big-badge";
 
     // JSON action keys
-    private static final String ACTION_KEY_REPLY     = "replyto-comment";
-    private static final String ACTION_KEY_APPROVE   = "approve-comment";
+    private static final String ACTION_KEY_REPLY = "replyto-comment";
+    private static final String ACTION_KEY_APPROVE = "approve-comment";
     private static final String ACTION_KEY_UNAPPROVE = "unapprove-comment";
-    private static final String ACTION_KEY_SPAM      = "spam-comment";
-
-    public static enum EnabledActions {ACTION_REPLY,
-                                       ACTION_APPROVE,
-                                       ACTION_UNAPPROVE,
-                                       ACTION_SPAM}
-
-    private Map<String,JSONObject> mActions;
+    private static final String ACTION_KEY_SPAM = "spam-comment";
+    // TODO: add other types
+    private static final Map<String, String> pnType2type = new Hashtable<String, String>() {{
+        put("c", "comment");
+    }};
     private final JSONObject mNoteJSON;
+    private Map<String, JSONObject> mActions;
     private SpannableStringBuilder mComment = new SpannableStringBuilder();
     private boolean mPlaceholder = false;
 
@@ -63,15 +62,10 @@ public class Note {
     private transient String mTimestamp;
     private transient String mSnippet;
 
-    // TODO: add other types
-    private static final Map<String, String> pnType2type = new Hashtable<String, String>() {{
-        put("c", "comment");
-    }};
-
     /**
      * Create a note using JSON from REST API
      */
-    public Note(JSONObject noteJSON){
+    public Note(JSONObject noteJSON) {
         mNoteJSON = noteJSON;
         preloadContent();
     }
@@ -106,7 +100,7 @@ public class Note {
 
             // fake timestamp to put it in top of the list
             String timestamp = extras.getString("note_timestamp");
-            if (timestamp==null || timestamp.equals("")) {
+            if (timestamp == null || timestamp.equals("")) {
                 timestamp = "" + (System.currentTimeMillis() / 1000);
             }
             tmpNoteJSON.put("timestamp", timestamp);
@@ -131,29 +125,36 @@ public class Note {
         this.mPlaceholder = placeholder;
     }
 
-    public JSONObject toJSONObject(){
+    public JSONObject toJSONObject() {
         return mNoteJSON;
     }
-    public String getId(){
+
+    public String getId() {
         return queryJSON("id", "0");
     }
-    public String getType(){
+
+    public String getType() {
         return queryJSON("type", NOTE_UNKNOWN_TYPE);
     }
-    private Boolean isType(String type){
+
+    private Boolean isType(String type) {
         return getType().equals(type);
     }
-    public Boolean isCommentType(){
+
+    public Boolean isCommentType() {
         return isType(NOTE_COMMENT_TYPE);
     }
-    public Boolean isCommentLikeType(){
+
+    public Boolean isCommentLikeType() {
         return isType(NOTE_COMMENT_LIKE_TYPE);
     }
-    public Boolean isAutomattcherType(){
+
+    public Boolean isAutomattcherType() {
         return isType(NOTE_MATCHER_TYPE);
     }
-    public String getSubject(){
-        if (mSubject==null) {
+
+    public String getSubject() {
+        if (mSubject == null) {
             String text = queryJSON("subject.text", "").trim();
             if (text.equals("")) {
                 text = queryJSON("subject.html", "");
@@ -162,8 +163,9 @@ public class Note {
         }
         return mSubject;
     }
-    public String getIconURL(){
-        if (mIconUrl==null)
+
+    public String getIconURL() {
+        if (mIconUrl == null)
             mIconUrl = queryJSON("subject.icon", "");
         return mIconUrl;
     }
@@ -171,8 +173,8 @@ public class Note {
     /**
      * Removes HTML and cleans up newlines and whitespace
      */
-    public String getCommentPreview(){
-        if (mCommentPreview==null)
+    public String getCommentPreview() {
+        if (mCommentPreview == null)
             mCommentPreview = getCommentBody().toString().replaceAll("\uFFFC", "").replace("\n", " ").replaceAll("[\\s]{2,}", " ").trim();
         return mCommentPreview;
     }
@@ -180,7 +182,7 @@ public class Note {
     /**
      * Gets the comment's text with getCommentText() and sends it through HTML.fromHTML
      */
-    Spanned getCommentBody(){
+    Spanned getCommentBody() {
         return mComment;
     }
 
@@ -188,14 +190,14 @@ public class Note {
      * For a comment note the text is in the body object's last item. It currently
      * is only provided in HTML format.
      */
-    String getCommentText(){
+    String getCommentText() {
         return queryJSON("body.items[last].html", "");
     }
 
     /**
      * The inverse of isRead
      */
-    public Boolean isUnread(){
+    public Boolean isUnread() {
         return !isRead();
     }
 
@@ -204,7 +206,7 @@ public class Note {
      * quantity of likes that are "unread" within the single note. So for a note to be "read" it
      * should have "0"
      */
-    Boolean isRead(){
+    Boolean isRead() {
         return getUnreadCount().equals("0");
     }
 
@@ -212,22 +214,22 @@ public class Note {
      * For some reason the unread count is a string in the JSON API but is truly represented
      * by an Integer. We can handle a simple string.
      */
-    public String getUnreadCount(){
+    public String getUnreadCount() {
         return queryJSON("unread", "0");
     }
 
     /**
      *
      */
-    public void setUnreadCount(String count){
+    public void setUnreadCount(String count) {
         try {
             mNoteJSON.putOpt("unread", count);
-        } catch (JSONException e){
+        } catch (JSONException e) {
             AppLog.e(AppLog.T.NOTIFS, "Failed to set unread property", e);
         }
     }
 
-    public Reply buildReply(String content){
+    public Reply buildReply(String content) {
         JSONObject replyAction = getActions().get(ACTION_KEY_REPLY);
         String restPath = JSONUtil.queryJSON(replyAction, "params.rest_path", "");
         AppLog.d(AppLog.T.NOTIFS, String.format("Search actions %s", restPath));
@@ -237,7 +239,7 @@ public class Note {
     /**
      * Get the timestamp provided by the API for the note - cached for performance
      */
-    public String getTimestamp(){
+    public String getTimestamp() {
         if (mTimestamp == null)
             mTimestamp = queryJSON("timestamp", "");
         return mTimestamp;
@@ -256,24 +258,28 @@ public class Note {
         }
     }
 
-    String getTemplate(){
+    String getTemplate() {
         return queryJSON("body.template", "");
     }
-    public Boolean isMultiLineListTemplate(){
+
+    public Boolean isMultiLineListTemplate() {
         return getTemplate().equals(MULTI_LINE_LIST_TEMPLATE);
     }
-    public Boolean isSingleLineListTemplate(){
+
+    public Boolean isSingleLineListTemplate() {
         return getTemplate().equals(SINGLE_LINE_LIST_TEMPLATE);
     }
-    public Boolean isBigBadgeTemplate(){
+
+    public Boolean isBigBadgeTemplate() {
         return getTemplate().equals(BIG_BADGE_TEMPLATE);
     }
-    Map<String,JSONObject> getActions(){
+
+    Map<String, JSONObject> getActions() {
         if (mActions == null) {
             try {
                 JSONArray actions = queryJSON("body.actions", new JSONArray());
-                mActions = new HashMap<String,JSONObject>(actions.length());
-                for (int i=0; i<actions.length(); i++) {
+                mActions = new HashMap<String, JSONObject>(actions.length());
+                for (int i = 0; i < actions.length(); i++) {
                     JSONObject action = actions.getJSONObject(i);
                     String actionType = JSONUtil.queryJSON(action, "type", "");
                     if (!actionType.equals("")) {
@@ -282,7 +288,7 @@ public class Note {
                 }
             } catch (JSONException e) {
                 AppLog.e(AppLog.T.NOTIFS, "Could not find actions", e);
-                mActions = new HashMap<String,JSONObject>();
+                mActions = new HashMap<String, JSONObject>();
             }
         }
         return mActions;
@@ -310,7 +316,7 @@ public class Note {
      */
     public EnumSet<EnabledActions> getEnabledActions() {
         EnumSet<EnabledActions> actions = EnumSet.noneOf(EnabledActions.class);
-        Map<String,JSONObject> jsonActions = getActions();
+        Map<String, JSONObject> jsonActions = getActions();
         if (jsonActions == null || jsonActions.size() == 0)
             return actions;
         if (jsonActions.containsKey(ACTION_KEY_REPLY))
@@ -327,8 +333,8 @@ public class Note {
     /**
      * pre-loads commonly-accessed fields - avoids performance hit of loading these
      * fields inside an adapter's getView()
-     **/
-    void preloadContent(){
+     */
+    void preloadContent() {
         if (isCommentType()) {
             // pre-load the comment HTML for being displayed. Cleans up emoticons.
             mComment = HtmlUtils.fromHtml(getCommentText());
@@ -364,12 +370,15 @@ public class Note {
     public int getBlogId() {
         return mBlogId;
     }
+
     public int getPostId() {
         return mPostId;
     }
+
     public long getCommentId() {
         return mCommentId;
     }
+
     public long getCommentParentId() {
         return mCommentParentId;
     }
@@ -391,8 +400,15 @@ public class Note {
     /**
      * Rudimentary system for pulling an item out of a JSON object hierarchy
      */
-    public <U> U queryJSON(String query, U defaultObject){
+    public <U> U queryJSON(String query, U defaultObject) {
         return JSONUtil.queryJSON(this.toJSONObject(), query, defaultObject);
+    }
+
+    public static enum EnabledActions {
+        ACTION_REPLY,
+        ACTION_APPROVE,
+        ACTION_UNAPPROVE,
+        ACTION_SPAM
     }
 
     public static class TimeStampComparator implements Comparator<Note> {
@@ -410,15 +426,17 @@ public class Note {
         private final String mContent;
         private final String mRestPath;
 
-        Reply(Note note, String restPath, String content){
+        Reply(Note note, String restPath, String content) {
             mNote = note;
             mRestPath = restPath;
             mContent = content;
         }
-        public String getContent(){
+
+        public String getContent() {
             return mContent;
         }
-        public String getRestPath(){
+
+        public String getRestPath() {
             return mRestPath;
         }
     }

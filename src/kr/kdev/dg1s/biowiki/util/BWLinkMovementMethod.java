@@ -29,18 +29,6 @@ public class BWLinkMovementMethod extends LinkMovementMethod {
         return mMovementMethod;
     }
 
-    @Override
-    public boolean onTouchEvent(TextView textView, Spannable buffer, MotionEvent event) {
-        try {
-            return super.onTouchEvent(textView, buffer, event) ;
-        } catch (ActivityNotFoundException e) {
-            AppLog.e(AppLog.T.UTILS, e);
-            // attempt to correct the tapped url then launch the intent to display it
-            showTappedUrl(textView.getContext(), fixTappedUrl(buffer));
-            return true;
-        }
-    }
-
     private static String fixTappedUrl(Spannable buffer) {
         if (buffer == null)
             return null;
@@ -65,6 +53,18 @@ public class BWLinkMovementMethod extends LinkMovementMethod {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
             ToastUtils.showToast(context, context.getString(R.string.reader_toast_err_url_intent, url), ToastUtils.Duration.LONG);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(TextView textView, Spannable buffer, MotionEvent event) {
+        try {
+            return super.onTouchEvent(textView, buffer, event);
+        } catch (ActivityNotFoundException e) {
+            AppLog.e(AppLog.T.UTILS, e);
+            // attempt to correct the tapped url then launch the intent to display it
+            showTappedUrl(textView.getContext(), fixTappedUrl(buffer));
+            return true;
         }
     }
 }

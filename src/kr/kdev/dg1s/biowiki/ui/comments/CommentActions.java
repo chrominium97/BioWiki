@@ -7,15 +7,6 @@ import com.android.volley.VolleyError;
 import com.wordpress.rest.RestRequest;
 
 import org.json.JSONObject;
-
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.datasets.CommentTable;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.Comment;
-import kr.kdev.dg1s.biowiki.models.CommentList;
-import kr.kdev.dg1s.biowiki.models.CommentStatus;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.models.Note;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlrpc.android.XMLRPCClientInterface;
 import org.xmlrpc.android.XMLRPCException;
@@ -24,6 +15,15 @@ import org.xmlrpc.android.XMLRPCFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.datasets.CommentTable;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.Comment;
+import kr.kdev.dg1s.biowiki.models.CommentList;
+import kr.kdev.dg1s.biowiki.models.CommentStatus;
+import kr.kdev.dg1s.biowiki.models.Note;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 
 /**
  * Created by nbradbury on 11/8/13.
@@ -39,31 +39,6 @@ public class CommentActions {
     }
 
     /*
-     * listener when a comment action is performed
-     */
-    public interface CommentActionListener {
-        public void onActionResult(boolean succeeded);
-    }
-
-    /*
-     * listener when comments are moderated or deleted
-     */
-    public interface OnCommentsModeratedListener {
-        public void onCommentsModerated(final CommentList moderatedComments);
-    }
-
-    /*
-     * used by comment fragments to alert container activity of a change to one or more
-     * comments (moderated, deleted, added, etc.)
-     */
-    public static enum ChangedFrom {COMMENT_LIST, COMMENT_DETAIL}
-    public static enum ChangeType {EDITED, STATUS, REPLIED, TRASHED}
-    public static interface OnCommentChangeListener {
-        public void onCommentChanged(ChangedFrom changedFrom, ChangeType changeType);
-    }
-
-
-    /*
      * add a comment for the passed post
      */
     public static void addComment(final int accountId,
@@ -71,7 +46,7 @@ public class CommentActions {
                                   final String commentText,
                                   final CommentActionListener actionListener) {
         final Blog blog = BioWiki.getBlog(accountId);
-        if (blog==null || TextUtils.isEmpty(commentText)) {
+        if (blog == null || TextUtils.isEmpty(commentText)) {
             if (actionListener != null)
                 actionListener.onActionResult(false);
             return;
@@ -135,7 +110,7 @@ public class CommentActions {
                                      final CommentActionListener actionListener) {
 
         final Blog blog = BioWiki.getBlog(accountId);
-        if (blog==null || comment==null || TextUtils.isEmpty(replyText)) {
+        if (blog == null || comment == null || TextUtils.isEmpty(replyText)) {
             if (actionListener != null)
                 actionListener.onActionResult(false);
             return;
@@ -161,7 +136,7 @@ public class CommentActions {
                         blog.getUsername(),
                         blog.getPassword(),
                         Long.toString(comment.postID),
-                        replyHash };
+                        replyHash};
 
 
                 long newCommentID;
@@ -251,7 +226,7 @@ public class CommentActions {
 
         final Blog blog = BioWiki.getBlog(accountId);
 
-        if (blog==null || comment==null || newStatus==null || newStatus==CommentStatus.UNKNOWN) {
+        if (blog == null || comment == null || newStatus == null || newStatus == CommentStatus.UNKNOWN) {
             if (actionListener != null)
                 actionListener.onActionResult(false);
             return;
@@ -272,7 +247,7 @@ public class CommentActions {
                 postHash.put("author_url", comment.getAuthorUrl());
                 postHash.put("author_email", comment.getAuthorEmail());
 
-                Object[] params = { blog.getRemoteBlogId(),
+                Object[] params = {blog.getRemoteBlogId(),
                         blog.getUsername(),
                         blog.getPassword(),
                         Long.toString(comment.commentID),
@@ -325,7 +300,7 @@ public class CommentActions {
 
         final Blog blog = BioWiki.getBlog(accountId);
 
-        if (blog==null || comments==null || comments.size() == 0 || newStatus==null || newStatus==CommentStatus.UNKNOWN) {
+        if (blog == null || comments == null || comments.size() == 0 || newStatus == null || newStatus == CommentStatus.UNKNOWN) {
             if (actionListener != null)
                 actionListener.onCommentsModerated(new CommentList());
             return;
@@ -342,7 +317,7 @@ public class CommentActions {
             public void run() {
                 XMLRPCClientInterface client = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(),
                         blog.getHttppassword());
-                for (Comment comment: comments) {
+                for (Comment comment : comments) {
                     Map<String, String> postHash = new HashMap<String, String>();
                     postHash.put("status", newStatusStr);
                     postHash.put("content", comment.getCommentText());
@@ -393,10 +368,10 @@ public class CommentActions {
      * delete (trash) a single comment
      */
     private static void deleteComment(final int accountId,
-                                        final Comment comment,
-                                        final CommentActionListener actionListener) {
+                                      final Comment comment,
+                                      final CommentActionListener actionListener) {
         final Blog blog = BioWiki.getBlog(accountId);
-        if (blog==null || comment==null) {
+        if (blog == null || comment == null) {
             if (actionListener != null)
                 actionListener.onActionResult(false);
             return;
@@ -414,7 +389,7 @@ public class CommentActions {
                         blog.getRemoteBlogId(),
                         blog.getUsername(),
                         blog.getPassword(),
-                        comment.commentID };
+                        comment.commentID};
 
                 Object result;
                 try {
@@ -426,7 +401,7 @@ public class CommentActions {
                     AppLog.e(AppLog.T.COMMENTS, "Error while deleting comment", e);
                     result = null;
                 } catch (XmlPullParserException e) {
-                    AppLog.e(AppLog.T.COMMENTS,"Error while deleting comment", e);
+                    AppLog.e(AppLog.T.COMMENTS, "Error while deleting comment", e);
                     result = null;
                 }
 
@@ -455,7 +430,7 @@ public class CommentActions {
 
         final Blog blog = BioWiki.getBlog(accountId);
 
-        if (blog==null || comments==null || comments.size() == 0) {
+        if (blog == null || comments == null || comments.size() == 0) {
             if (actionListener != null)
                 actionListener.onCommentsModerated(new CommentList());
             return;
@@ -472,7 +447,7 @@ public class CommentActions {
                 XMLRPCClientInterface client = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(),
                         blog.getHttppassword());
 
-                for (Comment comment: comments) {
+                for (Comment comment : comments) {
                     Object[] params = {
                             remoteBlogId,
                             blog.getUsername(),
@@ -507,5 +482,33 @@ public class CommentActions {
                 }
             }
         }.start();
+    }
+
+    /*
+     * used by comment fragments to alert container activity of a change to one or more
+     * comments (moderated, deleted, added, etc.)
+     */
+    public static enum ChangedFrom {
+        COMMENT_LIST, COMMENT_DETAIL
+    }
+
+    public static enum ChangeType {EDITED, STATUS, REPLIED, TRASHED}
+
+    /*
+     * listener when a comment action is performed
+     */
+    public interface CommentActionListener {
+        public void onActionResult(boolean succeeded);
+    }
+
+    /*
+     * listener when comments are moderated or deleted
+     */
+    public interface OnCommentsModeratedListener {
+        public void onCommentsModerated(final CommentList moderatedComments);
+    }
+
+    public static interface OnCommentChangeListener {
+        public void onCommentChanged(ChangedFrom changedFrom, ChangeType changeType);
     }
 }

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class ReaderTagList extends ArrayList<ReaderTag> {
 
     public int indexOfTag(String tagName) {
-        if (tagName==null || isEmpty())
+        if (tagName == null || isEmpty())
             return -1;
-        for (int i=0; i < size(); i++) {
+        for (int i = 0; i < size(); i++) {
             if (tagName.equalsIgnoreCase(this.get(i).getTagName()))
                 return i;
         }
@@ -18,10 +18,10 @@ public class ReaderTagList extends ArrayList<ReaderTag> {
     }
 
     public boolean isSameList(ReaderTagList tags) {
-        if (tags==null || tags.size()!=this.size())
+        if (tags == null || tags.size() != this.size())
             return false;
-        for (ReaderTag thisTag: tags) {
-            if (indexOfTag(thisTag.getTagName())==-1)
+        for (ReaderTag thisTag : tags) {
+            if (indexOfTag(thisTag.getTagName()) == -1)
                 return false;
         }
         return true;
@@ -32,9 +32,9 @@ public class ReaderTagList extends ArrayList<ReaderTag> {
      */
     public ReaderTagList getDeletions(ReaderTagList tags) {
         ReaderTagList deletions = new ReaderTagList();
-        if (tags==null)
+        if (tags == null)
             return deletions;
-        for (ReaderTag thisTag: this) {
+        for (ReaderTag thisTag : this) {
             if (tags.indexOfTag(thisTag.getTagName()) == -1)
                 deletions.add(thisTag);
         }

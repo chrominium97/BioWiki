@@ -45,7 +45,7 @@ public class PhotonUtils {
 
         // make sure it's valid
         int schemePos = imageUrl.indexOf("://");
-        if (schemePos==-1)
+        if (schemePos == -1)
             return imageUrl;
 
         // remove existing query string since it may contain params that conflict with the passed ones
@@ -85,9 +85,9 @@ public class PhotonUtils {
 
         // must use https for https image urls
         if (UrlUtils.isHttps(imageUrl)) {
-            return "https://i0.wp.com/" + imageUrl.substring(schemePos+3, imageUrl.length()) + query;
+            return "https://i0.wp.com/" + imageUrl.substring(schemePos + 3, imageUrl.length()) + query;
         } else {
-            return "http://i0.wp.com/" + imageUrl.substring(schemePos+3, imageUrl.length()) + query;
+            return "http://i0.wp.com/" + imageUrl.substring(schemePos + 3, imageUrl.length()) + query;
         }
     }
 }

@@ -17,24 +17,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.BWAlertDialogFragment;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.util.Utils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Post;
-import kr.kdev.dg1s.biowiki.models.PostsListPost;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
-import kr.kdev.dg1s.biowiki.ui.posts.adapters.PostsListAdapter;
-import kr.kdev.dg1s.biowiki.util.NetworkUtils;
 import org.xmlrpc.android.ApiHelper;
 import org.xmlrpc.android.ApiHelper.ErrorType;
 
 import java.util.List;
 import java.util.Vector;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.models.PostsListPost;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
+import kr.kdev.dg1s.biowiki.ui.posts.adapters.PostsListAdapter;
+import kr.kdev.dg1s.biowiki.util.BWAlertDialogFragment;
+import kr.kdev.dg1s.biowiki.util.NetworkUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
+import kr.kdev.dg1s.biowiki.util.Utils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 
 public class PostsListFragment extends ListFragment implements BioWiki.OnPostUploadedListener {
@@ -87,7 +87,8 @@ public class PostsListFragment extends ListFragment implements BioWiki.OnPostUpl
                         }
                         refreshPosts((PostsActivity) getActivity());
                     }
-                }, LinearLayout.class);
+                }, LinearLayout.class
+        );
     }
 
     private void refreshPosts(PostsActivity postsActivity) {

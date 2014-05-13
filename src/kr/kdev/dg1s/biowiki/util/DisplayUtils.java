@@ -61,7 +61,7 @@ public class DisplayUtils {
 
     public static int pxToDp(Context context, int px) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return (int) ((px/displayMetrics.density)+0.5);
+        return (int) ((px / displayMetrics.density) + 0.5);
     }
 
     public static boolean isTablet(Context context) {

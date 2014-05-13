@@ -11,9 +11,9 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.text.style.ImageSpan;
 
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.MediaFile;
 import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
-import kr.kdev.dg1s.biowiki.R;
 
 public class BWImageSpan extends ImageSpan {
 
@@ -31,7 +31,7 @@ public class BWImageSpan extends ImageSpan {
         mContext = context;
         mMediaFile = new MediaFile();
         if (mContext instanceof EditPostActivity) {
-            EditPostActivity editPostActivity = (EditPostActivity)mContext;
+            EditPostActivity editPostActivity = (EditPostActivity) mContext;
             if (editPostActivity.isEditingPostContent())
                 mIsInPostEditor = true;
         }
@@ -55,12 +55,12 @@ public class BWImageSpan extends ImageSpan {
         this.mMediaFile = mMediaFile;
     }
 
-    public void setImageSource(Uri mImageSource) {
-        this.mImageSource = mImageSource;
-    }
-
     public Uri getImageSource() {
         return mImageSource;
+    }
+
+    public void setImageSource(Uri mImageSource) {
+        this.mImageSource = mImageSource;
     }
 
     public boolean isNetworkImageLoaded() {

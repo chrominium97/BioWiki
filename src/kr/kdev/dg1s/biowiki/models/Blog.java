@@ -2,17 +2,17 @@
 
 package kr.kdev.dg1s.biowiki.models;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import android.text.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.kdev.dg1s.biowiki.util.AppLog;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.datasets.CommentTable;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 public class Blog {
@@ -238,13 +238,13 @@ public class Blog {
     public String getApi_blogid() {
         if (api_blogid == null) {
             JSONObject jsonOptions = getBlogOptionsJSONObject();
-            if (jsonOptions!=null && jsonOptions.has("jetpack_client_id")) {
+            if (jsonOptions != null && jsonOptions.has("jetpack_client_id")) {
                 try {
                     String jetpackBlogId = jsonOptions.getJSONObject("jetpack_client_id").getString("value");
                     if (!TextUtils.isEmpty(jetpackBlogId)) {
                         this.setApi_blogid(jetpackBlogId);
                         BioWiki.wpDB.saveBlog(this);
-                    }   
+                    }
                 } catch (JSONException e) {
                     AppLog.e(AppLog.T.UTILS, "Cannot load jetpack_client_id from options: " + jsonOptions, e);
                 }
@@ -346,19 +346,6 @@ public class Blog {
         return blogOptions;
     }
 
-    public JSONObject getBlogOptionsJSONObject() {
-        String optionsString = getBlogOptions();
-        if (TextUtils.isEmpty(optionsString)) {
-            return null;
-        }
-        try {
-            return new JSONObject(optionsString);
-        } catch (JSONException e) {
-            AppLog.e(AppLog.T.UTILS, "invalid blogOptions json", e);
-        }
-        return null;
-    }
-
     public void setBlogOptions(String blogOptions) {
         this.blogOptions = blogOptions;
         JSONObject options = getBlogOptionsJSONObject();
@@ -372,11 +359,24 @@ public class Blog {
                 String jetpackBlogId = options.getJSONObject("jetpack_client_id").getString("value");
                 if (!TextUtils.isEmpty(jetpackBlogId)) {
                     this.setApi_blogid(jetpackBlogId);
-                }   
+                }
             } catch (JSONException e) {
                 AppLog.e(AppLog.T.UTILS, "Cannot load jetpack_client_id from options: " + blogOptions, e);
             }
         }
+    }
+
+    public JSONObject getBlogOptionsJSONObject() {
+        String optionsString = getBlogOptions();
+        if (TextUtils.isEmpty(optionsString)) {
+            return null;
+        }
+        try {
+            return new JSONObject(optionsString);
+        } catch (JSONException e) {
+            AppLog.e(AppLog.T.UTILS, "invalid blogOptions json", e);
+        }
+        return null;
     }
 
     // TODO: it's ugly to compare json strings, we have to normalize both strings before
@@ -434,7 +434,7 @@ public class Blog {
                 String blogPublicValue = jsonOptions.getJSONObject("blog_public").getString("value");
                 if (!TextUtils.isEmpty(blogPublicValue) && "-1".equals(blogPublicValue)) {
                     return true;
-                }   
+                }
             } catch (JSONException e) {
                 AppLog.e(AppLog.T.UTILS, "Cannot load blog_public from options: " + jsonOptions, e);
             }

@@ -1,22 +1,7 @@
 package kr.kdev.dg1s.biowiki.util;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-
 import android.content.Context;
-import android.util.Base64;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -24,11 +9,11 @@ import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageRequest;
 
-import org.apache.http.HttpResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
+import java.io.UnsupportedEncodingException;
+
 import kr.kdev.dg1s.biowiki.models.Blog;
 //import kr.kdev.dg1s.biowiki.networking.BWTrustManager;
 //import kr.kdev.dg1s.biowiki.networking.SelfSignedSSLCertsManager;
@@ -45,7 +30,7 @@ public class VolleyUtils {
      */
     public static String errStringFromVolleyError(VolleyError volleyError) {
         JSONObject json = volleyErrorToJSON(volleyError);
-        if (json==null)
+        if (json == null)
             return "";
         return JSONUtil.getString(json, "error");
     }
@@ -55,14 +40,14 @@ public class VolleyUtils {
      * contain JSON in the response
      */
     public static JSONObject volleyErrorToJSON(VolleyError volleyError) {
-        if (volleyError==null
-                || volleyError.networkResponse==null
-                || volleyError.networkResponse.data==null
-                || volleyError.networkResponse.headers==null)
+        if (volleyError == null
+                || volleyError.networkResponse == null
+                || volleyError.networkResponse.data == null
+                || volleyError.networkResponse.headers == null)
             return null;
 
         String contentType = volleyError.networkResponse.headers.get("Content-Type");
-        if (contentType==null || !contentType.equals("application/json"))
+        if (contentType == null || !contentType.equals("application/json"))
             return null;
 
         try {
@@ -80,7 +65,7 @@ public class VolleyUtils {
      * cancel all Volley requests that aren't for images
      */
     public static void cancelAllNonImageRequests(RequestQueue requestQueue) {
-        if (requestQueue==null)
+        if (requestQueue == null)
             return;
         RequestQueue.RequestFilter filter = new RequestQueue.RequestFilter() {
             @Override
@@ -97,7 +82,7 @@ public class VolleyUtils {
      * cancel all Volley requests
      */
     public static void cancelAllRequests(RequestQueue requestQueue) {
-        if (requestQueue==null)
+        if (requestQueue == null)
             return;
         RequestQueue.RequestFilter filter = new RequestQueue.RequestFilter() {
             @Override
@@ -114,14 +99,14 @@ public class VolleyUtils {
     public static boolean isCustomHTTPClientStackNeeded(Blog currentBlog) {
         if (currentBlog.hasValidHTTPAuthCredentials())
             return true;
-        
+
         return false;
     }
-    
+
     public static HttpStack getHTTPClientStack(final Context ctx) {
         return getHTTPClientStack(ctx, null);
     }
-    
+
     public static HttpStack getHTTPClientStack(final Context ctx, final Blog currentBlog) {
         /*
         SSLSocketFactory mSslSocketFactory = null;

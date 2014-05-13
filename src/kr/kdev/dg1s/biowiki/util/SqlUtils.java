@@ -25,17 +25,18 @@ public class SqlUtils {
     public static long boolToSql(boolean value) {
         return (value ? 1 : 0);
     }
+
     public static boolean sqlToBool(int value) {
         return (value != 0);
     }
 
     public static void closeStatement(SQLiteStatement stmt) {
-        if (stmt!=null)
+        if (stmt != null)
             stmt.close();
     }
 
     public static void closeCursor(Cursor c) {
-        if (c!=null && !c.isClosed())
+        if (c != null && !c.isClosed())
             c.close();
     }
 
@@ -52,7 +53,7 @@ public class SqlUtils {
 
     public static int intForQuery(SQLiteDatabase db, String query, String[] selectionArgs) {
         long value = longForQuery(db, query, selectionArgs);
-        return (int)value;
+        return (int) value;
     }
 
     public static boolean boolForQuery(SQLiteDatabase db, String query, String[] selectionArgs) {
@@ -100,7 +101,7 @@ public class SqlUtils {
 
         db.beginTransaction();
         try {
-            for (String tableName: tableNames) {
+            for (String tableName : tableNames) {
                 db.execSQL("DROP TABLE IF EXISTS " + tableName);
             }
             db.setTransactionSuccessful();

@@ -22,26 +22,28 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
-import kr.kdev.dg1s.biowiki.util.BWWebViewClient;
-import kr.kdev.dg1s.biowiki.util.EditTextUtils;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.util.BWHtml;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Post;
 import kr.kdev.dg1s.biowiki.ui.comments.CommentActions;
+import kr.kdev.dg1s.biowiki.util.BWHtml;
+import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
+import kr.kdev.dg1s.biowiki.util.BWWebViewClient;
+import kr.kdev.dg1s.biowiki.util.EditTextUtils;
 import kr.kdev.dg1s.biowiki.util.NetworkUtils;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class ViewPostFragment extends Fragment {
-    /** Called when the activity is first created. */
+    PostsActivity parentActivity;
+    boolean mIsCommentBoxShowing = false;
+    boolean mIsSubmittingComment = false;
+    /**
+     * Called when the activity is first created.
+     */
 
     private OnDetailPostActionListener onDetailPostActionListener;
-    PostsActivity parentActivity;
-
     private ViewGroup mLayoutCommentBox;
     private EditText mEditComment;
     private ImageButton mAddCommentButton;
@@ -64,7 +66,7 @@ public class ViewPostFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.viewpost, container, false);
 
@@ -183,8 +185,8 @@ public class ViewPostFragment extends Fragment {
                 final ImageButton btnAddComment = (ImageButton) getView().findViewById(R.id.addComment);
 
                 final String title = (TextUtils.isEmpty(post.getTitle())
-                                        ? "(" + getResources().getText(R.string.untitled) + ")"
-                                        : StringUtils.unescapeHTML(post.getTitle()));
+                        ? "(" + getResources().getText(R.string.untitled) + ")"
+                        : StringUtils.unescapeHTML(post.getTitle()));
 
                 final String postContent = post.getDescription() + "\n\n" + post.getMoreText();
 
@@ -196,10 +198,10 @@ public class ViewPostFragment extends Fragment {
                 } else {
                     draftContent = null;
                     htmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
-                                + "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"webview.css\" /></head>"
-                                + "<body><div id=\"container\">"
-                                + StringUtils.addPTags(postContent)
-                                + "</div></body></html>";
+                            + "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"webview.css\" /></head>"
+                            + "<body><div id=\"container\">"
+                            + StringUtils.addPTags(postContent)
+                            + "</div></body></html>";
                 }
 
                 handler.post(new Runnable() {
@@ -225,12 +227,12 @@ public class ViewPostFragment extends Fragment {
                             btnViewPost.setVisibility(View.VISIBLE);
                             btnAddComment.setVisibility(post.isAllowComments() ? View.VISIBLE : View.GONE);
                             webView.loadDataWithBaseURL("file:///android_asset/",
-                                                        htmlContent,
-                                                        "text/html",
-                                                        "utf-8",
-                                                        null);
+                                    htmlContent,
+                                    "text/html",
+                                    "utf-8",
+                                    null);
                         }
-                        if (!post.getKeywords().equals("")){
+                        if (!post.getKeywords().equals("")) {
                             Log.d("Tags", "Tags are visible");
                             String tags = post.getKeywords();
                             tags = (tags.replaceAll(", ", "\n")).replace("，", ", ");
@@ -243,10 +245,6 @@ public class ViewPostFragment extends Fragment {
         }.start();
     }
 
-    public interface OnDetailPostActionListener {
-        public void onDetailPostAction(int action, Post post);
-    }
-
     public void clearContent() {
         TextView txtTitle = (TextView) getView().findViewById(R.id.postTitle);
         WebView webView = (WebView) getView().findViewById(R.id.viewPostWebView);
@@ -254,8 +252,8 @@ public class ViewPostFragment extends Fragment {
         txtTitle.setText("");
         txtContent.setText("");
         String htmlText = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
-                        + "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"webview.css\" /></head>"
-                        + "<body><div id=\"container\"></div></body></html>";
+                + "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"webview.css\" /></head>"
+                + "<body><div id=\"container\"></div></body></html>";
         webView.loadDataWithBaseURL("file:///android_asset/", htmlText,
                 "text/html", "utf-8", null);
     }
@@ -267,9 +265,6 @@ public class ViewPostFragment extends Fragment {
         }
         super.onSaveInstanceState(outState);
     }
-
-    boolean mIsCommentBoxShowing = false;
-    boolean mIsSubmittingComment = false;
 
     private boolean hasActivity() {
         return (getActivity() != null && !isRemoving());
@@ -381,6 +376,10 @@ public class ViewPostFragment extends Fragment {
 
         int accountId = BioWiki.getCurrentLocalTableBlogId();
         CommentActions.addComment(accountId, BioWiki.currentPost.getRemotePostId(), commentText, actionListener);
+    }
+
+    public interface OnDetailPostActionListener {
+        public void onDetailPostAction(int action, Post post);
     }
 
 }

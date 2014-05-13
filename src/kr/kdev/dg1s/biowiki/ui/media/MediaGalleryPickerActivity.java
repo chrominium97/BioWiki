@@ -14,42 +14,38 @@ import com.actionbarsherlock.view.ActionMode.Callback;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.ui.MultiSelectGridView;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
-
 import org.xmlrpc.android.ApiHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.ui.MultiSelectGridView;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
+
 /**
- * An activity where the user can add new images to their media gallery or where the user 
+ * An activity where the user can add new images to their media gallery or where the user
  * can choose a single image to embed into their post.
  */
 public class MediaGalleryPickerActivity extends SherlockActivity implements MultiSelectGridView.MultiSelectListener, Callback, MediaGridAdapter.MediaGridAdapterCallback, AdapterView.OnItemClickListener {
 
+    public static final int REQUEST_CODE = 4000;
+    public static final String PARAM_SELECT_ONE_ITEM = "PARAM_SELECT_ONE_ITEM";
+    public static final String PARAM_SELECTED_IDS = "PARAM_SELECTED_IDS";
+    public static final String RESULT_IDS = "RESULT_IDS";
+    public static final String TAG = MediaGalleryPickerActivity.class.getSimpleName();
+    private static final String STATE_FILTERED_ITEMS = "STATE_FILTERED_ITEMS";
+    private static final String STATE_SELECTED_ITEMS = "STATE_SELECTED_ITEMS";
+    private static final String STATE_IS_SELECT_ONE_ITEM = "STATE_IS_SELECT_ONE_ITEM";
+    private static final String PARAM_FILTERED_IDS = "PARAM_FILTERED_IDS";
     private MultiSelectGridView mGridView;
     private MediaGridAdapter mGridAdapter;
     private ActionMode mActionMode;
-
     private ArrayList<String> mFilteredItems;
     private boolean mIsSelectOneItem;
     private boolean mIsRefreshing;
     private boolean mHasRetrievedAllMedia;
-    
-    private static final String STATE_FILTERED_ITEMS = "STATE_FILTERED_ITEMS";
-    private static final String STATE_SELECTED_ITEMS = "STATE_SELECTED_ITEMS";
-    private static final String STATE_IS_SELECT_ONE_ITEM = "STATE_IS_SELECT_ONE_ITEM";
-    
-    public static final int REQUEST_CODE = 4000;
-    public static final String PARAM_SELECT_ONE_ITEM = "PARAM_SELECT_ONE_ITEM";
-    private static final String PARAM_FILTERED_IDS = "PARAM_FILTERED_IDS";
-    public static final String PARAM_SELECTED_IDS = "PARAM_SELECTED_IDS";
-    public static final String RESULT_IDS = "RESULT_IDS";
-    public static final String TAG = MediaGalleryPickerActivity.class.getSimpleName();
-
     private int mOldMediaSyncOffset = 0;
 
     @Override
@@ -59,11 +55,11 @@ public class MediaGalleryPickerActivity extends SherlockActivity implements Mult
         ArrayList<String> checkedItems = new ArrayList<String>();
         mFilteredItems = getIntent().getStringArrayListExtra(PARAM_FILTERED_IDS);
         mIsSelectOneItem = getIntent().getBooleanExtra(PARAM_SELECT_ONE_ITEM, false);
-        
+
         ArrayList<String> prevSelectedItems = getIntent().getStringArrayListExtra(PARAM_SELECTED_IDS);
-        if( prevSelectedItems != null ) 
+        if (prevSelectedItems != null)
             checkedItems.addAll(prevSelectedItems);
-        
+
         if (savedInstanceState != null) {
             checkedItems.addAll(savedInstanceState.getStringArrayList(STATE_SELECTED_ITEMS));
             mFilteredItems = savedInstanceState.getStringArrayList(STATE_FILTERED_ITEMS);
@@ -94,7 +90,7 @@ public class MediaGalleryPickerActivity extends SherlockActivity implements Mult
         super.onResume();
         refreshViews();
     }
-    
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

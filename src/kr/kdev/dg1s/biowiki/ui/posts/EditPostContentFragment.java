@@ -59,28 +59,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.MediaGallery;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.BWEditText;
-import kr.kdev.dg1s.biowiki.util.BWHtml;
-import kr.kdev.dg1s.biowiki.Constants;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.MediaFile;
-import kr.kdev.dg1s.biowiki.models.Post;
-import kr.kdev.dg1s.biowiki.ui.media.MediaGalleryActivity;
-import kr.kdev.dg1s.biowiki.ui.media.MediaGalleryPickerActivity;
-import kr.kdev.dg1s.biowiki.util.BWImageSpan;
-import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
-import kr.kdev.dg1s.biowiki.util.BWUnderlineSpan;
-import kr.kdev.dg1s.biowiki.util.MediaUtils;
-import kr.kdev.dg1s.biowiki.util.DeviceUtils;
-import kr.kdev.dg1s.biowiki.util.DisplayUtils;
-import kr.kdev.dg1s.biowiki.util.ImageHelper;
-import kr.kdev.dg1s.biowiki.util.MediaGalleryImageSpan;
-import kr.kdev.dg1s.biowiki.util.StringUtils;
-
 import org.wordpress.passcodelock.AppLockManager;
 import org.xmlrpc.android.ApiHelper;
 
@@ -90,25 +68,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.Constants;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.MediaFile;
+import kr.kdev.dg1s.biowiki.models.MediaGallery;
+import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.ui.media.MediaGalleryActivity;
+import kr.kdev.dg1s.biowiki.ui.media.MediaGalleryPickerActivity;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.BWEditText;
+import kr.kdev.dg1s.biowiki.util.BWHtml;
+import kr.kdev.dg1s.biowiki.util.BWImageSpan;
+import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
+import kr.kdev.dg1s.biowiki.util.BWUnderlineSpan;
+import kr.kdev.dg1s.biowiki.util.DeviceUtils;
+import kr.kdev.dg1s.biowiki.util.DisplayUtils;
+import kr.kdev.dg1s.biowiki.util.ImageHelper;
+import kr.kdev.dg1s.biowiki.util.MediaGalleryImageSpan;
+import kr.kdev.dg1s.biowiki.util.MediaUtils;
+import kr.kdev.dg1s.biowiki.util.StringUtils;
+
 public class EditPostContentFragment extends SherlockFragment implements TextWatcher,
         BWEditText.OnSelectionChangedListener, View.OnTouchListener {
 
-    EditPostActivity mActivity;
-
-    private static final int ACTIVITY_REQUEST_CODE_CREATE_LINK = 4;
     public static final String NEW_MEDIA_GALLERY = "NEW_MEDIA_GALLERY";
     public static final String NEW_MEDIA_GALLERY_EXTRA_IDS = "NEW_MEDIA_GALLERY_EXTRA_IDS";
     public static final String NEW_MEDIA_POST = "NEW_MEDIA_POST";
     public static final String NEW_MEDIA_POST_EXTRA = "NEW_MEDIA_POST_ID";
-
+    private static final int ACTIVITY_REQUEST_CODE_CREATE_LINK = 4;
     private static final String TAG_FORMAT_BAR_BUTTON_STRONG = "strong";
     private static final String TAG_FORMAT_BAR_BUTTON_EM = "em";
     private static final String TAG_FORMAT_BAR_BUTTON_UNDERLINE = "u";
     private static final String TAG_FORMAT_BAR_BUTTON_STRIKE = "strike";
     private static final String TAG_FORMAT_BAR_BUTTON_QUOTE = "blockquote";
-
     private static final int CONTENT_ANIMATION_DURATION = 250;
-
+    EditPostActivity mActivity;
     private View mRootView;
     private BWEditText mContentEditText;
     private Button mAddPictureButton;
@@ -122,9 +118,70 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
     private String mMediaCapturePath = "";
 
     private int mStyleStart, mSelectionStart, mSelectionEnd, mFullViewBottom;
-    private int mLastPosition = -1, mQuickMediaType = -1;
+    /**
+     * Formatting bar
+     */
 
+    private View.OnClickListener mFormatBarButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            if (id == R.id.bold) {
+                onFormatButtonClick(mBoldToggleButton, TAG_FORMAT_BAR_BUTTON_STRONG);
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarBoldButton);
+            } else if (id == R.id.em) {
+                onFormatButtonClick(mEmToggleButton, TAG_FORMAT_BAR_BUTTON_EM);
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarItalicButton);
+            } else if (id == R.id.underline) {
+                onFormatButtonClick(mUnderlineToggleButton, TAG_FORMAT_BAR_BUTTON_UNDERLINE);
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarUnderlineButton);
+            } else if (id == R.id.strike) {
+                onFormatButtonClick(mStrikeToggleButton, TAG_FORMAT_BAR_BUTTON_STRIKE);
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarDelButton);
+            } else if (id == R.id.bquote) {
+                onFormatButtonClick(mBquoteToggleButton, TAG_FORMAT_BAR_BUTTON_QUOTE);
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarBlockquoteButton);
+            } else if (id == R.id.more) {
+                mSelectionEnd = mContentEditText.getSelectionEnd();
+                Editable str = mContentEditText.getText();
+                if (str != null) {
+                    if (mSelectionEnd > str.length())
+                        mSelectionEnd = str.length();
+                    str.insert(mSelectionEnd, "\n<!--more-->\n");
+                }
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarMoreButton);
+            } else if (id == R.id.link) {
+                mSelectionStart = mContentEditText.getSelectionStart();
+                mStyleStart = mSelectionStart;
+                mSelectionEnd = mContentEditText.getSelectionEnd();
+                if (mSelectionStart > mSelectionEnd) {
+                    int temp = mSelectionEnd;
+                    mSelectionEnd = mSelectionStart;
+                    mSelectionStart = temp;
+                }
+                Intent i = new Intent(getActivity(), EditLinkActivity.class);
+                if (mSelectionEnd > mSelectionStart) {
+                    if (mContentEditText.getText() != null) {
+                        String selectedText = mContentEditText.getText().subSequence(mSelectionStart, mSelectionEnd).toString();
+                        i.putExtra("selectedText", selectedText);
+                    }
+                }
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarLinkButton);
+                startActivityForResult(i, ACTIVITY_REQUEST_CODE_CREATE_LINK);
+            } else if (id == R.id.addPictureButton) {
+                mAddPictureButton.performLongClick();
+                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarPictureButton);
+            }
+        }
+    };
+    private int mLastPosition = -1, mQuickMediaType = -1;
     private float mLastYPos = 0;
+    private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        public void onGlobalLayout() {
+            mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            mFullViewBottom = mRootView.getBottom();
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -249,13 +306,6 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
         mRootView = view;
         mRootView.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalLayoutListener);
     }
-
-    private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        public void onGlobalLayout() {
-            mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            mFullViewBottom = mRootView.getBottom();
-        }
-    };
 
     public void setContentEditingModeVisible(boolean isVisible) {
         if (mActivity == null)
@@ -632,48 +682,6 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
         mFullViewBottom = mRootView.getBottom();
     }
 
-    /**
-     * Media
-     */
-
-    private class processAttachmentsTask extends AsyncTask<List<?>, Void, SpannableStringBuilder> {
-
-        protected void onPreExecute() {
-            Toast.makeText(getActivity(), R.string.loading, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        protected SpannableStringBuilder doInBackground(List<?>... args) {
-            ArrayList<?> multi_stream = (ArrayList<?>) args[0].get(0);
-            String type = (String) args[0].get(1);
-            SpannableStringBuilder ssb = new SpannableStringBuilder();
-            for (Object streamUri : multi_stream) {
-                if (streamUri instanceof Uri) {
-                    Uri imageUri = (Uri) streamUri;
-                    if (type != null) {
-                        addMedia(imageUri, ssb);
-                    }
-                }
-            }
-            return ssb;
-        }
-
-        protected void onPostExecute(SpannableStringBuilder ssb) {
-            if (!hasActivity()) {
-                return;
-            }
-            if (ssb != null && ssb.length() > 0) {
-                Editable postContentEditable = mContentEditText.getText();
-                if (postContentEditable != null) {
-                    postContentEditable.insert(0, ssb);
-                }
-            } else {
-                Toast.makeText(getActivity(), getResources().getText(R.string.gallery_error), Toast.LENGTH_SHORT)
-                     .show();
-            }
-        }
-    }
-
     private void launchPictureLibrary() {
         MediaUtils.launchPictureLibrary(this);
         AppLockManager.getInstance().setExtendedTimeout();
@@ -711,31 +719,6 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
             // It is a regular local image file
             if (!addMedia(mediaUri, null))
                 Toast.makeText(getActivity(), getResources().getText(R.string.gallery_error), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private class DownloadMediaTask extends AsyncTask<Uri, Integer, Uri> {
-        @Override
-        protected Uri doInBackground(Uri... uris) {
-            Uri imageUri = uris[0];
-            return MediaUtils.downloadExternalMedia(getActivity(), imageUri);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            Toast.makeText(getActivity(), R.string.download, Toast.LENGTH_SHORT).show();
-        }
-
-        protected void onPostExecute(Uri newUri) {
-            if (!hasActivity()) {
-                return;
-            }
-
-            if (newUri != null) {
-                addMedia(newUri, null);
-            } else {
-                Toast.makeText(getActivity(), getString(R.string.error_downloading_image), Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -836,14 +819,17 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
                             Toast.makeText(getActivity(), R.string.media_edit_failure, Toast.LENGTH_LONG).show();
                         }
                     }
-                });
+                }
+        );
 
         List<Object> apiArgs = new ArrayList<Object>();
         apiArgs.add(currentBlog);
         task.execute(apiArgs);
     }
 
-    /** Loads the thumbnail url in the imagespan from a server **/
+    /**
+     * Loads the thumbnail url in the imagespan from a server *
+     */
     private void loadWPImageSpanThumbnail(BWImageSpan imageSpan) {
         final int maxPictureWidthForContentEditor = 400;
         final int minPictureWidthForContentEditor = 200;
@@ -864,7 +850,7 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
             // Not a Jetpack or wpcom blog
             // imageURL = mediaFile.getThumbnailURL(); //do not use fileURL here since downloading picture
             // of big dimensions can result in OOM Exception
-            imageURL = mediaFile.getFileURL() != null ?  mediaFile.getFileURL() : mediaFile.getThumbnailURL();
+            imageURL = mediaFile.getFileURL() != null ? mediaFile.getFileURL() : mediaFile.getThumbnailURL();
         }
 
         if (imageURL == null)
@@ -1097,63 +1083,6 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
         return true;
     }
 
-    /**
-     * Formatting bar
-     */
-
-    private View.OnClickListener mFormatBarButtonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if (id == R.id.bold) {
-                onFormatButtonClick(mBoldToggleButton, TAG_FORMAT_BAR_BUTTON_STRONG);
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarBoldButton);
-            } else if (id == R.id.em) {
-                onFormatButtonClick(mEmToggleButton, TAG_FORMAT_BAR_BUTTON_EM);
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarItalicButton);
-            } else if (id == R.id.underline) {
-                onFormatButtonClick(mUnderlineToggleButton, TAG_FORMAT_BAR_BUTTON_UNDERLINE);
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarUnderlineButton);
-            } else if (id == R.id.strike) {
-                onFormatButtonClick(mStrikeToggleButton, TAG_FORMAT_BAR_BUTTON_STRIKE);
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarDelButton);
-            } else if (id == R.id.bquote) {
-                onFormatButtonClick(mBquoteToggleButton, TAG_FORMAT_BAR_BUTTON_QUOTE);
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarBlockquoteButton);
-            } else if (id == R.id.more) {
-                mSelectionEnd = mContentEditText.getSelectionEnd();
-                Editable str = mContentEditText.getText();
-                if (str != null) {
-                    if (mSelectionEnd > str.length())
-                        mSelectionEnd = str.length();
-                    str.insert(mSelectionEnd, "\n<!--more-->\n");
-                }
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarMoreButton);
-            } else if (id == R.id.link) {
-                mSelectionStart = mContentEditText.getSelectionStart();
-                mStyleStart = mSelectionStart;
-                mSelectionEnd = mContentEditText.getSelectionEnd();
-                if (mSelectionStart > mSelectionEnd) {
-                    int temp = mSelectionEnd;
-                    mSelectionEnd = mSelectionStart;
-                    mSelectionStart = temp;
-                }
-                Intent i = new Intent(getActivity(), EditLinkActivity.class);
-                if (mSelectionEnd > mSelectionStart) {
-                    if (mContentEditText.getText() != null) {
-                        String selectedText = mContentEditText.getText().subSequence(mSelectionStart, mSelectionEnd).toString();
-                        i.putExtra("selectedText", selectedText);
-                    }
-                }
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarLinkButton);
-                startActivityForResult(i, ACTIVITY_REQUEST_CODE_CREATE_LINK);
-            } else if (id == R.id.addPictureButton) {
-                mAddPictureButton.performLongClick();
-                trackFormatButtonClick(BWMobileStatsUtil.StatsPropertyPostDetailClickedKeyboardToolbarPictureButton);
-            }
-        }
-    };
-
     public void trackFormatButtonClick(String statPropertyName) {
         BWMobileStatsUtil.flagProperty(mActivity.getStatEventEditorClosed(), statPropertyName);
     }
@@ -1161,32 +1090,33 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
     /**
      * Applies formatting to selected text, or marks the entry for a new text style
      * at the current cursor position
+     *
      * @param toggleButton button from formatting bar
-     * @param tag HTML tag name for text style
+     * @param tag          HTML tag name for text style
      */
     private void onFormatButtonClick(ToggleButton toggleButton, String tag) {
-            Spannable s = mContentEditText.getText();
-            if (s == null)
-                return;
-            int selectionStart = mContentEditText.getSelectionStart();
-            mStyleStart = selectionStart;
-            int selectionEnd = mContentEditText.getSelectionEnd();
+        Spannable s = mContentEditText.getText();
+        if (s == null)
+            return;
+        int selectionStart = mContentEditText.getSelectionStart();
+        mStyleStart = selectionStart;
+        int selectionEnd = mContentEditText.getSelectionEnd();
 
-            if (selectionStart > selectionEnd) {
-                int temp = selectionEnd;
-                selectionEnd = selectionStart;
-                selectionStart = temp;
-            }
+        if (selectionStart > selectionEnd) {
+            int temp = selectionEnd;
+            selectionEnd = selectionStart;
+            selectionStart = temp;
+        }
 
         Class styleClass = null;
         if (tag.equals(TAG_FORMAT_BAR_BUTTON_STRONG) || tag.equals(TAG_FORMAT_BAR_BUTTON_EM))
-                styleClass = StyleSpan.class;
+            styleClass = StyleSpan.class;
         else if (tag.equals(TAG_FORMAT_BAR_BUTTON_UNDERLINE))
-                styleClass = BWUnderlineSpan.class;
+            styleClass = BWUnderlineSpan.class;
         else if (tag.equals(TAG_FORMAT_BAR_BUTTON_STRIKE))
-                styleClass = StrikethroughSpan.class;
+            styleClass = StrikethroughSpan.class;
         else if (tag.equals(TAG_FORMAT_BAR_BUTTON_QUOTE))
-                styleClass = QuoteSpan.class;
+            styleClass = QuoteSpan.class;
 
         if (styleClass == null)
             return;
@@ -1198,7 +1128,7 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
             boolean shouldAddSpan = true;
             for (Object span : allSpans) {
                 if (span instanceof StyleSpan) {
-                    StyleSpan styleSpan = (StyleSpan)span;
+                    StyleSpan styleSpan = (StyleSpan) span;
                     if ((styleSpan.getStyle() == Typeface.BOLD && !tag.equals(TAG_FORMAT_BAR_BUTTON_STRONG))
                             || (styleSpan.getStyle() == Typeface.ITALIC && !tag.equals(TAG_FORMAT_BAR_BUTTON_EM))) {
                         continue;
@@ -1222,9 +1152,9 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
 
             if (shouldAddSpan) {
                 if (tag.equals(TAG_FORMAT_BAR_BUTTON_STRONG)) {
-                        s.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    s.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else if (tag.equals(TAG_FORMAT_BAR_BUTTON_EM)) {
-                        s.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    s.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else {
                     try {
                         s.setSpan(styleClass.newInstance(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1575,5 +1505,72 @@ public class EditPostContentFragment extends SherlockFragment implements TextWat
         }
         width = Math.min(max, Math.max(width, min));
         return width;
+    }
+
+    /**
+     * Media
+     */
+
+    private class processAttachmentsTask extends AsyncTask<List<?>, Void, SpannableStringBuilder> {
+
+        protected void onPreExecute() {
+            Toast.makeText(getActivity(), R.string.loading, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected SpannableStringBuilder doInBackground(List<?>... args) {
+            ArrayList<?> multi_stream = (ArrayList<?>) args[0].get(0);
+            String type = (String) args[0].get(1);
+            SpannableStringBuilder ssb = new SpannableStringBuilder();
+            for (Object streamUri : multi_stream) {
+                if (streamUri instanceof Uri) {
+                    Uri imageUri = (Uri) streamUri;
+                    if (type != null) {
+                        addMedia(imageUri, ssb);
+                    }
+                }
+            }
+            return ssb;
+        }
+
+        protected void onPostExecute(SpannableStringBuilder ssb) {
+            if (!hasActivity()) {
+                return;
+            }
+            if (ssb != null && ssb.length() > 0) {
+                Editable postContentEditable = mContentEditText.getText();
+                if (postContentEditable != null) {
+                    postContentEditable.insert(0, ssb);
+                }
+            } else {
+                Toast.makeText(getActivity(), getResources().getText(R.string.gallery_error), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+
+    private class DownloadMediaTask extends AsyncTask<Uri, Integer, Uri> {
+        @Override
+        protected Uri doInBackground(Uri... uris) {
+            Uri imageUri = uris[0];
+            return MediaUtils.downloadExternalMedia(getActivity(), imageUri);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getActivity(), R.string.download, Toast.LENGTH_SHORT).show();
+        }
+
+        protected void onPostExecute(Uri newUri) {
+            if (!hasActivity()) {
+                return;
+            }
+
+            if (newUri != null) {
+                addMedia(newUri, null);
+            } else {
+                Toast.makeText(getActivity(), getString(R.string.error_downloading_image), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

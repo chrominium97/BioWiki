@@ -12,54 +12,41 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.HashSet;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.datasets.CommentTable;
+import kr.kdev.dg1s.biowiki.models.Comment;
 import kr.kdev.dg1s.biowiki.models.CommentList;
+import kr.kdev.dg1s.biowiki.util.AniUtils;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DateTimeUtils;
-import kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Comment;
-import kr.kdev.dg1s.biowiki.util.AniUtils;
 import kr.kdev.dg1s.biowiki.util.SysUtils;
-
-import java.util.HashSet;
+import kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView;
 
 /**
  * Created by nbradbury on 1/29/14.
  */
 class CommentAdapter extends BaseAdapter {
-    static interface DataLoadedListener {
-        public void onDataLoaded(boolean isEmpty);
-    }
-
-    static interface OnLoadMoreListener {
-        public void onLoadMore();
-    }
-
-    static interface OnSelectedItemsChangeListener {
-        public void onSelectedItemsChanged();
-    }
-
     private final LayoutInflater mInflater;
     private final DataLoadedListener mDataLoadedListener;
     private final OnLoadMoreListener mOnLoadMoreListener;
     private final OnSelectedItemsChangeListener mOnSelectedChangeListener;
-
-    private CommentList mComments = new CommentList();
     private final HashSet<Integer> mSelectedPositions = new HashSet<Integer>();
-
     private final int mStatusColorSpam;
     private final int mStatusColorUnapproved;
     private final int mSelectionColor;
-
     private final int mAvatarSz;
-    private long mHighlightedCommentId = -1;
-
     private final String mStatusTextSpam;
     private final String mStatusTextUnapproved;
-
+    private CommentList mComments = new CommentList();
+    private long mHighlightedCommentId = -1;
     private boolean mEnableSelection;
+    /*
+     * AsyncTask to load comments from SQLite
+     */
+    private boolean mIsLoadTaskRunning = false;
 
     CommentAdapter(Context context,
                    DataLoadedListener onDataLoadedListener,
@@ -133,7 +120,7 @@ class CommentAdapter extends BaseAdapter {
         if (!mEnableSelection)
             return comments;
 
-        for (Integer position: mSelectedPositions) {
+        for (Integer position : mSelectedPositions) {
             if (isPositionValid(position))
                 comments.add(mComments.get(position));
         }
@@ -181,6 +168,7 @@ class CommentAdapter extends BaseAdapter {
     long getHighlightedCommentId() {
         return mHighlightedCommentId;
     }
+
     void setHighlightedCommentId(long commentId) {
         if (mHighlightedCommentId == commentId)
             return;
@@ -221,7 +209,7 @@ class CommentAdapter extends BaseAdapter {
         // status is only shown for comments that haven't been approved
         final boolean showStatus;
         switch (comment.getStatusEnum()) {
-            case SPAM :
+            case SPAM:
                 showStatus = true;
                 holder.txtStatus.setText(mStatusTextSpam);
                 holder.txtStatus.setTextColor(mStatusColorSpam);
@@ -231,7 +219,7 @@ class CommentAdapter extends BaseAdapter {
                 holder.txtStatus.setText(mStatusTextUnapproved);
                 holder.txtStatus.setTextColor(mStatusColorUnapproved);
                 break;
-            default :
+            default:
                 showStatus = false;
                 break;
         }
@@ -268,10 +256,37 @@ class CommentAdapter extends BaseAdapter {
         }
 
         // request to load more comments when we near the end
-        if (mOnLoadMoreListener != null && position >= getCount()-1)
+        if (mOnLoadMoreListener != null && position >= getCount() - 1)
             mOnLoadMoreListener.onLoadMore();
 
         return convertView;
+    }
+
+    /*
+     * load comments using an AsyncTask
+     */
+    @SuppressLint("NewApi")
+    void loadComments() {
+        if (mIsLoadTaskRunning)
+            AppLog.w(AppLog.T.COMMENTS, "load comments task already active");
+
+        if (SysUtils.canUseExecuteOnExecutor()) {
+            new LoadCommentsTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            new LoadCommentsTask().execute();
+        }
+    }
+
+    static interface DataLoadedListener {
+        public void onDataLoaded(boolean isEmpty);
+    }
+
+    static interface OnLoadMoreListener {
+        public void onLoadMore();
+    }
+
+    static interface OnSelectedItemsChangeListener {
+        public void onSelectedItemsChanged();
     }
 
     private class CommentHolder {
@@ -292,35 +307,19 @@ class CommentAdapter extends BaseAdapter {
         }
     }
 
-    /*
-     * load comments using an AsyncTask
-     */
-    @SuppressLint("NewApi")
-    void loadComments() {
-        if (mIsLoadTaskRunning)
-            AppLog.w(AppLog.T.COMMENTS, "load comments task already active");
-
-        if (SysUtils.canUseExecuteOnExecutor()) {
-            new LoadCommentsTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            new LoadCommentsTask().execute();
-        }
-    }
-
-    /*
-     * AsyncTask to load comments from SQLite
-     */
-    private boolean mIsLoadTaskRunning = false;
     private class LoadCommentsTask extends AsyncTask<Void, Void, Boolean> {
         CommentList tmpComments;
+
         @Override
         protected void onPreExecute() {
             mIsLoadTaskRunning = true;
         }
+
         @Override
         protected void onCancelled() {
             mIsLoadTaskRunning = false;
         }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             int localBlogId = BioWiki.getCurrentLocalTableBlogId();
@@ -329,7 +328,7 @@ class CommentAdapter extends BaseAdapter {
                 return false;
 
             // pre-calc transient values so they're cached when used by getView()
-            for (Comment comment: tmpComments) {
+            for (Comment comment : tmpComments) {
                 comment.getDatePublished();
                 comment.getUnescapedCommentText();
                 comment.getUnescapedPostTitle();
@@ -339,10 +338,11 @@ class CommentAdapter extends BaseAdapter {
 
             return true;
         }
+
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
-                mComments = (CommentList)(tmpComments.clone());
+                mComments = (CommentList) (tmpComments.clone());
                 notifyDataSetChanged();
             }
 

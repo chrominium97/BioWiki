@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.CategoryNode;
 
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.CategoryNode;
 
 public class CategoryArrayAdapter extends ArrayAdapter<CategoryNode> {
     int mResourceId;

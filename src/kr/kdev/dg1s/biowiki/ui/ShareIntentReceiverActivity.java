@@ -16,18 +16,18 @@ import com.actionbarsherlock.internal.widget.IcsAdapterView;
 import com.actionbarsherlock.internal.widget.IcsAdapterView.OnItemSelectedListener;
 import com.actionbarsherlock.internal.widget.IcsSpinner;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.media.MediaBrowserActivity;
 import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 /**
  * An activity to handle share intents, since there are multiple actions possible.
@@ -274,7 +274,7 @@ public class ShareIntentReceiverActivity extends SherlockFragmentActivity implem
     private void savePreferences() {
         // If current blog is not set don't save preferences
         if (BioWiki.currentBlog == null) {
-            return ;
+            return;
         }
         if (mAlwaysUseCheckBox.isChecked()) {
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();

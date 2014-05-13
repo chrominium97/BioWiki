@@ -16,19 +16,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.datasets.CommentTable;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.MediaFile;
-import kr.kdev.dg1s.biowiki.models.Post;
-import kr.kdev.dg1s.biowiki.models.PostsListPost;
-import kr.kdev.dg1s.biowiki.models.Theme;
-import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.MapUtils;
-import kr.kdev.dg1s.biowiki.util.SqlUtils;
-import kr.kdev.dg1s.biowiki.util.Utils;
-import kr.kdev.dg1s.biowiki.models.Note;
-import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,85 +36,80 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import kr.kdev.dg1s.biowiki.datasets.CommentTable;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.MediaFile;
+import kr.kdev.dg1s.biowiki.models.Note;
+import kr.kdev.dg1s.biowiki.models.Post;
+import kr.kdev.dg1s.biowiki.models.PostsListPost;
+import kr.kdev.dg1s.biowiki.models.Theme;
+import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.MapUtils;
+import kr.kdev.dg1s.biowiki.util.SqlUtils;
+import kr.kdev.dg1s.biowiki.util.StringUtils;
+import kr.kdev.dg1s.biowiki.util.Utils;
+
 public class BioWikiDB {
 
+    public static final String SETTINGS_TABLE = "accounts";
+    protected static final String PASSWORD_SECRET = Config.DB_SECRET;
     private static final int DATABASE_VERSION = 26;
-
     private static final String CREATE_TABLE_SETTINGS = "create table if not exists accounts (id integer primary key autoincrement, "
             + "url text, blogName text, username text, password text, imagePlacement text, centerThumbnail boolean, fullSizeImage boolean, maxImageWidth text, maxImageWidthId integer);";
     private static final String CREATE_TABLE_MEDIA = "create table if not exists media (id integer primary key autoincrement, "
             + "postID integer not null, filePath text default '', fileName text default '', title text default '', description text default '', caption text default '', horizontalAlignment integer default 0, width integer default 0, height integer default 0, mimeType text default '', featured boolean default false, isVideo boolean default false);";
-    public static final String SETTINGS_TABLE = "accounts";
     private static final String DATABASE_NAME = "wordpress";
     private static final String MEDIA_TABLE = "media";
-
     private static final String CREATE_TABLE_POSTS = "create table if not exists posts (id integer primary key autoincrement, blogID text, "
             + "postid text, title text default '', dateCreated date, date_created_gmt date, categories text default '', custom_fields text default '', "
             + "description text default '', link text default '', mt_allow_comments boolean, mt_allow_pings boolean, "
             + "mt_excerpt text default '', mt_keywords text default '', mt_text_more text default '', permaLink text default '', post_status text default '', userid integer default 0, "
             + "wp_author_display_name text default '', wp_author_id text default '', wp_password text default '', wp_post_format text default '', wp_slug text default '', mediaPaths text default '', "
             + "latitude real, longitude real, localDraft boolean default 0, uploaded boolean default 0, isPage boolean default 0, wp_page_parent_id text, wp_page_parent_title text);";
-
     private static final String POSTS_TABLE = "posts";
-
     private static final String THEMES_TABLE = "themes";
     private static final String CREATE_TABLE_THEMES = "create table if not exists themes (_id integer primary key autoincrement, "
             + "themeId text, name text, description text, screenshotURL text, trendingRank integer default 0, popularityRank integer default 0, launchDate date, previewURL text, blogId text, isCurrent boolean default false, isPremium boolean default false, features text);";
-
     // categories
     private static final String CREATE_TABLE_CATEGORIES = "create table if not exists cats (id integer primary key autoincrement, "
             + "blog_id text, wp_id integer, category_name text not null);";
     private static final String CATEGORIES_TABLE = "cats";
-
     // for capturing blogID
     private static final String ADD_BLOGID = "alter table accounts add blogId integer;";
     private static final String UPDATE_BLOGID = "update accounts set blogId = 1;";
-
     // for capturing blogID, trac ticket #
     private static final String ADD_LOCATION_FLAG = "alter table accounts add location boolean default false;";
-
     // add wordpress.com stats login info
     private static final String ADD_DOTCOM_USERNAME = "alter table accounts add dotcom_username text;";
     private static final String ADD_DOTCOM_PASSWORD = "alter table accounts add dotcom_password text;";
     private static final String ADD_API_KEY = "alter table accounts add api_key text;";
     private static final String ADD_API_BLOGID = "alter table accounts add api_blogid text;";
-
     // add wordpress.com flag and version column
     private static final String ADD_DOTCOM_FLAG = "alter table accounts add dotcomFlag boolean default false;";
     private static final String ADD_WP_VERSION = "alter table accounts add wpVersion text;";
-
     // add httpuser and httppassword
     private static final String ADD_HTTPUSER = "alter table accounts add httpuser text;";
     private static final String ADD_HTTPPASSWORD = "alter table accounts add httppassword text;";
-
     // add new table for QuickPress homescreen shortcuts
     private static final String CREATE_TABLE_QUICKPRESS_SHORTCUTS = "create table if not exists quickpress_shortcuts (id integer primary key autoincrement, accountId text, name text);";
     private static final String QUICKPRESS_SHORTCUTS_TABLE = "quickpress_shortcuts";
-
     // add field to store last used blog
     private static final String ADD_POST_FORMATS = "alter table accounts add postFormats text default '';";
-
     //add scaled image settings
     private static final String ADD_SCALED_IMAGE = "alter table accounts add isScaledImage boolean default false;";
     private static final String ADD_SCALED_IMAGE_IMG_WIDTH = "alter table accounts add scaledImgWidth integer default 1024;";
-
     //add boolean to posts to check uploaded posts that have local changes
     private static final String ADD_LOCAL_POST_CHANGES = "alter table posts add isLocalChange boolean default 0";
-
     //add boolean to track if featured image should be included in the post content
     private static final String ADD_FEATURED_IN_POST = "alter table media add isFeaturedInPost boolean default false;";
-
     // add home url to blog settings
     private static final String ADD_HOME_URL = "alter table accounts add homeURL text default '';";
-
     private static final String ADD_BLOG_OPTIONS = "alter table accounts add blog_options text default '';";
-
     // add category parent id to keep track of category hierarchy
     private static final String ADD_PARENTID_IN_CATEGORIES = "alter table cats add parent_id integer default 0;";
-
     // add admin flag to blog settings
     private static final String ADD_ACCOUNTS_ADMIN_FLAG = "alter table accounts add isAdmin boolean default false;";
-
     // add thumbnailURL, thumbnailPath and fileURL to media
     private static final String ADD_MEDIA_THUMBNAIL_URL = "alter table media add thumbnailURL text default '';";
     private static final String ADD_MEDIA_FILE_URL = "alter table media add fileURL text default '';";
@@ -136,19 +118,13 @@ public class BioWikiDB {
     private static final String ADD_MEDIA_DATE_GMT = "alter table media add date_created_gmt date;";
     private static final String ADD_MEDIA_UPLOAD_STATE = "alter table media add uploadState default '';";
     private static final String ADD_MEDIA_VIDEOPRESS_SHORTCODE = "alter table media add videoPressShortcode text default '';";
-
     // create table to store notifications
     private static final String NOTES_TABLE = "notes";
     private static final String CREATE_TABLE_NOTES = "create table if not exists notes (id integer primary key, " +
             "note_id text, message text, type text, raw_note_data text, timestamp integer, placeholder boolean);";
-
     // add hidden flag to blog settings (accounts)
     private static final String ADD_ACCOUNTS_HIDDEN_FLAG = "alter table accounts add isHidden boolean default 0;";
-   
     private SQLiteDatabase db;
-
-    protected static final String PASSWORD_SECRET = Config.DB_SECRET;
-
     private Context context;
 
     public BioWikiDB(Context ctx) {
@@ -252,6 +228,47 @@ public class BioWikiDB {
         db.setVersion(DATABASE_VERSION);
     }
 
+    public static String encryptPassword(String clearText) {
+        try {
+            DESKeySpec keySpec = new DESKeySpec(
+                    PASSWORD_SECRET.getBytes("UTF-8"));
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+            SecretKey key = keyFactory.generateSecret(keySpec);
+
+            Cipher cipher = Cipher.getInstance("DES");
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            String encrypedPwd = Base64.encodeToString(cipher.doFinal(clearText
+                    .getBytes("UTF-8")), Base64.DEFAULT);
+            return encrypedPwd;
+        } catch (Exception e) {
+        }
+        return clearText;
+    }
+
+    public static String decryptPassword(String encryptedPwd) {
+        try {
+            DESKeySpec keySpec = new DESKeySpec(
+                    PASSWORD_SECRET.getBytes("UTF-8"));
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+            SecretKey key = keyFactory.generateSecret(keySpec);
+
+            byte[] encryptedWithoutB64 = Base64.decode(encryptedPwd, Base64.DEFAULT);
+            Cipher cipher = Cipher.getInstance("DES");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] plainTextPwdBytes = cipher.doFinal(encryptedWithoutB64);
+            return new String(plainTextPwdBytes);
+        } catch (Exception e) {
+        }
+        return encryptedPwd;
+    }
+
+    public static int generateIdFor(Note note) {
+        if (note == null) {
+            return 0;
+        }
+        return StringUtils.getMd5IntHash(note.getSubject() + note.getType()).intValue();
+    }
+
     public SQLiteDatabase getDatabase() {
         return db;
     }
@@ -259,25 +276,26 @@ public class BioWikiDB {
     public void deleteDatabase(Context ctx) {
         ctx.deleteDatabase(DATABASE_NAME);
     }
-/*
-    private void migrateWPComAccount() {
-        Cursor c = db.query(SETTINGS_TABLE, new String[] { "username", "password" }, "dotcomFlag=1", null, null,
-                null, null);
 
-        if (c.getCount() > 0) {
-            c.moveToFirst();
-            String username = c.getString(0);
-            String password = c.getString(1);
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.context);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString(BioWiki.WPCOM_USERNAME_PREFERENCE, username);
-            editor.putString(BioWiki.WPCOM_PASSWORD_PREFERENCE, password);
-            editor.commit();
+    /*
+        private void migrateWPComAccount() {
+            Cursor c = db.query(SETTINGS_TABLE, new String[] { "username", "password" }, "dotcomFlag=1", null, null,
+                    null, null);
+
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                String username = c.getString(0);
+                String password = c.getString(1);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.context);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString(BioWiki.WPCOM_USERNAME_PREFERENCE, username);
+                editor.putString(BioWiki.WPCOM_PASSWORD_PREFERENCE, password);
+                editor.commit();
+            }
+
+            c.close();
         }
-
-        c.close();
-    }
-*/
+    */
     public boolean addBlog(Blog blog) {
         ContentValues values = new ContentValues();
         values.put("url", blog.getUrl());
@@ -395,13 +413,23 @@ public class BioWikiDB {
     public boolean isDotComAccountVisible(int blogId) {
         String[] args = {Integer.toString(blogId)};
         return SqlUtils.boolForQuery(db, "SELECT 1 FROM " + SETTINGS_TABLE +
-                                         " WHERE isHidden = 0 AND blogId=?", args);
+                " WHERE isHidden = 0 AND blogId=?", args);
     }
+/*
+    public boolean updateWPComCredentials(String username, String password) {
+        // update the login for wordpress.com blogs
+        ContentValues userPass = new ContentValues();
+        userPass.put("username", username);
+        userPass.put("password", encryptPassword(password));
+        return db.update(SETTINGS_TABLE, userPass, "username=\""
+                + username + "\" AND dotcomFlag=1", null) > 0;
+    }
+    */
 
     public boolean isBlogInDatabase(int blogId, String xmlRpcUrl) {
         Cursor c = db.query(SETTINGS_TABLE, new String[]{"id"}, "blogId=? AND url=?",
                 new String[]{Integer.toString(blogId), xmlRpcUrl}, null, null, null, null);
-        boolean result =  c.getCount() > 0;
+        boolean result = c.getCount() > 0;
         c.close();
         return result;
     }
@@ -456,16 +484,6 @@ public class BioWikiDB {
 
         return (returnValue);
     }
-/*
-    public boolean updateWPComCredentials(String username, String password) {
-        // update the login for wordpress.com blogs
-        ContentValues userPass = new ContentValues();
-        userPass.put("username", username);
-        userPass.put("password", encryptPassword(password));
-        return db.update(SETTINGS_TABLE, userPass, "username=\""
-                + username + "\" AND dotcomFlag=1", null) > 0;
-    }
-    */
 
     public boolean deleteAccount(Context ctx, int id) {
         // TODO: should this also delete posts and other related info?
@@ -481,7 +499,7 @@ public class BioWikiDB {
 
         db.beginTransaction();
         try {
-            for (int id: ids) {
+            for (int id : ids) {
                 deleteAccount(context, id);
             }
             db.setTransactionSuccessful();
@@ -499,10 +517,10 @@ public class BioWikiDB {
     public Blog instantiateBlogByLocalId(int localId) {
         String[] fields =
                 new String[]{"url", "blogName", "username", "password", "httpuser", "httppassword", "imagePlacement",
-                             "centerThumbnail", "fullSizeImage", "maxImageWidth", "maxImageWidthId",
-                             "blogId", "location", "dotcomFlag", "dotcom_username", "dotcom_password", "api_key",
-                             "api_blogid", "wpVersion", "postFormats", "isScaledImage",
-                             "scaledImgWidth", "homeURL", "blog_options", "isAdmin", "isHidden"};
+                        "centerThumbnail", "fullSizeImage", "maxImageWidth", "maxImageWidthId",
+                        "blogId", "location", "dotcomFlag", "dotcom_username", "dotcom_password", "api_key",
+                        "api_blogid", "wpVersion", "postFormats", "isScaledImage",
+                        "scaledImgWidth", "homeURL", "blog_options", "isAdmin", "isHidden"};
         Cursor c = db.query(SETTINGS_TABLE, fields, "id=?", new String[]{Integer.toString(localId)}, null, null, null);
 
         Blog blog = null;
@@ -588,8 +606,8 @@ public class BioWikiDB {
 
     public List<String> loadStatsLogin(int id) {
 
-        Cursor c = db.query(SETTINGS_TABLE, new String[] { "dotcom_username",
-                "dotcom_password" }, "id=" + id, null, null, null, null);
+        Cursor c = db.query(SETTINGS_TABLE, new String[]{"dotcom_username",
+                "dotcom_password"}, "id=" + id, null, null, null, null);
 
         c.moveToFirst();
 
@@ -633,7 +651,7 @@ public class BioWikiDB {
     public int getLocalTableBlogIdForRemoteBlogIdAndXmlRpcUrl(int remoteBlogId, String xmlRpcUrl) {
         int localBlogID = SqlUtils.intForQuery(db, "SELECT id FROM accounts WHERE blogId=? AND url=?",
                 new String[]{Integer.toString(remoteBlogId), xmlRpcUrl});
-        if (localBlogID==0) {
+        if (localBlogID == 0) {
             localBlogID = this.getLocalTableBlogIdForJetpackRemoteID(remoteBlogId, xmlRpcUrl);
         }
         return localBlogID;
@@ -641,10 +659,10 @@ public class BioWikiDB {
 
     public int getRemoteBlogIdForLocalTableBlogId(int localBlogId) {
         int remoteBlogID = SqlUtils.intForQuery(db, "SELECT blogId FROM accounts WHERE id=?", new String[]{Integer.toString(localBlogId)});
-        if (remoteBlogID<=1) { //Make sure we're not returning a wrong ID for jetpack blog.
-            List<Map<String,Object>> allAccounts = this.getAccountsBy("dotcomFlag=0", new String[]{"api_blogid"});
+        if (remoteBlogID <= 1) { //Make sure we're not returning a wrong ID for jetpack blog.
+            List<Map<String, Object>> allAccounts = this.getAccountsBy("dotcomFlag=0", new String[]{"api_blogid"});
             for (Map<String, Object> currentAccount : allAccounts) {
-                if (MapUtils.getMapInt(currentAccount, "id")==localBlogId) {
+                if (MapUtils.getMapInt(currentAccount, "id") == localBlogId) {
                     remoteBlogID = MapUtils.getMapInt(currentAccount, "api_blogid");
                     break;
                 }
@@ -688,22 +706,24 @@ public class BioWikiDB {
     }
 
     public List<Map<String, Object>> loadDrafts(int blogID,
-            boolean loadPages) {
+                                                boolean loadPages) {
 
         List<Map<String, Object>> returnVector = new Vector<Map<String, Object>>();
         Cursor c;
         if (loadPages)
-            c = db.query(POSTS_TABLE, new String[] { "id", "title",
-                    "post_status", "uploaded", "date_created_gmt",
-                    "post_status" }, "blogID=" + blogID
-                    + " AND localDraft=1 AND uploaded=0 AND isPage=1", null,
-                    null, null, null);
+            c = db.query(POSTS_TABLE, new String[]{"id", "title",
+                            "post_status", "uploaded", "date_created_gmt",
+                            "post_status"}, "blogID=" + blogID
+                            + " AND localDraft=1 AND uploaded=0 AND isPage=1", null,
+                    null, null, null
+            );
         else
-            c = db.query(POSTS_TABLE, new String[] { "id", "title",
-                    "post_status", "uploaded", "date_created_gmt",
-                    "post_status" }, "blogID=" + blogID
-                    + " AND localDraft=1 AND uploaded=0 AND isPage=0", null,
-                    null, null, null);
+            c = db.query(POSTS_TABLE, new String[]{"id", "title",
+                            "post_status", "uploaded", "date_created_gmt",
+                            "post_status"}, "blogID=" + blogID
+                            + " AND localDraft=1 AND uploaded=0 AND isPage=0", null,
+                    null, null, null
+            );
 
         int numRows = c.getCount();
         c.moveToFirst();
@@ -747,9 +767,10 @@ public class BioWikiDB {
 
     /**
      * Saves a list of posts to the db
-     * @param postsList: list of post objects
+     *
+     * @param postsList:   list of post objects
      * @param localBlogId: the posts table blog id
-     * @param isPage: boolean to save as pages
+     * @param isPage:      boolean to save as pages
      */
     public void savePosts(List<?> postsList, int localBlogId, boolean isPage, boolean shouldOverwrite) {
         if (postsList != null && postsList.size() != 0) {
@@ -863,10 +884,11 @@ public class BioWikiDB {
         List<PostsListPost> posts = new ArrayList<PostsListPost>();
         Cursor c;
         c = db.query(POSTS_TABLE,
-                new String[] { "id", "blogID", "title",
-                        "date_created_gmt", "post_status", "localDraft", "isLocalChange" },
+                new String[]{"id", "blogID", "title",
+                        "date_created_gmt", "post_status", "localDraft", "isLocalChange"},
                 "blogID=? AND isPage=? AND NOT (localDraft=1 AND uploaded=1)",
-                new String[] {String.valueOf(blogId), (loadPages) ? "1" : "0"}, null, null, "localDraft DESC, date_created_gmt DESC");
+                new String[]{String.valueOf(blogId), (loadPages) ? "1" : "0"}, null, null, "localDraft DESC, date_created_gmt DESC"
+        );
         int numRows = c.getCount();
         c.moveToFirst();
 
@@ -957,10 +979,11 @@ public class BioWikiDB {
 
             result = db.update(POSTS_TABLE, values, "blogID=? AND id=? AND isPage=?",
                     new String[]{
-                        String.valueOf(post.getLocalTableBlogId()),
-                        String.valueOf(post.getLocalTablePostId()),
-                        String.valueOf(SqlUtils.boolToSql(post.isPage()))
-                    });
+                            String.valueOf(post.getLocalTableBlogId()),
+                            String.valueOf(post.getLocalTablePostId()),
+                            String.valueOf(SqlUtils.boolToSql(post.isPage()))
+                    }
+            );
         }
 
         return (result);
@@ -972,16 +995,18 @@ public class BioWikiDB {
         Cursor c;
         if (loadPages)
             c = db.query(POSTS_TABLE,
-                    new String[] { "id", "blogID", "postid", "title",
-                            "date_created_gmt", "dateCreated", "post_status" },
+                    new String[]{"id", "blogID", "postid", "title",
+                            "date_created_gmt", "dateCreated", "post_status"},
                     "blogID=" + blogID + " AND localDraft != 1 AND isPage=1",
-                    null, null, null, null);
+                    null, null, null, null
+            );
         else
             c = db.query(POSTS_TABLE,
-                    new String[] { "id", "blogID", "postid", "title",
-                            "date_created_gmt", "dateCreated", "post_status" },
+                    new String[]{"id", "blogID", "postid", "title",
+                            "date_created_gmt", "dateCreated", "post_status"},
                     "blogID=" + blogID + " AND localDraft != 1 AND isPage=0",
-                    null, null, null, null);
+                    null, null, null, null
+            );
 
         int numRows = c.getCount();
         c.moveToFirst();
@@ -1026,38 +1051,38 @@ public class BioWikiDB {
 
         Post post = new Post();
         if (c.moveToFirst()) {
-                post.setLocalTablePostId(c.getLong(c.getColumnIndex("id")));
-                post.setLocalTableBlogId(Integer.valueOf(c.getString(c.getColumnIndex("blogID"))));
-                post.setRemotePostId(c.getString(c.getColumnIndex("postid")));
-                post.setTitle(c.getString(c.getColumnIndex("title")));
-                post.setDateCreated(c.getLong(c.getColumnIndex("dateCreated")));
-                post.setDate_created_gmt(c.getLong(c.getColumnIndex("date_created_gmt")));
-                post.setCategories(c.getString(c.getColumnIndex("categories")));
-                post.setCustomFields(c.getString(c.getColumnIndex("custom_fields")));
-                post.setDescription(c.getString(c.getColumnIndex("description")));
-                post.setLink(c.getString(c.getColumnIndex("link")));
-                post.setAllowComments(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("mt_allow_comments"))));
-                post.setAllowPings(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("mt_allow_pings"))));
-                post.setPostExcerpt(c.getString(c.getColumnIndex("mt_excerpt")));
-                post.setKeywords(c.getString(c.getColumnIndex("mt_keywords")));
-                post.setMoreText(c.getString(c.getColumnIndex("mt_text_more")));
-                post.setPermaLink(c.getString(c.getColumnIndex("permaLink")));
-                post.setPostStatus(c.getString(c.getColumnIndex("post_status")));
-                post.setUserId(c.getString(c.getColumnIndex("userid")));
-                post.setAuthorDisplayName(c.getString(c.getColumnIndex("wp_author_display_name")));
-                post.setAuthorId(c.getString(c.getColumnIndex("wp_author_id")));
-                post.setPassword(c.getString(c.getColumnIndex("wp_password")));
-                post.setPostFormat(c.getString(c.getColumnIndex("wp_post_format")));
-                post.setSlug(c.getString(c.getColumnIndex("wp_slug")));
-                post.setMediaPaths(c.getString(c.getColumnIndex("mediaPaths")));
-                post.setLatitude(c.getDouble(c.getColumnIndex("latitude")));
-                post.setLongitude(c.getDouble(c.getColumnIndex("longitude")));
-                post.setLocalDraft(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("localDraft"))));
-                post.setUploaded(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("uploaded"))));
-                post.setIsPage(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("isPage"))));
-                post.setPageParentId(c.getString(c.getColumnIndex("wp_page_parent_id")));
-                post.setPageParentTitle(c.getString(c.getColumnIndex("wp_page_parent_title")));
-                post.setLocalChange(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("isLocalChange"))));
+            post.setLocalTablePostId(c.getLong(c.getColumnIndex("id")));
+            post.setLocalTableBlogId(Integer.valueOf(c.getString(c.getColumnIndex("blogID"))));
+            post.setRemotePostId(c.getString(c.getColumnIndex("postid")));
+            post.setTitle(c.getString(c.getColumnIndex("title")));
+            post.setDateCreated(c.getLong(c.getColumnIndex("dateCreated")));
+            post.setDate_created_gmt(c.getLong(c.getColumnIndex("date_created_gmt")));
+            post.setCategories(c.getString(c.getColumnIndex("categories")));
+            post.setCustomFields(c.getString(c.getColumnIndex("custom_fields")));
+            post.setDescription(c.getString(c.getColumnIndex("description")));
+            post.setLink(c.getString(c.getColumnIndex("link")));
+            post.setAllowComments(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("mt_allow_comments"))));
+            post.setAllowPings(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("mt_allow_pings"))));
+            post.setPostExcerpt(c.getString(c.getColumnIndex("mt_excerpt")));
+            post.setKeywords(c.getString(c.getColumnIndex("mt_keywords")));
+            post.setMoreText(c.getString(c.getColumnIndex("mt_text_more")));
+            post.setPermaLink(c.getString(c.getColumnIndex("permaLink")));
+            post.setPostStatus(c.getString(c.getColumnIndex("post_status")));
+            post.setUserId(c.getString(c.getColumnIndex("userid")));
+            post.setAuthorDisplayName(c.getString(c.getColumnIndex("wp_author_display_name")));
+            post.setAuthorId(c.getString(c.getColumnIndex("wp_author_id")));
+            post.setPassword(c.getString(c.getColumnIndex("wp_password")));
+            post.setPostFormat(c.getString(c.getColumnIndex("wp_post_format")));
+            post.setSlug(c.getString(c.getColumnIndex("wp_slug")));
+            post.setMediaPaths(c.getString(c.getColumnIndex("mediaPaths")));
+            post.setLatitude(c.getDouble(c.getColumnIndex("latitude")));
+            post.setLongitude(c.getDouble(c.getColumnIndex("longitude")));
+            post.setLocalDraft(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("localDraft"))));
+            post.setUploaded(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("uploaded"))));
+            post.setIsPage(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("isPage"))));
+            post.setPageParentId(c.getString(c.getColumnIndex("wp_page_parent_id")));
+            post.setPageParentTitle(c.getString(c.getColumnIndex("wp_page_parent_title")));
+            post.setLocalChange(SqlUtils.sqlToBool(c.getInt(c.getColumnIndex("isLocalChange"))));
         } else {
             post = null;
         }
@@ -1084,8 +1109,8 @@ public class BioWikiDB {
 
     public List<String> loadCategories(int id) {
 
-        Cursor c = db.query(CATEGORIES_TABLE, new String[] { "id", "wp_id",
-                "category_name" }, "blog_id=" + id, null, null, null, null);
+        Cursor c = db.query(CATEGORIES_TABLE, new String[]{"id", "wp_id",
+                "category_name"}, "blog_id=" + id, null, null, null, null);
         int numRows = c.getCount();
         c.moveToFirst();
         List<String> returnVector = new Vector<String>();
@@ -1102,8 +1127,8 @@ public class BioWikiDB {
     }
 
     public int getCategoryId(int id, String category) {
-        Cursor c = db.query(CATEGORIES_TABLE, new String[] { "wp_id" },
-                "category_name=? AND blog_id=?", new String[] {category, String.valueOf(id)},
+        Cursor c = db.query(CATEGORIES_TABLE, new String[]{"wp_id"},
+                "category_name=? AND blog_id=?", new String[]{category, String.valueOf(id)},
                 null, null, null);
         if (c.getCount() == 0)
             return 0;
@@ -1117,8 +1142,8 @@ public class BioWikiDB {
     }
 
     public int getCategoryParentId(int id, String category) {
-        Cursor c = db.query(CATEGORIES_TABLE, new String[] { "parent_id" },
-                "category_name=? AND blog_id=?", new String[] {category, String.valueOf(id)},
+        Cursor c = db.query(CATEGORIES_TABLE, new String[]{"parent_id"},
+                "category_name=? AND blog_id=?", new String[]{category, String.valueOf(id)},
                 null, null, null);
         if (c.getCount() == 0)
             return -1;
@@ -1154,9 +1179,10 @@ public class BioWikiDB {
      * return all QuickPress shortcuts connected with the passed account
      */
     public List<Map<String, Object>> getQuickPressShortcuts(int accountId) {
-        Cursor c = db.query(QUICKPRESS_SHORTCUTS_TABLE, new String[] { "id",
-                "accountId", "name" }, "accountId = " + accountId, null, null,
-                null, null);
+        Cursor c = db.query(QUICKPRESS_SHORTCUTS_TABLE, new String[]{"id",
+                        "accountId", "name"}, "accountId = " + accountId, null, null,
+                null, null
+        );
         String id, name;
         int numRows = c.getCount();
         c.moveToFirst();
@@ -1213,45 +1239,12 @@ public class BioWikiDB {
         }
     }
 
-    public static String encryptPassword(String clearText) {
-        try {
-            DESKeySpec keySpec = new DESKeySpec(
-                    PASSWORD_SECRET.getBytes("UTF-8"));
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-            SecretKey key = keyFactory.generateSecret(keySpec);
-
-            Cipher cipher = Cipher.getInstance("DES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            String encrypedPwd = Base64.encodeToString(cipher.doFinal(clearText
-                    .getBytes("UTF-8")), Base64.DEFAULT);
-            return encrypedPwd;
-        } catch (Exception e) {
-        }
-        return clearText;
-    }
-
-    public static String decryptPassword(String encryptedPwd) {
-        try {
-            DESKeySpec keySpec = new DESKeySpec(
-                    PASSWORD_SECRET.getBytes("UTF-8"));
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-            SecretKey key = keyFactory.generateSecret(keySpec);
-
-            byte[] encryptedWithoutB64 = Base64.decode(encryptedPwd, Base64.DEFAULT);
-            Cipher cipher = Cipher.getInstance("DES");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] plainTextPwdBytes = cipher.doFinal(encryptedWithoutB64);
-            return new String(plainTextPwdBytes);
-        } catch (Exception e) {
-        }
-        return encryptedPwd;
-    }
-
     private void migratePasswords() {
 
-        Cursor c = db.query(SETTINGS_TABLE, new String[] { "id", "password",
-                "httppassword", "dotcom_password" }, null, null, null, null,
-                null);
+        Cursor c = db.query(SETTINGS_TABLE, new String[]{"id", "password",
+                        "httppassword", "dotcom_password"}, null, null, null, null,
+                null
+        );
         int numRows = c.getCount();
         c.moveToFirst();
 
@@ -1281,7 +1274,7 @@ public class BioWikiDB {
         Cursor c = db
                 .rawQuery(
                         "select count(*) from comments where blogID=? AND status='hold'",
-                        new String[] { String.valueOf(blogID) });
+                        new String[]{String.valueOf(blogID)});
         int numRows = c.getCount();
         c.moveToFirst();
 
@@ -1347,31 +1340,40 @@ public class BioWikiDB {
 
     }
 
-    /** For a given blogId, get the first media files **/
+    /**
+     * For a given blogId, get the first media files *
+     */
     public Cursor getFirstMediaFileForBlog(String blogId) {
         return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND " +
-                           "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) ORDER BY (uploadState=?) DESC, date_created_gmt DESC LIMIT 1",
-                new String[]{blogId, "uploading"});
+                        "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) ORDER BY (uploadState=?) DESC, date_created_gmt DESC LIMIT 1",
+                new String[]{blogId, "uploading"}
+        );
     }
 
-    /** For a given blogId, get all the media files **/
+    /**
+     * For a given blogId, get all the media files *
+     */
     public Cursor getMediaFilesForBlog(String blogId) {
         return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND "
-                + "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[] { blogId, "uploading" });
+                + "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[]{blogId, "uploading"});
     }
 
-    /** For a given blogId, get all the media files with searchTerm **/
+    /**
+     * For a given blogId, get all the media files with searchTerm *
+     */
     public Cursor getMediaFilesForBlog(String blogId, String searchTerm) {
         // Currently on WordPress.com, the media search engine only searches the title.
         // We'll match this.
 
         String term = searchTerm.toLowerCase(Locale.getDefault());
-        return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND title LIKE ? AND (uploadState IS NULL OR uploadState ='uploaded') ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[] { blogId, "%" + term + "%", "uploading" });
+        return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND title LIKE ? AND (uploadState IS NULL OR uploadState ='uploaded') ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[]{blogId, "%" + term + "%", "uploading"});
     }
 
-    /** For a given blogId, get the media file with the given media_id **/
+    /**
+     * For a given blogId, get the media file with the given media_id *
+     */
     public Cursor getMediaFile(String blogId, String mediaId) {
-        return db.rawQuery("SELECT * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId=?", new String[] { blogId, mediaId });
+        return db.rawQuery("SELECT * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId=?", new String[]{blogId, mediaId});
     }
 
     public int getMediaCountAll(String blogId) {
@@ -1381,13 +1383,14 @@ public class BioWikiDB {
         return count;
     }
 
-
     public Cursor getMediaImagesForBlog(String blogId) {
         return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND "
-                + "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND mimeType LIKE ? ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[] { blogId, "image%", "uploading" });
+                + "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND mimeType LIKE ? ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[]{blogId, "image%", "uploading"});
     }
 
-    /** Ids in the filteredIds will not be selected **/
+    /**
+     * Ids in the filteredIds will not be selected *
+     */
     public Cursor getMediaImagesForBlog(String blogId, ArrayList<String> filteredIds) {
 
         String mediaIdsStr = "";
@@ -1401,7 +1404,7 @@ public class BioWikiDB {
         }
 
         return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND "
-                + "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND mimeType LIKE ? " + mediaIdsStr + " ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[] { blogId, "image%", "uploading" });
+                + "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND mimeType LIKE ? " + mediaIdsStr + " ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[]{blogId, "image%", "uploading"});
     }
 
     public int getMediaCountImages(String blogId) {
@@ -1410,7 +1413,7 @@ public class BioWikiDB {
 
     public Cursor getMediaUnattachedForBlog(String blogId) {
         return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND " +
-                "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND postId=0 ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[] { blogId, "uploading" });
+                "(uploadState IS NULL OR uploadState IN ('uploaded', 'queued', 'failed', 'uploading')) AND postId=0 ORDER BY (uploadState=?) DESC, date_created_gmt DESC", new String[]{blogId, "uploading"});
     }
 
     public int getMediaCountUnattached(String blogId) {
@@ -1418,7 +1421,7 @@ public class BioWikiDB {
     }
 
     public Cursor getMediaFilesForBlog(String blogId, long startDate, long endDate) {
-        return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND (uploadState IS NULL OR uploadState ='uploaded') AND (date_created_gmt >= ? AND date_created_gmt <= ?) ", new String[] { blogId , String.valueOf(startDate), String.valueOf(endDate) });
+        return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId <> '' AND (uploadState IS NULL OR uploadState ='uploaded') AND (date_created_gmt >= ? AND date_created_gmt <= ?) ", new String[]{blogId, String.valueOf(startDate), String.valueOf(endDate)});
     }
 
     public Cursor getMediaFiles(String blogId, ArrayList<String> mediaIds) {
@@ -1432,7 +1435,7 @@ public class BioWikiDB {
         }
         mediaIdsStr = mediaIdsStr.subSequence(0, mediaIdsStr.length() - 1) + ")";
 
-        return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId IN " + mediaIdsStr, new String[] { blogId });
+        return db.rawQuery("SELECT id as _id, * FROM " + MEDIA_TABLE + " WHERE blogId=? AND mediaId IN " + mediaIdsStr, new String[]{blogId});
     }
 
     public MediaFile getMediaFile(String src, Post post) {
@@ -1478,12 +1481,16 @@ public class BioWikiDB {
         db.delete(MEDIA_TABLE, "blogId='" + post.getLocalTableBlogId() + "' AND postID=" + post.getLocalTablePostId(), null);
     }
 
-    /** Get the queued media files for upload for a given blogId **/
+    /**
+     * Get the queued media files for upload for a given blogId *
+     */
     public Cursor getMediaUploadQueue(String blogId) {
-        return db.rawQuery("SELECT * FROM " + MEDIA_TABLE + " WHERE uploadState=? AND blogId=?", new String[] {"queued", blogId});
+        return db.rawQuery("SELECT * FROM " + MEDIA_TABLE + " WHERE uploadState=? AND blogId=?", new String[]{"queued", blogId});
     }
 
-    /** Update a media file to a new upload state **/
+    /**
+     * Update a media file to a new upload state *
+     */
     public void updateMediaUploadState(String blogId, String mediaId, String uploadState) {
         if (blogId == null || blogId.equals(""))
             return;
@@ -1493,9 +1500,9 @@ public class BioWikiDB {
         else values.put("uploadState", uploadState);
 
         if (mediaId == null) {
-            db.update(MEDIA_TABLE, values, "blogId=? AND (uploadState IS NULL OR uploadState ='uploaded')", new String[] { blogId });
+            db.update(MEDIA_TABLE, values, "blogId=? AND (uploadState IS NULL OR uploadState ='uploaded')", new String[]{blogId});
         } else {
-            db.update(MEDIA_TABLE, values, "blogId=? AND mediaId=?", new String[] { blogId, mediaId });
+            db.update(MEDIA_TABLE, values, "blogId=? AND mediaId=?", new String[]{blogId, mediaId});
         }
     }
 
@@ -1524,45 +1531,53 @@ public class BioWikiDB {
             values.put("caption", caption);
         }
 
-        db.update(MEDIA_TABLE, values, "blogId = ? AND mediaId=?", new String[] { blogId, mediaId });
+        db.update(MEDIA_TABLE, values, "blogId = ? AND mediaId=?", new String[]{blogId, mediaId});
     }
 
     /**
      * For a given blogId, set all uploading states to failed.
      * Useful for cleaning up files stuck in the "uploading" state.
-     **/
+     */
     public void setMediaUploadingToFailed(String blogId) {
         if (blogId == null || blogId.equals(""))
             return;
 
         ContentValues values = new ContentValues();
         values.put("uploadState", "failed");
-        db.update(MEDIA_TABLE, values, "blogId=? AND uploadState=?", new String[] { blogId, "uploading" });
+        db.update(MEDIA_TABLE, values, "blogId=? AND uploadState=?", new String[]{blogId, "uploading"});
     }
 
-    /** For a given blogId, clear the upload states in the upload queue **/
+    /**
+     * For a given blogId, clear the upload states in the upload queue *
+     */
     public void clearMediaUploaded(String blogId) {
         if (blogId == null || blogId.equals(""))
             return;
 
         ContentValues values = new ContentValues();
         values.putNull("uploadState");
-        db.update(MEDIA_TABLE, values, "blogId=? AND uploadState=?", new String[] { blogId, "uploaded" });
+        db.update(MEDIA_TABLE, values, "blogId=? AND uploadState=?", new String[]{blogId, "uploaded"});
     }
 
-    /** Delete a media item from a blog locally **/
+    /**
+     * Delete a media item from a blog locally *
+     */
     public void deleteMediaFile(String blogId, String mediaId) {
-        db.delete(MEDIA_TABLE, "blogId=? AND mediaId=?", new String[] { blogId, mediaId });
+        db.delete(MEDIA_TABLE, "blogId=? AND mediaId=?", new String[]{blogId, mediaId});
     }
 
-    /** Mark media files for deletion without actually deleting them. **/
+    /**
+     * Mark media files for deletion without actually deleting them. *
+     */
     public void setMediaFilesMarkedForDelete(String blogId, List<String> ids) {
         // This is for queueing up files to delete on the server
         for (String id : ids)
             updateMediaUploadState(blogId, id, "delete");
     }
 
-    /** Mark media files as deleted without actually deleting them **/
+    /**
+     * Mark media files as deleted without actually deleting them *
+     */
     public void setMediaFilesMarkedForDeleted(String blogId) {
         // This is for syncing our files to the server:
         // when we pull from the server, everything that is still 'deleted'
@@ -1570,15 +1585,11 @@ public class BioWikiDB {
         updateMediaUploadState(blogId, null, "deleted");
     }
 
-    /** Delete files marked as deleted **/
+    /**
+     * Delete files marked as deleted *
+     */
     public void deleteFilesMarkedForDeleted(String blogId) {
-        db.delete(MEDIA_TABLE, "blogId=? AND uploadState=?", new String[] { blogId, "deleted" });
-    }
-
-    /** Get a media file scheduled for delete for a given blogId **/
-    public Cursor getMediaDeleteQueueItem(String blogId) {
-        return db.rawQuery("SELECT blogId, mediaId FROM " + MEDIA_TABLE + " WHERE uploadState=? AND blogId=? LIMIT 1",
-                new String[]{"delete", blogId});
+        db.delete(MEDIA_TABLE, "blogId=? AND uploadState=?", new String[]{blogId, "deleted"});
     }
 
 /*
@@ -1597,6 +1608,14 @@ public class BioWikiDB {
         return id;
     }
     */
+
+    /**
+     * Get a media file scheduled for delete for a given blogId *
+     */
+    public Cursor getMediaDeleteQueueItem(String blogId) {
+        return db.rawQuery("SELECT blogId, mediaId FROM " + MEDIA_TABLE + " WHERE uploadState=? AND blogId=? LIMIT 1",
+                new String[]{"delete", blogId});
+    }
 
     public boolean findLocalChanges(int blogId, boolean isPage) {
         Cursor c = db.query(POSTS_TABLE, null,
@@ -1632,7 +1651,7 @@ public class BioWikiDB {
                     THEMES_TABLE,
                     values,
                     "themeId=?",
-                    new String[]{ theme.getThemeId() });
+                    new String[]{theme.getThemeId()});
             if (result == 0)
                 returnValue = db.insert(THEMES_TABLE, null, values) > 0;
         }
@@ -1641,19 +1660,15 @@ public class BioWikiDB {
     }
 
     public Cursor getThemesAtoZ(String blogId) {
-        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY name COLLATE NOCASE ASC", new String[] { blogId });
+        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY name COLLATE NOCASE ASC", new String[]{blogId});
     }
 
     public Cursor getThemesTrending(String blogId) {
-        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY trendingRank ASC", new String[] { blogId });
+        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY trendingRank ASC", new String[]{blogId});
     }
 
     public Cursor getThemesPopularity(String blogId) {
-        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY popularityRank ASC", new String[] { blogId });
-    }
-
-    public Cursor getThemesNewest(String blogId) {
-        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY launchDate DESC", new String[] { blogId });
+        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY popularityRank ASC", new String[]{blogId});
     }
 
     /*public Cursor getThemesPremium(String blogId) {
@@ -1668,8 +1683,12 @@ public class BioWikiDB {
         return db.rawQuery("SELECT _id,  themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? AND isCurrentTheme='true'", new String[] { blogId });
     }*/
 
+    public Cursor getThemesNewest(String blogId) {
+        return db.rawQuery("SELECT _id, themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? ORDER BY launchDate DESC", new String[]{blogId});
+    }
+
     public String getCurrentThemeId(String blogId) {
-        return DatabaseUtils.stringForQuery(db, "SELECT themeId FROM " + THEMES_TABLE + " WHERE blogId=? AND isCurrent='1'", new String[] { blogId });
+        return DatabaseUtils.stringForQuery(db, "SELECT themeId FROM " + THEMES_TABLE + " WHERE blogId=? AND isCurrent='1'", new String[]{blogId});
     }
 
     public void setCurrentTheme(String blogId, String themeId) {
@@ -1677,11 +1696,11 @@ public class BioWikiDB {
         // update any old themes that are set to true to false
         ContentValues values = new ContentValues();
         values.put("isCurrent", false);
-        db.update(THEMES_TABLE, values, "blogID=? AND isCurrent='1'", new String[] { blogId });
+        db.update(THEMES_TABLE, values, "blogID=? AND isCurrent='1'", new String[]{blogId});
 
         values = new ContentValues();
         values.put("isCurrent", true);
-        db.update(THEMES_TABLE, values, "blogId=? AND themeId=?", new String[] { blogId, themeId });
+        db.update(THEMES_TABLE, values, "blogId=? AND themeId=?", new String[]{blogId, themeId});
     }
 
     public int getThemeCount(String blogId) {
@@ -1689,7 +1708,7 @@ public class BioWikiDB {
     }
 
     public Cursor getThemes(String blogId, String searchTerm) {
-        return db.rawQuery("SELECT _id,  themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? AND (name LIKE ? OR description LIKE ?) ORDER BY name ASC", new String[] {blogId, "%" + searchTerm + "%", "%" + searchTerm + "%"});
+        return db.rawQuery("SELECT _id,  themeId, name, screenshotURL, isCurrent, isPremium FROM " + THEMES_TABLE + " WHERE blogId=? AND (name LIKE ? OR description LIKE ?) ORDER BY name ASC", new String[]{blogId, "%" + searchTerm + "%", "%" + searchTerm + "%"});
 
     }
 
@@ -1728,7 +1747,7 @@ public class BioWikiDB {
     }
 
     public ArrayList<Note> getLatestNotes(int limit) {
-        Cursor cursor = db.query(NOTES_TABLE, new String[] {"note_id", "raw_note_data", "placeholder"},
+        Cursor cursor = db.query(NOTES_TABLE, new String[]{"note_id", "raw_note_data", "placeholder"},
                 null, null, null, null, "timestamp DESC", "" + limit);
         ArrayList<Note> notes = new ArrayList<Note>();
         while (cursor.moveToNext()) {
@@ -1769,19 +1788,12 @@ public class BioWikiDB {
         db.insertWithOnConflict(NOTES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    public static int generateIdFor(Note note) {
-        if (note == null) {
-            return 0;
-        }
-        return StringUtils.getMd5IntHash(note.getSubject() + note.getType()).intValue();
-    }
-
     public void saveNotes(List<Note> notes, boolean clearBeforeSaving) {
         db.beginTransaction();
         try {
             if (clearBeforeSaving)
                 clearNotes();
-            for (Note note: notes)
+            for (Note note : notes)
                 addNote(note, false);
             db.setTransactionSuccessful();
         } finally {
@@ -1790,7 +1802,7 @@ public class BioWikiDB {
     }
 
     public Note getNoteById(int id) {
-        Cursor cursor = db.query(NOTES_TABLE, new String[] {"raw_note_data"},  "id=" + id, null, null, null, null);
+        Cursor cursor = db.query(NOTES_TABLE, new String[]{"raw_note_data"}, "id=" + id, null, null, null, null);
         cursor.moveToFirst();
 
         try {

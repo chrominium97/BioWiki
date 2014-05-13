@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.util.TypedValue;
 
+import java.util.Comparator;
+import java.util.Map;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.BuildConfig;
 import kr.kdev.dg1s.biowiki.R;
-
-import java.util.Comparator;
-import java.util.Map;
 
 public class Utils {
     public static Comparator<Object> BlogNameComparator = new Comparator<Object>() {
@@ -53,7 +53,7 @@ public class Utils {
     public static float spToPx(float sp) {
         float scaledDensity = BioWiki.getContext().getResources().getDisplayMetrics().scaledDensity;
         return sp * scaledDensity;
-   }
+    }
 
     public static int getSmallestWidthDP() {
         return BioWiki.getContext().getResources().getInteger(R.integer.smallest_width_dp);

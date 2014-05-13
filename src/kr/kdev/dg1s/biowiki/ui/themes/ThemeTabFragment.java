@@ -29,49 +29,34 @@ import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
 import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
 import kr.kdev.dg1s.biowiki.ui.themes.ThemeTabAdapter.ScreenshotHolder;
 import kr.kdev.dg1s.biowiki.util.NetworkUtils;
-
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 
 /**
  * A fragment display the themes on a grid view.
  */
 public class ThemeTabFragment extends SherlockFragment implements OnItemClickListener, RecyclerListener {
-    public enum ThemeSortType {
-        TRENDING("Trending"),
-        NEWEST("Newest"),
-        POPULAR("Popular");
-
-        private String mTitle;
-
-        private ThemeSortType(String title) {
-            mTitle = title;
-        }
-
-        public String getTitle() {
-            return mTitle;
-        }
-
-        public static ThemeSortType getTheme(int position) {
-            if (position < ThemeSortType.values().length)
-                return ThemeSortType.values()[position];
-            else
-                return TRENDING;
-        }
-    }
-
-    public interface ThemeTabFragmentCallback {
-        public void onThemeSelected(String themeId);
-    }
-
     protected static final String ARGS_SORT = "ARGS_SORT";
     protected static final String BUNDLE_SCROLL_POSTION = "BUNDLE_SCROLL_POSTION";
-
     protected GridView mGridView;
     protected TextView mNoResultText;
     protected ThemeTabAdapter mAdapter;
     protected ThemeTabFragmentCallback mCallback;
     protected int mSavedScrollPosition = 0;
     private PullToRefreshHelper mPullToRefreshHelper;
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(ThemeBrowserActivity.THEME_REFRESH_INTENT_NOTIFICATION)) {
+                if (intent.getBooleanExtra(ThemeBrowserActivity.THEME_REFRESH_PARAM_REFRESHING, false)) {
+                    mPullToRefreshHelper.setRefreshing(true);
+                } else {
+                    mPullToRefreshHelper.setRefreshing(false);
+                    refresh();
+                }
+            }
+        }
+    };
 
     public static ThemeTabFragment newInstance(ThemeSortType sort) {
         ThemeTabFragment fragment = new ThemeTabFragment();
@@ -119,7 +104,8 @@ public class ThemeTabFragment extends SherlockFragment implements OnItemClickLis
                             ((ThemeBrowserActivity) getActivity()).fetchThemes();
                         }
                     }
-                });
+                }
+        );
 
         restoreState(savedInstanceState);
         return view;
@@ -141,21 +127,6 @@ public class ThemeTabFragment extends SherlockFragment implements OnItemClickLis
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
         lbm.unregisterReceiver(mReceiver);
     }
-
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(ThemeBrowserActivity.THEME_REFRESH_INTENT_NOTIFICATION)) {
-                if (intent.getBooleanExtra(ThemeBrowserActivity.THEME_REFRESH_PARAM_REFRESHING, false)) {
-                    mPullToRefreshHelper.setRefreshing(true);
-                } else {
-                    mPullToRefreshHelper.setRefreshing(false);
-                    refresh();
-                }
-            }
-        }
-    };
 
     private void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -186,7 +157,7 @@ public class ThemeTabFragment extends SherlockFragment implements OnItemClickLis
 
     private ThemeSortType getThemeSortType() {
         int sortType = ThemeSortType.TRENDING.ordinal();
-        if (getArguments().containsKey(ARGS_SORT))  {
+        if (getArguments().containsKey(ARGS_SORT)) {
             sortType = getArguments().getInt(ARGS_SORT);
         }
 
@@ -197,7 +168,7 @@ public class ThemeTabFragment extends SherlockFragment implements OnItemClickLis
 
         String blogId = getBlogId();
 
-        switch(themeSortType) {
+        switch (themeSortType) {
             case POPULAR:
                 return BioWiki.wpDB.getThemesPopularity(blogId);
             case NEWEST:
@@ -239,20 +210,49 @@ public class ThemeTabFragment extends SherlockFragment implements OnItemClickLis
         NetworkImageView niv = (NetworkImageView) view.findViewById(R.id.theme_grid_item_image);
         if (niv != null) {
             // this tag is set in the ThemeTabAdapter class
-            ScreenshotHolder tag =  (ScreenshotHolder) niv.getTag();
+            ScreenshotHolder tag = (ScreenshotHolder) niv.getTag();
             if (tag != null && tag.requestURL != null) {
                 // need a listener to cancel request, even if the listener does nothing
                 ImageContainer container = BioWiki.imageLoader.get(tag.requestURL, new ImageListener() {
 
                     @Override
-                    public void onErrorResponse(VolleyError error) { }
+                    public void onErrorResponse(VolleyError error) {
+                    }
 
                     @Override
-                    public void onResponse(ImageContainer response, boolean isImmediate) { }
+                    public void onResponse(ImageContainer response, boolean isImmediate) {
+                    }
 
                 });
                 container.cancelRequest();
             }
         }
+    }
+
+    public enum ThemeSortType {
+        TRENDING("Trending"),
+        NEWEST("Newest"),
+        POPULAR("Popular");
+
+        private String mTitle;
+
+        private ThemeSortType(String title) {
+            mTitle = title;
+        }
+
+        public static ThemeSortType getTheme(int position) {
+            if (position < ThemeSortType.values().length)
+                return ThemeSortType.values()[position];
+            else
+                return TRENDING;
+        }
+
+        public String getTitle() {
+            return mTitle;
+        }
+    }
+
+    public interface ThemeTabFragmentCallback {
+        public void onThemeSelected(String themeId);
     }
 }

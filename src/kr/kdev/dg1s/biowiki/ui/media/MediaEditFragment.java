@@ -26,24 +26,24 @@ import com.actionbarsherlock.view.MenuItem;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.ImageHelper;
-import kr.kdev.dg1s.biowiki.util.MediaUtils;
-import kr.kdev.dg1s.biowiki.R;
 import org.xmlrpc.android.ApiHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.util.ImageHelper;
+import kr.kdev.dg1s.biowiki.util.MediaUtils;
 
 /**
  * A fragment for editing media on the Media tab
  */
 public class MediaEditFragment extends SherlockFragment {
 
-    private static final String ARGS_MEDIA_ID = "media_id";
     public static final String TAG = "MediaEditFragment"; // also appears in the layouts, from the strings.xml
-
+    private static final String ARGS_MEDIA_ID = "media_id";
     private NetworkImageView mNetworkImageView;
     private ImageView mLocalImageView;
     private EditText mTitleView;
@@ -59,12 +59,6 @@ public class MediaEditFragment extends SherlockFragment {
     private ScrollView mScrollView;
     private View mLinearLayout;
     private ImageLoader mImageLoader;
-
-    public interface MediaEditFragmentCallback {
-        public void onResume(Fragment fragment);
-        public void onPause(Fragment fragment);
-        public void onSavedEdit(String mediaId, boolean result);
-    }
 
     public static MediaEditFragment newInstance(String mediaId) {
         MediaEditFragment fragment = new MediaEditFragment();
@@ -96,7 +90,6 @@ public class MediaEditFragment extends SherlockFragment {
             throw new ClassCastException(activity.toString() + " must implement " + MediaEditFragmentCallback.class.getSimpleName());
         }
     }
-
 
     @Override
     public void onDetach() {
@@ -163,7 +156,7 @@ public class MediaEditFragment extends SherlockFragment {
 
     private void disableEditingOnOldVersion() {
 
-        if( MediaUtils.isWordPressVersionWithMediaEditingCapabilities() )
+        if (MediaUtils.isWordPressVersionWithMediaEditingCapabilities())
             return;
 
         mSaveButton.setEnabled(false);
@@ -175,7 +168,7 @@ public class MediaEditFragment extends SherlockFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-     }
+    }
 
     public void loadMedia(String mediaId) {
         mMediaId = mediaId;
@@ -198,7 +191,7 @@ public class MediaEditFragment extends SherlockFragment {
     void hideKeyboard() {
         if (getActivity() != null) {
             InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
@@ -240,7 +233,8 @@ public class MediaEditFragment extends SherlockFragment {
                             mCallback.onSavedEdit(mediaId, false);
                         }
                     }
-                });
+                }
+        );
 
         List<Object> apiArgs = new ArrayList<Object>();
         apiArgs.add(currentBlog);
@@ -252,6 +246,10 @@ public class MediaEditFragment extends SherlockFragment {
 
     }
 
+    private boolean isMediaUpdating() {
+        return mIsMediaUpdating;
+    }
+
     private void setMediaUpdating(boolean isUpdating) {
         mIsMediaUpdating = isUpdating;
         mSaveButton.setEnabled(!isUpdating);
@@ -261,10 +259,6 @@ public class MediaEditFragment extends SherlockFragment {
         } else {
             mSaveButton.setText(R.string.save);
         }
-    }
-
-    private boolean isMediaUpdating() {
-        return mIsMediaUpdating;
     }
 
     private void refreshViews(Cursor cursor) {
@@ -392,5 +386,13 @@ public class MediaEditFragment extends SherlockFragment {
                 task.execute(filePath);
             }
         }
+    }
+
+    public interface MediaEditFragmentCallback {
+        public void onResume(Fragment fragment);
+
+        public void onPause(Fragment fragment);
+
+        public void onSavedEdit(String mediaId, boolean result);
     }
 }

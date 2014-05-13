@@ -36,11 +36,11 @@ public class HtmlUtils {
 
         // insert a line break before P tags unless the only one is at the start
         if (text.lastIndexOf("<p") > 0)
-            text = text.replaceAll("<p(.|\n)*?>","\n<p>");
+            text = text.replaceAll("<p(.|\n)*?>", "\n<p>");
 
         // convert BR tags to line breaks
         if (text.contains("<br"))
-            text = text.replaceAll("<br(.|\n)*?>","\n");
+            text = text.replaceAll("<br(.|\n)*?>", "\n");
 
         // use regex to strip tags, then convert entities in the result
         return fastUnescapeHtml(text.replaceAll("<(.|\n)*?>", "").trim());
@@ -84,7 +84,7 @@ public class HtmlUtils {
             int end = sb.indexOf("</script>", start);
             if (end == -1)
                 return sb.toString();
-            sb.delete(start, end+9);
+            sb.delete(start, end + 9);
             start = sb.indexOf("<script", start);
         }
 

@@ -3,13 +3,10 @@ package kr.kdev.dg1s.biowiki.networking;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.wordpress.rest.Oauth;
 
-import kr.kdev.dg1s.biowiki.BioWikiDB;
-import kr.kdev.dg1s.biowiki.Config;
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.Config;
 import kr.kdev.dg1s.biowiki.models.Blog;
 
 public class OAuthAuthenticator implements Authenticator {

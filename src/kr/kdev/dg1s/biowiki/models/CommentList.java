@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class CommentList extends ArrayList<Comment> {
 
     public int indexOfCommentId(long commentId) {
-        for (int i=0; i < this.size(); i++) {
-            if (commentId==this.get(i).commentID)
+        for (int i = 0; i < this.size(); i++) {
+            if (commentId == this.get(i).commentID)
                 return i;
         }
         return -1;
@@ -21,7 +21,7 @@ public class CommentList extends ArrayList<Comment> {
     public void replaceComments(final CommentList comments) {
         if (comments == null || comments.size() == 0)
             return;
-        for (Comment comment: comments) {
+        for (Comment comment : comments) {
             int index = indexOfCommentId(comment.commentID);
             if (index > -1)
                 set(index, comment);
@@ -34,7 +34,7 @@ public class CommentList extends ArrayList<Comment> {
     public void deleteComments(final CommentList comments) {
         if (comments == null || comments.size() == 0)
             return;
-        for (Comment comment: comments) {
+        for (Comment comment : comments) {
             int index = indexOfCommentId(comment.commentID);
             if (index > -1)
                 remove(index);
@@ -45,7 +45,7 @@ public class CommentList extends ArrayList<Comment> {
      * returns true if any comments in this list have the passed status
      */
     public boolean hasAnyWithStatus(CommentStatus status) {
-        for (Comment comment: this) {
+        for (Comment comment : this) {
             if (comment.getStatusEnum().equals(status))
                 return true;
         }
@@ -56,7 +56,7 @@ public class CommentList extends ArrayList<Comment> {
      * returns true if any comments in this list do NOT have the passed status
      */
     public boolean hasAnyWithoutStatus(CommentStatus status) {
-        for (Comment comment: this) {
+        for (Comment comment : this) {
             if (!comment.getStatusEnum().equals(status))
                 return true;
         }
@@ -70,7 +70,7 @@ public class CommentList extends ArrayList<Comment> {
         if (comments == null || comments.size() != this.size())
             return false;
 
-        for (final Comment comment: comments) {
+        for (final Comment comment : comments) {
             int index = this.indexOfCommentId(comment.commentID);
             if (index == -1)
                 return false;

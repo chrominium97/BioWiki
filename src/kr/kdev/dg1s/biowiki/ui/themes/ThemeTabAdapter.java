@@ -14,13 +14,12 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 
-import kr.kdev.dg1s.biowiki.util.Utils;
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.util.Utils;
 
 /**
  * Adapter for the {@link ThemeTabFragment}'s gridview
- *
  */
 public class ThemeTabAdapter extends CursorAdapter {
     private final LayoutInflater mInflater;
@@ -40,17 +39,25 @@ public class ThemeTabAdapter extends CursorAdapter {
         m32DpToPx = (int) Utils.dpToPx(32);
     }
 
-    private static class ThemeViewHolder {
-        private final NetworkImageView imageView;
-        private final TextView nameView;
-        private final ImageView themeAttr;
+    // The theme previews are 600x450 px, resulting in a ratio of 0.75
+    // We'll try to max the width, while keeping the padding ratio correct.
+    // Then we'll determine the height based on the width and the 0.75 ratio
+    private static int getColumnWidth(Context context) {
+        // Padding is 4 dp between the grid columns and on the outside
+        int columnCount = context.getResources().getInteger(R.integer.themes_grid_num_columns);
+        int dp4 = (int) Utils.dpToPx(4);
+        int padding = (columnCount + 1) * dp4;
 
-        ThemeViewHolder(View view) {
-            imageView = (NetworkImageView) view.findViewById(R.id.theme_grid_item_image);
-            nameView = (TextView) view.findViewById(R.id.theme_grid_item_name);
-            themeAttr = (ImageView) view.findViewById(R.id.theme_grid_attributes);
-        }
+        // the max width of the themes is either:
+        // = width of entire screen (phone and tablet portrait)
+        // = width of entire screen - menu drawer width (tablet landscape)
+        int maxWidth = context.getResources().getDisplayMetrics().widthPixels;
+        if (Utils.isXLarge(context) && Utils.isLandscape(context))
+            maxWidth -= context.getResources().getDimensionPixelSize(R.dimen.menu_drawer_width);
+
+        return (maxWidth - padding) / columnCount;
     }
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = mInflater.inflate(R.layout.theme_grid_item, parent, false);
@@ -70,7 +77,7 @@ public class ThemeTabAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         final ThemeViewHolder themeViewHolder = (ThemeViewHolder) view.getTag();
 
-        final String screenshotURL =  cursor.getString(cursor.getColumnIndex("screenshotURL"));
+        final String screenshotURL = cursor.getString(cursor.getColumnIndex("screenshotURL"));
         final String name = cursor.getString(cursor.getColumnIndex("name"));
         final int isPremiumTheme = cursor.getInt(cursor.getColumnIndex("isPremium"));
         final int isCurrentTheme = cursor.getInt(cursor.getColumnIndex("isCurrent"));
@@ -93,7 +100,7 @@ public class ThemeTabAdapter extends CursorAdapter {
             urlHolder.requestURL = screenshotURL;
             themeViewHolder.imageView.setTag(urlHolder);
         }
-        
+
         if (!urlHolder.requestURL.equals(screenshotURL)) {
             themeViewHolder.imageView.setImageBitmap(null);
             urlHolder.requestURL = screenshotURL;
@@ -103,27 +110,20 @@ public class ThemeTabAdapter extends CursorAdapter {
         view.setLayoutParams(new GridView.LayoutParams(mColumnWidth, mColumnHeight + m32DpToPx));
     }
 
-    // The theme previews are 600x450 px, resulting in a ratio of 0.75
-    // We'll try to max the width, while keeping the padding ratio correct.
-    // Then we'll determine the height based on the width and the 0.75 ratio
-    private static int getColumnWidth(Context context) {
-        // Padding is 4 dp between the grid columns and on the outside
-        int columnCount = context.getResources().getInteger(R.integer.themes_grid_num_columns);
-        int dp4 = (int) Utils.dpToPx(4);
-        int padding = (columnCount + 1) * dp4;
-        
-        // the max width of the themes is either:
-        // = width of entire screen (phone and tablet portrait)
-        // = width of entire screen - menu drawer width (tablet landscape)
-        int maxWidth = context.getResources().getDisplayMetrics().widthPixels;
-        if (Utils.isXLarge(context) && Utils.isLandscape(context))
-            maxWidth -= context.getResources().getDimensionPixelSize(R.dimen.menu_drawer_width);
-        
-        return (maxWidth - padding) / columnCount;
+    private static class ThemeViewHolder {
+        private final NetworkImageView imageView;
+        private final TextView nameView;
+        private final ImageView themeAttr;
+
+        ThemeViewHolder(View view) {
+            imageView = (NetworkImageView) view.findViewById(R.id.theme_grid_item_image);
+            nameView = (TextView) view.findViewById(R.id.theme_grid_item_name);
+            themeAttr = (ImageView) view.findViewById(R.id.theme_grid_attributes);
+        }
     }
-    
+
     static class ScreenshotHolder {
         String requestURL;
     }
-    
+
 }

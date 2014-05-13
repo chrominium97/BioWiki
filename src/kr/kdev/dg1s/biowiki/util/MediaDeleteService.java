@@ -7,12 +7,12 @@ import android.database.Cursor;
 import android.os.Handler;
 import android.os.IBinder;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-
 import org.xmlrpc.android.ApiHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
 
 /**
  * A service for deleting media files from the media browser.
@@ -22,31 +22,12 @@ public class MediaDeleteService extends Service {
 
     // time to wait before trying to delete the next file
     private static final int DELETE_WAIT_TIME = 1000;
-    
+
     private Context mContext;
     private Handler mHandler = new Handler();
     private boolean mDeleteInProgress;
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-    
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        mContext = this.getApplicationContext();
-        mDeleteInProgress = false;
-    }
-    
-    @Override
-    public void onStart(Intent intent, int startId) {
-        mHandler.post(mFetchQueueTask);
-    }
-
     private Runnable mFetchQueueTask = new Runnable() {
-        
+
         @Override
         public void run() {
             Cursor cursor = getQueueItem();
@@ -63,63 +44,82 @@ public class MediaDeleteService extends Service {
                 }
             } finally {
                 if (cursor != null)
-                    cursor.close();            
+                    cursor.close();
             }
-            
+
         }
     };
-    
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mContext = this.getApplicationContext();
+        mDeleteInProgress = false;
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        mHandler.post(mFetchQueueTask);
+    }
+
     private Cursor getQueueItem() {
         if (BioWiki.getCurrentBlog() == null)
             return null;
-        
+
         String blogId = String.valueOf(BioWiki.getCurrentBlog().getLocalTableBlogId());
         return BioWiki.wpDB.getMediaDeleteQueueItem(blogId);
     }
-    
+
     private void deleteMediaFile(Cursor cursor) {
 
         if (!cursor.moveToFirst())
             return;
-        
+
         mDeleteInProgress = true;
-        
+
         final String blogId = cursor.getString((cursor.getColumnIndex("blogId")));
         final String mediaId = cursor.getString(cursor.getColumnIndex("mediaId"));
-        
+
         ApiHelper.DeleteMediaTask task = new ApiHelper.DeleteMediaTask(mediaId,
                 new ApiHelper.GenericCallback() {
-            
-            @Override
-            public void onSuccess() {
-                // only delete them once we get an ok from the server
-                if (BioWiki.getCurrentBlog() != null && mediaId != null) {
-                    BioWiki.wpDB.deleteMediaFile(blogId, mediaId);
-                }
-                
-                mDeleteInProgress = false;
-                mHandler.post(mFetchQueueTask);
-            }
-            
-            @Override
-            public void onFailure(ApiHelper.ErrorType errorType, String errorMessage, Throwable throwable) {
-                // Ideally we would do handle the 401 (unauthorized) and 404 (not found) errors,
-                // but the XMLRPCExceptions don't seem to give messages when they are thrown.
-                
-                // Instead we'll just set them as "deleted" so they don't show up in the delete queue.
-                // Otherwise the service will continuously try to delete an item they can't delete.
 
-                BioWiki.wpDB.updateMediaUploadState(blogId, mediaId, "deleted");
-                
-                mDeleteInProgress = false;
-                mHandler.post(mFetchQueueTask);
-            }
-        });
+                    @Override
+                    public void onSuccess() {
+                        // only delete them once we get an ok from the server
+                        if (BioWiki.getCurrentBlog() != null && mediaId != null) {
+                            BioWiki.wpDB.deleteMediaFile(blogId, mediaId);
+                        }
+
+                        mDeleteInProgress = false;
+                        mHandler.post(mFetchQueueTask);
+                    }
+
+                    @Override
+                    public void onFailure(ApiHelper.ErrorType errorType, String errorMessage, Throwable throwable) {
+                        // Ideally we would do handle the 401 (unauthorized) and 404 (not found) errors,
+                        // but the XMLRPCExceptions don't seem to give messages when they are thrown.
+
+                        // Instead we'll just set them as "deleted" so they don't show up in the delete queue.
+                        // Otherwise the service will continuously try to delete an item they can't delete.
+
+                        BioWiki.wpDB.updateMediaUploadState(blogId, mediaId, "deleted");
+
+                        mDeleteInProgress = false;
+                        mHandler.post(mFetchQueueTask);
+                    }
+                }
+        );
 
         List<Object> apiArgs = new ArrayList<Object>();
         apiArgs.add(BioWiki.getCurrentBlog());
-        task.execute(apiArgs) ;
-        
+        task.execute(apiArgs);
+
         mHandler.post(mFetchQueueTask);
     }
 }

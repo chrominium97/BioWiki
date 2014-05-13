@@ -5,21 +5,21 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
 
 /**
  * Created by nbradbury on 6/21/13.
  * simple wrapper for Android log calls, enables recording & displaying log
  */
 public class AppLog {
-    // T for Tag
-    public enum T {READER, EDITOR, MEDIA, NUX, API, STATS, UTILS, NOTIFS, DB, POSTS, COMMENTS, THEMES, TESTS}
     public static final String TAG = BioWiki.TAG;
+    private static final int MAX_ENTRIES = 99;
     private static boolean mEnableRecording = false;
+    private static LogEntryList mLogEntries = new LogEntryList();
 
     private AppLog() {
         throw new AssertionError();
@@ -67,11 +67,13 @@ public class AppLog {
         addEntry(tag, LogLevel.e, tr.getMessage());
     }
 
+    // --------------------------------------------------------------------------------------------------------
+
     public static void e(T tag, VolleyError volleyError) {
-        if (volleyError==null)
+        if (volleyError == null)
             return;
         String logText;
-        if (volleyError.networkResponse==null) {
+        if (volleyError.networkResponse == null) {
             logText = volleyError.getMessage();
         } else {
             logText = volleyError.getMessage() + ", status "
@@ -82,14 +84,71 @@ public class AppLog {
         addEntry(tag, LogLevel.w, logText);
     }
 
-    // --------------------------------------------------------------------------------------------------------
+    private static void addEntry(T tag, LogLevel level, String text) {
+        // skip if recording is disabled (default)
+        if (!mEnableRecording)
+            return;
+        LogEntry entry = new LogEntry();
+        entry.logLevel = level;
+        entry.logText = text;
+        entry.logTag = tag;
+        mLogEntries.addEntry(entry);
+    }
 
-    private static final int MAX_ENTRIES = 99;
+    /*
+     * returns entire log as html for display (see AppLogViewerActivity)
+     */
+    public static String toHtml(Context context) {
+        StringBuilder sb = new StringBuilder();
+
+        // add version & device info
+        sb.append("BioWiki Android version: " + BioWiki.getVersionName(context)).append("<br />")
+                .append("Android device name: " + DeviceUtils.getInstance().getDeviceName(context)).append("<br />");
+
+        Iterator<LogEntry> it = mLogEntries.iterator();
+        int lineNum = 1;
+        while (it.hasNext()) {
+            sb.append("<font color='silver'>")
+                    .append(String.format("%02d", lineNum))
+                    .append("</font> ")
+                    .append(it.next().toHtml())
+                    .append("<br />");
+            lineNum++;
+        }
+        return sb.toString();
+    }
+
+    /*
+     * returns entire log as plain text
+     */
+    public static String toPlainText(Context context) {
+        StringBuilder sb = new StringBuilder();
+
+        // add version & device info
+        sb.append("BioWiki Android version: " + BioWiki.getVersionName(context)).append("\n")
+                .append("Android device name: " + DeviceUtils.getInstance().getDeviceName(context)).append("\n\n");
+
+        Iterator<LogEntry> it = mLogEntries.iterator();
+        int lineNum = 1;
+        while (it.hasNext()) {
+            sb.append(String.format("%02d - ", lineNum))
+                    .append(it.next().logText)
+                    .append("\n");
+            lineNum++;
+        }
+        return sb.toString();
+    }
+
+    // T for Tag
+    public enum T {
+        READER, EDITOR, MEDIA, NUX, API, STATS, UTILS, NOTIFS, DB, POSTS, COMMENTS, THEMES, TESTS
+    }
 
     private enum LogLevel {
         v, d, i, w, e;
+
         private String toHtmlColor() {
-            switch(this) {
+            switch (this) {
                 case v:
                     return "grey";
                 case i:
@@ -132,6 +191,7 @@ public class AppLog {
                 removeFirstEntry();
             return add(entry);
         }
+
         private void removeFirstEntry() {
             Iterator<LogEntry> it = iterator();
             if (!it.hasNext())
@@ -142,63 +202,5 @@ public class AppLog {
                 // ignore
             }
         }
-    }
-
-    private static LogEntryList mLogEntries = new LogEntryList();
-
-    private static void addEntry(T tag, LogLevel level, String text) {
-        // skip if recording is disabled (default)
-        if (!mEnableRecording)
-            return;
-        LogEntry entry = new LogEntry();
-        entry.logLevel = level;
-        entry.logText = text;
-        entry.logTag = tag;
-        mLogEntries.addEntry(entry);
-    }
-
-    /*
-     * returns entire log as html for display (see AppLogViewerActivity)
-     */
-    public static String toHtml(Context context) {
-        StringBuilder sb = new StringBuilder();
-
-        // add version & device info
-        sb.append("BioWiki Android version: " + BioWiki.getVersionName(context)).append("<br />")
-          .append("Android device name: " + DeviceUtils.getInstance().getDeviceName(context)).append("<br />");
-
-        Iterator<LogEntry> it = mLogEntries.iterator();
-        int lineNum = 1;
-        while (it.hasNext()) {
-            sb.append("<font color='silver'>")
-              .append(String.format("%02d", lineNum))
-              .append("</font> ")
-              .append(it.next().toHtml())
-              .append("<br />");
-            lineNum++;
-        }
-        return sb.toString();
-    }
-    
-    
-    /*
-     * returns entire log as plain text
-     */
-    public static String toPlainText(Context context) {
-        StringBuilder sb = new StringBuilder();
-
-        // add version & device info
-        sb.append("BioWiki Android version: " + BioWiki.getVersionName(context)).append("\n")
-          .append("Android device name: " + DeviceUtils.getInstance().getDeviceName(context)).append("\n\n");
-
-        Iterator<LogEntry> it = mLogEntries.iterator();
-        int lineNum = 1;
-        while (it.hasNext()) {
-              sb.append(String.format("%02d - ", lineNum))
-              .append(it.next().logText)
-              .append("\n");
-            lineNum++;
-        }
-        return sb.toString();
     }
 }

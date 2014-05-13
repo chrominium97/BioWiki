@@ -7,9 +7,8 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import kr.kdev.dg1s.biowiki.util.DisplayUtils;
 import kr.kdev.dg1s.biowiki.R;
-
+import kr.kdev.dg1s.biowiki.util.DisplayUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh.SetupWizard;
@@ -69,6 +68,10 @@ public class PullToRefreshHelper implements OnRefreshListener {
         createTipView(activity);
     }
 
+    public boolean isRefreshing() {
+        return mPullToRefreshLayout.isRefreshing();
+    }
+
     public void setRefreshing(boolean refreshing) {
         mHeaderTransformer.setShowProgressBarOnly(refreshing);
         mPullToRefreshLayout.setRefreshing(refreshing);
@@ -79,18 +82,10 @@ public class PullToRefreshHelper implements OnRefreshListener {
         }
     }
 
-    public boolean isRefreshing() {
-        return mPullToRefreshLayout.isRefreshing();
-    }
-
     @Override
     public void onRefreshStarted(View view) {
         mRefreshListener.onRefreshStarted(view);
         hideTip();
-    }
-
-    public interface RefreshListener {
-        public void onRefreshStarted(View view);
     }
 
     public void hideTipTemporarily(boolean animated) {
@@ -139,10 +134,14 @@ public class PullToRefreshHelper implements OnRefreshListener {
             mOnTopMessage = new OnTopMessage(activity, mPullToRefreshLayout);
             if (DisplayUtils.hasActionBarOverlay(activity.getWindow())) {
                 mOnTopMessage.setTopMargin(DisplayUtils.getActionBarHeight(mContext) +
-                                           activity.getResources().getDimensionPixelOffset(R.dimen.ptr_tip_margin_top));
+                        activity.getResources().getDimensionPixelOffset(R.dimen.ptr_tip_margin_top));
             }
             mOnTopMessage.setMessage(activity.getString(R.string.ptr_tip_message));
             mTipShouldBeVisible = true;
         }
+    }
+
+    public interface RefreshListener {
+        public void onRefreshStarted(View view);
     }
 }

@@ -18,44 +18,38 @@ import com.wordpress.rest.RestRequest.Listener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.models.Note;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.models.Note;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+
 public class RestClientUtils {
-    private static final String NOTIFICATION_FIELDS = "id,type,unread,body,subject,timestamp,meta";
-    private static final String COMMENT_REPLY_CONTENT_FIELD = "content";
-
-    private RestClient mRestClient;
-    private Authenticator mAuthenticator;
-
     /**
      * Socket timeout in milliseconds for rest requests
      */
     public static final int REST_TIMEOUT_MS = 30000;
-
     /**
      * Default number of retries for POST rest requests
      */
     public static final int REST_MAX_RETRIES_POST = 0;
-
     /**
      * Default number of retries for GET rest requests
      */
     public static final int REST_MAX_RETRIES_GET = 3;
-
     /**
      * Default backoff multiplier for rest requests
      */
     public static final float REST_BACKOFF_MULT = 2f;
+    private static final String NOTIFICATION_FIELDS = "id,type,unread,body,subject,timestamp,meta";
+    private static final String COMMENT_REPLY_CONTENT_FIELD = "content";
+    private RestClient mRestClient;
+    private Authenticator mAuthenticator;
 
     public RestClientUtils(RequestQueue queue, Authenticator authenticator) {
         // load an existing access token from prefs if we have one
@@ -397,7 +391,7 @@ public class RestClientUtils {
         // turn params into querystring
 
         RestRequest request = mRestClient.makeRequest(Method.GET, RestClient.getAbsoluteURL(path, params), null,
-                                                      listener, errorListener);
+                listener, errorListener);
         if (retryPolicy == null) {
             retryPolicy = new DefaultRetryPolicy(REST_TIMEOUT_MS, REST_MAX_RETRIES_GET, REST_BACKOFF_MULT);
         }
@@ -419,10 +413,10 @@ public class RestClientUtils {
     public void post(final String path, Map<String, String> params, RetryPolicy retryPolicy, Listener listener,
                      ErrorListener errorListener) {
         final RestRequest request = mRestClient.makeRequest(Method.POST, RestClient.getAbsoluteURL(path), params,
-                                                            listener, errorListener);
+                listener, errorListener);
         if (retryPolicy == null) {
             retryPolicy = new DefaultRetryPolicy(REST_TIMEOUT_MS, REST_MAX_RETRIES_POST,
-                                                 REST_BACKOFF_MULT); //Do not retry on failure
+                    REST_BACKOFF_MULT); //Do not retry on failure
         }
         request.setRetryPolicy(retryPolicy);
         AuthenticatorRequest authCheck = new AuthenticatorRequest(request, errorListener, mRestClient, mAuthenticator);

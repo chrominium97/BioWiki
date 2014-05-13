@@ -1,13 +1,12 @@
 package kr.kdev.dg1s.biowiki.util;
 
+import org.apache.commons.lang.WordUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.WordUtils;
-
-/** 
- * A helper class to retrieve the labels for a given feature based on the tag supplied by the api. 
- *
+/**
+ * A helper class to retrieve the labels for a given feature based on the tag supplied by the api.
  */
 public class ThemeHelper {
 
@@ -22,7 +21,7 @@ public class ThemeHelper {
         } else {
             return WordUtils.capitalizeFully(feature_tag.replace("-", " "));
         }
-   }
+    }
 
     private static void initMap() {
         mTagToLabelMap = new HashMap<String, String>();
@@ -64,5 +63,5 @@ public class ThemeHelper {
         mTagToLabelMap.put("photoblogging", "Photoblogging");
         mTagToLabelMap.put("seasonal", "Seasonal");
     }
-    
+
 }

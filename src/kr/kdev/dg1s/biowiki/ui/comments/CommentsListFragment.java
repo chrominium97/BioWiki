@@ -19,50 +19,46 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.models.Comment;
-import kr.kdev.dg1s.biowiki.models.CommentList;
-import kr.kdev.dg1s.biowiki.models.CommentStatus;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
-import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
-import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.ChangeType;
-import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.ChangedFrom;
-import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.OnCommentChangeListener;
-import kr.kdev.dg1s.biowiki.util.NetworkUtils;
-import kr.kdev.dg1s.biowiki.util.SysUtils;
 import org.xmlrpc.android.ApiHelper;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.Comment;
+import kr.kdev.dg1s.biowiki.models.CommentList;
+import kr.kdev.dg1s.biowiki.models.CommentStatus;
+import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper;
+import kr.kdev.dg1s.biowiki.ui.PullToRefreshHelper.RefreshListener;
+import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.ChangeType;
+import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.ChangedFrom;
+import kr.kdev.dg1s.biowiki.ui.comments.CommentActions.OnCommentChangeListener;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.NetworkUtils;
+import kr.kdev.dg1s.biowiki.util.SysUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 
 public class CommentsListFragment extends Fragment {
+    private static final int COMMENTS_PER_PAGE = 30;
+    private static final String KEY_AUTO_REFRESHED = "has_auto_refreshed";
+    private static final String KEY_HAS_CHECKED_DELETED_COMMENTS = "has_checked_deleted_comments";
     private boolean mIsUpdatingComments = false;
     private boolean mCanLoadMoreComments = true;
     private boolean mHasAutoRefreshedComments = false;
     private boolean mHasCheckedDeletedComments = false;
-
     private ProgressBar mProgressLoadMore;
     private PullToRefreshHelper mPullToRefreshHelper;
     private ListView mListView;
     private View mEmptyView;
     private CommentAdapter mCommentAdapter;
     private ActionMode mActionMode;
-
     private UpdateCommentsTask mUpdateCommentsTask;
-
     private OnCommentSelectedListener mOnCommentSelectedListener;
     private OnCommentChangeListener mOnCommentChangeListener;
-
-    private static final int COMMENTS_PER_PAGE = 30;
-    private static final String KEY_AUTO_REFRESHED = "has_auto_refreshed";
-    private static final String KEY_HAS_CHECKED_DELETED_COMMENTS = "has_checked_deleted_comments";
 
     private ListView getListView() {
         return mListView;
@@ -113,9 +109,9 @@ public class CommentsListFragment extends Fragment {
             };
 
             mCommentAdapter = new CommentAdapter(getActivity(),
-                                                 dataLoadedListener,
-                                                 loadMoreListener,
-                                                 changeListener);
+                    dataLoadedListener,
+                    loadMoreListener,
+                    changeListener);
         }
         return mCommentAdapter;
     }
@@ -200,7 +196,8 @@ public class CommentsListFragment extends Fragment {
                         }
                         updateComments(false);
                     }
-                });
+                }
+        );
         return view;
     }
 
@@ -223,7 +220,7 @@ public class CommentsListFragment extends Fragment {
         final CommentList updateComments = new CommentList();
 
         // build list of comments whose status is different than passed
-        for (Comment comment: selectedComments) {
+        for (Comment comment : selectedComments) {
             if (comment.getStatusEnum() != newStatus)
                 updateComments.add(comment);
         }
@@ -247,7 +244,7 @@ public class CommentsListFragment extends Fragment {
             case TRASH:
                 dlgId = CommentDialogs.ID_COMMENT_DLG_TRASHING;
                 break;
-            default :
+            default:
                 return;
         }
         getActivity().showDialog(dlgId);
@@ -327,6 +324,7 @@ public class CommentsListFragment extends Fragment {
     long getHighlightedCommentId() {
         return (hasCommentAdapter() ? getCommentAdapter().getHighlightedCommentId() : 0);
     }
+
     void setHighlightedCommentId(long commentId) {
         getCommentAdapter().setHighlightedCommentId(commentId);
     }
@@ -391,12 +389,77 @@ public class CommentsListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (outState.isEmpty()) {
+            outState.putBoolean("bug_19917_fix", true);
+        }
+        outState.putBoolean(KEY_AUTO_REFRESHED, mHasAutoRefreshedComments);
+        outState.putBoolean(KEY_HAS_CHECKED_DELETED_COMMENTS, mHasCheckedDeletedComments);
+        super.onSaveInstanceState(outState);
+    }
+
+    private boolean hasActivity() {
+        return (getActivity() != null && !isRemoving());
+    }
+
+    private void showEmptyView() {
+        if (mEmptyView != null)
+            mEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyView() {
+        if (mEmptyView != null)
+            mEmptyView.setVisibility(View.GONE);
+    }
+
+    /**
+     * show/hide progress bar which appears at the bottom when loading more comments
+     */
+    private void showLoadingProgress() {
+        if (hasActivity() && mProgressLoadMore != null) {
+            mProgressLoadMore.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideLoadingProgress() {
+        if (hasActivity() && mProgressLoadMore != null) {
+            mProgressLoadMore.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * *
+     * Contextual ActionBar (CAB) routines
+     * *
+     */
+    private void updateActionModeTitle() {
+        if (mActionMode == null)
+            return;
+        int numSelected = getSelectedCommentCount();
+        if (numSelected > 0) {
+            mActionMode.setTitle(Integer.toString(numSelected));
+        } else {
+            mActionMode.setTitle("");
+        }
+    }
+
+    private void finishActionMode() {
+        if (mActionMode != null) {
+            mActionMode.finish();
+        }
+    }
+
+    public interface OnCommentSelectedListener {
+        public void onCommentSelected(Comment comment);
+    }
+
     /*
      * task to retrieve latest comments from server
      */
     private class UpdateCommentsTask extends AsyncTask<Void, Void, CommentList> {
-        boolean isError;
         final boolean isLoadingMore;
+        boolean isError;
         boolean mRetryOnCancelled;
 
         private UpdateCommentsTask(boolean loadMore) {
@@ -456,10 +519,10 @@ public class CommentsListFragment extends Fragment {
                 hPost.put("number", COMMENTS_PER_PAGE);
             }
 
-            Object[] params = { blog.getRemoteBlogId(),
-                                blog.getUsername(),
-                                blog.getPassword(),
-                                hPost };
+            Object[] params = {blog.getRemoteBlogId(),
+                    blog.getUsername(),
+                    blog.getPassword(),
+                    hPost};
             try {
                 return ApiHelper.refreshComments(getActivity(), blog, params);
             } catch (Exception e) {
@@ -498,69 +561,6 @@ public class CommentsListFragment extends Fragment {
         }
     }
 
-    public interface OnCommentSelectedListener {
-        public void onCommentSelected(Comment comment);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (outState.isEmpty()) {
-            outState.putBoolean("bug_19917_fix", true);
-        }
-        outState.putBoolean(KEY_AUTO_REFRESHED, mHasAutoRefreshedComments);
-        outState.putBoolean(KEY_HAS_CHECKED_DELETED_COMMENTS, mHasCheckedDeletedComments);
-        super.onSaveInstanceState(outState);
-    }
-
-    private boolean hasActivity() {
-        return (getActivity() != null && !isRemoving());
-    }
-
-    private void showEmptyView() {
-        if (mEmptyView != null)
-            mEmptyView.setVisibility(View.VISIBLE);
-    }
-
-    private void hideEmptyView() {
-        if (mEmptyView != null)
-            mEmptyView.setVisibility(View.GONE);
-    }
-
-    /**
-     * show/hide progress bar which appears at the bottom when loading more comments
-     */
-    private void showLoadingProgress() {
-        if (hasActivity() && mProgressLoadMore != null) {
-            mProgressLoadMore.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hideLoadingProgress() {
-        if (hasActivity() && mProgressLoadMore != null) {
-            mProgressLoadMore.setVisibility(View.GONE);
-        }
-    }
-
-    /****
-     * Contextual ActionBar (CAB) routines
-     ***/
-    private void updateActionModeTitle() {
-        if (mActionMode == null)
-            return;
-        int numSelected = getSelectedCommentCount();
-        if (numSelected > 0) {
-            mActionMode.setTitle(Integer.toString(numSelected));
-        } else {
-            mActionMode.setTitle("");
-        }
-    }
-
-    private void finishActionMode() {
-        if (mActionMode != null) {
-            mActionMode.finish();
-        }
-    }
-
     private final class ActionModeCallback implements ActionMode.Callback {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, com.actionbarsherlock.view.Menu menu) {
@@ -594,10 +594,10 @@ public class CommentsListFragment extends Fragment {
             boolean hasSpam = hasSelection && selectedComments.hasAnyWithStatus(CommentStatus.SPAM);
             boolean hasAnyNonSpam = hasSelection && selectedComments.hasAnyWithoutStatus(CommentStatus.SPAM);
 
-            setItemEnabled(menu, R.id.menu_approve,   hasUnapproved || hasSpam);
+            setItemEnabled(menu, R.id.menu_approve, hasUnapproved || hasSpam);
             setItemEnabled(menu, R.id.menu_unapprove, hasApproved);
-            setItemEnabled(menu, R.id.menu_spam,      hasAnyNonSpam);
-            setItemEnabled(menu, R.id.menu_trash,     hasSelection);
+            setItemEnabled(menu, R.id.menu_spam, hasAnyNonSpam);
+            setItemEnabled(menu, R.id.menu_trash, hasSelection);
 
             return true;
         }
@@ -609,16 +609,16 @@ public class CommentsListFragment extends Fragment {
                 return false;
 
             switch (menuItem.getItemId()) {
-                case R.id.menu_approve :
+                case R.id.menu_approve:
                     moderateSelectedComments(CommentStatus.APPROVED);
                     return true;
-                case R.id.menu_unapprove :
+                case R.id.menu_unapprove:
                     moderateSelectedComments(CommentStatus.UNAPPROVED);
                     return true;
-                case R.id.menu_spam :
+                case R.id.menu_spam:
                     moderateSelectedComments(CommentStatus.SPAM);
                     return true;
-                case R.id.menu_trash :
+                case R.id.menu_trash:
                     // unlike the other status changes, we ask the user to confirm trashing
                     confirmDeleteComments();
                     return true;

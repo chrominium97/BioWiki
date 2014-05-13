@@ -10,9 +10,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.AppLogViewerActivity;
 import kr.kdev.dg1s.biowiki.widgets.BWTextView;
-import kr.kdev.dg1s.biowiki.R;
 
 public class NuxHelpActivity extends SherlockFragmentActivity {
     final private static String FAQ_URL = "http://android.wordpress.org/faq/";

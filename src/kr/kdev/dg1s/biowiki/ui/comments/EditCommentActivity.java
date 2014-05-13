@@ -16,16 +16,6 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.datasets.CommentTable;
-import kr.kdev.dg1s.biowiki.models.Blog;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.EditTextUtils;
-import kr.kdev.dg1s.biowiki.util.ToastUtils;
-import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.models.Comment;
-import kr.kdev.dg1s.biowiki.util.NetworkUtils;
-
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlrpc.android.XMLRPCClientInterface;
 import org.xmlrpc.android.XMLRPCException;
@@ -34,6 +24,16 @@ import org.xmlrpc.android.XMLRPCFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.datasets.CommentTable;
+import kr.kdev.dg1s.biowiki.models.Blog;
+import kr.kdev.dg1s.biowiki.models.Comment;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.EditTextUtils;
+import kr.kdev.dg1s.biowiki.util.NetworkUtils;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class EditCommentActivity extends SherlockActivity {
     static final String ARG_LOCAL_BLOG_ID = "blog_id";
@@ -44,6 +44,10 @@ public class EditCommentActivity extends SherlockActivity {
     private int mLocalBlogId;
     private long mCommentId;
     private Comment mComment;
+    /*
+     * AsyncTask to save comment to server
+     */
+    private boolean mIsUpdateTaskRunning = false;
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -91,9 +95,11 @@ public class EditCommentActivity extends SherlockActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 boolean hasError = (editContent.getError() != null);
@@ -201,21 +207,48 @@ public class EditCommentActivity extends SherlockActivity {
         }
     }
 
-    /*
-     * AsyncTask to save comment to server
-     */
-    private boolean mIsUpdateTaskRunning = false;
+    @Override
+    public void onBackPressed() {
+        if (isCommentEdited()) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
+                    EditCommentActivity.this);
+            dialogBuilder.setTitle(getResources().getText(R.string.cancel_edit));
+            dialogBuilder.setMessage(getResources().getText(R.string.sure_to_cancel_edit_comment));
+            dialogBuilder.setPositiveButton(getResources().getText(R.string.yes),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            finish();
+                        }
+                    }
+            );
+            dialogBuilder.setNegativeButton(
+                    getResources().getText(R.string.no),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // just close the dialog
+                        }
+                    }
+            );
+            dialogBuilder.setCancelable(true);
+            dialogBuilder.create().show();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private class UpdateCommentTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected void onPreExecute() {
             mIsUpdateTaskRunning = true;
             showSaveDialog();
         }
+
         @Override
         protected void onCancelled() {
             mIsUpdateTaskRunning = false;
             dismissSaveDialog();
         }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             final Blog blog;
@@ -232,10 +265,10 @@ public class EditCommentActivity extends SherlockActivity {
             final String content = getEditTextStr(R.id.comment_content);
 
             final Map<String, String> postHash = new HashMap<String, String>();
-            postHash.put("status",       mComment.getStatus());
-            postHash.put("content",      content);
-            postHash.put("author",       authorName);
-            postHash.put("author_url",   authorUrl);
+            postHash.put("status", mComment.getStatus());
+            postHash.put("content", content);
+            postHash.put("author", authorName);
+            postHash.put("author_url", authorUrl);
             postHash.put("author_email", authorEmail);
 
             XMLRPCClientInterface client = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(),
@@ -265,6 +298,7 @@ public class EditCommentActivity extends SherlockActivity {
                 return false;
             }
         }
+
         @Override
         protected void onPostExecute(Boolean result) {
             mIsUpdateTaskRunning = false;
@@ -286,33 +320,6 @@ public class EditCommentActivity extends SherlockActivity {
                 dialogBuilder.setCancelable(true);
                 dialogBuilder.create().show();
             }
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (isCommentEdited()) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
-                    EditCommentActivity.this);
-            dialogBuilder.setTitle(getResources().getText(R.string.cancel_edit));
-            dialogBuilder.setMessage(getResources().getText(R.string.sure_to_cancel_edit_comment));
-            dialogBuilder.setPositiveButton(getResources().getText(R.string.yes),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            finish();
-                        }
-                    });
-            dialogBuilder.setNegativeButton(
-                    getResources().getText(R.string.no),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            // just close the dialog
-                        }
-                    });
-            dialogBuilder.setCancelable(true);
-            dialogBuilder.create().show();
-        } else {
-            super.onBackPressed();
         }
     }
 }

@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.json.JSONObject;
-import kr.kdev.dg1s.biowiki.util.JSONUtil;
+
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Note;
+import kr.kdev.dg1s.biowiki.util.JSONUtil;
 
 public class NoteSingleLineListFragment extends ListFragment implements NotificationFragment {
     private Note mNote;
@@ -22,11 +23,11 @@ public class NoteSingleLineListFragment extends ListFragment implements Notifica
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.notifications_follow_list, container, false);
     }
-    
+
     @Override
-    public void onActivityCreated(Bundle bundle){
+    public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
-        
+
         ListView list = getListView();
         list.setDivider(getResources().getDrawable(R.drawable.list_divider));
         list.setDividerHeight(1);
@@ -35,7 +36,7 @@ public class NoteSingleLineListFragment extends ListFragment implements Notifica
         // No note? No service.
         if (getNote() == null)
             return;
-        
+
         // set the header
         final DetailHeader noteHeader = (DetailHeader) getView().findViewById(R.id.header);
         noteHeader.setText(JSONUtil.getStringDecoded(getNote().queryJSON("subject", new JSONObject()), "text"));
@@ -43,23 +44,23 @@ public class NoteSingleLineListFragment extends ListFragment implements Notifica
         noteHeader.setNote(getNote(), footerUrl);
 
         if (getActivity() instanceof OnPostClickListener) {
-            noteHeader.setOnPostClickListener(((OnPostClickListener)getActivity()));
+            noteHeader.setOnPostClickListener(((OnPostClickListener) getActivity()));
         }
         if (getActivity() instanceof OnCommentClickListener) {
-            noteHeader.setOnCommentClickListener(((OnCommentClickListener)getActivity()));
+            noteHeader.setOnCommentClickListener(((OnCommentClickListener) getActivity()));
         }
 
         setListAdapter(new NoteFollowAdapter(getActivity(), getNote(), false));
     }
 
     @Override
-    public void setNote(Note note){
-        mNote = note;
-    }
-    
-    @Override
-    public Note getNote(){
+    public Note getNote() {
         return mNote;
+    }
+
+    @Override
+    public void setNote(Note note) {
+        mNote = note;
     }
 
     @Override

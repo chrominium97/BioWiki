@@ -20,7 +20,18 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import org.wordpress.passcodelock.AppLockManager;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlrpc.android.ApiHelper;
+import org.xmlrpc.android.XMLRPCClientInterface;
+import org.xmlrpc.android.XMLRPCException;
+import org.xmlrpc.android.XMLRPCFactory;
+
+import java.io.IOException;
+import java.util.Iterator;
+
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.models.Post;
 import kr.kdev.dg1s.biowiki.models.PostStatus;
@@ -32,17 +43,6 @@ import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.BWAlertDialogFragment;
 import kr.kdev.dg1s.biowiki.util.BWMeShortlinks;
 import kr.kdev.dg1s.biowiki.util.BWMobileStatsUtil;
-import kr.kdev.dg1s.biowiki.R;
-
-import org.wordpress.passcodelock.AppLockManager;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlrpc.android.ApiHelper;
-import org.xmlrpc.android.XMLRPCClientInterface;
-import org.xmlrpc.android.XMLRPCException;
-import org.xmlrpc.android.XMLRPCFactory;
-
-import java.io.IOException;
-import java.util.Iterator;
 
 public class PostsActivity extends BWActionBarActivity
         implements PostsListFragment.OnPostSelectedListener, PostsListFragment.OnSinglePostLoadedListener, PostsListFragment.OnPostActionListener,
@@ -60,6 +60,12 @@ public class PostsActivity extends BWActionBarActivity
     public boolean mIsPage = false;
     public String mErrorMsg = "";
     private PostsListFragment mPostList;
+    private FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+        public void onBackStackChanged() {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
+                mMenuDrawer.setDrawerIndicatorEnabled(true);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +86,7 @@ public class PostsActivity extends BWActionBarActivity
 
         // Restore last selection on app creation
         if (BioWiki.shouldRestoreSelectedActivity && BioWiki.getCurrentBlog() != null &&
-            !(this instanceof PagesActivity)) {
+                !(this instanceof PagesActivity)) {
             // Refresh blog content when returning to the app
             new ApiHelper.RefreshBlogContentTask(this, BioWiki.getCurrentBlog(), new RefreshBlogContentCallback())
                     .execute(false);
@@ -89,13 +95,13 @@ public class PostsActivity extends BWActionBarActivity
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             int lastActivitySelection = settings.getInt(LAST_ACTIVITY_PREFERENCE, -1);
             if (lastActivitySelection > MenuDrawerItem.NO_ITEM_ID &&
-                lastActivitySelection != BWActionBarActivity.DASHBOARD_ACTIVITY) {
+                    lastActivitySelection != BWActionBarActivity.DASHBOARD_ACTIVITY) {
                 Iterator<MenuDrawerItem> itemIterator = mMenuItems.iterator();
                 while (itemIterator.hasNext()) {
                     MenuDrawerItem item = itemIterator.next();
                     // if we have a matching item id, and it's not selected and it's visible, call it
                     if (item.hasItemId() && item.getItemId() == lastActivitySelection && !item.isSelected() &&
-                        item.isVisible()) {
+                            item.isVisible()) {
                         mFirstLaunch = true;
                         item.selectItem();
                         finish();
@@ -147,11 +153,12 @@ public class PostsActivity extends BWActionBarActivity
         );
         if (infoTitle != null && infoURL != null) {
             dialogBuilder.setNeutralButton(infoTitle,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(infoURL)));
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(infoURL)));
+                        }
                     }
-                });
+            );
         }
         dialogBuilder.setCancelable(true);
         if (!isFinishing())
@@ -197,15 +204,12 @@ public class PostsActivity extends BWActionBarActivity
         finish();
     }
 
-    private FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
-        public void onBackStackChanged() {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
-                mMenuDrawer.setDrawerIndicatorEnabled(true);
-        }
-    };
-
     public boolean isRefreshing() {
         return mPostList.isRefreshing();
+    }
+
+    public void setRefreshing(boolean refreshing) {
+        mPostList.setRefreshing(refreshing);
     }
 
     public void checkForLocalChanges(boolean shouldPrompt) {
@@ -401,99 +405,6 @@ public class PostsActivity extends BWActionBarActivity
         return BWMobileStatsUtil.StatsEventPostsClickedNewPost;
     }
 
-    public class deletePostTask extends AsyncTask<Post, Void, Boolean> {
-
-        Post post;
-
-        @Override
-        protected void onPreExecute() {
-            // pop out of the detail view if on a smaller screen
-            popPostDetail();
-            showDialog(ID_DIALOG_DELETING);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            dismissDialog(ID_DIALOG_DELETING);
-            attemptToSelectPost();
-            if (result) {
-                Toast.makeText(PostsActivity.this, getResources().getText((mIsPage) ?
-                        R.string.page_deleted : R.string.post_deleted),
-                        Toast.LENGTH_SHORT).show();
-                checkForLocalChanges(false);
-                BioWiki.wpDB.deletePost(post);
-                mPostList.requestPosts(false);
-                mPostList.setRefreshing(true);
-            } else {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PostsActivity.this);
-                dialogBuilder.setTitle(getResources().getText(R.string.connection_error));
-                dialogBuilder.setMessage(mErrorMsg);
-                dialogBuilder.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                // Just close the window.
-                            }
-                        });
-                dialogBuilder.setCancelable(true);
-                if (!isFinishing()) {
-                    dialogBuilder.create().show();
-                }
-            }
-        }
-
-        @Override
-        protected Boolean doInBackground(Post... params) {
-            boolean result = false;
-            post = params[0];
-            Blog blog = BioWiki.currentBlog;
-            XMLRPCClientInterface client = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(),
-                    blog.getHttppassword());
-
-            Object[] postParams = { "", post.getRemotePostId(),
-                    BioWiki.currentBlog.getUsername(),
-                    BioWiki.currentBlog.getPassword() };
-            Object[] pageParams = { BioWiki.currentBlog.getRemoteBlogId(),
-                    BioWiki.currentBlog.getUsername(),
-                    BioWiki.currentBlog.getPassword(), post.getRemotePostId() };
-
-            try {
-                client.call((mIsPage) ? "wp.deletePage" : "blogger.deletePost", (mIsPage) ? pageParams : postParams);
-                result = true;
-            } catch (final XMLRPCException e) {
-                mErrorMsg = prepareErrorMessage(e);
-            } catch (IOException e) {
-                mErrorMsg = prepareErrorMessage(e);
-            } catch (XmlPullParserException e) {
-                mErrorMsg = prepareErrorMessage(e);
-            }
-            return result;
-        }
-
-        private String prepareErrorMessage(Exception e) {
-            AppLog.e(AppLog.T.POSTS, "Error while deleting post or page", e);
-            return String.format(getResources().getString(R.string.error_delete_post),
-                    (mIsPage) ? getResources().getText(R.string.page)
-                              : getResources().getText(R.string.post));
-        }
-    }
-
-    public class refreshCommentsTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            Object[] commentParams = { BioWiki.currentBlog.getRemoteBlogId(),
-                    BioWiki.currentBlog.getUsername(),
-                    BioWiki.currentBlog.getPassword() };
-
-            try {
-                ApiHelper.refreshComments(PostsActivity.this, BioWiki.currentBlog, commentParams);
-            } catch (final Exception e) {
-                mErrorMsg = getResources().getText(R.string.error_generic).toString();
-            }
-            return null;
-        }
-    }
-
     protected void refreshComments() {
         new refreshCommentsTask().execute();
     }
@@ -520,22 +431,24 @@ public class PostsActivity extends BWActionBarActivity
                         getResources().getText(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
-                                    int whichButton) {
+                                                int whichButton) {
                                 BioWiki.wpDB.deletePost(post);
                                 popPostDetail();
                                 attemptToSelectPost();
                                 mPostList.getPostListAdapter().loadPosts();
                             }
-                        });
+                        }
+                );
                 dialogBuilder.setNegativeButton(
                         getResources().getText(R.string.no),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
-                                    int whichButton) {
+                                                int whichButton) {
                                 // Just close the window.
 
                             }
-                        });
+                        }
+                );
                 dialogBuilder.setCancelable(true);
                 if (!isFinishing()) {
                     dialogBuilder.create().show();
@@ -546,28 +459,32 @@ public class PostsActivity extends BWActionBarActivity
                         PostsActivity.this);
                 dialogBuilder.setTitle(getResources().getText(
                         (post.isPage()) ? R.string.delete_page
-                                : R.string.delete_post));
+                                : R.string.delete_post
+                ));
                 dialogBuilder.setMessage(getResources().getText(
                         (post.isPage()) ? R.string.delete_sure_page
-                                : R.string.delete_sure_post)
+                                : R.string.delete_sure_post
+                )
                         + " '" + post.getTitle() + "'?");
                 dialogBuilder.setPositiveButton(
                         getResources().getText(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
-                                    int whichButton) {
+                                                int whichButton) {
                                 new deletePostTask().execute(post);
                             }
-                        });
+                        }
+                );
                 dialogBuilder.setNegativeButton(
                         getResources().getText(R.string.no),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
-                                    int whichButton) {
+                                                int whichButton) {
                                 // Just close the window.
 
                             }
-                        });
+                        }
+                );
                 dialogBuilder.setCancelable(true);
                 if (!isFinishing()) {
                     dialogBuilder.create().show();
@@ -641,8 +558,100 @@ public class PostsActivity extends BWActionBarActivity
         mPostList.onBlogChanged();
     }
 
-    public void setRefreshing(boolean refreshing) {
-        mPostList.setRefreshing(refreshing);
+    public class deletePostTask extends AsyncTask<Post, Void, Boolean> {
+
+        Post post;
+
+        @Override
+        protected void onPreExecute() {
+            // pop out of the detail view if on a smaller screen
+            popPostDetail();
+            showDialog(ID_DIALOG_DELETING);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            dismissDialog(ID_DIALOG_DELETING);
+            attemptToSelectPost();
+            if (result) {
+                Toast.makeText(PostsActivity.this, getResources().getText((mIsPage) ?
+                                R.string.page_deleted : R.string.post_deleted),
+                        Toast.LENGTH_SHORT
+                ).show();
+                checkForLocalChanges(false);
+                BioWiki.wpDB.deletePost(post);
+                mPostList.requestPosts(false);
+                mPostList.setRefreshing(true);
+            } else {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PostsActivity.this);
+                dialogBuilder.setTitle(getResources().getText(R.string.connection_error));
+                dialogBuilder.setMessage(mErrorMsg);
+                dialogBuilder.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Just close the window.
+                            }
+                        }
+                );
+                dialogBuilder.setCancelable(true);
+                if (!isFinishing()) {
+                    dialogBuilder.create().show();
+                }
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Post... params) {
+            boolean result = false;
+            post = params[0];
+            Blog blog = BioWiki.currentBlog;
+            XMLRPCClientInterface client = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(),
+                    blog.getHttppassword());
+
+            Object[] postParams = {"", post.getRemotePostId(),
+                    BioWiki.currentBlog.getUsername(),
+                    BioWiki.currentBlog.getPassword()};
+            Object[] pageParams = {BioWiki.currentBlog.getRemoteBlogId(),
+                    BioWiki.currentBlog.getUsername(),
+                    BioWiki.currentBlog.getPassword(), post.getRemotePostId()};
+
+            try {
+                client.call((mIsPage) ? "wp.deletePage" : "blogger.deletePost", (mIsPage) ? pageParams : postParams);
+                result = true;
+            } catch (final XMLRPCException e) {
+                mErrorMsg = prepareErrorMessage(e);
+            } catch (IOException e) {
+                mErrorMsg = prepareErrorMessage(e);
+            } catch (XmlPullParserException e) {
+                mErrorMsg = prepareErrorMessage(e);
+            }
+            return result;
+        }
+
+        private String prepareErrorMessage(Exception e) {
+            AppLog.e(AppLog.T.POSTS, "Error while deleting post or page", e);
+            return String.format(getResources().getString(R.string.error_delete_post),
+                    (mIsPage) ? getResources().getText(R.string.page)
+                            : getResources().getText(R.string.post)
+            );
+        }
+    }
+
+    public class refreshCommentsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            Object[] commentParams = {BioWiki.currentBlog.getRemoteBlogId(),
+                    BioWiki.currentBlog.getUsername(),
+                    BioWiki.currentBlog.getPassword()};
+
+            try {
+                ApiHelper.refreshComments(PostsActivity.this, BioWiki.currentBlog, commentParams);
+            } catch (final Exception e) {
+                mErrorMsg = getResources().getText(R.string.error_generic).toString();
+            }
+            return null;
+        }
     }
 
     public class RefreshBlogContentCallback implements ApiHelper.GenericCallback {

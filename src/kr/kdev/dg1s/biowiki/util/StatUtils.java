@@ -1,32 +1,23 @@
 package kr.kdev.dg1s.biowiki.util;
 
 import android.annotation.SuppressLint;
-import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.OperationApplicationException;
-import android.net.Uri;
-import android.os.RemoteException;
 
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-//import kr.kdev.dg1s.biowiki.providers.StatsContentProvider;
-import kr.kdev.dg1s.biowiki.BuildConfig;
-
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+
+import kr.kdev.dg1s.biowiki.BioWiki;
+
+//import kr.kdev.dg1s.biowiki.providers.StatsContentProvider;
+
+//import kr.kdev.dg1s.biowiki.providers.StatsContentProvider;
 
 /**
  * A utility class to help with date parsing and saving summaries in stats
@@ -37,9 +28,11 @@ public class StatUtils {
     private static final String STAT_VIDEO_SUMMARY = "StatVideoSummary_";
     private static final long ONE_DAY = 24 * 60 * 60 * 1000;
 
-    /** Converts date in the form of 2013-07-18 to ms **/
+    /**
+     * Converts date in the form of 2013-07-18 to ms *
+     */
     @SuppressLint("SimpleDateFormat")
-	public static long toMs(String date) {
+    public static long toMs(String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             return sdf.parse(date).getTime();

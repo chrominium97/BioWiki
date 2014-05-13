@@ -12,20 +12,26 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Comment;
 import kr.kdev.dg1s.biowiki.models.Note;
+import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.notifications.NotificationFragment;
+import kr.kdev.dg1s.biowiki.util.AppLog;
 
 public class CommentsActivity extends BWActionBarActivity
         implements CommentsListFragment.OnCommentSelectedListener,
-                   NotificationFragment.OnPostClickListener,
-                   CommentActions.OnCommentChangeListener {
+        NotificationFragment.OnPostClickListener,
+        CommentActions.OnCommentChangeListener {
 
     private static final String KEY_HIGHLIGHTED_COMMENT_ID = "highlighted_comment_id";
+    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+        public void onBackStackChanged() {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
+                mMenuDrawer.setDrawerIndicatorEnabled(true);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,13 +104,6 @@ public class CommentsActivity extends BWActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
-        public void onBackStackChanged() {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0)
-                mMenuDrawer.setDrawerIndicatorEnabled(true);
-        }
-    };
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -148,7 +147,7 @@ public class CommentsActivity extends BWActionBarActivity
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.fragment_tag_comment_detail));
         if (fragment == null)
             return null;
-        return (CommentDetailFragment)fragment;
+        return (CommentDetailFragment) fragment;
     }
 
     private boolean hasDetailFragment() {
@@ -159,7 +158,7 @@ public class CommentsActivity extends BWActionBarActivity
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(getString(R.string.fragment_tag_comment_list));
         if (fragment == null)
             return null;
-        return (CommentsListFragment)fragment;
+        return (CommentsListFragment) fragment;
     }
 
     private boolean hasListFragment() {
@@ -213,8 +212,8 @@ public class CommentsActivity extends BWActionBarActivity
             String tagForFragment = getString(R.string.fragment_tag_comment_detail);
             detailFragment = CommentDetailFragment.newInstance(BioWiki.getCurrentLocalTableBlogId(), comment.commentID);
             ft.add(R.id.layout_fragment_container, detailFragment, tagForFragment)
-              .addToBackStack(tagForFragment)
-              .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    .addToBackStack(tagForFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             if (listFragment != null)
                 ft.hide(listFragment);
             ft.commitAllowingStateLoss();
@@ -278,7 +277,7 @@ public class CommentsActivity extends BWActionBarActivity
         // retain the id of the highlighted comment
         if (hasListFragment()) {
             long commentId = getListFragment().getHighlightedCommentId();
-            if (commentId != 0 )
+            if (commentId != 0)
                 outState.putLong(KEY_HIGHLIGHTED_COMMENT_ID, commentId);
         }
 

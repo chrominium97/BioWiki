@@ -2,9 +2,9 @@ package kr.kdev.dg1s.biowiki.models;
 
 import android.text.format.DateUtils;
 
-import kr.kdev.dg1s.biowiki.util.StringUtils;
-
 import java.util.Date;
+
+import kr.kdev.dg1s.biowiki.util.StringUtils;
 
 /**
  * Barebones post/page as listed in PostsListFragment

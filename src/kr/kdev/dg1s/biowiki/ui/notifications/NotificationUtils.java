@@ -16,13 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.DeviceUtils;
-import kr.kdev.dg1s.biowiki.util.MapUtils;
-import kr.kdev.dg1s.biowiki.BuildConfig;
-import kr.kdev.dg1s.biowiki.models.Note;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,33 +25,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.InflaterInputStream;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.BuildConfig;
+import kr.kdev.dg1s.biowiki.models.Note;
+import kr.kdev.dg1s.biowiki.util.AppLog;
+import kr.kdev.dg1s.biowiki.util.DeviceUtils;
+import kr.kdev.dg1s.biowiki.util.MapUtils;
+
 public class NotificationUtils {
 
-    static interface NoteUpdatedListener {
-        void onNoteUpdated(int noteId);
-    }
-
     public static final String WPCOM_PUSH_DEVICE_NOTIFICATION_SETTINGS = "wp_pref_notification_settings";
-    private static final String WPCOM_PUSH_DEVICE_SERVER_ID = "wp_pref_notifications_server_id";
     public static final String WPCOM_PUSH_DEVICE_UUID = "wp_pref_notifications_uuid";
+    private static final String WPCOM_PUSH_DEVICE_SERVER_ID = "wp_pref_notifications_server_id";
 
     public static void refreshNotifications(final RestRequest.Listener listener,
                                             final RestRequest.ErrorListener errorListener) {
         BioWiki.getRestClientUtils().getNotifications(new RestRequest.Listener() {
-                                                            @Override
-                                                            public void onResponse(JSONObject response) {
-                                                                if (listener != null) {
-                                                                    listener.onResponse(response);
-                                                                }
-                                                            }
-                                                        }, new RestRequest.ErrorListener() {
-                                                            @Override
-                                                            public void onErrorResponse(VolleyError error) {
-                                                                if (errorListener != null) {
-                                                                    errorListener.onErrorResponse(error);
-                                                                }
-                                                            }
-                                                        }
+                                                          @Override
+                                                          public void onResponse(JSONObject response) {
+                                                              if (listener != null) {
+                                                                  listener.onResponse(response);
+                                                              }
+                                                          }
+                                                      }, new RestRequest.ErrorListener() {
+                                                          @Override
+                                                          public void onErrorResponse(VolleyError error) {
+                                                              if (errorListener != null) {
+                                                                  errorListener.onErrorResponse(error);
+                                                              }
+                                                          }
+                                                      }
         );
     }
 
@@ -129,7 +125,6 @@ public class NotificationUtils {
         }
     }
 
-
     public static void getPushNotificationSettings(Context context, RestRequest.Listener listener,
                                                    RestRequest.ErrorListener errorListener) {
         if (/*!BioWiki.hasValidWPComCredentials(context)*/ true) {
@@ -186,8 +181,7 @@ public class NotificationUtils {
         notificationSettings.remove("muted_blogs");
         notificationSettings.remove("mute_until");
 
-        for (Map.Entry<String, StringMap<String>> entry : notificationSettings.entrySet())
-        {
+        for (Map.Entry<String, StringMap<String>> entry : notificationSettings.entrySet()) {
             StringMap<String> setting = entry.getValue();
             updatedSettings.put(entry.getKey(), setting.get("value"));
         }
@@ -213,7 +207,7 @@ public class NotificationUtils {
         contentStruct.put("device_family", "android");
         contentStruct.put("app_secret_key", NotificationUtils.getAppPushNotificationsName());
         contentStruct.put("settings", gson.toJson(updatedSettings));
-        BioWiki.getRestClientUtils().post("/device/"+deviceID, contentStruct, null, null, null);
+        BioWiki.getRestClientUtils().post("/device/" + deviceID, contentStruct, null, null, null);
     }
 
     public static void registerDeviceForPushNotifications(final Context ctx, String token) {
@@ -228,9 +222,9 @@ public class NotificationUtils {
         contentStruct.put("device_family", "android");
         contentStruct.put("app_secret_key", NotificationUtils.getAppPushNotificationsName());
         contentStruct.put("device_name", deviceName);
-        contentStruct.put("device_model",  Build.MANUFACTURER + " " + Build.MODEL);
+        contentStruct.put("device_model", Build.MANUFACTURER + " " + Build.MODEL);
         contentStruct.put("app_version", BioWiki.versionName);
-        contentStruct.put("os_version",  android.os.Build.VERSION.RELEASE);
+        contentStruct.put("os_version", android.os.Build.VERSION.RELEASE);
         contentStruct.put("device_uuid", uuid);
         com.wordpress.rest.RestRequest.Listener listener = new RestRequest.Listener() {
             @Override
@@ -238,7 +232,7 @@ public class NotificationUtils {
                 AppLog.d(AppLog.T.NOTIFS, "Register token action succeeded");
                 try {
                     String deviceID = jsonObject.getString("ID");
-                    if (deviceID==null) {
+                    if (deviceID == null) {
                         AppLog.e(AppLog.T.NOTIFS, "Server response is missing of the device_id. Registration skipped!!");
                         return;
                     }
@@ -284,20 +278,24 @@ public class NotificationUtils {
         };
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
-        String deviceID = settings.getString(WPCOM_PUSH_DEVICE_SERVER_ID, null );
+        String deviceID = settings.getString(WPCOM_PUSH_DEVICE_SERVER_ID, null);
         if (TextUtils.isEmpty(deviceID)) {
             return;
         }
         BioWiki.getRestClientUtils().post("/devices/" + deviceID + "/delete", listener, errorListener);
     }
 
-    public static String getAppPushNotificationsName(){
+    public static String getAppPushNotificationsName() {
         //white listing only few keys.
         if (BuildConfig.APP_PN_KEY.equals("kr.kdev.dg1s.biowiki.beta.build"))
-                return "kr.kdev.dg1s.biowiki.beta.build";
+            return "kr.kdev.dg1s.biowiki.beta.build";
         if (BuildConfig.APP_PN_KEY.equals("kr.kdev.dg1s.biowiki.debug.build"))
             return "kr.kdev.dg1s.biowiki.debug.build";
 
         return "kr.kdev.dg1s.biowiki.playstore";
+    }
+
+    static interface NoteUpdatedListener {
+        void onNoteUpdated(int noteId);
     }
 }

@@ -1,10 +1,5 @@
 package kr.kdev.dg1s.biowiki.ui.accounts;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -31,20 +26,24 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.wordpress.rest.RestRequest;
+import org.wordpress.emailchecker.EmailChecker;
 
-import org.json.JSONObject;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.BioWikiDB;
-//import kr.kdev.dg1s.biowiki.networking.SelfSignedSSLCertsManager;
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.util.EditTextUtils;
 import kr.kdev.dg1s.biowiki.widgets.BWTextView;
 
-import org.wordpress.emailchecker.EmailChecker;
-
-import kr.kdev.dg1s.biowiki.R;
+//import kr.kdev.dg1s.biowiki.networking.SelfSignedSSLCertsManager;
 //import kr.kdev.dg1s.biowiki.networking.SSLCertsViewActivity;
-import kr.kdev.dg1s.biowiki.util.EditTextUtils;
+
+//import kr.kdev.dg1s.biowiki.networking.SelfSignedSSLCertsManager;
+//import kr.kdev.dg1s.biowiki.networking.SSLCertsViewActivity;
 
 public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implements TextWatcher {
     final private static String DOT_COM_BASE_URL = "http://10.80.121.88/nacl";
@@ -53,6 +52,35 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
     private EditText mPasswordEditText;
     private EditText mUrlEditText;
     private boolean mSelfHosted = true;
+    private View.OnClickListener mForgotPasswordListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String baseUrl = DOT_COM_BASE_URL;
+            if (mSelfHosted && !TextUtils.isEmpty(EditTextUtils.getText(mUrlEditText).trim())) {
+                baseUrl = EditTextUtils.getText(mUrlEditText).trim();
+                String lowerCaseBaseUrl = baseUrl.toLowerCase(Locale.getDefault());
+                if (!lowerCaseBaseUrl.startsWith("https://") && !lowerCaseBaseUrl.startsWith("http://")) {
+                    baseUrl = "http://" + baseUrl;
+                }
+            }
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + FORGOT_PASSWORD_RELATIVE_URL));
+            startActivity(intent);
+        }
+    };
+    private TextView.OnEditorActionListener mEditorAction = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (mPasswordEditText == v) {
+                if (mSelfHosted) {
+                    mUrlEditText.requestFocus();
+                    return true;
+                } else {
+                    return onDoneEvent(actionId, event);
+                }
+            }
+            return onDoneEvent(actionId, event);
+        }
+    };
     private BWTextView mSignInButton;
     private BWTextView mCreateAccountButton;
     private BWTextView mAddSelfHostedButton;
@@ -65,6 +93,19 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
     private ImageView mInfoButtonSecondary;
     private EmailChecker mEmailChecker;
     private boolean mEmailAutoCorrected;
+    private View.OnClickListener mCreateAccountListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent newAccountIntent = new Intent(getActivity(), NewAccountActivity.class);
+            startActivityForResult(newAccountIntent, WelcomeActivity.CREATE_ACCOUNT_REQUEST);
+        }
+    };
+    private OnClickListener mSignInClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            signin();
+        }
+    };
 
     public WelcomeFragmentSignIn() {
         mEmailChecker = new EmailChecker();
@@ -188,48 +229,9 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
         }
     }
 
-    private View.OnClickListener mCreateAccountListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent newAccountIntent = new Intent(getActivity(), NewAccountActivity.class);
-            startActivityForResult(newAccountIntent, WelcomeActivity.CREATE_ACCOUNT_REQUEST);
-        }
-    };
-
-    private View.OnClickListener mForgotPasswordListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String baseUrl = DOT_COM_BASE_URL;
-            if (mSelfHosted && !TextUtils.isEmpty(EditTextUtils.getText(mUrlEditText).trim())) {
-                baseUrl = EditTextUtils.getText(mUrlEditText).trim();
-                String lowerCaseBaseUrl = baseUrl.toLowerCase(Locale.getDefault());
-                if (!lowerCaseBaseUrl.startsWith("https://") && !lowerCaseBaseUrl.startsWith("http://")) {
-                    baseUrl = "http://" + baseUrl;
-                }
-            }
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + FORGOT_PASSWORD_RELATIVE_URL));
-            startActivity(intent);
-        }
-    };
-
     protected void onDoneAction() {
         signin();
     }
-
-    private TextView.OnEditorActionListener mEditorAction = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (mPasswordEditText == v) {
-                if (mSelfHosted) {
-                    mUrlEditText.requestFocus();
-                    return true;
-                } else {
-                    return onDoneEvent(actionId, event);
-                }
-            }
-            return onDoneEvent(actionId, event);
-        }
-    };
 
     private void signin() {
         if (!isUserDataValid()) {
@@ -237,13 +239,6 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
         }
         new SetupBlogTask().execute();
     }
-
-    private OnClickListener mSignInClickListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            signin();
-        }
-    };
 
     @Override
     public void afterTextChanged(Editable s) {
@@ -266,7 +261,7 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
 
     private boolean fieldsFilled() {
         return EditTextUtils.getText(mUsernameEditText).trim().length() > 0
-               && EditTextUtils.getText(mPasswordEditText).trim().length() > 0;
+                && EditTextUtils.getText(mPasswordEditText).trim().length() > 0;
     }
 
     protected boolean isUserDataValid() {
@@ -351,7 +346,7 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
         mForgotPassword.setEnabled(true);
     }
 
-    
+
     protected void askForSslTrust() {
         /*
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
@@ -397,7 +392,7 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
         */
     }
 
-    
+
     private class SetupBlogTask extends AsyncTask<Void, Void, List<Object>> {
         private SetupBlog mSetupBlog;
         private int mErrorMsgId;
@@ -409,7 +404,7 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
             mSetupBlog.setHttpUsername(username);
             mSetupBlog.setHttpPassword(password);
         }
-        
+
         @Override
         protected void onPreExecute() {
             if (mSetupBlog == null) {
@@ -466,7 +461,6 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
         }
 
 
-
         @Override
         protected void onPostExecute(final List<Object> userBlogList) {
             if (mSetupBlog.isErroneousSslCertificates() && hasActivity()) {
@@ -484,9 +478,10 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
                 NUXDialogFragment nuxAlert;
                 if (mErrorMsgId == R.string.account_two_step_auth_enabled) {
                     nuxAlert = NUXDialogFragment.newInstance(getString(R.string.nux_cannot_log_in), getString(
-                            mErrorMsgId), getString(R.string.nux_tap_continue), R.drawable.nux_icon_alert, true,
+                                    mErrorMsgId), getString(R.string.nux_tap_continue), R.drawable.nux_icon_alert, true,
                             getString(R.string.visit_security_settings), NUXDialogFragment.ACTION_OPEN_URL,
-                            "https://wordpress.com/settings/security/?ssl=forced");
+                            "https://wordpress.com/settings/security/?ssl=forced"
+                    );
                 } else {
                     if (mErrorMsgId == R.string.username_or_password_incorrect) {
                         showUsernameError(mErrorMsgId);

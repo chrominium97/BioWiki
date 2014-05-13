@@ -9,8 +9,8 @@ import android.support.v4.app.DialogFragment;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
-import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.prefs.BlogPreferencesActivity;
 
 /**

@@ -39,7 +39,7 @@ android {
     }
 
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion "19.0.3"
 
     defaultConfig {
         packageName "kr.kdev.dg1s.biowiki"
@@ -54,7 +54,7 @@ android {
         // GSON was originally 2.2.2
         compile 'com.google.code.gson:gson:2.2.2'
         compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
-        compile 'com.android.support:support-v4:19.0.+'
+        compile 'com.android.support:support-v4:19.1.+'
         compile 'com.github.castorflex.smoothprogressbar:library:0.4.0'
 
         androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.+'
@@ -160,7 +160,9 @@ android.buildTypes.all { buildType ->
 }
 
 // For app signing
-if (["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0) {
+if (["storeFile", "storePassword", "keyAlias", "keyPassword"].count {
+    !project.hasProperty(it)
+} == 0) {
     android {
         signingConfigs {
             release {
