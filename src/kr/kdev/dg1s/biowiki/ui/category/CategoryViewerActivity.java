@@ -23,8 +23,9 @@ public class CategoryViewerActivity extends BWActionBarActivity {
 
     GridView gridView;
 
-    String parent = "";
-    String last_tag = "";
+    Element currentElement;
+    List<Element> displayedElements;
+
     Source source;
 
     @Override
@@ -35,7 +36,9 @@ public class CategoryViewerActivity extends BWActionBarActivity {
         // Instance of ImageAdapter Class
         try {
             source = new Source(getResources().openRawResource(R.raw.categories));
-            parseXML("", -1);
+            Log.d("XML", source.toString());
+            currentElement = source.getFirstElement("repo");
+            parseXML(null, -1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,7 +47,6 @@ public class CategoryViewerActivity extends BWActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 TextView textView = (TextView) view;
                 try {
-                    Log.d("XML", textView.getText().toString());
                     parseXML(textView.getText().toString(), position);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -54,21 +56,23 @@ public class CategoryViewerActivity extends BWActionBarActivity {
     }
 
     public void parseXML(String tag, int position) throws IOException{
-
-        List<Element> elements;
         ArrayList<String> names = new ArrayList<String>();
-        if (tag.equals("")) {
-            elements = source.getAllElements("flower");
+
+        if (position == -1) {
+            displayedElements = currentElement.getChildElements();
         } else {
-            elements = source.getAllElements(tag);
+            currentElement = displayedElements.get(position);
+            displayedElements = currentElement.getChildElements();
         }
-        for (Element element : elements) {
+        for (Element element : displayedElements) {
             names.add(element.getAttributeValue("name"));
-            Log.d("gridView", element.getAttributeValue("name"));
         }
+
         gridView.invalidateViews();
         gridView.setAdapter(new ElementAdapter(this, names));
-        getSupportActionBar().setTitle(tag);
+        if (tag!= null) {
+            getSupportActionBar().setTitle(tag);
+        }
     }
 
     @Override

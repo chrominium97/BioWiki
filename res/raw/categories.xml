@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repo>
+    <flower name="꽃식물">
+        <type name="풀">
+            <what name="학교와 집 주변" />
+            <what name="논과 밭" />
+            <what name="산과 들" />
+            <what name="논과 밭" />
+            <what name="벌레잡이" />
+            <what name="냇가나 연못" />
+            <what name="바닷가" />
+            <what name="온실" />
+        </type>
+        <type name="나무">
+            <what name="학교와 집 주변" />
+            <what name="산과 들" />
+            <what name="과일나무" />
+            <what name="바닷가" />
+            <what name="온실" />
+        </type>
+    </flower>
+    <flower name="민꽃식물">
+        <type name="양치식물"></type>
+        <type name="선태"></type>
+        <type name="균류"></type>
+        <type name="조류"></type>
+    </flower>
+</repo>
