@@ -707,7 +707,7 @@
     <string name="help_center">Help center</string>
     <string name="ssl_certificate_trust">Trust</string>
     <string name="ssl_certificate_details">Certificate Details</string>
-    <string name="ssl_certificate_do_not_trust">Don't trust</string>
+    <string name="ssl_certificate_do_not_trust">Don\'t trust</string>
     <string name="refreshing_categories">Refreshing Categories</string>
     <string name="cat_adding_category">Add Categories</string>
     <string name="categories_refreshed">Reloading Categories Completed</string>

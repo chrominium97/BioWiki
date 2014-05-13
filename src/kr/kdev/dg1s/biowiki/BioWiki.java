@@ -52,9 +52,7 @@ public class BioWiki extends Application {
     public static final String BROADCAST_ACTION_XMLRPC_INVALID_SSL_CERTIFICATE = "INVALID_SSL_CERTIFICATE";
     public static final String BROADCAST_ACTION_XMLRPC_TWO_FA_AUTH = "TWO_FA_AUTH";
     public static final String BROADCAST_ACTION_XMLRPC_LOGIN_LIMIT = "LOGIN_LIMIT";
-    private static final String APP_ID_PROPERTY = "oauth.app_id";
-    private static final String APP_SECRET_PROPERTY = "oauth.app_secret";
-    private static final String APP_REDIRECT_PROPERTY = "oauth.redirect_uri";
+
     /**
      * User-Agent string when making HTTP connections, for both API traffic and WebViews.
      * Follows the format detailed at http://tools.ietf.org/html/rfc2616#section-14.43,

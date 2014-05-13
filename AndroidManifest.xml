@@ -61,7 +61,10 @@
         <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionActivity" />
 
         <!-- Dictionary activites -->
-        <activity android:name=".ui.dictionary.ClassificationViewerActivity" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity" />
+
+        <!-- Categorization activites -->
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity" />
 
         <!-- Account activities -->
         <activity

@@ -15,8 +15,10 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES;
 
 public class Emoticons {
+
     public static final int EMOTICON_COLOR = 0xFF21759B;
     public static final SparseArray<String> wpSmiliesCodePointToText;
+    private static final boolean HAS_EMOJI = SDK_INT >= VERSION_CODES.JELLY_BEAN;
 
     static {
         Map<String, String> smilies = new HashMap<String, String>();
@@ -65,7 +67,6 @@ public class Emoticons {
         wpSmiliesCodePointToText.put(10067, ":?:");
     }
 
-    private static final boolean HAS_EMOJI = SDK_INT >= VERSION_CODES.JELLY_BEAN;
     private static final Map<String, String> wpSmilies;
 
     public static String lookupImageSmiley(String url) {
