@@ -8,7 +8,7 @@ import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 /**
  * This shows how to place markers on a map.
  */
-public class Classify extends BWActionBarActivity {
+public class ClassificationViewerActivity extends BWActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

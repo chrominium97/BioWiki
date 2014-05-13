@@ -44,7 +44,7 @@ import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.comments.CommentsActivity;
-import kr.kdev.dg1s.biowiki.ui.dictionary.Classify;
+import kr.kdev.dg1s.biowiki.ui.dictionary.ClassificationViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.map.DistributionActivity;
 import kr.kdev.dg1s.biowiki.ui.media.MediaBrowserActivity;
 import kr.kdev.dg1s.biowiki.ui.notifications.NotificationsActivity;
@@ -1041,14 +1041,14 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
 
         @Override
         public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof Classify;
+            return BWActionBarActivity.this instanceof ClassificationViewerActivity;
         }
 
         @Override
         public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof Classify))
+            if (!(BWActionBarActivity.this instanceof ClassificationViewerActivity))
                 mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, Classify.class);
+            Intent intent = new Intent(BWActionBarActivity.this, ClassificationViewerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }
