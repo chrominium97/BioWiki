@@ -9,11 +9,15 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.view.MenuItem;
+
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
@@ -32,6 +36,7 @@ public class CategoryViewerActivity extends BWActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createMenuDrawer(R.layout.category);
+
         gridView = (GridView) findViewById(R.id.grid_view);
         // Instance of ImageAdapter Class
         try {
@@ -55,11 +60,38 @@ public class CategoryViewerActivity extends BWActionBarActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.hierarchy, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.go_up:
+                try {
+                    parseXML(null, -2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
     public void parseXML(String tag, int position) throws IOException{
         ArrayList<String> names = new ArrayList<String>();
 
         if (position == -1) {
             displayedElements = currentElement.getChildElements();
+        } else if (position == -2) {
+            if (!currentElement.getName().equals("repo"))
+                currentElement = currentElement.getParentElement();
+                displayedElements = currentElement.getChildElements();
         } else {
             currentElement = displayedElements.get(position);
             displayedElements = currentElement.getChildElements();
@@ -72,6 +104,10 @@ public class CategoryViewerActivity extends BWActionBarActivity {
         gridView.setAdapter(new ElementAdapter(this, names));
         if (tag!= null) {
             getSupportActionBar().setTitle(tag);
+        } else if (!(currentElement.getAttributeValue("name")==null)){
+            getSupportActionBar().setTitle(currentElement.getAttributeValue("name"));
+        } else {
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 

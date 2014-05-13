@@ -31,6 +31,7 @@ config.properties
 .DS_Store
 
 # Intellij project files
+*.iml
 *.ipr
 *.iws
 .idea/
