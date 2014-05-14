@@ -56,7 +56,9 @@ public class LocationHelper {
         }
     }
 
-    LocationListener locationListenerGps = new LocationListener() {
+    public static abstract class LocationResult {
+        public abstract void gotLocation(Location location);
+    }    LocationListener locationListenerGps = new LocationListener() {
         public void onLocationChanged(Location location) {
             timer1.cancel();
             locationResult.gotLocation(location);
@@ -108,9 +110,7 @@ public class LocationHelper {
         }
     }
 
-    public static abstract class LocationResult {
-        public abstract void gotLocation(Location location);
-    }
+
 
     LocationListener locationListenerNetwork = new LocationListener() {
         public void onLocationChanged(Location location) {

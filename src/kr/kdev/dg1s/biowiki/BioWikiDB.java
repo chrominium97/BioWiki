@@ -692,7 +692,7 @@ public class BioWikiDB {
         // Clear the last selected activity
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("wp_pref_last_activity", -1);
+        editor.putInt("bw_pref_last_activity", -1);
         editor.commit();
     }
 
