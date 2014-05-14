@@ -105,6 +105,7 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         if (scrollView.getVisibility() == View.VISIBLE) {
             scrollView.setVisibility(View.GONE);
             gridView.setVisibility(View.VISIBLE);
+            return;
         } else {
             if (!(currentElement.getAttributeValue("name")==null)) {
                 try {
@@ -134,9 +135,10 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                 currentElement = currentElement.getParentElement();
             displayedElements = currentElement.getChildElements();
         } else if (currentElement.getFirstElement("name", tag, false).getName().equals("what")) {
+            getDetails(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"));
             TextView textView;
             textView = (TextView) findViewById(R.id.plant_name);
-            textView.setText(currentElement.getAttributeValue("name"));
+            textView.setText(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"));
             textView = (TextView) findViewById(R.id.plant_id);
             textView.setText("종속강문계");
             gridView.setVisibility(View.GONE);
