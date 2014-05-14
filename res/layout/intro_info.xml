@@ -9,7 +9,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/bioinfo_logo"/>
+        android:src="@drawable/bioinfo"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
