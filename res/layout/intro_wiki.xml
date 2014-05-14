@@ -6,14 +6,14 @@
     android:gravity="center"
     android:padding="10dp">
     <ImageView
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/bioinfo"/>
+        android:src="@drawable/biowiki"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to BioInfo"
+        android:text="Welcome to BioWiki"
         android:textSize="30dp"/>
     <TextView
         android:layout_width="wrap_content"

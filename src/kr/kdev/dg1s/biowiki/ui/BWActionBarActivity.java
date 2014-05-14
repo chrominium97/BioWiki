@@ -77,8 +77,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     protected static final int QUICK_VIDEO_ACTIVITY = 7;
     protected static final int VIEW_SITE_ACTIVITY = 8;
     protected static final int DASHBOARD_ACTIVITY = 9;
-    protected static final int MAPS_ACTIVITY = 10;
-    protected static final int DICTIONARY_ACTIVITY = 11;
     protected static final int NOTIFICATIONS_ACTIVITY = 12;
     //protected static final int CATEGORIZATION_ACTIVITY = 12;
     protected static final String LAST_ACTIVITY_PREFERENCE = "bw_pref_last_activity";
@@ -191,8 +189,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         mMenuItems.add(new QuickPhotoMenuItem());
         mMenuItems.add(new QuickVideoMenuItem());
         mMenuItems.add(new ViewSiteMenuItem());
-        mMenuItems.add(new MapsItem());
-        mMenuItems.add(new DictionaryItem());
         //mMenuItems.add(new CategoryItem());
     }
 
@@ -916,56 +912,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
             if (!(BWActionBarActivity.this instanceof ViewSiteActivity))
                 mShouldFinish = true;
             Intent intent = new Intent(BWActionBarActivity.this, ViewSiteActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class MapsItem extends MenuDrawerItem {
-        MapsItem() {
-            super(MAPS_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof DistributionActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof DistributionActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, DistributionActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class DictionaryItem extends MenuDrawerItem {
-        DictionaryItem() {
-            super(DICTIONARY_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof DictionaryViewerActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof DictionaryViewerActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, DictionaryViewerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }

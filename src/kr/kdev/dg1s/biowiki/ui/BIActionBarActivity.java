@@ -43,6 +43,10 @@ import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity;
+import kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity;
+import kr.kdev.dg1s.biowiki.ui.intro.InfoActivity;
+import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
+import kr.kdev.dg1s.biowiki.ui.map.DistributionActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
@@ -58,6 +62,8 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
      */
     protected static final int INTRO_ACTIVITY = 0;
     protected static final int CATEGORIZATION_ACTIVITY = 1;
+    protected static final int MAPS_ACTIVITY = 2;
+    protected static final int DICTIONARY_ACTIVITY = 3;
     protected static final String LAST_ACTIVITY_PREFERENCE = "bi_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
     /**
@@ -159,7 +165,10 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
         // configure all the available menu items
 
+        mMenuItems.add(new SwitchToWikiItem());
         mMenuItems.add(new CategoryItem());
+        mMenuItems.add(new MapsItem());
+        mMenuItems.add(new DictionaryItem());
     }
 
     @Override
@@ -673,5 +682,82 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
             return BioWiki.wpDB.getNumVisibleAccounts() != 0;
         }
     }
+
+
+    private class SwitchToWikiItem extends MenuDrawerItem {
+        SwitchToWikiItem() {
+            super(-1, R.string.posts, R.drawable.dashboard_icon_posts);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return false;
+        }
+
+        @Override
+        public void onSelectItem() {
+            Intent intent = new Intent(BIActionBarActivity.this, WikiActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return true;
+        }
+    }
+
+
+
+    private class MapsItem extends MenuDrawerItem {
+        MapsItem() {
+            super(MAPS_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BIActionBarActivity.this instanceof DistributionActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BIActionBarActivity.this instanceof DistributionActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BIActionBarActivity.this, DistributionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class DictionaryItem extends MenuDrawerItem {
+        DictionaryItem() {
+            super(DICTIONARY_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BIActionBarActivity.this instanceof DictionaryViewerActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BIActionBarActivity.this instanceof DictionaryViewerActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BIActionBarActivity.this, DictionaryViewerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
 
 }

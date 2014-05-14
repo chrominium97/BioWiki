@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 
 /**
  * This shows how to place markers on a map.
  */
-public class DictionaryViewerActivity extends BWActionBarActivity {
+public class DictionaryViewerActivity extends BIActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

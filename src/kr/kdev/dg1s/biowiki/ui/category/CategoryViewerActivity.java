@@ -15,6 +15,7 @@ import net.simonvt.menudrawer.MenuDrawer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
@@ -112,11 +113,12 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                 currentElement = currentElement.getParentElement();
             displayedElements = currentElement.getChildElements();
         } else {
-            currentElement = displayedElements.get(position);
+            currentElement = currentElement.getFirstElement("name", tag, false);
             displayedElements = currentElement.getChildElements();
         }
         for (Element element : displayedElements) {
             names.add(element.getAttributeValue("name"));
+            Collections.sort(names);
         }
 
         listView.invalidateViews();

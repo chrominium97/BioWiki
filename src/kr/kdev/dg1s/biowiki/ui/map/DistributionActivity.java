@@ -67,12 +67,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 
 /**
  * This shows how to place markers on a map.
  */
-public class DistributionActivity extends BWActionBarActivity
+public class DistributionActivity extends BIActionBarActivity
         implements
         OnMarkerClickListener,
         OnInfoWindowClickListener,
