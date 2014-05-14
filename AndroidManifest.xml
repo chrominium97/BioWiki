@@ -57,6 +57,11 @@
             android:value="@integer/google_play_services_version" />
 
 
+        <!-- Intro activities -->
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.intro.InfoActivity" />
+
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.intro.WikiActivity" />
+
         <!-- Map activities -->
         <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionActivity" />
 
