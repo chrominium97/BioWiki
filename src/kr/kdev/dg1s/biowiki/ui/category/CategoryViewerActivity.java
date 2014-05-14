@@ -11,6 +11,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
+import net.simonvt.menudrawer.MenuDrawer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,6 +80,28 @@ public class CategoryViewerActivity extends BIActionBarActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mMenuDrawer != null) {
+            final int drawerState = mMenuDrawer.getDrawerState();
+            if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+                mMenuDrawer.closeMenu();
+                return;
+            }
+        }
+
+        if (!(currentElement.getAttributeValue("name")==null)) {
+            try {
+                parseXML(null, -2);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        super.onBackPressed();
+    }
+
     public void parseXML(String tag, int position) throws IOException {
         ArrayList<String> names = new ArrayList<String>();
 
@@ -111,5 +134,4 @@ public class CategoryViewerActivity extends BIActionBarActivity {
     protected void onResume() {
         super.onResume();
     }
-
 }
