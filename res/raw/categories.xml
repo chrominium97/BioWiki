@@ -47,8 +47,8 @@
                 <what name="제라늄"/>
                 <what name="한련화"/>
                 <what name="접시꽃"/>
-                <what name="봉숭아컴프리"/>
-                <what name="접시꽃"/>
+                <what name="봉숭아"/>
+                <what name="컴프리"/>
                 <what name="팬지"/>
                 <what name="사철베고니아"/>
                 <what name="선인장"/>
@@ -174,7 +174,7 @@
                 <what name="맥문동"/>
                 <what name="마"/>
                 <what name="한삼덩굴"/>
-                <what name="꼭"/>
+                <what name="쪽"/>
                 <what name="소리쟁이"/>
                 <what name="여뀌"/>
                 <what name="수영"/>
@@ -408,7 +408,8 @@
                 <what name="소나무"/>
                 <what name="전나무"/>
                 <what name="구상나무"/>
-                <what name="가문개잎갈나무비나무"/>
+                <what name="가문비나무"/>
+                <what name="개잎갈나무"/>
                 <what name="주목"/>
                 <what name="비자나무"/>
                 <what name="낙엽송"/>
@@ -515,7 +516,7 @@
                 <what name="코크스야자"/>
                 <what name="카카오나무"/>
                 <what name="커피나무"/>
-                <what name="파피야"/>
+                <what name="파파야"/>
             </where>
         </type>
     </flower>
