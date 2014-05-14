@@ -1,12 +1,16 @@
 package kr.kdev.dg1s.biowiki.ui.category;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.MenuItem;
@@ -29,6 +33,7 @@ import kr.kdev.dg1s.biowiki.widgets.BWTextView;
 public class CategoryViewerActivity extends BIActionBarActivity {
 
     GridView gridView;
+    ScrollView scrollView;
 
     Element currentElement;
     List<Element> displayedElements;
@@ -39,8 +44,8 @@ public class CategoryViewerActivity extends BIActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createMenuDrawer(R.layout.category);
-
         gridView = (GridView) findViewById(R.id.list_view);
+        scrollView = (ScrollView) findViewById(R.id.showdetails);
         // Instance of ImageAdapter Class
         try {
             source = new Source(getResources().openRawResource(R.raw.categories));
@@ -97,17 +102,26 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                 return;
             }
         }
-
-        if (!(currentElement.getAttributeValue("name")==null)) {
-            try {
-                parseXML(null, -2);
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (scrollView.getVisibility() == View.VISIBLE) {
+            scrollView.setVisibility(View.GONE);
+            gridView.setVisibility(View.VISIBLE);
+        } else {
+            if (!(currentElement.getAttributeValue("name")==null)) {
+                try {
+                    parseXML(null, -2);
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
         }
 
         super.onBackPressed();
+    }
+
+    public void getDetails(String name) throws IOException {
+        Source source1 = new Source(getAssets().open("xmls/kingdom.xml"));
     }
 
     public void parseXML(String tag, int position) throws IOException {
@@ -119,8 +133,14 @@ public class CategoryViewerActivity extends BIActionBarActivity {
             if (!currentElement.getName().equals("repo"))
                 currentElement = currentElement.getParentElement();
             displayedElements = currentElement.getChildElements();
-        } else if (currentElement.getName().equals("what")) {
-            Intent intent = new Intent(get, DictionaryViewerActivity.class);
+        } else if (currentElement.getFirstElement("name", tag, false).getName().equals("what")) {
+            TextView textView;
+            textView = (TextView) findViewById(R.id.plant_name);
+            textView.setText(currentElement.getAttributeValue("name"));
+            textView = (TextView) findViewById(R.id.plant_id);
+            textView.setText("종속강문계");
+            gridView.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
             return;
         } else {
             currentElement = currentElement.getFirstElement("name", tag, false);
