@@ -1,8 +1,11 @@
 package kr.kdev.dg1s.biowiki.ui.category;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +13,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.widgets.BWTextView;
 
 public class ElementAdapter extends BaseAdapter {
     public List<String> elements = new ArrayList<String>();
@@ -41,9 +47,10 @@ public class ElementAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView = new TextView(mContext);
+        TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.adapter_category, null);
+        //textView.setPadding(R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding,
+        //        R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding);
         textView.setText(elements.get(position));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         return textView;
     }
 }

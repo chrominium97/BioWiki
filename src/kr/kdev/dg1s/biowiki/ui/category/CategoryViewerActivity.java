@@ -1,9 +1,11 @@
 package kr.kdev.dg1s.biowiki.ui.category;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,10 +22,13 @@ import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.MenuDrawerItem;
+import kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity;
+import kr.kdev.dg1s.biowiki.widgets.BWTextView;
 
 public class CategoryViewerActivity extends BIActionBarActivity {
 
-    ListView listView;
+    GridView gridView;
 
     Element currentElement;
     List<Element> displayedElements;
@@ -35,7 +40,7 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         super.onCreate(savedInstanceState);
         createMenuDrawer(R.layout.category);
 
-        listView = (ListView) findViewById(R.id.list_view);
+        gridView = (GridView) findViewById(R.id.list_view);
         // Instance of ImageAdapter Class
         try {
             source = new Source(getResources().openRawResource(R.raw.categories));
@@ -45,10 +50,12 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Log.d("", "Setting gridView listener");
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 TextView textView = (TextView) view;
+                Log.d("Button", "Clicked " + position);
                 try {
                     parseXML(textView.getText().toString(), position);
                 } catch (IOException e) {
@@ -112,6 +119,9 @@ public class CategoryViewerActivity extends BIActionBarActivity {
             if (!currentElement.getName().equals("repo"))
                 currentElement = currentElement.getParentElement();
             displayedElements = currentElement.getChildElements();
+        } else if (currentElement.getName().equals("what")) {
+            Intent intent = new Intent(get, DictionaryViewerActivity.class);
+            return;
         } else {
             currentElement = currentElement.getFirstElement("name", tag, false);
             displayedElements = currentElement.getChildElements();
@@ -121,8 +131,8 @@ public class CategoryViewerActivity extends BIActionBarActivity {
             Collections.sort(names);
         }
 
-        listView.invalidateViews();
-        listView.setAdapter(new ElementAdapter(this, names));
+        gridView.invalidateViews();
+        gridView.setAdapter(new ElementAdapter(this, names));
         if (tag != null) {
             getSupportActionBar().setTitle(tag);
         } else if (!(currentElement.getAttributeValue("name") == null)) {
