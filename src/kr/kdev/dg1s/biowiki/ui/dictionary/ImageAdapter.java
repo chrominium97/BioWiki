@@ -5,17 +5,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
 import kr.kdev.dg1s.biowiki.R;
 
 public class ImageAdapter extends BaseAdapter {
-    private Context mContext;
-
     // Keep all Images in array
     public Integer[] mThumbIds = {
             R.drawable.flower_1, R.drawable.flower_2,
             R.drawable.flower_12, R.drawable.flower_13,
             R.drawable.flower_14
     };
+    private Context mContext;
 
     // Constructor
     public ImageAdapter(Context c) {

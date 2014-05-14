@@ -58,7 +58,14 @@
 
 
         <!-- Intro activities -->
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.intro.InfoActivity" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.intro.InfoActivity"
+            android:icon="@drawable/ic_launcher"
+            android:label="BioInfo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name="kr.kdev.dg1s.biowiki.ui.intro.WikiActivity" />
 
@@ -69,7 +76,8 @@
         <activity android:name="kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity" />
 
         <!-- Categorization activites -->
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity">
+        </activity>
 
         <!-- Account activities -->
         <activity
@@ -125,7 +133,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -144,14 +151,14 @@
         <!-- Stats Activities -->
 
         <!-- Media Activities -->
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaBrowserActivity"></activity>
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaBrowserActivity"/>
 
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaGalleryActivity"></activity>
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaGalleryActivity"/>
 
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaGalleryPickerActivity"></activity>
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.media.MediaGalleryPickerActivity"/>
 
         <!-- Theme Activities -->
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.themes.ThemeBrowserActivity"></activity>
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.themes.ThemeBrowserActivity"/>
 
         <!-- Deep Linking Activity -->
         <activity
@@ -165,7 +172,7 @@
 
                 <data
                     android:host="viewpost"
-                    android:scheme="wordpress"></data>
+                    android:scheme="wordpress"/>
             </intent-filter>
         </activity>
 
@@ -200,7 +207,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name="kr.kdev.dg1s.biowiki.ui.ViewSiteActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
 
         <!-- Notifications activities -->
         <activity
@@ -214,29 +221,29 @@
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"
             android:theme="@style/Theme.Sherlock.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="org.wordpress.passcodelock.PasscodePreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.Sherlock.Light"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="org.wordpress.passcodelock.PasscodeManagePasswordActivity"
             android:theme="@style/Theme.Sherlock.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden"/>
 
         <!-- Services -->
         <service
             android:name="kr.kdev.dg1s.biowiki.util.PostUploadService"
-            android:label="Post Upload Service"></service>
+            android:label="Post Upload Service"/>
 
         <service
             android:name="kr.kdev.dg1s.biowiki.util.MediaUploadService"
-            android:label="Media Upload Service"></service>
+            android:label="Media Upload Service"/>
 
         <service
             android:name="kr.kdev.dg1s.biowiki.util.MediaDeleteService"
-            android:label="Media Delete Service"></service>
+            android:label="Media Delete Service"/>
 
     </application>
 

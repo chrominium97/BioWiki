@@ -39,22 +39,12 @@ import java.util.List;
 import java.util.Map;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
-import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
-import kr.kdev.dg1s.biowiki.ui.comments.CommentsActivity;
-import kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity;
-import kr.kdev.dg1s.biowiki.ui.intro.InfoActivity;
-import kr.kdev.dg1s.biowiki.ui.map.DistributionActivity;
-import kr.kdev.dg1s.biowiki.ui.media.MediaBrowserActivity;
-import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
-import kr.kdev.dg1s.biowiki.ui.posts.PagesActivity;
-import kr.kdev.dg1s.biowiki.ui.posts.PostsActivity;
+import kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
-import kr.kdev.dg1s.biowiki.ui.themes.ThemeBrowserActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
-import kr.kdev.dg1s.biowiki.util.DeviceUtils;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
 import kr.kdev.dg1s.biowiki.util.StringUtils;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
@@ -62,26 +52,13 @@ import kr.kdev.dg1s.biowiki.util.ToastUtils;
 /**
  * Base class for Activities that include a standard action bar and menu drawer.
  */
-public abstract class BWActionBarActivity extends SherlockFragmentActivity {
+public abstract class BIActionBarActivity extends SherlockFragmentActivity {
     /**
      * Used to restore active activity on app creation
      */
-    protected static final int BIOINFO_SWITCH = 0;
-    protected static final int POSTS_ACTIVITY = 1;
-    protected static final int MEDIA_ACTIVITY = 2;
-    protected static final int PAGES_ACTIVITY = 3;
-    protected static final int COMMENTS_ACTIVITY = 4;
-    protected static final int THEMES_ACTIVITY = 5;
-    // Quick /*/ are unused since an activity does not launch
-    protected static final int QUICK_PHOTO_ACTIVITY = 6;
-    protected static final int QUICK_VIDEO_ACTIVITY = 7;
-    protected static final int VIEW_SITE_ACTIVITY = 8;
-    protected static final int DASHBOARD_ACTIVITY = 9;
-    protected static final int MAPS_ACTIVITY = 10;
-    protected static final int DICTIONARY_ACTIVITY = 11;
-    protected static final int NOTIFICATIONS_ACTIVITY = 12;
-    //protected static final int CATEGORIZATION_ACTIVITY = 12;
-    protected static final String LAST_ACTIVITY_PREFERENCE = "bw_pref_last_activity";
+    protected static final int INTRO_ACTIVITY = 0;
+    protected static final int CATEGORIZATION_ACTIVITY = 1;
+    protected static final String LAST_ACTIVITY_PREFERENCE = "bi_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
     /**
      * AuthenticatorRequest code used when no accounts exist, and user is prompted to add an
@@ -103,11 +80,11 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
                 onSignout();
             }
             if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_INVALID_CREDENTIALS)) {
-                ToastUtils.showAuthErrorDialog(BWActionBarActivity.this);
+                ToastUtils.showAuthErrorDialog(BIActionBarActivity.this);
             }
             if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_TWO_FA_AUTH)) {
                 // TODO: add a specific message like "you must use a specific app password"
-                ToastUtils.showAuthErrorDialog(BWActionBarActivity.this);
+                ToastUtils.showAuthErrorDialog(BIActionBarActivity.this);
             }
             if (intent.getAction().equals(BioWiki.BROADCAST_ACTION_XMLRPC_INVALID_SSL_CERTIFICATE)) {
                 // SelfSignedSSLCertsManager.askForSslTrust(BWActionBarActivity.this);
@@ -123,7 +100,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     protected List<MenuDrawerItem> mMenuItems = new ArrayList<MenuDrawerItem>();
     protected boolean mFirstLaunch = false;
     private boolean mBlogSpinnerInitialized;
-
     private IcsAdapterView.OnItemSelectedListener mItemSelectedListener = new IcsAdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(IcsAdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -182,18 +158,8 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
 
         // configure all the available menu items
-        mMenuItems.add(new SwitchToInfoItem());
-        mMenuItems.add(new PostsMenuItem());
-        mMenuItems.add(new MediaMenuItem());
-        mMenuItems.add(new PagesMenuItem());
-        mMenuItems.add(new CommentsMenuItem());
-        mMenuItems.add(new ThemesMenuItem());
-        mMenuItems.add(new QuickPhotoMenuItem());
-        mMenuItems.add(new QuickVideoMenuItem());
-        mMenuItems.add(new ViewSiteMenuItem());
-        mMenuItems.add(new MapsItem());
-        mMenuItems.add(new DictionaryItem());
-        //mMenuItems.add(new CategoryItem());
+
+        mMenuItems.add(new CategoryItem());
     }
 
     @Override
@@ -242,7 +208,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     /**
      * Create a menu drawer and attach it to the activity.
      *
-     * @param contentViewID {@link View} of the main content for the activity.
+     * @param contentViewID {@link android.view.View} of the main content for the activity.
      */
     protected void createMenuDrawer(int contentViewID) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -256,7 +222,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     /**
      * Create a menu drawer and attach it to the activity.
      *
-     * @param contentView {@link View} of the main content for the activity.
+     * @param contentView {@link android.view.View} of the main content for the activity.
      */
     protected void createMenuDrawer(View contentView) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -351,7 +317,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
                 MenuDrawerItem item = mAdapter.getItem(menuPosition);
                 // if the item has an id, remember it for launch
                 if (item.hasItemId()) {
-                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(BWActionBarActivity.this);
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(BIActionBarActivity.this);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putInt(LAST_ACTIVITY_PREFERENCE, item.getItemId());
                     editor.commit();
@@ -447,6 +413,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
             }
         }
         mAdapter.notifyDataSetChanged();
+
     }
 
     /**
@@ -470,7 +437,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
 
     private boolean askToSignInIfNot() {
 
-        if (!BioWiki.isSignedIn(BWActionBarActivity.this)) {
+        if (!BioWiki.isSignedIn(BIActionBarActivity.this)) {
             AppLog.d(AppLog.T.NUX, "No accounts configured.  Sending user to set up an account");
             mShouldFinish = false;
             Intent intent = new Intent(this, WelcomeActivity.class);
@@ -545,7 +512,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
-                            BioWiki.signOut(BWActionBarActivity.this);
+                            BioWiki.signOut(BIActionBarActivity.this);
                             refreshMenuDrawer();
                         }
                     }
@@ -585,7 +552,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
                 // if it has an item id save it to the preferences
                 if (item.hasItemId()) {
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(
-                            BWActionBarActivity.this);
+                            BIActionBarActivity.this);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putInt(LAST_ACTIVITY_PREFERENCE, item.getItemId());
                     editor.commit();
@@ -682,290 +649,21 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         }
     }
 
-    private class SwitchToInfoItem extends MenuDrawerItem {
-        SwitchToInfoItem() {
-            super(-1, R.string.posts, R.drawable.dashboard_icon_posts);
+    private class CategoryItem extends MenuDrawerItem {
+        CategoryItem() {
+            super(CATEGORIZATION_ACTIVITY, R.string.dictionary_menu, R.drawable.dashicon_edit);
         }
 
         @Override
         public Boolean isSelected() {
-            return false;
+            return BIActionBarActivity.this instanceof CategoryViewerActivity;
         }
 
         @Override
         public void onSelectItem() {
-            Intent intent = new Intent(BWActionBarActivity.this, InfoActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return true;
-        }
-    }
-
-    private class PostsMenuItem extends MenuDrawerItem {
-        PostsMenuItem() {
-            super(POSTS_ACTIVITY, R.string.posts, R.drawable.dashboard_icon_posts);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            BWActionBarActivity activity = BWActionBarActivity.this;
-            return (activity instanceof PostsActivity) && !(activity instanceof PagesActivity);
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof PostsActivity)
-                    || (BWActionBarActivity.this instanceof PagesActivity))
+            if (!(BIActionBarActivity.this instanceof CategoryViewerActivity))
                 mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, PostsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class MediaMenuItem extends MenuDrawerItem {
-        MediaMenuItem() {
-            super(MEDIA_ACTIVITY, R.string.media, R.drawable.dashboard_icon_media);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof MediaBrowserActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof MediaBrowserActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, MediaBrowserActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class PagesMenuItem extends MenuDrawerItem {
-        PagesMenuItem() {
-            super(PAGES_ACTIVITY, R.string.pages, R.drawable.dashboard_icon_pages);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof PagesActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (BioWiki.getCurrentBlog() == null)
-                return;
-            if (!(BWActionBarActivity.this instanceof PagesActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, PagesActivity.class);
-            intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
-            intent.putExtra("isNew", true);
-            intent.putExtra(PostsActivity.EXTRA_VIEW_PAGES, true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class CommentsMenuItem extends MenuDrawerItem {
-        CommentsMenuItem() {
-            super(COMMENTS_ACTIVITY, R.string.tab_comments, R.drawable.dashboard_icon_comments);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof CommentsActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (BioWiki.getCurrentBlog() == null)
-                return;
-            if (!(BWActionBarActivity.this instanceof CommentsActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, CommentsActivity.class);
-            intent.putExtra("id", BioWiki.getCurrentBlog().getLocalTableBlogId());
-            intent.putExtra("isNew", true);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public void configureView(View view) {
-            if (BioWiki.getCurrentBlog() != null) {
-                TextView bagdeTextView = (TextView) view.findViewById(R.id.menu_row_badge);
-                int commentCount = BioWiki.getCurrentBlog().getUnmoderatedCommentCount();
-                if (commentCount > 0) {
-                    bagdeTextView.setVisibility(View.VISIBLE);
-                } else {
-                    bagdeTextView.setVisibility(View.GONE);
-                }
-                bagdeTextView.setText(String.valueOf(commentCount));
-            }
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class ThemesMenuItem extends MenuDrawerItem {
-        ThemesMenuItem() {
-            super(THEMES_ACTIVITY, R.string.themes, R.drawable.dashboard_icon_themes);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof ThemeBrowserActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof ThemeBrowserActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, ThemeBrowserActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            if (BioWiki.getCurrentBlog() != null && BioWiki.getCurrentBlog().isAdmin() && BioWiki.getCurrentBlog().isDotcomFlag())
-                return true;
-            return false;
-        }
-    }
-
-    private class QuickPhotoMenuItem extends MenuDrawerItem {
-        QuickPhotoMenuItem() {
-            super(R.string.quick_photo, R.drawable.dashboard_icon_photo);
-        }
-
-        @Override
-        public void onSelectItem() {
-            mShouldFinish = false;
-            Intent intent = new Intent(BWActionBarActivity.this, EditPostActivity.class);
-            intent.putExtra("quick-media", DeviceUtils.getInstance().hasCamera(getApplicationContext())
-                    ? Constants.QUICK_POST_PHOTO_CAMERA
-                    : Constants.QUICK_POST_PHOTO_LIBRARY);
-            intent.putExtra("isNew", true);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class QuickVideoMenuItem extends MenuDrawerItem {
-        QuickVideoMenuItem() {
-            super(R.string.quick_video, R.drawable.dashboard_icon_video);
-        }
-
-        @Override
-        public void onSelectItem() {
-            mShouldFinish = false;
-            Intent intent = new Intent(BWActionBarActivity.this, EditPostActivity.class);
-            intent.putExtra("quick-media", DeviceUtils.getInstance().hasCamera(getApplicationContext())
-                    ? Constants.QUICK_POST_VIDEO_CAMERA
-                    : Constants.QUICK_POST_VIDEO_LIBRARY);
-            intent.putExtra("isNew", true);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class ViewSiteMenuItem extends MenuDrawerItem {
-        ViewSiteMenuItem() {
-            super(VIEW_SITE_ACTIVITY, R.string.view_site, R.drawable.dashboard_icon_view);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof ViewSiteActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof ViewSiteActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, ViewSiteActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class MapsItem extends MenuDrawerItem {
-        MapsItem() {
-            super(MAPS_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof DistributionActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof DistributionActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, DistributionActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class DictionaryItem extends MenuDrawerItem {
-        DictionaryItem() {
-            super(DICTIONARY_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof DictionaryViewerActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof DictionaryViewerActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, DictionaryViewerActivity.class);
+            Intent intent = new Intent(BIActionBarActivity.this, CategoryViewerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }

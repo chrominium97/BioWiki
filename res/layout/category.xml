@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/grid_view"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:numColumns="1"
@@ -8,4 +8,4 @@
     android:horizontalSpacing="10dp"
     android:verticalSpacing="10dp"
     android:gravity="center" >
-</GridView>
+</ListView>

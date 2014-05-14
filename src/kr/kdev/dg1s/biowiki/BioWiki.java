@@ -394,7 +394,7 @@ public class BioWiki extends Application {
         setupVolleyQueue();
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        if (settings.getInt("wp_pref_last_activity", -1) >= 0) {
+        if (settings.getInt("bw_pref_last_activity", -1) >= 0) {
             shouldRestoreSelectedActivity = true;
         }
         //registerForCloudMessaging(this);
