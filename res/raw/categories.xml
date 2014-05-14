@@ -318,7 +318,7 @@
                 <what name="물수세미"/>
                 <what name="개구리밥"/>
             </where>
-            <where name="바닷가" >
+            <where name="바닷가">
                 <what name="지채"/>
                 <what name="해홍나물"/>
                 <what name="갯능쟁이"/>
@@ -340,7 +340,7 @@
             </where>
         </type>
         <type name="나무">
-            <where name="학교와 집 주변" >
+            <where name="학교와 집 주변">
                 <what name="소철"/>
                 <what name="행운목"/>
                 <what name="관음죽"/>
