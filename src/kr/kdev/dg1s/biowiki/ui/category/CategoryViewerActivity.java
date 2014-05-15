@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.MenuItem;
 
+import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 import net.simonvt.menudrawer.MenuDrawer;
@@ -121,8 +122,16 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         super.onBackPressed();
     }
 
-    public void getDetails(String name) throws IOException {
+    public ArrayList<String> getDetails(String name) throws IOException {
+        ArrayList<String> export = new ArrayList<String>();
         Source source1 = new Source(getAssets().open("xmls/kingdom.xml"));
+        Log.d("XML", "Searching for details on " + name);
+        Element element = source1.getFirstElement("name", name, false);
+        for (Attribute attribute : element.getAttributes()) {
+            export.add(attribute.getName());
+            export.add(attribute.getValue());
+        }
+        return export;
     }
 
     public void parseXML(String tag, int position) throws IOException {
@@ -135,7 +144,9 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                 currentElement = currentElement.getParentElement();
             displayedElements = currentElement.getChildElements();
         } else if (currentElement.getFirstElement("name", tag, false).getName().equals("what")) {
-            getDetails(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"));
+            for (String textDetails : getDetails(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"))) {
+                Log.d("Details", textDetails);
+            }
             TextView textView;
             textView = (TextView) findViewById(R.id.plant_name);
             textView.setText(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"));
