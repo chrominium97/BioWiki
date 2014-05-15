@@ -17,7 +17,6 @@
     <string name="post_content">콘텐츠 (눌러 텍스트 미디어를 추가)</string>
     <string name="max_thumbnail_px_width">표준 이미지 폭</string>
     <string name="password">암호</string>
-    <string name="blogs">위키</string>
     <string name="account_details">계정 정보</string>
     <string name="status">상태</string>
 
@@ -36,15 +35,11 @@
     <string name="username">사용자 이름</string>
     <string name="cancel">취소</string>
     <string name="save">저장</string>
-    <string name="add">추가</string>
     <string name="add_self_hosted_blog">사용자 정의 서버 추가</string>
     <string name="show_and_hide_blogs">위키보기 / 숨기기</string>
     <string name="blogs_visibility">위키 표시 설정</string>
     <string name="show_all">보기</string>
     <string name="hide_all">모두 숨기기</string>
-    <string name="notification_sound">알림음을 재생</string>
-    <string name="notification_vibrate">바이브</string>
-    <string name="notification_blink">알림빛을 깜빡임</string>
     <string name="sure_to_remove_account">정말 이 위키를 제거하겠습니까 ?</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
@@ -124,7 +119,6 @@
     <string name="delete">제거</string>
 
     <!-- tab titles -->
-    <string name="tab_stats">통계</string>
     <string name="tab_comments">댓글</string>
 
     <!-- themes -->
@@ -209,7 +203,6 @@
     <string name="trash_no">휴지통에 버리지 마세요.</string>
 
     <!-- comment actions -->
-    <string name="reply">회신</string>
     <string name="trash">휴지통</string>
 
     <!-- edit comment view -->
@@ -285,8 +278,6 @@
     <string name="share_action">공유</string>
     <string name="cant_share_no_visible_blog">공개 위키가 없기 때문에 BioWiki에 공유 할 수 없습니다</string>
     <string name="no_account">BioWiki 계정을 찾을 수 없습니다. 계정을 추가하고 다시 시도하십시오.</string>
-    <string name="share_preference_title">BioWiki 공유</string>
-    <string name="reset_auto_share_preference">자동 공유 설정을 재설정</string>
     <string name="auto_sharing_preference_reset">자동 공유 설정을 재설정했습니다.</string>
     <string name="auto_sharing_preference_reset_caused_by_error">이전에 선택한 위키는 현재 비공개로 되어 있습니다.</string>
     <string name="always_use_these_settings_to_share">항상 이 설정을 사용</string>
@@ -309,13 +300,11 @@
 
     <!-- preferences -->
     <string name="open_source_licenses">오픈 소스 라이센스</string>
-    <string name="wpcom_blogs">dg1s.hs.kr 위키</string>
     <string name="self_hosted_blogs">자체 호스팅 위키</string>
     <string name="pref_location">위치</string>
     <string name="location_city">도시</string>
 
     <!-- stats -->
-    <string name="stats">통계</string>
     <string name="help_stats">도움이 필요하세요?</string>
     <string name="stats_username">사용자 이름</string>
     <string name="stats_password">암호</string>
@@ -323,61 +312,16 @@
     <string name="view_stats_activity">통계보기</string>
 
     <!-- stats: labels for the views -->
-    <string name="stats_view_visitors_and_views">방문자수 · 페이지 뷰</string>
-    <string name="stats_view_views_by_country">국가 별 보기</string>
-    <string name="stats_view_top_posts_and_pages">인기 게시물 과 페이지</string>
-    <string name="stats_view_totals_followers_and_shares">총 추종자 공유 수</string>
-    <string name="stats_view_clicks">클릭 수</string>
-    <string name="stats_view_tags_and_categories">태그 및 카테고리</string>
-    <string name="stats_view_top_authors">인기 포스트</string>
-    <string name="stats_view_referrers">리퍼러</string>
-    <string name="stats_view_video_plays">동영상 조회</string>
-    <string name="stats_view_comments">댓글</string>
-    <string name="stats_view_search_engine_terms">검색어</string>
 
     <!-- stats: labels for timeframes -->
-    <string name="stats_timeframe_today">오늘</string>
-    <string name="stats_timeframe_yesterday">어제</string>
-    <string name="stats_timeframe_days">일</string>
-    <string name="stats_timeframe_weeks">주</string>
-    <string name="stats_timeframe_months">월</string>
-    <string name="stats_summary">개요</string>
 
     <!-- stats: label for the entries -->
-    <string name="stats_entry_country">국가</string>
-    <string name="stats_entry_posts_and_pages">제목</string>
-    <string name="stats_entry_clicks_url">URL</string>
-    <string name="stats_entry_tags_and_categories">항목</string>
-    <string name="stats_entry_authors">등록자</string>
-    <string name="stats_entry_referrers">리퍼러</string>
-    <string name="stats_entry_video_plays">동영상 이름</string>
-    <string name="stats_entry_top_commenter">코멘트 작성자</string>
-    <string name="stats_entry_most_commented">작성</string>
-    <string name="stats_entry_search_engine_terms">검색</string>
 
     <!-- stats: label for the totals -->
-    <string name="stats_totals_views">보기</string>
-    <string name="stats_totals_clicks">클릭 수</string>
-    <string name="stats_totals_plays">조회</string>
-    <string name="stats_totals_comments">댓글</string>
-    <string name="stats_totals_visitors">방문자</string>
 
     <!-- stats: views and visitors -->
-    <string name="stats_visitors_and_views_header_today">오늘</string>
-    <string name="stats_visitors_and_views_header_best_ever">사상 최대</string>
-    <string name="stats_visitors_and_views_header_all_time">모든 기간</string>
 
     <!-- stats: totals, followers, and shares -->
-    <string name="stats_totals_followers_shares_header_content">콘텐츠</string>
-    <string name="stats_totals_followers_shares_header_followers">팔로워</string>
-    <string name="stats_totals_followers_shares_header_includes_publicize">%s 홍보하기 포함</string>
-    <string name="stats_totals_followers_shares_header_shares">공유</string>
-    <string name="stats_totals_followers_shares_label_posts">작성</string>
-    <string name="stats_totals_followers_shares_label_categories">카테고리</string>
-    <string name="stats_totals_followers_shares_label_tags">태그</string>
-    <string name="stats_totals_followers_shares_label_blog">위키</string>
-    <string name="stats_totals_followers_shares_label_comments">댓글</string>
-    <string name="stats_totals_followers_shares_label_shares">공유</string>
 
     <!-- stats: comments summary -->
     <string name="stats_comments_summary_header_comments">댓글</string>
@@ -390,22 +334,8 @@
     <string name="stats_comments_summary_footer">* 최근 코멘트 1000건을 기반으로.</string>
 
     <!-- stats: video summary -->
-    <string name="stats_video_summary_label_plays">조회</string>
-    <string name="stats_video_summary_label_impressions">노출</string>
-    <string name="stats_video_summary_label_bandwidth">대역폭 :</string>
-    <string name="stats_video_summary_header">%s 집계 통계</string>
 
     <!-- stats: empty list strings -->
-    <string name="stats_empty_geoviews">아직 표시된 게시물이 없습니다.</string>
-    <string name="stats_empty_top_posts">이 화면에는 사이트에서 가장 자주 볼 게시물과 페이지가 표시 됩니다.</string>
-    <string name="stats_empty_referrers">리퍼러는 귀하의 사이트에 대한 링크가 클릭 된 사이트의 정보입니다.</string>
-    <string name="stats_empty_clicks">"클릭"은 귀하의 사이트에 방문자가 클릭한 외부링크 정보입니다.</string>
-    <string name="stats_empty_top_authors">아직 표시된 게시물이 없습니다.</string>
-    <string name="stats_empty_tags_and_categories">게시물 태그 또는 페이지 가 아직 표시 되어 있지 않습니다.</string>
-    <string name="stats_empty_video">아직 재생 된 동영상 이 없습니다.</string>
-    <string name="stats_empty_search_engine_terms">검색 키워드는 사용자가 사이트를 방문 할때 검색 엔진에서 사용한 키워드입니다.</string>
-    <string name="stats_empty_comments">코멘트가 없습니다.</string>
-    <string name="stats_bar_graph_empty">통계 정보가 없습니다.</string>
 
     <!-- invalid_url -->
     <string name="invalid_url_message">입력한 위키 URL이 올바른지 확인하십시오.</string>
@@ -418,9 +348,6 @@
     <string name="scheduled">예약</string>
 
     <!-- QuickPress -->
-    <string name="quickpress_window_title">QuickPress 바로가기에 대한 위키를 선택</string>
-    <string name="quickpress_add_error">바로가기 이름을 입력하세요</string>
-    <string name="quickpress_add_alert_title">바로 가기 이름을 설정</string>
 
     <!-- HTTP Authentication -->
     <string name="httpuser">HTTP 사용자 이름</string>
@@ -440,22 +367,15 @@
 
     <!-- notifications -->
     <string name="notifications">알림</string>
-    <string name="manage_notifications">알림 관리</string>
-    <string name="enable_notifications">알림을 활성화</string>
-    <string name="types">종류</string>
-    <string name="options">설정</string>
-    <string name="notifications_turn_off">비활성화</string>
+   <string name="notifications_turn_off">비활성화</string>
     <string name="notifications_turn_off_1hr">1시간 비활성화</string>
     <string name="notifications_turn_off_8hr">8시간 비활성화</string>
     <string name="note_reply_successful">답장을 공개했습니다</string>
-    <string name="new_notifications">%d개의 새로운 알림</string>
-    <string name="more_notifications">%d개.</string>
     <string name="tooltip_follow">이 위키를 팔로우하거나 팔로우를 해제</string>
     <string name="reply_failed">회신 할 수 없습니다 .</string>
     <string name="notifications_empty_list">알림이 없습니다.</string>
 
     <!-- reader -->
-    <string name="reader">가입 위키</string>
 
     <!-- Post Formats -->
     <string-array name="post_formats_array">
@@ -505,8 +425,6 @@
     <string name="ok">확인</string>
     <string name="image_settings">이미지 설정</string>
     <string name="add_account_blog_url">위키 주소</string>
-    <string name="wordpress_blog">BioWiki 위키</string>
-    <string name="blogusername">blogusername</string>
 
     <!--  Error Messages -->
     <string name="error_delete_post">%s를 삭제하는 동안 에러가 발생했습니다.</string>
@@ -515,7 +433,6 @@
     <string name="error_refresh_pages">고정 페이지를 다시로드 할 수 없습니다.</string>
     <string name="error_refresh_notifications">알림을 다시로드 할 수 없습니다.</string>
     <string name="error_refresh_comments">댓글을 다시로드 할 수 없습니다 .</string>
-    <string name="error_refresh_stats">통계를 다시로드 할 수 없습니다.</string>
     <string name="error_refresh_media">미디어 라이브러리를 새로고침 할때 오류가 발생했습니다. 나중에 다시 시도하십시오.</string>
     <string name="error_generic">오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
     <string name="error_parsing_response">데이터 검색 시 오류가 발생 했습니다. 나중에 다시 시도 하십시오.</string>
@@ -545,11 +462,6 @@
     <string name="passcode_preference_title">PIN 번호 잠금</string>
     <string name="passcode_turn_off">PIN 번호 잠금을 해제</string>
     <string name="passcode_turn_on">PIN 번호 잠금을 활성화</string>
-    <string name="jetpack_message">통계를 보려면 Jetpack 플러그인이 필요합니다. Jetpack을 설치하시겠습니까 ?</string>
-    <string name="jetpack_message_not_admin">제트 팩 플러그인은 통계가 필요합니다. 사이트 관리자에게 문의하세요.</string>
-    <string name="jetpack_not_found">Jetpack 플러그인 을 찾을 수 없습니다</string>
-    <string name="jetpack_stats_unauthorized">통계에 액세스 할 수 없습니다</string>
-    <string name="jetpack_stats_switch_user">이 BioWiki 계정이 위키의 통계에 대한 액세스 권한이 없는 것 같습니다. 다른 계정으로 로그인 하시겠습니까?</string>
 
     <!--
        ****
@@ -561,20 +473,16 @@
     <string name="reader_timespan_now">지금</string>
 
     <!-- title shown for untitled posts -->
-    <string name="reader_untitled_post">(제목 없음)</string>
 
     <!-- activity titles -->
     <string name="reader_title_applog">애플리케이션 로그</string>
     <string name="reader_title_userlist_default">인</string>
     <string name="reader_title_followed_tags">팔로잉 태그</string>
-    <string name="reader_title_popular_tags">인기 태그</string>
     <string name="reader_title_reblog">리블로그</string>
 
     <!-- share dialog title when sharing a reader url -->
-    <string name="reader_share_link">링크를 공유</string>
 
     <!-- subject line when sharing a reader url -->
-    <string name="reader_share_subject">%s에서 공유</string>
 
     <!-- menu text-->
     <string name="reader_menu_tags">태그</string>
@@ -593,60 +501,23 @@
 
     <!-- TextView labels -->
     <string name="reader_label_new_posts_one">1건의 새 게시물</string>
-    <string name="reader_label_new_posts_multi">%d개의 새 게시물</string>
-    <string name="reader_label_added_tag">%s를 추가</string>
-    <string name="reader_label_removed_tag">%s를 제거</string>
     <string name="reader_label_reblog_to">이 게시물을 리블로그 하기 :</string>
     <string name="reader_label_reply">회신</string>
     <string name="reader_label_reblog_empty">워드프레스 위키에 감춰진 게시물은 리블로그 할 수 없습니다.</string>
-    <string name="reader_label_reblog_empty_link">위키 노출 변경</string>
 
     <!-- like counts liking users activity-->
-    <string name="reader_likes_one">1명이 "좋아요"를 달았습니다</string>
-    <string name="reader_likes_multi">%d명이 "좋아요"를 눌렀습니다.</string>
-    <string name="reader_likes_only_you">"좋아요"를 클릭 했습니다</string>
-    <string name="reader_likes_you_and_one">당신과 다른 1명이 "좋아요"를 눌렀습니다.</string>
-    <string name="reader_likes_you_and_multi">당신에게 %d명이 "좋아요"를 하고 있습니다.</string>
 
     <!-- toast messages -->
-    <string name="reader_toast_reblog_success">게시물 리블로그했습니다</string>
     <string name="reader_toast_err_comment_failed">의견을 게시 할 수 없습니다</string>
-    <string name="reader_toast_err_reblog_failed">이 게시물을 리블로그 할 수 없습니다</string>
-    <string name="reader_toast_err_already_reblogged">이 게시물은 이미 리블로그되었습니다</string>
-    <string name="reader_toast_err_reblog_requires_blog">위키를 선택 하십시오</string>
-    <string name="reader_toast_err_tag_exists">이미 이 태그를 팔로우 중입니다</string>
-    <string name="reader_toast_err_tag_invalid">유효한 태그가 없습니다</string>
-    <string name="reader_toast_err_add_tag">태그를 추가할 수 없습니다.</string>
-    <string name="reader_toast_err_remove_tag">태그를 삭제할 수 없습니다.</string>
     <string name="reader_toast_err_share_intent">공유에 실패</string>
-    <string name="reader_toast_err_view_image">이미지를 표시 할 수 없습니다</string>
     <string name="reader_toast_err_url_intent">%s를 열 수 없습니다</string>
-    <string name="reader_toast_err_no_connection">연결할 수 없습니다</string>
-    <string name="reader_toast_err_get_post">이 게시물 을 로드 할 수 없습니다</string>
-    <string name="reader_toast_err_get_comment">이 코멘트를 읽을 수 없습니다</string>
 
     <!-- empty list/grid text -->
     <string name="reader_empty_posts_in_tag">이 태그가 붙여진 게시물이 없습니다.</string>
-    <string name="reader_empty_posts_in_tag_updating">리뷰 가져 오는 중&#8230;</string>
     <string name="reader_empty_followed_tags">태그를 팔로우 하지 않습니다.</string>
-    <string name="reader_empty_popular_tags">인기 태그가 없습니다.</string>
-    <string name="reader_empty_followed_blogs_title">아직 위키를 팔로우하지 않습니다.</string>
-    <string name="reader_empty_followed_blogs_description">태그 아이콘을 탭하면 시작할 수 있습니다.</string>
-    <string name="reader_empty_posts_liked">아직 "좋아요"를 클릭한 게시물이 없습니다.</string>
 
     <!-- NUX strings -->
-    <string name="create_account_wpcom">dg1s.hs.kr 계정을 생성</string>
-    <string name="create_new_blog_wpcom">dg1s.hs.kr 위키 만들기</string>
-    <string name="validating_user_data">사용자의 데이터를 체크 합니다</string>
-    <string name="validating_site_data">사이트의 데이터를 체크 합니다</string>
-    <string name="creating_your_account">계정을 생성 합니다</string>
-    <string name="creating_your_site">사이트를 만들 수 있습니다</string>
-    <string name="required_field">필수 항목</string>
-    <string name="username_password_required">보내기 전에 모든 란에 기입하십시오.</string>
-    <string name="invalid_email_message">잘못된 이메일 주소입니다.</string>
-    <string name="invalid_password_message">암호는 4자 이상이어야 합니다.</string>
-    <string name="invalid_username_too_short">사용자 이름은 4자 이상입니다.</string>
-    <string name="invalid_username_too_long">사용자 이름에는 최대 64 자 이하로 되어야 함.</string>
+  <string name="required_field">필수 항목</string>
     <string name="email_hint">이메일</string>
     <string name="agree_terms_of_service">계정을 만들면 %1$s 이용약관 %2$s에 동의한 것으로 간주됩니다.</string>
     <string name="username_email">사용자 이름 또는 이메일</string>
@@ -693,14 +564,5 @@
     <string name="nux_help_description">도우미 센터에 방문하면 일반적인 질문에 대한 답을 얻을 수 있습니다. 또는 포럼에 방문하여 신규 질문을 하시기 바랍니다.</string>
     <string name="forums">포럼</string>
     <string name="help_center">도우미 센터</string>
-    <string name="ssl_certificate_trust">신뢰함</string>
-    <string name="ssl_certificate_details">Certificate Details</string>
-    <string name="ssl_certificate_do_not_trust">신뢰하지 않음</string>
-    <string name="refreshing_categories">카테고리 새로고침</string>
-    <string name="cat_adding_category">카테고리 추가</string>
-    <string name="categories_refreshed">카테고리를 다시로드 완료되었습니다</string>
-    <string name="adding_cat_failed_check">설정을 확인하고 다시 시도하십시오.</string>
-    <string name="ssl_certificate_error">잘못된 SSL 인증서</string>
-    <string name="ssl_certificate_ask_trust">일반적으로 문제없이 이 사이트에 연결하는 경우, 이 오류는 누군가가 사이트를 사칭하는 것을 의미 할 수 있습니다, 그렇다면 연결하면 안됩니다.  그래도 인증서를 신뢰 하시겠습니까?</string>
     <string name="ptr_tip_message">팁: 밑으로 당겨서 새로고칠 수 있습니다.</string>
 </resources>

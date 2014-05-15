@@ -42,15 +42,11 @@
     <string name="username">Username</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
-    <string name="add">Add</string>
     <string name="add_self_hosted_blog">Add self-hosted blog</string>
     <string name="show_and_hide_blogs">Show/hide WordPress.com blogs</string>
     <string name="blogs_visibility">Blogs visibility</string>
     <string name="show_all">Show all</string>
     <string name="hide_all">Hide all</string>
-    <string name="notification_sound">Play notification sound</string>
-    <string name="notification_vibrate">Vibrate</string>
-    <string name="notification_blink">Blink notification light</string>
     <string name="sure_to_remove_account">Are you sure you want to remove this blog?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -131,7 +127,6 @@
 
     <!-- tab titles -->
     <string name="tab_comments">Comments</string>
-    <string name="tab_stats">Stats</string>
 
     <!-- themes -->
     <string name="themes_live_preview">Live preview</string>
@@ -215,7 +210,6 @@
     <string name="trash_no">Don\'t trash</string>
 
     <!-- comment actions -->
-    <string name="reply">Reply</string>
     <string name="trash">Trash</string>
 
     <!-- edit comment view -->
@@ -291,8 +285,6 @@
     <string name="share_action">Share</string>
     <string name="cant_share_no_visible_blog">You can\'t share to WordPress without a visible blog</string>
     <string name="no_account">No WordPress account found, add an account and try again</string>
-    <string name="share_preference_title">Share to WordPress</string>
-    <string name="reset_auto_share_preference">Reset auto-sharing settings</string>
     <string name="auto_sharing_preference_reset">Auto-sharing settings reset</string>
     <string name="auto_sharing_preference_reset_caused_by_error">Previously selected blog is no longer visible</string>
     <string name="always_use_these_settings_to_share">Always use these settings</string>
@@ -315,13 +307,11 @@
 
     <!-- preferences -->
     <string name="open_source_licenses">Open source licenses</string>
-    <string name="wpcom_blogs">WordPress.com blogs</string>
     <string name="self_hosted_blogs">Self-hosted blogs</string>
     <string name="pref_location">Location</string>
     <string name="location_city">City</string>
 
     <!-- stats -->
-    <string name="stats">Stats</string>
     <string name="help_stats">Need help?</string>
     <string name="stats_username">Username</string>
     <string name="stats_password">Password</string>
@@ -329,61 +319,16 @@
     <string name="view_stats_activity">View stats</string>
 
     <!-- stats: labels for the views -->
-    <string name="stats_view_visitors_and_views">Visitors and Views</string>
-    <string name="stats_view_views_by_country">Views by country</string>
-    <string name="stats_view_top_posts_and_pages">Top posts and pages</string>
-    <string name="stats_view_totals_followers_and_shares">Totals, followers, &amp; shares</string>
-    <string name="stats_view_clicks">Clicks</string>
-    <string name="stats_view_tags_and_categories">Tags &amp; categories</string>
-    <string name="stats_view_top_authors">Top authors</string>
-    <string name="stats_view_referrers">Referrers</string>
-    <string name="stats_view_video_plays">Video plays</string>
-    <string name="stats_view_comments">Comments</string>
-    <string name="stats_view_search_engine_terms">Search engine terms</string>
 
     <!-- stats: labels for timeframes -->
-    <string name="stats_timeframe_today">Today</string>
-    <string name="stats_timeframe_yesterday">Yesterday</string>
-    <string name="stats_timeframe_days">Days</string>
-    <string name="stats_timeframe_weeks">Weeks</string>
-    <string name="stats_timeframe_months">Months</string>
-    <string name="stats_summary">Summary</string>
 
     <!-- stats: label for the entries -->
-    <string name="stats_entry_country">Country</string>
-    <string name="stats_entry_posts_and_pages">Title</string>
-    <string name="stats_entry_clicks_url">URL</string>
-    <string name="stats_entry_tags_and_categories">Topic</string>
-    <string name="stats_entry_authors">Author</string>
-    <string name="stats_entry_referrers">Referrer</string>
-    <string name="stats_entry_video_plays">Video name</string>
-    <string name="stats_entry_top_commenter">Commenter</string>
-    <string name="stats_entry_most_commented">Posts</string>
-    <string name="stats_entry_search_engine_terms">Search</string>
 
     <!-- stats: label for the totals -->
-    <string name="stats_totals_views">Views</string>
-    <string name="stats_totals_clicks">Clicks</string>
-    <string name="stats_totals_plays">Plays</string>
-    <string name="stats_totals_comments">Comments</string>
-    <string name="stats_totals_visitors">Visitors</string>
 
     <!-- stats: views and visitors -->
-    <string name="stats_visitors_and_views_header_today">Today</string>
-    <string name="stats_visitors_and_views_header_best_ever">Best ever</string>
-    <string name="stats_visitors_and_views_header_all_time">All time</string>
 
     <!-- stats: totals, followers, and shares -->
-    <string name="stats_totals_followers_shares_header_content">Content</string>
-    <string name="stats_totals_followers_shares_header_followers">Followers</string>
-    <string name="stats_totals_followers_shares_header_includes_publicize" comment="part of the full string: _123 Followers (includes &lt;a href=..&gt;Publicize&lt;a&gt;)_ the %s replaced by &lt;a href=...&gt;">includes %sPublicize</string>
-    <string name="stats_totals_followers_shares_header_shares">Shares</string>
-    <string name="stats_totals_followers_shares_label_posts">Posts</string>
-    <string name="stats_totals_followers_shares_label_categories">Categories</string>
-    <string name="stats_totals_followers_shares_label_tags">Tags</string>
-    <string name="stats_totals_followers_shares_label_blog">Blog</string>
-    <string name="stats_totals_followers_shares_label_comments">Comments</string>
-    <string name="stats_totals_followers_shares_label_shares">Shares</string>
 
     <!-- stats: comments summary -->
     <string name="stats_comments_summary_header_comments">COMMENTS</string>
@@ -396,22 +341,9 @@
     <string name="stats_comments_summary_footer">* Based on the 1000 most recent comments</string>
 
     <!-- stats: video summary -->
-    <string name="stats_video_summary_label_plays">Plays</string>
-    <string name="stats_video_summary_label_impressions">Impressions</string>
-    <string name="stats_video_summary_label_bandwidth">Bandwidth</string>
-    <string name="stats_video_summary_header">Aggregated stats for %s</string>
 
     <!-- stats: empty list strings -->
-    <string name="stats_empty_geoviews">No posts viewed</string>
-    <string name="stats_empty_top_posts"><![CDATA[<b>No top posts or pages found yet.</b> This view shows your most viewed posts and pages.]]></string>
-    <string name="stats_empty_referrers"><![CDATA[<b>No referrers.</b> A referrer is a click from another site that links to yours.]]></string>
-    <string name="stats_empty_clicks"><![CDATA[<b>No clicks recorded.</b> "Clicks" are viewers clicking outbound links on your site.]]></string>
-    <string name="stats_empty_top_authors">No posts viewed</string>
-    <string name="stats_empty_tags_and_categories">No tagged posts or pages have been viewed yet</string>
-    <string name="stats_empty_video">No videos have been played yet</string>
-    <string name="stats_empty_search_engine_terms"><![CDATA[<b>No search terms.</b> Search terms are words or phrases users find you with when they search.]]></string>
-    <string name="stats_empty_comments">No comments yet</string>
-    <string name="stats_bar_graph_empty">No stats available</string>
+<string name="stats_bar_graph_empty">No stats available</string>
 
     <!-- invalid_url -->
     <string name="invalid_url_message">Check that the blog URL entered is valid</string>
@@ -424,9 +356,6 @@
     <string name="scheduled">Scheduled</string>
 
     <!-- QuickPress -->
-    <string name="quickpress_window_title">Select blog for QuickPress shortcut</string>
-    <string name="quickpress_add_error">Shortcut name can\'t be empty</string>
-    <string name="quickpress_add_alert_title">Set shortcut name</string>
 
     <!-- HTTP Authentication -->
     <string name="httpuser">HTTP username</string>
@@ -446,22 +375,15 @@
 
     <!-- notifications -->
     <string name="notifications">Notifications</string>
-    <string name="manage_notifications">Manage notifications</string>
-    <string name="enable_notifications">Enable notifications</string>
-    <string name="types">Types</string>
-    <string name="options">Options</string>
     <string name="notifications_turn_off">Turn off</string>
     <string name="notifications_turn_off_1hr">Turn off for 1 hour</string>
     <string name="notifications_turn_off_8hr">Turn off for 8 hours</string>
     <string name="note_reply_successful">Reply published</string>
-    <string name="new_notifications">%d new notifications</string>
-    <string name="more_notifications">and %d more.</string>
     <string name="tooltip_follow">Follow or unfollow this blog</string>
     <string name="reply_failed">Reply failed</string>
     <string name="notifications_empty_list">No notifications</string>
 
     <!-- reader -->
-    <string name="reader">Reader</string>
 
     <!-- Post Formats -->
     <string-array name="post_formats_array">
@@ -511,8 +433,6 @@
     <string name="ok">OK</string>
     <string name="image_settings">Image settings</string>
     <string name="add_account_blog_url">Blog address</string>
-    <string name="wordpress_blog">WordPress blog</string>
-    <string name="blogusername">blogusername</string>
 
     <!--  Error Messages -->
     <string name="error_delete_post">An error occurred while deleting the %s</string>
@@ -521,7 +441,6 @@
     <string name="error_refresh_pages">Pages couldn\'t be refreshed at this time</string>
     <string name="error_refresh_notifications">Notifications couldn\'t be refreshed at this time</string>
     <string name="error_refresh_comments">Comments couldn\'t be refreshed at this time</string>
-    <string name="error_refresh_stats">Stats couldn\'t be refreshed at this time</string>
     <string name="error_refresh_media">Something went wrong while refreshing the media library. Try again later.</string>
     <string name="error_generic">An error occurred</string>
     <string name="error_parsing_response">An error occurred while fetching data</string>
@@ -551,11 +470,6 @@
     <string name="passcode_preference_title">PIN lock</string>
     <string name="passcode_turn_off">Turn PIN lock off</string>
     <string name="passcode_turn_on">Turn PIN lock on</string>
-    <string name="jetpack_message">The Jetpack plugin is required for stats. Do you want to install Jetpack?</string>
-    <string name="jetpack_message_not_admin">The Jetpack plugin is required for stats. Contact the site administrator.</string>
-    <string name="jetpack_not_found">Jetpack plugin not found</string>
-    <string name="jetpack_stats_unauthorized">Can\'t access stats</string>
-    <string name="jetpack_stats_switch_user">This WordPress.com account doesn\'t have access to the stats for this blog. Would you like to sign in to a different account?</string>
 
     <!--
        ****
@@ -567,20 +481,16 @@
     <string name="reader_timespan_now">now</string>
 
     <!-- title shown for untitled posts -->
-    <string name="reader_untitled_post">(Untitled)</string>
 
     <!-- activity titles -->
     <string name="reader_title_applog">Application log</string>
     <string name="reader_title_userlist_default">People</string>
     <string name="reader_title_followed_tags">Followed tags</string>
-    <string name="reader_title_popular_tags">Popular tags</string>
     <string name="reader_title_reblog">Reblog</string>
 
     <!-- share dialog title when sharing a reader url -->
-    <string name="reader_share_link">Share link</string>
 
     <!-- subject line when sharing a reader url -->
-    <string name="reader_share_subject">Shared from %s</string>
 
     <!-- menu text-->
     <string name="reader_menu_tags">Tags</string>
@@ -599,66 +509,27 @@
 
     <!-- TextView labels -->
     <string name="reader_label_new_posts_one">One new post</string>
-    <string name="reader_label_new_posts_multi">%d new posts</string>
-    <string name="reader_label_added_tag">Added %s</string>
-    <string name="reader_label_removed_tag">Removed %s</string>
     <string name="reader_label_reblog_to">Reblog this post to</string>
     <string name="reader_label_reply">Reply</string>
     <string name="reader_label_reblog_empty">You have no visible WordPress.com blogs this post can be reblogged to</string>
-    <string name="reader_label_reblog_empty_link">Change blog visibility</string>
 
     <!-- like counts liking users activity-->
-    <string name="reader_likes_one">One person likes this</string>
-    <string name="reader_likes_multi">%,d people like this</string>
-    <string name="reader_likes_only_you">You like this</string>
-    <string name="reader_likes_you_and_one">You and one other like this</string>
-    <string name="reader_likes_you_and_multi">You and %,d others like this</string>
 
     <!-- toast messages -->
-    <string name="reader_toast_reblog_success">Post has been reblogged</string>
     <string name="reader_toast_err_comment_failed">Couldn\'t post your comment</string>
-    <string name="reader_toast_err_reblog_failed">Couldn\'t reblog this post</string>
-    <string name="reader_toast_err_already_reblogged">You already reblogged this post</string>
-    <string name="reader_toast_err_reblog_requires_blog">Select a blog</string>
-    <string name="reader_toast_err_tag_exists">You already follow this tag</string>
-    <string name="reader_toast_err_tag_invalid">That isn\'t a valid tag</string>
-    <string name="reader_toast_err_add_tag">Unable to add this tag</string>
-    <string name="reader_toast_err_remove_tag">Unable to remove this tag</string>
-    <string name="reader_toast_err_share_intent">Unable to share</string>
-    <string name="reader_toast_err_view_image">Unable to view image</string>
+<string name="reader_toast_err_share_intent">Unable to share</string>
     <string name="reader_toast_err_url_intent">Unable to open %s</string>
-    <string name="reader_toast_err_no_connection">Unable to connect</string>
-    <string name="reader_toast_err_get_post">Unable to retrieve this post</string>
-    <string name="reader_toast_err_get_comment">Unable to retrieve this comment</string>
+ <string name="reader_toast_err_get_comment">Unable to retrieve this comment</string>
 
     <!-- empty list/grid text -->
-    <string name="reader_empty_posts_in_tag">No posts with this&#160;tag</string>
-    <string name="reader_empty_posts_in_tag_updating">Fetching posts…</string>
-    <string name="reader_empty_followed_tags">You don\'t follow any&#160;tags</string>
-    <string name="reader_empty_popular_tags">No popular tags</string>
-    <string name="reader_empty_followed_blogs_title">You\'re not following any blogs&#160;yet</string>
-    <string name="reader_empty_followed_blogs_description">But don\'t worry, just tap the tag icon to start&#160;exploring!</string>
-    <string name="reader_empty_posts_liked">You haven\'t liked any&#160;posts</string>
 
     <!-- fragment tags - do not translate -->
     <string name="fragment_tag_comment_list" translatable="false">fragment_comment_list</string>
     <string name="fragment_tag_comment_detail" translatable="false">fragment_comment_detail</string>
-    <string name="fragment_tag_reader_post_list" translatable="false">fragment_reader_post_list</string>
-    <string name="fragment_tag_reader_post_detail" translatable="false">fragment_reader_post_detail</string>
 
     <!-- NUX strings -->
     <string name="create_account_wpcom">Create an account on&#160;WordPress.com</string>
-    <string name="create_new_blog_wpcom">Create WordPress.com&#160;blog</string>
-    <string name="validating_user_data">Validating user data</string>
-    <string name="validating_site_data">Validating site data</string>
-    <string name="creating_your_account">Creating your account</string>
-    <string name="creating_your_site">Creating your site</string>
-    <string name="required_field">Required field</string>
-    <string name="username_password_required">Fill in all of the fields before submitting</string>
-    <string name="invalid_email_message">Your email address isn\'t valid</string>
-    <string name="invalid_password_message">Password must contain at least 4 characters</string>
-    <string name="invalid_username_too_short">Username must be longer than 4 characters</string>
-    <string name="invalid_username_too_long">Username must be shorter than 61 characters</string>
+<string name="required_field">Required field</string>
     <string name="email_hint">Email address</string>
     <string name="agree_terms_of_service">By creating an account you agree to the fascinating %1$sTerms&#160;of&#160;Service%2$s</string>
     <string name="username_email">Username or email</string>
@@ -705,14 +576,5 @@
     <string name="nux_help_description">Visit the help center to get answers to common questions. or visit the forums to ask new&#160;ones.</string>
     <string name="forums">Forums</string>
     <string name="help_center">Help center</string>
-    <string name="ssl_certificate_trust">Trust</string>
-    <string name="ssl_certificate_details">Certificate Details</string>
-    <string name="ssl_certificate_do_not_trust">Don\'t trust</string>
-    <string name="refreshing_categories">Refreshing Categories</string>
-    <string name="cat_adding_category">Add Categories</string>
-    <string name="categories_refreshed">Reloading Categories Completed</string>
-    <string name="adding_cat_failed_check">Try after Checking Settings.</string>
-    <string name="ssl_certificate_error">Invalid SSL certificate</string>
-    <string name="ssl_certificate_ask_trust">If you usually connect to this site without problems, this error could mean that someone is trying to impersonate the site, and you shouldn\'t continue. Would you like to trust the certificate anyway?</string>
-    <string name="ptr_tip_message">Tip: Pull down to refresh</string>
+   <string name="ptr_tip_message">Tip: Pull down to refresh</string>
 </resources>
