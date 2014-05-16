@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="WordPress" parent="Theme.Sherlock.Light.DarkActionBar">
         <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
@@ -79,7 +78,7 @@
         <item name="dropDownListViewStyle">@style/DropDownListView.WordPress</item>
     </style>
 
-    <style name="WordPress.Dialog" parent="@android:style/Theme.Dialog"></style>
+    <style name="WordPress.Dialog" parent="@android:style/Theme.Dialog"/>
 
     <style name="WordPressSectionHeader">
         <item name="android:layout_marginTop">8dp</item>

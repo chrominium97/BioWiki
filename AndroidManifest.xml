@@ -76,8 +76,8 @@
         <activity android:name="kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity" />
 
         <!-- Categorization activites -->
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity">
-        </activity>
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity"
+            android:theme="@style/WordPress"/>
 
         <!-- Account activities -->
         <activity

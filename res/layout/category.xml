@@ -15,12 +15,14 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/plant_image">
 
                 <android.support.v4.view.ViewPager
                     android:layout_height="250dp"
                     android:layout_width="fill_parent"
-                    android:id="@+id/viewpager"/>
+                    android:id="@+id/viewpager"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/plant_name"
                     android:padding="@dimen/textview_padding"

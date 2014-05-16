@@ -1,6 +1,7 @@
 package kr.kdev.dg1s.biowiki.ui.category;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -23,6 +24,8 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
 
@@ -32,6 +35,8 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 import net.simonvt.menudrawer.MenuDrawer;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +57,7 @@ public class CategoryViewerActivity extends BIActionBarActivity {
     List<Element> displayedElements;
 
     ImageLoaderConfiguration config;
+    DisplayImageOptions options;
 
     Context context;
 
@@ -71,21 +77,18 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         }
 
         // Create global configuration and initialize ImageLoader with this configuration
-        config = new ImageLoaderConfiguration.Builder(context)
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .discCache(new UnlimitedDiscCache(getCacheDir()))
-                .discCacheSize(200 * 1024 * 1024)
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .writeDebugLogs()
-                .discCacheFileCount(1000)
-                .build();
-        ImageLoader.getInstance().init(config);
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .considerExifParams(true)
+                .build();
+        config = new ImageLoaderConfiguration.Builder(context)
+                .discCache(new UnlimitedDiscCache(getCacheDir()))
+                .discCacheSize(200 * 1024 * 1024)
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(options)
+                .discCacheFileCount(1000)
                 .build();
     }
 
@@ -100,6 +103,11 @@ public class CategoryViewerActivity extends BIActionBarActivity {
 
         switch (item.getItemId()) {
             case R.id.go_up:
+                if (layout.getVisibility() == View.VISIBLE) {
+                    layout.setVisibility(View.GONE);
+                    gridView.setVisibility(View.VISIBLE);
+                    return true;
+                }
                 try {
                     parseXML(null, -2);
                 } catch (IOException e) {
@@ -303,21 +311,21 @@ public class CategoryViewerActivity extends BIActionBarActivity {
             for (int i = 0; i < (details.size() / 2); i++) {
                 if (details.get(2 * i).equals("image")) {
                     if (!(details.get(2 * i + 1).equals(""))) {
-                        for (int j = 0; j < pagerAdapter.getCount(); j++) {
-                            pagerAdapter.removeView(pager, j);
+                        pager.setVisibility(View.VISIBLE);
+                        for (;0 != pagerAdapter.getCount();) {
+                            pagerAdapter.removeView(pager,0);
                         }
+                        pagerAdapter.notifyDataSetChanged();
                         for (String filename : Arrays.asList(details.get(2*i + 1).split(" "))){
                             ImageView imageView = new ImageView(context);
                             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                            ImageLoader.getInstance().displayImage("http://10.80.121.88/repo/IMG/" + filename + ".JPG", imageView);
-                            imageView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-
-                                }
-                            });
+                            ImageLoader imageLoader = ImageLoader.getInstance();
+                            imageLoader.init(config);
+                            imageLoader.displayImage("http://10.80.121.88/repo/IMG/" + filename + ".JPG", imageView);
                             addView(imageView);
                         }
+                    } else {
+                        pager.setVisibility(View.GONE);
                     }
                 } else {
                     layout.addView(plantDetails(details.get(2 * i), details.get(2 * i + 1)));
