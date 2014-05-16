@@ -3,15 +3,12 @@ package kr.kdev.dg1s.biowiki.ui.category;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,10 +21,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.download.ImageDownloader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Attributes;
@@ -35,14 +29,13 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 import net.simonvt.menudrawer.MenuDrawer;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 
@@ -81,8 +74,11 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .considerExifParams(true)
+                .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+                .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
         config = new ImageLoaderConfiguration.Builder(context)
+                .threadPoolSize(4)
                 .discCache(new UnlimitedDiscCache(getCacheDir()))
                 .discCacheSize(200 * 1024 * 1024)
                 .discCacheFileNameGenerator(new Md5FileNameGenerator())
@@ -155,15 +151,15 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         layout = (LinearLayout) findViewById(R.id.showdetails);
         // Image pagers
         pagerAdapter = new MainPagerAdapter();
-        pager = (ViewPager) findViewById (R.id.viewpager);
-        pager.setAdapter (pagerAdapter);
-        pager.setOnTouchListener(new View.OnTouchListener() {
+        pager = (ViewPager) findViewById(R.id.viewpager);
+        pager.setAdapter(pagerAdapter);
+        /*pager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 v.getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
                 return false;
             }
-        });
+        });*/
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -312,16 +308,16 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                 if (details.get(2 * i).equals("image")) {
                     if (!(details.get(2 * i + 1).equals(""))) {
                         pager.setVisibility(View.VISIBLE);
-                        for (;0 != pagerAdapter.getCount();) {
-                            pagerAdapter.removeView(pager,0);
+                        for (; 0 != pagerAdapter.getCount(); ) {
+                            pagerAdapter.removeView(pager, 0);
                         }
                         pagerAdapter.notifyDataSetChanged();
-                        for (String filename : Arrays.asList(details.get(2*i + 1).split(" "))){
+                        for (String filename : Arrays.asList(details.get(2 * i + 1).split(" "))) {
                             ImageView imageView = new ImageView(context);
-                            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             ImageLoader imageLoader = ImageLoader.getInstance();
                             imageLoader.init(config);
-                            imageLoader.displayImage("http://10.80.121.88/repo/IMG/" + filename + ".JPG", imageView);
+                            imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + filename, imageView);
                             addView(imageView);
                         }
                     } else {
