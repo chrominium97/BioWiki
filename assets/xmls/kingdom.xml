@@ -15,7 +15,8 @@
 							vertical = "산지대 이하"
 							geograph = "냉온대~아열대, 중국, 대만, 만주, 일본, 우수리, 사할린, 말레이시아, 자바, 동인도, 호주 등"
 							vegetat = "습지식생"
-							preserve = "일반감시대상종" />
+							preserve = "일반감시대상종"
+                            image = "DSC_0001 DSC_0002 DSC_0003 DSC_0004"/>
 					</genus>
 				</family>
 			</order>

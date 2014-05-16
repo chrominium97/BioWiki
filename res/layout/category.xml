@@ -17,13 +17,18 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <HorizontalScrollView
                     android:layout_width="fill_parent"
                     android:layout_height="250dp"
-                    android:id="@+id/image_container"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/example"
-                    android:layout_alignParentTop="true" />
+                    android:id="@+id/image_pager">
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="250dp"
+                        android:id="@+id/image_scroller"
+                        android:adjustViewBounds="true"
+                        android:orientation="vertical" />
+                </HorizontalScrollView>
 
                 <TextView
                     android:id="@+id/plant_name"
@@ -31,7 +36,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/translucent"
-                    android:layout_alignBottom="@+id/image_container"
+                    android:layout_alignBottom="@id/image_pager"
                     android:text="dummy"
                     android:gravity="right"
                     android:textColor="@color/white"
@@ -53,5 +58,5 @@
         android:columnWidth="90dp"
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
-        android:gravity="center"/>
+        android:gravity="center" />
 </merge>

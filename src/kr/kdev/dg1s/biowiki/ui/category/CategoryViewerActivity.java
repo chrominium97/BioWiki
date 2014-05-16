@@ -2,13 +2,23 @@ package kr.kdev.dg1s.biowiki.ui.category;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -16,6 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
 
 import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Attributes;
@@ -23,21 +36,32 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 import net.simonvt.menudrawer.MenuDrawer;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.HorizontalTabView;
 import kr.kdev.dg1s.biowiki.ui.MenuDrawerItem;
 import kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity;
+import kr.kdev.dg1s.biowiki.util.BitmapLruCache;
+import kr.kdev.dg1s.biowiki.util.UrlUtils;
+import kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView;
 import kr.kdev.dg1s.biowiki.widgets.BWTextView;
 
 public class CategoryViewerActivity extends BIActionBarActivity {
 
     GridView gridView;
     LinearLayout layout;
+    LinearLayout pager;
 
     Element currentElement;
     List<Element> displayedElements;
@@ -50,6 +74,7 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         createMenuDrawer(R.layout.category);
         gridView = (GridView) findViewById(R.id.list_view);
         layout = (LinearLayout) findViewById(R.id.showdetails);
+        pager = (LinearLayout) findViewById(R.id.image_scroller);
         // Instance of ImageAdapter Class
         try {
             source = new Source(getResources().openRawResource(R.raw.categories));
@@ -141,6 +166,23 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         return export;
     }
 
+    private File networkAssets(String uri) {
+        return new File("");
+    }
+
+    private Bitmap getBitmapFromAsset(String strName)
+    {
+        AssetManager assetManager = getAssets();
+        InputStream istr = null;
+        try {
+            istr = assetManager.open(strName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Bitmap bitmap = BitmapFactory.decodeStream(istr);
+        return bitmap;
+    }
+
     public void parseXML(String tag, int position) throws IOException {
         ArrayList<String> names = new ArrayList<String>();
 
@@ -156,6 +198,7 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                 Toast.makeText(getApplicationContext(), "정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                 return;
             }
+            layout.removeViews(2, layout.getChildCount() - 2 );
             for (int i = 0; i < (details.size() / 2); i++) {
                 LinearLayout plantDetails = (LinearLayout) LayoutInflater.from(getApplicationContext())
                         .inflate(R.layout.plant_detail_adapter, null);
@@ -185,6 +228,22 @@ public class CategoryViewerActivity extends BIActionBarActivity {
                     textView.setText("식생형");
                 } else if (token.equals("preserve")) {
                     textView.setText("종보존등급");
+                } else if (token.equals("image")) {
+                    List<String> strings = new ArrayList<String>(Arrays.asList(details.get((2 * i) + 1).split(" ")));
+                    Log.d("Wiki", BioWiki.getCurrentBlog().getHomeURL());
+                    for (String file : strings) {
+                        ImageLoader imageLoader =
+                        //imageView.setImageBitmap(BioWiki.imageLoader.get("http://10.80.121.88/repo/img/wpid-img_20140403_1441062.jpg", BioWiki.imageLoader.getImageListener(imageView,)).getBitmap());
+                        //layout.addView(imageView);
+                        //pager.addView(bwNetworkImageView);
+                        /*
+                        ImageView imageView = new ImageView(getApplicationContext());
+                        File file1 = new File(Uri.encode("file:///android_asset/xmls/kingdom.xml"));
+                        Log.d("File", "File?" + file1.exists() + "at" + Uri.encode("file:///android_asset/xmls/kingdom.xml"));
+                        imageView.setImageURI(Uri.parse("file:///android_asset/xmls/IMG/" + file + ".JPG"));
+                        pager.addView(imageView);
+                        */
+                    }
                 } else {
                     textView.setText("기타");
                 } textView.setTextColor(getResources().getColor(R.color.black));
