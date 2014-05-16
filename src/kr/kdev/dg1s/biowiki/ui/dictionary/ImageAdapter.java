@@ -11,9 +11,7 @@ import kr.kdev.dg1s.biowiki.R;
 public class ImageAdapter extends BaseAdapter {
     // Keep all Images in array
     public Integer[] mThumbIds = {
-            R.drawable.flower_1, R.drawable.flower_2,
-            R.drawable.flower_12, R.drawable.flower_13,
-            R.drawable.flower_14
+
     };
     private Context mContext;
 
