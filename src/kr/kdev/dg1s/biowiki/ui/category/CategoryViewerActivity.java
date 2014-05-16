@@ -4,11 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
 
 import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Attributes;
@@ -29,6 +34,7 @@ import net.simonvt.menudrawer.MenuDrawer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,12 +45,11 @@ public class CategoryViewerActivity extends BIActionBarActivity {
 
     GridView gridView;
     LinearLayout layout;
-    LinearLayout pager;
+    ViewPager pager = null;
+    MainPagerAdapter pagerAdapter = null;
 
     Element currentElement;
     List<Element> displayedElements;
-    ViewPager viewPager;
-    android.support.v4.view.PagerAdapter pagerAdapter;
 
     ImageLoaderConfiguration config;
 
@@ -136,20 +141,49 @@ public class CategoryViewerActivity extends BIActionBarActivity {
     }
 
     public void setupViews() {
+        // Lists plants and their categories
         gridView = (GridView) findViewById(R.id.list_view);
+        // Details of plants
         layout = (LinearLayout) findViewById(R.id.showdetails);
-        pager = (LinearLayout) findViewById(R.id.image_scroller);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
+        // Image pagers
+        pagerAdapter = new MainPagerAdapter();
+        pager = (ViewPager) findViewById (R.id.viewpager);
+        pager.setAdapter (pagerAdapter);
+        pager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int arg0) {
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                pager.getParent().requestDisallowInterceptTouchEvent(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+
+        // Create an initial view to display; must be a subclass of FrameLayout.
+        /*FrameLayout v0 = (FrameLayout) LayoutInflater.from(context).inflate(R.layout.imageframe, null);
+        pagerAdapter.addView(v0, 0);
+        pagerAdapter.notifyDataSetChanged();
+        */
     }
 
     //-----------------------------------------------------------------------------
     // Here's what the app should do to add a view to the ViewPager.
     public void addView(View newPage) {
-        int pageIndex = pagerAdapter.addView(newPage);
-        // You might want to make "newPage" the currently displayed page:
-        pager.setCurrentItem(pageIndex, true);
+        pagerAdapter.addView(newPage);
+        pagerAdapter.notifyDataSetChanged();
     }
 
     //-----------------------------------------------------------------------------
@@ -160,6 +194,7 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         if (pageIndex == pagerAdapter.getCount())
             pageIndex--;
         pager.setCurrentItem(pageIndex);
+        pagerAdapter.notifyDataSetChanged();
     }
 
     //-----------------------------------------------------------------------------
@@ -267,11 +302,29 @@ public class CategoryViewerActivity extends BIActionBarActivity {
             layout.removeViews(2, layout.getChildCount() - 2);
             for (int i = 0; i < (details.size() / 2); i++) {
                 if (details.get(2 * i).equals("image")) {
-                    layout.addView(plantDetails(details.get(2 * i), details.get(2 * i + 1)));
+                    if (!(details.get(2 * i + 1).equals(""))) {
+                        for (int j = 0; j < pagerAdapter.getCount(); j++) {
+                            pagerAdapter.removeView(pager, j);
+                        }
+                        for (String filename : Arrays.asList(details.get(2*i + 1).split(" "))){
+                            ImageView imageView = new ImageView(context);
+                            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                            ImageLoader.getInstance().displayImage("http://10.80.121.88/repo/IMG/" + filename + ".JPG", imageView);
+                            imageView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            });
+                            addView(imageView);
+                        }
+                    }
                 } else {
                     layout.addView(plantDetails(details.get(2 * i), details.get(2 * i + 1)));
                 }
             }
+            TextView plantName = (TextView) layout.findViewById(R.id.plant_name);
+            plantName.setText(tag);
             gridView.setVisibility(View.GONE);
             layout.setVisibility(View.VISIBLE);
             return;
