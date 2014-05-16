@@ -1,0 +1,139 @@
+<repo>
+    <flower>
+        <category name="꽃의 배열 상태(꽃차례)-무한화서">
+            <type name="머리모양꽃차례" code="1101" />
+            <type name="꼬리모양꽃차례" code="1102" />
+            <type name="잔모양꽃차례" code="1103" />
+            <type name="고른꽃차례" code="1104" />
+            <type name="우산모양꽃차례" code="1105" />
+            <type name="부채모양꽃차례" code="1106" />
+            <type name="이삭꽃차례" code="1107" />
+            <type name="고깔꽃차례" code="1108" />
+            <type name="살찐대꽃차례" code="1109" />
+            <type name="송이꽃차례" code="1110" />
+            <type name="고른우산살송이모양꽃차례" code="1111_1" />
+            <type name="고른우산살송이모양꽃차례" code="1111_2" />
+        </category>
+        <category name="씨방(자방)의 위치">
+            <type name="상위자방" code="1201" />
+            <type name="중위자방" code="1202" />
+            <type name="하위자방" code="1203" />
+        </category>
+        <category name="꽃모양(화형)">
+            <type name="탈모양" code="1301" />
+            <type name="대롱모양" code="1302" />
+            <type name="덮개모양" code="1303" />
+            <type name="복주머니모양" code="1304" />
+            <type name="깔대기모양" code="1305" />
+            <type name="방사상칭형" code="1306" />
+            <type name="화분모양" code="1307" />
+            <type name="혀모양" code="1308" />
+            <type name="입술모양" code="1309" />
+            <type name="십자모양" code="1310" />
+            <type name="왕관모양" code="1311" />
+            <type name="나비모양" code="1312" />
+            <type name="종모양" code="1313" />
+            <type name="돌출모양" code="1314" />
+            <type name="헬멧모양" code="1315" />
+            <type name="바퀴모양" code="1316" />
+            <type name="단지모양" code="1317" />
+        </category>
+    </flower>
+    <leaf>
+        <category name="잎끝(엽선)">
+            <type name="급하게뾰족한잎끝" code="2101" />
+            <type name="무딘잎끝" code="2102" />
+            <type name="꼬리모양잎끝" code="2103" />
+            <type name="날카로운잎끝" code="2104" />
+            <type name="날카롭게뾰족한잎끝" code="2105" />
+            <type name="오목한잎끝" code="2106" />
+            <type name="둥근잎끝" code="2107" />
+            <type name="점점뾰족한잎끝" code="2108" />
+            <type name="편평한잎끝" code="2109" />
+        </category>
+        <category name="잎가장자리(엽연)">
+            <type name="매끈한모양" code="2201" />
+            <type name="둔한톱니" code="2202" />
+            <type name="작은둔한톱니" code="2203" />
+            <type name="뾰족한톱니" code="2204" />
+            <type name="작은뾰족한톱니" code="2205" />
+            <type name="뾰족한겹톱니" code="2206" />
+            <type name="이빨형톱니" code="2207" />
+            <type name="작은이빨형톱니" code="2208" />
+            <type name="물결형" code="2209" />
+            <type name="반곡" code="2210" />
+            <type name="역반곡" code="2211" />
+            <type name="편평" code="2212" />
+            <type name="얕게패인모양" code="2213" />
+            <type name="중간정도패인모양" code="2214" />
+            <type name="깊게패인모양" code="2215" />
+            <type name="날개모양" code="2216" />
+            <type name="손바닥모양" code="2217" />
+        </category>
+        <category name="잎바닥(엽저)">
+            <type name="통과형잎바닥" code="2301" />
+            <type name="창날모양잎바닥" code="2302" />
+            <type name="무딘잎바닥" code="2303" />
+            <type name="쐐기모양잎바닥" code="2304" />
+            <type name="방패모양잎바닥" code="2305" />
+            <type name="심장형잎바닥" code="2306" />
+            <type name="예리한잎바닥" code="2307" />
+            <type name="비뚠잎바닥" code="2308" />
+            <type name="둥근잎바닥" code="2309" />
+            <type name="흐르는잎바닥" code="2310" />
+            <type name="귀모양잎바닥" code="2311" />
+            <type name="편평한잎바닥" code="2312" />
+        </category>
+        <category name="잎모양(엽형)">
+            <type name="넓은타원모양" code="2401" />
+            <type name="창날모양" code="2402" />
+            <type name="계란모양" code="2403" />
+            <type name="거꿀계란모양" code="2404" />
+            <type name="겨꿀창끝모양" code="2405" />
+            <type name="민들레잎모양" code="2406" />
+            <type name="삼각모양" code="2407" />
+            <type name="줄모양" code="2408" />
+            <type name="콩팥모양" code="2409" />
+            <type name="심장모양" code="2410" />
+            <type name="둥근모양" code="2411" />
+            <type name="긴타원모양" code="2412" />
+            <type name="활촉모양" code="2413" />
+            <type name="주걱모양" code="2414" />
+            <type name="바늘모양" code="2415" />
+            <type name="타원모양" code="2416" />
+            <type name="창끝모양" code="2417" />
+        </category>
+        <category name="깃모양 겹입(우상복엽)">
+            <type name="홀수한쌍깃모양겹잎" code="2501" />
+            <type name="홀수한번깃모양겹잎" code="2502" />
+            <type name="홀수두번깃모양겹잎" code="2503" />
+            <type name="짝수한번깃모양겹잎" code="2504" />
+            <type name="짝수두번깃모양겹잎" code="2505" />
+        </category>
+        <category name="잎의 배열방식(잎차례)">
+            <type name="돌려나기" code="2601" />
+            <type name="마주나기" code="2602" />
+            <type name="어긋나기" code="2603" />
+        </category>
+        <category name="손바닥모양겹잎(장상복엽)">
+            <type name="두번세장잎" code="2701" />
+            <type name="세장잎" code="2702" />
+            <type name="세번세장잎" code="2703" />
+            <type name="다섯장잎" code="2704" />
+        </category>
+    </leaf>
+    <fruit>
+        <type name="뚜껑열매" code="3001" />
+        <type name="견과류열매" code="3002" />
+        <type name="분리열매" code="3003" />
+        <type name="갈래열매" code="3004" />
+        <type name="캡슐열매" code="3005" />
+        <type name="여윈열매" code="3006" />
+        <type name="배열매" code="3007" />
+        <type name="날개열매" code="3008" />
+        <type name="물열매" code="3009" />
+        <type name="덩어리열매" code="3010" />
+        <type name="알갱이열매" code="3011" />
+        <type name="꼬투리열매" code="3012" />
+    </fruit>
+</repo>
