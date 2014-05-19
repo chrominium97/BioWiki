@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.category;
+package kr.kdev.dg1s.biowiki.ui.info;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -51,6 +51,7 @@ public class ElementAdapter extends BaseAdapter {
         //textView.setPadding(R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding,
         //        R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding);
         textView.setText(elements.get(position));
+        textView.setTextColor(mContext.getResources().getColor(R.color.black));
         return textView;
     }
 }

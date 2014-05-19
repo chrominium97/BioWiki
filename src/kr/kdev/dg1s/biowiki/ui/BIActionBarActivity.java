@@ -42,6 +42,7 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
+import kr.kdev.dg1s.biowiki.ui.category.CategorySelectorActivity;
 import kr.kdev.dg1s.biowiki.ui.category.CategoryViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.InfoActivity;
@@ -665,14 +666,14 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
         @Override
         public Boolean isSelected() {
-            return BIActionBarActivity.this instanceof CategoryViewerActivity;
+            return BIActionBarActivity.this instanceof CategorySelectorActivity;
         }
 
         @Override
         public void onSelectItem() {
-            if (!(BIActionBarActivity.this instanceof CategoryViewerActivity))
+            if (!(BIActionBarActivity.this instanceof CategorySelectorActivity))
                 mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, CategoryViewerActivity.class);
+            Intent intent = new Intent(BIActionBarActivity.this, CategorySelectorActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }

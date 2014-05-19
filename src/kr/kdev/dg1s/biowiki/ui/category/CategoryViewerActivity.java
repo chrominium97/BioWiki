@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -38,13 +37,15 @@ import java.util.List;
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.info.ElementAdapter;
+import kr.kdev.dg1s.biowiki.ui.info.PlantInformationFragment;
 
 public class CategoryViewerActivity extends BIActionBarActivity {
 
     GridView gridView;
     LinearLayout layout;
     ViewPager pager = null;
-    MainPagerAdapter pagerAdapter = null;
+    PlantInformationFragment.MainPagerAdapter pagerAdapter = null;
 
     Element currentElement;
     List<Element> displayedElements;
@@ -150,7 +151,7 @@ public class CategoryViewerActivity extends BIActionBarActivity {
         // Details of plants
         layout = (LinearLayout) findViewById(R.id.showdetails);
         // Image pagers
-        pagerAdapter = new MainPagerAdapter();
+        pagerAdapter = new PlantInformationFragment.MainPagerAdapter();
         pager = (ViewPager) findViewById(R.id.viewpager);
         pager.setAdapter(pagerAdapter);
         /*pager.setOnTouchListener(new View.OnTouchListener() {
