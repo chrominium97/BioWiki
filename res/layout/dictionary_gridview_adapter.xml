@@ -17,7 +17,8 @@
         android:id="@+id/radiobtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@android:string/untitled" />
+        android:text="@android:string/untitled"
+        android:checked="false" />
 
 
 </LinearLayout>

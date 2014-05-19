@@ -6,10 +6,9 @@ import android.util.Log;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.category.CategorySelectionFragment;
 import kr.kdev.dg1s.biowiki.ui.info.PlantInformationFragment;
 
-public class DictionaryViewerActivity extends BIActionBarActivity {
+public class DictionaryViewerActivity extends BIActionBarActivity implements AttributeSelectionFragment.OnPlantSelectedListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -17,12 +16,11 @@ public class DictionaryViewerActivity extends BIActionBarActivity {
         createMenuDrawer(R.layout.blank_linearlayout);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         AttributeSelectionFragment selectionFragment = new AttributeSelectionFragment();
-        transaction.add(R.id.attributeSelector, selectionFragment);
+        transaction.add(R.id.selector_category, selectionFragment);
         transaction.commit();
     }
 
     public void onPlantSelected(String name) {
-        CategorySelectionFragment selectionFragment = new CategorySelectionFragment();
         PlantInformationFragment informationFragment = new PlantInformationFragment();
 
         Bundle bundle = new Bundle();

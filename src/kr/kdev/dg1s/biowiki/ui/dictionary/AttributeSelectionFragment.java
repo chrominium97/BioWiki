@@ -3,6 +3,7 @@ package kr.kdev.dg1s.biowiki.ui.dictionary;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,9 +66,18 @@ public class AttributeSelectionFragment extends SherlockFragment {
                         R.drawable.d3005, R.drawable.d3006, R.drawable.d3007, R.drawable.d3008,
                         R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
 
+    LinearLayout flowerLayout;
+    LinearLayout leafLayout;
+    LinearLayout fruitLayout;
+
+    GridView flowerGrid1, flowerGrid2, flowerGrid3;
+    GridView leafGrid1, leafGrid2, leafGrid3, leafGrid4, leafGrid5, leafGrid6, leafGrid7;
+    GridView fruitGrid;
+
     GridView gridView;
 
-    ViewPager pager;
+    ViewPager pager = null;
+    MainPagerAdapter pagerAdapter = null;
     ImageAdapter adapter;
 
     Element currentElement;
@@ -102,16 +114,10 @@ public class AttributeSelectionFragment extends SherlockFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupViews();
-        try {
-            initializeCategory();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(context, "Unable to initialize blank_linearlayout", Toast.LENGTH_SHORT).show();
-        }
+        initializeCategory();
     }
 
     @Override
@@ -121,11 +127,67 @@ public class AttributeSelectionFragment extends SherlockFragment {
     }
 
     public void setupViews() {
+
+        flowerLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_flower, null);
+        leafLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_leaf, null);
+        fruitLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_fruit, null);
+
+        flowerGrid1 = (GridView) flowerLayout.findViewById(R.id.flowerGrid1);
+        flowerGrid2 = (GridView) flowerLayout.findViewById(R.id.flowerGrid2);
+        flowerGrid3 = (GridView) flowerLayout.findViewById(R.id.flowerGrid3);
+        leafGrid1 = (GridView) leafLayout.findViewById(R.id.leafGrid1);
+        leafGrid2 = (GridView) leafLayout.findViewById(R.id.leafGrid2);
+        leafGrid3 = (GridView) leafLayout.findViewById(R.id.leafGrid3);
+        leafGrid4 = (GridView) leafLayout.findViewById(R.id.leafGrid4);
+        leafGrid5 = (GridView) leafLayout.findViewById(R.id.leafGrid5);
+        leafGrid6 = (GridView) leafLayout.findViewById(R.id.leafGrid6);
+        leafGrid7 = (GridView) leafLayout.findViewById(R.id.leafGrid7);
+        fruitGrid = (GridView) fruitLayout.findViewById(R.id.fruitGrid);
+
+        pagerAdapter = new MainPagerAdapter();
+        pager = (ViewPager) getView().findViewById(R.id.attributePager);
+        pager.setAdapter(pagerAdapter);
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int arg0) {
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                pager.getParent().requestDisallowInterceptTouchEvent(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+
+        addView(flowerLayout);
+        addView(leafLayout);
+        addView(fruitLayout);
+
     }
 
-    public void initializeCategory() throws IOException {
-        // Instance of ImageAdapter Class
+    // Here's what the app should do to add a view to the ViewPager.
+    public void addView(View newPage) {
+        pagerAdapter.addView(newPage);
+        pagerAdapter.notifyDataSetChanged();
+    }
 
+    public void initializeCategory() {
+        // Instance of ImageAdapter Class
+        flowerGrid1.setAdapter(new ImageAdapter(context, flowerArray1));
+        flowerGrid2.setAdapter(new ImageAdapter(context, flowerArray2));
+        flowerGrid3.setAdapter(new ImageAdapter(context, flowerArray3));
+        leafGrid1.setAdapter(new ImageAdapter(context, leafArray1));
+        leafGrid2.setAdapter(new ImageAdapter(context, leafArray2));
+        leafGrid3.setAdapter(new ImageAdapter(context, leafArray3));
+        leafGrid4.setAdapter(new ImageAdapter(context, leafArray4));
+        leafGrid5.setAdapter(new ImageAdapter(context, leafArray5));
+        leafGrid6.setAdapter(new ImageAdapter(context, leafArray6));
+        leafGrid7.setAdapter(new ImageAdapter(context, leafArray7));
+        fruitGrid.setAdapter(new ImageAdapter(context, fruitArray));
     }
 
     public ArrayList<String> getDetails(String name) throws IOException {
@@ -176,6 +238,106 @@ public class AttributeSelectionFragment extends SherlockFragment {
         } else {
             getSherlockActivity().getSupportActionBar().setTitle(R.string.app_name);
         }
+    }
+
+    public static class MainPagerAdapter extends PagerAdapter {
+        // This holds all the currently displayable views, in order from left to right.
+        private ArrayList<View> views = new ArrayList<View>();
+
+        // Used by ViewPager.  "Object" represents the page; tell the ViewPager where the
+        // page should be displayed, from left-to-right.  If the page no longer exists,
+        // return POSITION_NONE.
+        @Override
+        public int getItemPosition(Object object) {
+            int index = views.indexOf(object);
+            if (index == -1)
+                return POSITION_NONE;
+            else
+                return index;
+        }
+
+        // Used by ViewPager.  Called when ViewPager needs a page to display; it is our job
+        // to add the page to the container, which is normally the ViewPager itself.  Since
+        // all our pages are persistent, we simply retrieve it from our "views" ArrayList.
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            View v = views.get(position);
+            container.addView(v);
+            return v;
+        }
+
+        // Used by ViewPager.  Called when ViewPager no longer needs a page to display; it
+        // is our job to remove the page from the container, which is normally the
+        // ViewPager itself.  Since all our pages are persistent, we do nothing to the
+        // contents of our "views" ArrayList.
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(views.get(position));
+        }
+
+        // Used by ViewPager; can be used by app as well.
+        // Returns the total number of pages that the ViewPage can display.  This must
+        // never be 0.
+        @Override
+        public int getCount() {
+            return views.size();
+        }
+
+        // Used by ViewPager.
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        // Add "view" to right end of "views".
+        // Returns the position of the new view.
+        // The app should call this to add pages; not used by ViewPager.
+        public int addView(View v) {
+            return addView(v, views.size());
+        }
+
+        // Add "view" at "position" to "views".
+        // Returns position of new view.
+        // The app should call this to add pages; not used by ViewPager.
+        public int addView(View v, int position) {
+            views.add(position, v);
+            return position;
+        }
+
+        // Removes "view" from "views".
+        // Retuns position of removed view.
+        // The app should call this to remove pages; not used by ViewPager.
+        public int removeView(ViewPager pager, View v) {
+            return removeView(pager, views.indexOf(v));
+        }
+
+        // Removes the "view" at "position" from "views".
+        // Retuns position of removed view.
+        // The app should call this to remove pages; not used by ViewPager.
+        public int removeView(ViewPager pager, int position) {
+            // ViewPager doesn't have a delete method; the closest is to set the adapter
+            // again.  When doing so, it deletes all its views.  Then we can delete the view
+            // from from the adapter and finally set the adapter to the pager again.  Note
+            // that we set the adapter to null before removing the view from "views" - that's
+            // because while ViewPager deletes all its views, it will call destroyItem which
+            // will in turn cause a null pointer ref.
+            pager.setAdapter(null);
+            views.remove(position);
+            pager.setAdapter(this);
+
+            return position;
+        }
+
+        // Returns the "view" at "position".
+        // The app should call this to retrieve a view; not used by ViewPager.
+        public View getView(int position) {
+            return views.get(position);
+        }
+
+        // Other relevant methods:
+
+        // finishUpdate - called by the ViewPager - we don't care about what pages the
+        // pager is displaying so we don't use this method.
     }
 
     @Override

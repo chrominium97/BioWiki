@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import kr.kdev.dg1s.biowiki.R;
 
@@ -31,7 +32,6 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-
         return mImg.length;
     }
 
@@ -57,12 +57,11 @@ public class ImageAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
             holder = new Holder();
             holder.image = (ImageView) view.findViewById(R.id.plant_image);
+            holder.image.setImageResource(mImg[position]);
             holder.radioButton = (RadioButton) view
                     .findViewById(R.id.radiobtn);
             view.setTag(holder);
-
         } else {
-
             holder = (Holder) view.getTag();
         }
 
@@ -74,7 +73,6 @@ public class ImageAdapter extends BaseAdapter {
                 if ((position != mSelectedPosition && mSelectedRB != null)) {
                     mSelectedRB.setChecked(false);
                 }
-
                 mSelectedPosition = position;
                 mSelectedRB = (RadioButton) v;
             }
@@ -88,15 +86,12 @@ public class ImageAdapter extends BaseAdapter {
                 mSelectedRB = holder.radioButton;
             }
         }
-
         return view;
     }
 
     private class Holder {
-
         ImageView image;
         RadioButton radioButton;
-
     }
 
 }
