@@ -10,8 +10,6 @@ import kr.kdev.dg1s.biowiki.ui.info.PlantInformationFragment;
 
 public class CategorySelectorActivity extends BIActionBarActivity implements CategorySelectionFragment.OnPlantSelectedListener {
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
