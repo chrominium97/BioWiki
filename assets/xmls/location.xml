@@ -3,7 +3,7 @@
         <location latitude ="35.886112213134766" longitude ="128.72361755371094"/>
     </species>
     <species name="스트로브잣나무">
-        <location latitude ="35.88722229003906" longitude ="128.72193908691406"/>
+        <location latitude ="35.88722229003906" longitude ="128.72193908691406" />
     </species>
     <species name="상수리나무">
         <location latitude ="35.88694381713867" longitude ="128.72166442871094"/>
@@ -25,9 +25,6 @@
     </species>
     <species name="대나무">
         <location latitude ="35.866943359375" longitude ="128.693603515625"/>
-    </species>
-    <species name="">
-        <location latitude ="" longitude =""/>
     </species>
     <species name="">
         <location latitude ="" longitude =""/>
