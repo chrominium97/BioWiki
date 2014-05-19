@@ -1,0 +1,44 @@
+<repo>
+    <species name="담쟁이덩굴">
+        <location latitude ="35.886112213134766" longitude ="128.72361755371094"/>
+    </species>
+    <species name="스트로브잣나무">
+        <location latitude ="35.88722229003906" longitude ="128.72193908691406"/>
+    </species>
+    <species name="상수리나무">
+        <location latitude ="35.88694381713867" longitude ="128.72166442871094"/>
+    </species>
+    <species name="중국단풍">
+        <location latitude ="35.88666534423828" longitude ="128.72166442871094"/>
+    </species>
+    <species name="산딸나무">
+        <location latitude ="35.87972259521844" longitude ="128.7111053466797"/>
+    </species>
+    <species name="계수나무">
+        <location latitude ="35.886390686035156" longitude ="128.72193908691406"/>
+    </species>
+    <species name="수수꽃다리">
+        <location latitude ="35.88694381713867" longitude ="128.72250366210938"/>
+    </species>
+    <species name="영산홍">
+        <location latitude ="35.866943359375" longitude ="128.693603515625"/>
+    </species>
+    <species name="대나무">
+        <location latitude ="35.866943359375" longitude ="128.693603515625"/>
+    </species>
+    <species name="">
+        <location latitude ="" longitude =""/>
+    </species>
+    <species name="">
+        <location latitude ="" longitude =""/>
+    </species>
+    <species name="">
+        <location latitude ="" longitude =""/>
+    </species>
+    <species name="">
+        <location latitude ="" longitude =""/>
+    </species>
+    <species name="">
+        <location latitude ="" longitude =""/>
+    </species>
+</repo>
