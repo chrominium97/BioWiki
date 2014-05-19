@@ -236,7 +236,7 @@
     <string name="select_video">ギャラリーからビデオを選択する</string>
     <string name="select_from_media_library">メディアライブラリから選択</string>
 
-    <!-- category management -->
+    <!-- blank_linearlayout management -->
     <string name="categories">カテゴリー</string>
     <string name="add_new_category">新しいカテゴリーを追加</string>
     <string name="category_name">カテゴリー名</string>

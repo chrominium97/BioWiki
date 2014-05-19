@@ -218,7 +218,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
      *
      * @param String category_name
      * @return
-     * @description Adds a new category
+     * @description Adds a new blank_linearlayout
      */
     public String addCategory(final String category_name, String category_slug, String category_desc, int parent_id) {
         // Return string
@@ -249,8 +249,8 @@ public class SelectCategoriesActivity extends SherlockListActivity {
         }
 
         if (result != null) {
-            // Category successfully created. "result" is the ID of the new category
-            // Initialize the category database
+            // Category successfully created. "result" is the ID of the new blank_linearlayout
+            // Initialize the blank_linearlayout database
             // Convert "result" (= category_id) from type Object to int
             int category_id = Integer.parseInt(result.toString());
 
@@ -271,10 +271,10 @@ public class SelectCategoriesActivity extends SherlockListActivity {
                 });
             }
 
-            // Insert the new category into database
+            // Insert the new blank_linearlayout into database
             BioWiki.wpDB.insertCategory(blog.getLocalTableBlogId(), category_id, parent_id, new_category_name);
             returnString = "addCategory_success";
-            // auto select new category
+            // auto select new blank_linearlayout
             mSelectedCategories.add(new_category_name);
         }
 
@@ -289,7 +289,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
             final Bundle extras = data.getExtras();
 
             switch (requestCode) {
-                case 0: // Add category
+                case 0: // Add blank_linearlayout
                     // Does the user want to continue, or did he press "dismiss"?
                     if (extras.getString("continue").equals("TRUE")) {
                         // Get name, slug and desc from Intent
@@ -298,7 +298,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
                         final String category_desc = extras.getString("category_desc");
                         final int parent_id = extras.getInt("parent_id");
 
-                        // Check if the category name already exists
+                        // Check if the blank_linearlayout name already exists
                         if (!mCategoryNames.keySet().contains(category_name)) {
                             Thread th = new Thread() {
                                 public void run() {
@@ -343,7 +343,7 @@ public class SelectCategoriesActivity extends SherlockListActivity {
     private String getCanonicalCategoryName(int category_id) {
         String new_category_name = null;
         Map<?, ?> result = null;
-        Object[] params = {blog.getRemoteBlogId(), blog.getUsername(), blog.getPassword(), "category", category_id};
+        Object[] params = {blog.getRemoteBlogId(), blog.getUsername(), blog.getPassword(), "blank_linearlayout", category_id};
         mClient = XMLRPCFactory.instantiate(blog.getUri(), blog.getHttpuser(), blog.getHttppassword());
         try {
             result = (Map<?, ?>) mClient.call("wp.getTerm", params);

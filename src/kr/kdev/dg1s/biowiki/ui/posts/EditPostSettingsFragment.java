@@ -632,12 +632,12 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
      */
 
     private void onCategoryButtonClick(View v) {
-        // Get category name by removing prefix from the tag
+        // Get blank_linearlayout name by removing prefix from the tag
         boolean listChanged = false;
         String categoryName = (String) v.getTag();
         categoryName = categoryName.replaceFirst(CATEGORY_PREFIX_TAG, "");
 
-        // Remove clicked category from list
+        // Remove clicked blank_linearlayout from list
         for (int i = 0; i < mCategories.size(); i++) {
             if (mCategories.get(i).equals(categoryName)) {
                 mCategories.remove(i);
@@ -646,14 +646,14 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
             }
         }
 
-        // Recreate category views
+        // Recreate blank_linearlayout views
         if (listChanged) {
             populateSelectedCategories();
         }
     }
 
     private void populateSelectedCategories() {
-        // Remove previous category buttons if any + select category button
+        // Remove previous blank_linearlayout buttons if any + select blank_linearlayout button
         List<View> viewsToRemove = new ArrayList<View>();
         for (int i = 0; i < mSectionCategories.getChildCount(); i++) {
             View v = mSectionCategories.getChildAt(i);
@@ -661,7 +661,7 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
                 return;
             Object tag = v.getTag();
             if (tag != null && tag.getClass() == String.class &&
-                    (((String) tag).startsWith(CATEGORY_PREFIX_TAG) || tag.equals("select-category"))) {
+                    (((String) tag).startsWith(CATEGORY_PREFIX_TAG) || tag.equals("select-blank_linearlayout"))) {
                 viewsToRemove.add(v);
             }
         }
@@ -670,7 +670,7 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
         }
         viewsToRemove.clear();
 
-        // New category buttons
+        // New blank_linearlayout buttons
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         for (String categoryName : mCategories) {
             Button buttonCategory = (Button) layoutInflater.inflate(R.layout.category_button, null);
@@ -682,7 +682,7 @@ public class EditPostSettingsFragment extends SherlockFragment implements View.O
             }
         }
 
-        // Add select category button
+        // Add select blank_linearlayout button
         Button selectCategory = (Button) layoutInflater.inflate(R.layout.category_select_button, null);
         if (selectCategory != null) {
             selectCategory.setOnClickListener(this);

@@ -34,7 +34,7 @@
       android:inputType="text"
       android:hint="@string/category_desc" />
 
-    <!--  Parent category -->
+    <!--  Parent blank_linearlayout -->
     <TextView
       android:id="@+id/parentDescLabel"
       style="@style/WordPressSubHeader"

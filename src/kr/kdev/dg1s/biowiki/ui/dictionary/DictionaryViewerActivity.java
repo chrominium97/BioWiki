@@ -14,10 +14,10 @@ public class DictionaryViewerActivity extends BIActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createMenuDrawer(R.layout.category);
+        createMenuDrawer(R.layout.blank_linearlayout);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        CategorySelectionFragment selectionFragment = new CategorySelectionFragment();
-        transaction.add(R.id.selector_category, selectionFragment);
+        AttributeSelectionFragment selectionFragment = new AttributeSelectionFragment();
+        transaction.add(R.id.attributeSelector, selectionFragment);
         transaction.commit();
     }
 

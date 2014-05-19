@@ -76,7 +76,7 @@ public class CategorySelectionFragment extends SherlockFragment {
             initializeCategory();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Unable to initialize category", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unable to initialize blank_linearlayout", Toast.LENGTH_SHORT).show();
         }
     }
 
