@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/showdetails"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/plant_image">
+
+                <android.support.v4.view.ViewPager
+                    android:layout_height="250dp"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/viewpager"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/plant_name"
+                    android:padding="@dimen/textview_padding"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/translucent"
+                    android:layout_alignBottom="@id/viewpager"
+                    android:text="dummy"
+                    android:gravity="right"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textview_height" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="5dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:id="@+id/attributeSelector">
+        <android.support.v4.view.ViewPager
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:paddingBottom="50dp"
+            android:id="@+id/attributePager">
+            <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/flowerView"
+                android:padding="5dp"
+                android:paddingBottom="50dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:numColumns="3"
+                android:columnWidth="90dp"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp"
+                android:gravity="center"/>
+            <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/leafView"
+                android:padding="5dp"
+                android:paddingBottom="50dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:numColumns="3"
+                android:columnWidth="90dp"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp"
+                android:gravity="center"/>
+            <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fruitView"
+                android:padding="5dp"
+                android:paddingBottom="50dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:numColumns="3"
+                android:columnWidth="90dp"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp"
+                android:gravity="center"/>
+            </android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:weightSum="3"
+            android:layout_alignBottom="@id/attributePager"
+            android:background="@color/blue_extra_dark">
+            <TextView
+                android:id="@+id/button_flower"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:onClick="attributeSelection"
+                android:text="꽃"/>
+            <TextView
+                android:id="@+id/button_leaf"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:onClick="attributeSelection"
+                android:text="잎"/>
+            <TextView
+                android:id="@+id/button_fruit"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="attributeSelection"
+                android:text="열매"/>
+            </LinearLayout>
+    </RelativeLayout>
+
+</merge>
