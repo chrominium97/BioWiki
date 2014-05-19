@@ -13,7 +13,7 @@ public class CategorySelectorActivity extends BIActionBarActivity implements Cat
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createMenuDrawer(R.layout.category);
+        createMenuDrawer(R.layout.blank_linearlayout);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         CategorySelectionFragment selectionFragment = new CategorySelectionFragment();
         transaction.add(R.id.selector_category, selectionFragment);

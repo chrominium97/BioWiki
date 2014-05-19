@@ -264,7 +264,7 @@
     <string name="select_video">Select a video from gallery</string>
     <string name="select_from_media_library">Select from media library</string>
 
-    <!-- category management -->
+    <!-- blank_linearlayout management -->
     <string name="categories">Categories</string>
     <string name="add_new_category">Add new category</string>
     <string name="category_name">Category name</string>

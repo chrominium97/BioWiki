@@ -257,7 +257,7 @@
     <string name="select_video">갤러리에서 비디오를 선택</string>
     <string name="select_from_media_library">미디어 라이브러리에서 선택</string>
 
-    <!-- category management -->
+    <!-- blank_linearlayout management -->
     <string name="categories">카테고리</string>
     <string name="add_new_category">새로운 카테고리를 추가</string>
     <string name="category_name">카테고리 이름</string>

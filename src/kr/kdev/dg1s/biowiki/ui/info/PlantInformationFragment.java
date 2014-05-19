@@ -58,7 +58,7 @@ public class PlantInformationFragment extends SherlockFragment {
         super.onActivityCreated(savedInstanceState);
         try { initializeGlobalVariables();
         } catch (IOException e) { e.printStackTrace();
-            Toast.makeText(context, "Unable to initialize category", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unable to initialize blank_linearlayout", Toast.LENGTH_SHORT).show();
         } Log.d("Bundle is", " " + (savedInstanceState!=null));
         Log.d("Bundle", getArguments().getString("plant") + (savedInstanceState!=null));
         displayContents(getArguments().getString("plant"));

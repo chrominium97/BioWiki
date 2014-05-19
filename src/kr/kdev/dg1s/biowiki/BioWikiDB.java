@@ -106,7 +106,7 @@ public class BioWikiDB {
     // add home url to blog settings
     private static final String ADD_HOME_URL = "alter table accounts add homeURL text default '';";
     private static final String ADD_BLOG_OPTIONS = "alter table accounts add blog_options text default '';";
-    // add category parent id to keep track of category hierarchy
+    // add blank_linearlayout parent id to keep track of blank_linearlayout hierarchy
     private static final String ADD_PARENTID_IN_CATEGORIES = "alter table cats add parent_id integer default 0;";
     // add admin flag to blog settings
     private static final String ADD_ACCOUNTS_ADMIN_FLAG = "alter table accounts add isAdmin boolean default false;";

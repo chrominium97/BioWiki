@@ -444,7 +444,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
     }
 
     /**
-     * Update the "wpcom blogs" preference category to contain a preference for each blog to configure
+     * Update the "wpcom blogs" preference blank_linearlayout to contain a preference for each blog to configure
      * blog-specific settings.
      */
     protected void updateSelfHostedBlogsPreferenceCategory() {
