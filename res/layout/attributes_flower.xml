@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/flowerLayout"
+    android:padding="5dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/flowerLabel1"
+            android:text="@android:string/untitled"
+            android:textSize="25sp" />
+
+            <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/flowerGrid1"
+                android:padding="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="400dp"
+                android:numColumns="2"
+                android:columnWidth="150dp"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp"
+                android:gravity="center" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/flowerLabel2"
+            android:text="@android:string/untitled"
+            android:textSize="25sp" />
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"><GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/flowerGrid2"
+            android:padding="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="2"
+            android:columnWidth="150dp"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:gravity="center" />
+        </ScrollView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/flowerLabel3"
+            android:text="@android:string/untitled"
+            android:textSize="25sp" />
+
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/flowerGrid3"
+            android:padding="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="2"
+            android:columnWidth="150dp"
+            android:horizontalSpacing="10dp"
+            android:verticalSpacing="10dp"
+            android:gravity="center" />
+    </LinearLayout>

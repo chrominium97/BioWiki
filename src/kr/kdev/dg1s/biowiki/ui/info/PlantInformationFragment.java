@@ -225,7 +225,6 @@ public class PlantInformationFragment extends SherlockFragment {
         // This holds all the currently displayable views, in order from left to right.
         private ArrayList<View> views = new ArrayList<View>();
 
-        //-----------------------------------------------------------------------------
         // Used by ViewPager.  "Object" represents the page; tell the ViewPager where the
         // page should be displayed, from left-to-right.  If the page no longer exists,
         // return POSITION_NONE.
@@ -238,7 +237,6 @@ public class PlantInformationFragment extends SherlockFragment {
                 return index;
         }
 
-        //-----------------------------------------------------------------------------
         // Used by ViewPager.  Called when ViewPager needs a page to display; it is our job
         // to add the page to the container, which is normally the ViewPager itself.  Since
         // all our pages are persistent, we simply retrieve it from our "views" ArrayList.
@@ -249,7 +247,6 @@ public class PlantInformationFragment extends SherlockFragment {
             return v;
         }
 
-        //-----------------------------------------------------------------------------
         // Used by ViewPager.  Called when ViewPager no longer needs a page to display; it
         // is our job to remove the page from the container, which is normally the
         // ViewPager itself.  Since all our pages are persistent, we do nothing to the
@@ -259,7 +256,6 @@ public class PlantInformationFragment extends SherlockFragment {
             container.removeView(views.get(position));
         }
 
-        //-----------------------------------------------------------------------------
         // Used by ViewPager; can be used by app as well.
         // Returns the total number of pages that the ViewPage can display.  This must
         // never be 0.
@@ -268,14 +264,12 @@ public class PlantInformationFragment extends SherlockFragment {
             return views.size();
         }
 
-        //-----------------------------------------------------------------------------
         // Used by ViewPager.
         @Override
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
 
-        //-----------------------------------------------------------------------------
         // Add "view" to right end of "views".
         // Returns the position of the new view.
         // The app should call this to add pages; not used by ViewPager.
@@ -283,7 +277,6 @@ public class PlantInformationFragment extends SherlockFragment {
             return addView(v, views.size());
         }
 
-        //-----------------------------------------------------------------------------
         // Add "view" at "position" to "views".
         // Returns position of new view.
         // The app should call this to add pages; not used by ViewPager.
@@ -292,7 +285,6 @@ public class PlantInformationFragment extends SherlockFragment {
             return position;
         }
 
-        //-----------------------------------------------------------------------------
         // Removes "view" from "views".
         // Retuns position of removed view.
         // The app should call this to remove pages; not used by ViewPager.
@@ -300,7 +292,6 @@ public class PlantInformationFragment extends SherlockFragment {
             return removeView(pager, views.indexOf(v));
         }
 
-        //-----------------------------------------------------------------------------
         // Removes the "view" at "position" from "views".
         // Retuns position of removed view.
         // The app should call this to remove pages; not used by ViewPager.
@@ -318,7 +309,6 @@ public class PlantInformationFragment extends SherlockFragment {
             return position;
         }
 
-        //-----------------------------------------------------------------------------
         // Returns the "view" at "position".
         // The app should call this to retrieve a view; not used by ViewPager.
         public View getView(int position) {
