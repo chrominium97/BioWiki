@@ -6,6 +6,8 @@
     <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>
 
     <string name="dictionary_menu">Dictionary</string>
+    <string name="mapsItem">Distribution Chart</string>
+    <string name="DictionaryItem">Classifying Plants</string>
     <string name="server_ip" translatable="false">http://10.80.121.88</string>
     <string name="server_subdomain">/repo</string>
     <string name="distribution_sample">/sample.xml</string>
@@ -34,6 +36,7 @@
     <string name="post">Post</string>
     <string name="page">Page</string>
     <string name="posts">Posts</string>
+    <string name="BioWiki">BioWiki</string>
     <string name="media">Media</string>
     <string name="video">Video</string>
     <string name="themes">Themes</string>

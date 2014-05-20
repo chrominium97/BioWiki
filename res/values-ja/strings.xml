@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="dictionary_menu">Dictionary</string>
+    <string name="mapsItem">分布図</string>
+    <string name="DictionaryItem">植物</string>
     <string name="go_bakc_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
 
     <!-- account setup -->
@@ -25,6 +28,7 @@
     <string name="post">投稿</string>
     <string name="page">ページ</string>
     <string name="posts">投稿</string>
+    <string name="BioWiki">BioWiki</string>
     <string name="media">メディア</string>
     <string name="video">動画</string>
     <string name="themes">テーマ</string>

@@ -46,7 +46,6 @@ import kr.kdev.dg1s.biowiki.ui.category.CategorySelectorActivity;
 import kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
 import kr.kdev.dg1s.biowiki.ui.map.DistributionViewer;
-import kr.kdev.dg1s.biowiki.ui.map.DistributionViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
@@ -686,7 +685,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class SwitchToWikiItem extends MenuDrawerItem {
         SwitchToWikiItem() {
-            super(-1, R.string.posts, R.drawable.dashboard_icon_posts);
+            super(-1, R.string.BioWiki, R.drawable.dashboard_icon_posts);
         }
 
         @Override
@@ -711,7 +710,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class MapsItem extends MenuDrawerItem {
         MapsItem() {
-            super(MAPS_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
+            super(MAPS_ACTIVITY, R.string.mapsItem, R.drawable.dashboard_icon_view);
         }
 
         @Override
