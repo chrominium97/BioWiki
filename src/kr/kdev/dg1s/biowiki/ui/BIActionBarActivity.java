@@ -45,7 +45,8 @@ import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.category.CategorySelectorActivity;
 import kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
-import kr.kdev.dg1s.biowiki.ui.map.DistributionActivity;
+import kr.kdev.dg1s.biowiki.ui.map.DistributionViewer;
+import kr.kdev.dg1s.biowiki.ui.map.DistributionViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
@@ -715,14 +716,14 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
         @Override
         public Boolean isSelected() {
-            return BIActionBarActivity.this instanceof DistributionActivity;
+            return BIActionBarActivity.this instanceof DistributionViewer;
         }
 
         @Override
         public void onSelectItem() {
-            if (!(BIActionBarActivity.this instanceof DistributionActivity))
+            if (!(BIActionBarActivity.this instanceof DistributionViewer))
                 mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, DistributionActivity.class);
+            Intent intent = new Intent(BIActionBarActivity.this, DistributionViewer.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }

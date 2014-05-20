@@ -1,20 +1,5 @@
-/*
- * Copyright (C) 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package kr.kdev.dg1s.biowiki.ui.map;
+
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -36,6 +21,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -66,6 +53,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
@@ -73,7 +61,7 @@ import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 /**
  * This shows how to place markers on a map.
  */
-public class DistributionActivity extends BIActionBarActivity
+public class DistributionViewer extends BIActionBarActivity
         implements
         OnMarkerClickListener,
         OnInfoWindowClickListener,
@@ -102,16 +90,24 @@ public class DistributionActivity extends BIActionBarActivity
                 if (getApplicationContext() != null) {
                     Toast.makeText(getApplicationContext(), "Loaded locations.", Toast.LENGTH_SHORT).show();
                 }
+            } else if (message.what == 7) {
+                mMarkerOptions.clear();
             }
             if (message.getData().getStringArrayList("position") != null) {
                 List<String> mImport = message.getData().getStringArrayList("position");
                 Log.d("Handler", "Message received and initializing");
+                String hueIndex;
+                if (mImport.get(3)==null) {
+                    hueIndex = "";
+                } else {
+                    hueIndex = mImport.get(3);
+                }
                 mMarkerOptions.add(new MarkerOptions()
                                 .position(new LatLng(
                                         Double.parseDouble(mImport.get(1)),
                                         Double.parseDouble(mImport.get(2))))
                                 .title(mImport.get(0))
-                                .icon(BitmapDescriptorFactory.defaultMarker(getHue(mImport.get(3))))
+                                .icon(BitmapDescriptorFactory.defaultMarker(getHue(hueIndex)))
                 );
                 Log.d("Marker", "Added Marker : " + mImport.get(0) + " @" + mImport.get(1) + ", " + mImport.get(2));
             }
@@ -125,6 +121,30 @@ public class DistributionActivity extends BIActionBarActivity
     private boolean loadedMarkers = false;
     private TextView mTopText;
     private CheckBox mFlatBox;
+
+    @Override
+    public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.maps, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.map_normal:
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                return true;
+            case R.id.map_terrain:
+                mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                return true;
+            case R.id.map_hybrid:
+                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                return true;
+            //case R.id.map_satellite:
+            //    mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        }
+        return false;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -189,6 +209,7 @@ public class DistributionActivity extends BIActionBarActivity
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
+
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             // Check if we were successful in obtaining the map.
@@ -217,6 +238,7 @@ public class DistributionActivity extends BIActionBarActivity
     }
 
     private List<Message> parseMarkers(Source source) {
+        Log.d("ParseMarkers", "XML Input : " + source);
         List<Message> messages = new ArrayList<Message>();
         List<Element> speciesArray = source.getAllElements("species");
         for (Element species : speciesArray) {
@@ -246,6 +268,7 @@ public class DistributionActivity extends BIActionBarActivity
         for (MarkerOptions markerOptions : mMarkerOptions) {
             Log.d("Markers", "Added markers to map : " + markerOptions.getTitle() + " @" +
                     markerOptions.getPosition().latitude + ", " + markerOptions.getPosition().longitude);
+            mDistributionStats.clear();
             mDistributionStats.add(mMap.addMarker(markerOptions));
         }
     }
@@ -266,7 +289,7 @@ public class DistributionActivity extends BIActionBarActivity
         mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerDragListener(this);
-        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         // Pan to see all markers in view.
         // Cannot zoom to bounds until the map has a size.
@@ -556,11 +579,14 @@ public class DistributionActivity extends BIActionBarActivity
     class updateMarkers extends Thread {
         public void run() {
             try {
-                Log.d("Network", "Initiating...");
-                URL url = new URL(getString(R.string.server_ip) + getString(R.string.server_subdomain)
+                Log.d("Network", "Initiating..." + BioWiki.getCurrentBlog().getHomeURL());
+                URL url = new URL(BioWiki.getCurrentBlog().getHomeURL() + getString(R.string.server_subdomain)
                         + getString(R.string.distribution_sample));
                 List<Message> messages = parseMarkers(bringSource(url));
                 Log.d("Network", "Received source");
+                Message clearSign = new Message();
+                clearSign.what = 7;
+                handler.sendMessage(clearSign);
                 if (messages == null) {
                     Log.d("Network", "SOURCE IS NULL!");
                 } else for (Message message : messages) {

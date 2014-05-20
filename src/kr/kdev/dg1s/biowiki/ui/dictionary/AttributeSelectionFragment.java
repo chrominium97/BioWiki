@@ -117,7 +117,6 @@ public class AttributeSelectionFragment extends SherlockFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupViews();
-        initializeCategory();
     }
 
     @Override
@@ -162,6 +161,8 @@ public class AttributeSelectionFragment extends SherlockFragment {
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+
+        initializeCategory();
 
         addView(flowerLayout);
         addView(leafLayout);

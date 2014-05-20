@@ -6,7 +6,7 @@
     <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>
 
     <string name="dictionary_menu">Dictionary</string>
-    <string name="server_ip">http://192.168.43.146</string>
+    <string name="server_ip" translatable="false">http://10.80.121.88</string>
     <string name="server_subdomain">/repo</string>
     <string name="distribution_sample">/sample.xml</string>
 
