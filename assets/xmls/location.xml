@@ -26,16 +26,28 @@
     <species name="대나무">
         <location latitude ="35.866943359375" longitude ="128.693603515625"/>
     </species>
-    <species name="">
-        <location latitude ="" longitude =""/>
+    <species name="은행나무">
+        <location latitude ="35.88694381713867" longitude ="128.72305297851563"/>
     </species>
-    <species name="">
-        <location latitude ="" longitude =""/>
+    <species name="왕벚나무">
+        <location latitude ="35.866943359375" longitude ="128.693603515625"/>
     </species>
-    <species name="">
-        <location latitude ="" longitude =""/>
+    <species name="소나무">
+        <location latitude ="35.88666534424828" longitude ="128.72222900390625"/>
     </species>
-    <species name="">
-        <location latitude ="" longitude =""/>
+    <species name="꽃사과">
+        <location latitude ="35.886390686035156" longitude ="128.72166442871094"/>
+    </species>
+    <species name="느티나무">
+        <location latitude ="35.879722595214844" longitude ="128.7111053466797"/>
+    </species>
+    <species name="산철쭉">
+        <location latitude ="35.88639068603515" longitude ="128.72166442871094"/>
+    </species>
+    <species name="때죽나무">
+        <location latitude ="35.8866653442382" longitude ="128.72166442871094"/>
+    </species>
+    <species name="자산홍">
+        <location latitude ="35.8872222900" longitude ="128.722290039"/>
     </species>
 </repo>
