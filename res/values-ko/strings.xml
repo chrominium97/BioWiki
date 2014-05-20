@@ -3,7 +3,7 @@
 
     <string name="dictionary_menu">식물도감</string>
     <string name="mapsItem">분포도</string>
-    <string name="DictionaryItem">식물 동정</string>
+    <string name="DictionaryItem">식물 동정(classification)</string>
     <string name="go_bakc_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
 
     <!-- account setup -->

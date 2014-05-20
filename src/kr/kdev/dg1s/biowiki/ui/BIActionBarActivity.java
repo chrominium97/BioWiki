@@ -735,7 +735,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class DictionaryItem extends MenuDrawerItem {
         DictionaryItem() {
-            super(DICTIONARY_ACTIVITY, R.string.dictionary_menu, R.drawable.dashboard_icon_view);
+            super(DICTIONARY_ACTIVITY, R.string.DictionaryItem, R.drawable.dashboard_icon_view);
         }
 
         @Override
