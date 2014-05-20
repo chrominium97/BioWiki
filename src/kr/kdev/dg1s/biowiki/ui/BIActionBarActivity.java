@@ -657,9 +657,32 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
         }
     }
 
+    private class SwitchToWikiItem extends MenuDrawerItem {
+        SwitchToWikiItem() {
+            super(-1, R.string.toBioWiki, R.drawable.dashboard_icon_posts);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return false;
+        }
+
+        @Override
+        public void onSelectItem() {
+            Intent intent = new Intent(BIActionBarActivity.this, WikiActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return true;
+        }
+    }
+
     private class CategoryItem extends MenuDrawerItem {
         CategoryItem() {
-            super(CATEGORIZATION_ACTIVITY, R.string.dictionary_menu, R.drawable.dashicon_edit);
+            super(CATEGORIZATION_ACTIVITY, R.string.classificationItem, R.drawable.dashicon_edit);
         }
 
         @Override
@@ -681,32 +704,6 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
             return BioWiki.wpDB.getNumVisibleAccounts() != 0;
         }
     }
-
-
-    private class SwitchToWikiItem extends MenuDrawerItem {
-        SwitchToWikiItem() {
-            super(-1, R.string.BioWiki, R.drawable.dashboard_icon_posts);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return false;
-        }
-
-        @Override
-        public void onSelectItem() {
-            Intent intent = new Intent(BIActionBarActivity.this, WikiActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return true;
-        }
-    }
-
-
 
     private class MapsItem extends MenuDrawerItem {
         MapsItem() {
@@ -735,7 +732,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class DictionaryItem extends MenuDrawerItem {
         DictionaryItem() {
-            super(DICTIONARY_ACTIVITY, R.string.DictionaryItem, R.drawable.dashboard_icon_view);
+            super(DICTIONARY_ACTIVITY, R.string.dictionaryItem, R.drawable.dashboard_icon_view);
         }
 
         @Override

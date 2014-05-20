@@ -57,10 +57,12 @@ public class ImageAdapter extends BaseAdapter {
         View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
         final Holder holder;
         holder = new Holder();
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), mImg[position]);
-        bitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+
+        Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+        bitmap.recycle();
         holder.image = (ImageView) view.findViewById(R.id.plant_image);
-        holder.image.setImageBitmap(bitmap);
+        holder.image.setImageBitmap(scaledBitmap);
         Log.d("Holder", "Image ID : " + mImg[position]);
         holder.radioButton = (RadioButton) view
                 .findViewById(R.id.radiobtn);

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="dictionary_menu">식물도감</string>
-    <string name="mapsItem">분포도</string>
-    <string name="DictionaryItem">식물 동정(classification)</string>
     <string name="go_bakc_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
+
+    <string name="toBioWiki">BioWiki로</string>
+    <string name="dictionaryItem">식물도감</string>
+    <string name="mapsItem">분포도</string>
+    <string name="classificationItem">식물동정</string>
 
     <!-- account setup -->
     <string name="xmlrpc_error">연결할 수 없습니다. 서버의 xmlrpc.php를 점검해 주십시오.</string>
@@ -29,7 +31,6 @@
     <string name="post">작성</string>
     <string name="page">페이지</string>
     <string name="posts">작성</string>
-    <string name="BioWiki">BioWiki</string>
     <string name="media">미디어</string>
     <string name="video">동영상</string>
     <string name="themes">테마</string>
