@@ -1,14 +1,15 @@
 package kr.kdev.dg1s.biowiki.ui.dictionary;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import kr.kdev.dg1s.biowiki.R;
 
@@ -16,6 +17,7 @@ public class ImageAdapter extends BaseAdapter {
 
     Context context;
     int[] mImg;
+    char[] mText;
     LayoutInflater layoutInflater;
     RadioGroup radioGroup;
     private RadioButton mSelectedRB;
@@ -24,10 +26,10 @@ public class ImageAdapter extends BaseAdapter {
     public ImageAdapter(Context context, int[] img) {
         this.context = context;
         this.mImg = img;
+        this.
         radioGroup = new RadioGroup(context);
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override
@@ -48,26 +50,27 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView,
                         ViewGroup parent) {
-        View view = convertView;
-        Holder holder;
+        View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
+        final Holder holder;
+        holder = new Holder();
+        holder.image = (ImageView) view.findViewById(R.id.plant_image);
+        holder.image.setImageResource(mImg[position]);
+        Log.d("Holder", "Image ID : " + mImg[position]);
+        holder.radioButton = (RadioButton) view
+                .findViewById(R.id.radiobtn);
+        //holder.radioButton.setText();
+        view.setTag(holder);
+        //holder = (Holder) view.getTag();
 
-        if (view == null) {
-            view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
-            holder = new Holder();
-            holder.image = (ImageView) view.findViewById(R.id.plant_image);
-            holder.image.setImageResource(mImg[position]);
-            holder.radioButton = (RadioButton) view
-                    .findViewById(R.id.radiobtn);
-            view.setTag(holder);
-        } else {
-            holder = (Holder) view.getTag();
-        }
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.radioButton.performClick();
+            }
+        });
         holder.radioButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
                 if ((position != mSelectedPosition && mSelectedRB != null)) {
                     mSelectedRB.setChecked(false);
                 }
@@ -75,7 +78,6 @@ public class ImageAdapter extends BaseAdapter {
                 mSelectedRB = (RadioButton) v;
             }
         });
-
         if (mSelectedPosition != position) {
             holder.radioButton.setChecked(false);
         } else {

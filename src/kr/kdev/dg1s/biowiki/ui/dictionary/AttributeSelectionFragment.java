@@ -7,9 +7,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -66,7 +68,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
                         R.drawable.d3005, R.drawable.d3006, R.drawable.d3007, R.drawable.d3008,
                         R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
 
-    LinearLayout flowerLayout;
+    ScrollView flowerLayout;
     LinearLayout leafLayout;
     LinearLayout fruitLayout;
 
@@ -78,7 +80,6 @@ public class AttributeSelectionFragment extends SherlockFragment {
 
     ViewPager pager = null;
     MainPagerAdapter pagerAdapter = null;
-    ImageAdapter adapter;
 
     Element currentElement;
     List<Element> displayedElements;
@@ -125,23 +126,43 @@ public class AttributeSelectionFragment extends SherlockFragment {
         context = getActivity().getApplicationContext();
     }
 
+    public void makeOverride(GridView gridView) {
+        gridView = new GridView(context) {
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);
+            }
+        };
+    }
+
     public void setupViews() {
 
-        flowerLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_flower, null);
+        flowerLayout = (ScrollView) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_flower, null);
         leafLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_leaf, null);
         fruitLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_fruit, null);
 
-        flowerGrid1 = (GridView) flowerLayout.findViewById(R.id.flowerGrid1);
-        flowerGrid2 = (GridView) flowerLayout.findViewById(R.id.flowerGrid2);
-        flowerGrid3 = (GridView) flowerLayout.findViewById(R.id.flowerGrid3);
-        leafGrid1 = (GridView) leafLayout.findViewById(R.id.leafGrid1);
-        leafGrid2 = (GridView) leafLayout.findViewById(R.id.leafGrid2);
-        leafGrid3 = (GridView) leafLayout.findViewById(R.id.leafGrid3);
-        leafGrid4 = (GridView) leafLayout.findViewById(R.id.leafGrid4);
-        leafGrid5 = (GridView) leafLayout.findViewById(R.id.leafGrid5);
-        leafGrid6 = (GridView) leafLayout.findViewById(R.id.leafGrid6);
-        leafGrid7 = (GridView) leafLayout.findViewById(R.id.leafGrid7);
-        fruitGrid = (GridView) fruitLayout.findViewById(R.id.fruitGrid);
+        flowerGrid1 = (ExpandableGridView) flowerLayout.findViewById(R.id.flowerGrid1);
+        flowerGrid2 = (ExpandableGridView) flowerLayout.findViewById(R.id.flowerGrid2);
+        flowerGrid3 = (ExpandableGridView) flowerLayout.findViewById(R.id.flowerGrid3);
+        leafGrid1 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid1);
+        leafGrid2 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid2);
+        leafGrid3 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid3);
+        leafGrid4 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid4);
+        leafGrid5 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid5);
+        leafGrid6 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid6);
+        leafGrid7 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid7);
+        fruitGrid = (ExpandableGridView) fruitLayout.findViewById(R.id.fruitGrid);
+
+        flowerGrid1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                    flowerLayout.requestDisallowInterceptTouchEvent(false);
+                else
+                    flowerLayout.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
         pagerAdapter = new MainPagerAdapter();
         pager = (ViewPager) getView().findViewById(R.id.attributePager);
