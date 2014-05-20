@@ -1,6 +1,8 @@
 package kr.kdev.dg1s.biowiki.ui.dictionary;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,11 +52,15 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView,
                         ViewGroup parent) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
         View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
         final Holder holder;
         holder = new Holder();
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), mImg[position]);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
         holder.image = (ImageView) view.findViewById(R.id.plant_image);
-        holder.image.setImageResource(mImg[position]);
+        holder.image.setImageBitmap(bitmap);
         Log.d("Holder", "Image ID : " + mImg[position]);
         holder.radioButton = (RadioButton) view
                 .findViewById(R.id.radiobtn);
@@ -93,5 +99,4 @@ public class ImageAdapter extends BaseAdapter {
         ImageView image;
         RadioButton radioButton;
     }
-
 }

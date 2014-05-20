@@ -160,6 +160,7 @@ public class PlantInformationFragment extends SherlockFragment {
         Element element = dictionaryAssets.getFirstElement("name", name, false);
         if (element == null) {
             // TODO : add actions when no results are found
+            super.onDestroy();
         }
         Attributes attributes = element.getAttributes();
         for (Attribute attribute : attributes) {

@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:numColumns="2"
         android:columnWidth="150dp"
+        android:stretchMode="columnWidth"
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
         android:gravity="center" />

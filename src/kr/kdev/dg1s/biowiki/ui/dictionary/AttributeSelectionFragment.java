@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -72,9 +73,9 @@ public class AttributeSelectionFragment extends SherlockFragment {
     LinearLayout leafLayout;
     LinearLayout fruitLayout;
 
-    GridView flowerGrid1, flowerGrid2, flowerGrid3;
-    GridView leafGrid1, leafGrid2, leafGrid3, leafGrid4, leafGrid5, leafGrid6, leafGrid7;
-    GridView fruitGrid;
+    ExpandableGridView flowerGrid1, flowerGrid2, flowerGrid3;
+    ExpandableGridView leafGrid1, leafGrid2, leafGrid3, leafGrid4, leafGrid5, leafGrid6, leafGrid7;
+    ExpandableGridView fruitGrid;
 
     GridView gridView;
 
@@ -126,15 +127,6 @@ public class AttributeSelectionFragment extends SherlockFragment {
         context = getActivity().getApplicationContext();
     }
 
-    public void makeOverride(GridView gridView) {
-        gridView = new GridView(context) {
-            @Override
-            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                super.onMeasure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);
-            }
-        };
-    }
-
     public void setupViews() {
 
         flowerLayout = (ScrollView) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_flower, null);
@@ -171,6 +163,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int arg0) {
+                System.gc();
             }
 
             @Override
@@ -210,6 +203,18 @@ public class AttributeSelectionFragment extends SherlockFragment {
         leafGrid6.setAdapter(new ImageAdapter(context, leafArray6));
         leafGrid7.setAdapter(new ImageAdapter(context, leafArray7));
         fruitGrid.setAdapter(new ImageAdapter(context, fruitArray));
+
+        flowerGrid1.setExpanded(true);
+        flowerGrid2.setExpanded(true);
+        flowerGrid3.setExpanded(true);
+        flowerGrid1.setExpanded(true);
+        leafGrid2.setExpanded(true);
+        leafGrid3.setExpanded(true);
+        leafGrid4.setExpanded(true);
+        leafGrid5.setExpanded(true);
+        leafGrid6.setExpanded(true);
+        leafGrid7.setExpanded(true);
+        fruitGrid.setExpanded(true);
     }
 
     public ArrayList<String> getDetails(String name) throws IOException {
