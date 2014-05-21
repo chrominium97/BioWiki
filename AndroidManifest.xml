@@ -98,12 +98,10 @@
         <activity
             android:name="kr.kdev.dg1s.biowiki.ui.prefs.BlogPreferencesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.Sherlock.Light"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="kr.kdev.dg1s.biowiki.ui.prefs.LicensesActivity" />
         <activity
             android:name="kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity"
-            android:theme="@style/Theme.Sherlock.Light"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="kr.kdev.dg1s.biowiki.ui.accounts.ManageBlogsActivity" />
 

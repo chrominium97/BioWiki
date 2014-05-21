@@ -175,7 +175,7 @@ public class PlantInformationFragment extends SherlockFragment {
                         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         ImageLoader imageLoader = ImageLoader.getInstance();
                         imageLoader.init(config);
-                        imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + filename, imageView);
+                        imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + filename.toUpperCase(), imageView);
                         addView(imageView);
                     }
                 } else { pager.setVisibility(View.GONE); }

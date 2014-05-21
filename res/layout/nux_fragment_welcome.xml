@@ -150,7 +150,7 @@
                     android:layout_height="wrap_content"
                     style="@style/WordPress.NUXEditText"
                     android:inputType="textUri"
-                    android:text="10.80.121.88/nacl"
+                    android:text="@string/server_address"
                     android:hint="@string/site_address"/>
 
                 <ImageView

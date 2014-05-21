@@ -6,10 +6,11 @@
     <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>
 
     <string name="toBioWiki">To BioWiki</string>
-    <string name="dictionaryItem">Plant Dictionary</string>
+    <string name="dictionaryItem">Plant Classification</string>
     <string name="mapsItem">Distribution Chart</string>
-    <string name="classificationItem">Plant Classification</string>
+    <string name="classificationItem">Plant Dictionary</string>
 
+    <string name="server_address" translatable="false">http://biowiki.mireene.com/</string>
     <string name="server_ip" translatable="false">http://10.80.121.88</string>
     <string name="server_subdomain" translatable="false">/repo</string>
     <string name="distribution_sample" translatable="false">/sample.xml</string>
@@ -27,7 +28,7 @@
     <string name="post_content">Content (tap to add text and media)</string>
     <string name="max_thumbnail_px_width">Default image width</string>
     <string name="password">Password</string>
-    <string name="blogs">Blogs</string>
+    <string name="blogs">Wikis</string>
     <string name="account_details">Account details</string>
     <string name="status">Status</string>
 
@@ -47,15 +48,15 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="add_self_hosted_blog">Add self-hosted blog</string>
-    <string name="show_and_hide_blogs">Show/hide WordPress.com blogs</string>
-    <string name="blogs_visibility">Blogs visibility</string>
+    <string name="show_and_hide_blogs">Show/hide wikis</string>
+    <string name="blogs_visibility">Wiki visibility</string>
     <string name="show_all">Show all</string>
     <string name="hide_all">Hide all</string>
-    <string name="sure_to_remove_account">Are you sure you want to remove this blog?</string>
+    <string name="sure_to_remove_account">Are you sure you want to remove this wiki?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="error">Error</string>
-    <string name="could_not_remove_account">Couldn\'t remove blog</string>
+    <string name="could_not_remove_account">Couldn\'t remove wiki</string>
     <string name="edit_page">Edit page</string>
     <string name="edit_post">Edit post</string>
     <string name="add_comment">Add comment</string>

@@ -58,7 +58,7 @@
                             geograph = "냉온대~아열대, 중국, 대만, 만주, 일본, 우수리, 사할린, 말레이시아, 자바, 동인도, 호주 등"
                             vegetat = "습지식생"
                             preserve = "일반감시대상종"
-                            image = "DSC_0001.jpg DSC_0002.jpg DSC_0003.jpg DSC_0004.jpg"/>
+                            image = "DSC_0001.JPG DSC_0002.JPG DSC_0003.JPG DSC_0004.JPG"/>
                     </genus>
                 </family>
             </order>
@@ -151,7 +151,7 @@
                 <family name = "콜키쿰과">
                     <genus name = "애기나리속">
                         <species name = "애기나리"
-                            image = "DSC_0065.jpg DSC_0066.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0065.JPG DSC_0066.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
             </order>
@@ -159,17 +159,17 @@
                 <family name = "붓꽃과">
                     <genus name = "붓꽃속">
                         <species name = "붓꽃"
-                            image = "DSC_0077.jpg DSC_0078.jpg DSC_0079.jpg DSC_0080.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0077.JPG DSC_0078.JPG DSC_0079.JPG DSC_0080.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
                 <family name = "아스파라거스과">
                     <genus name = "은방울꽃속">
                         <species name = "은방울꽃"
-                            image = "DSC_0074.jpg DSC_0075.jpg DSC_0076.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0074.JPG DSC_0075.JPG DSC_0076.JPG"/> <!-- 정보없음 -->
                     </genus>
                     <genus name = "옥잠화속">
                         <species name = "비비추"
-                            image = "DSC_0056.jpg DSC_0057.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0056.JPG DSC_0057.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
             </order>
@@ -187,7 +187,7 @@
                             geograph = "냉온대, 난온대, 일본, 대만, 만주, 중국 등"
                             vegetat = "농지식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0033.jpg DSC_0034.jpg DSC_0035.jpg DSC_0036.jpg" />
+                            image = "DSC_0033.JPG DSC_0034.JPG DSC_0035.JPG DSC_0036.JPG" />
                     </genus>
                 </family>
             </order>
@@ -214,17 +214,17 @@
                 <family name = "범의귀과">
                     <genus name = "돌단풍속">
                         <species name = "돌단풍"
-                            image = "DSC_0096.jpg DSC_0097.jpg DSC_0098.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0096.JPG DSC_0097.JPG DSC_0098.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
                 <family name = "돌나물과">
                     <genus name = "돌나물속">
                         <species name = "기린초"
-                            image = "DSC_0087.jpg DSC_0088.jpg DSC_0089.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0087.JPG DSC_0088.JPG DSC_0089.JPG"/> <!-- 정보없음 -->
                     </genus>
                     <genus name = "바위솔속">
                         <species name = "바위솔"
-                            image = "DSC_0071.jpg DSC_0072.jpg DSC_0073.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0071.JPG DSC_0072.JPG DSC_0073.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
             </order>
@@ -232,13 +232,13 @@
                 <family name = "진달래과">
                     <genus name = "진달래속">
                         <species name = "철쭉"
-                            image = "DSC_0099.jpg DSC_0100.jpg"/> <!--정보없음-->
+                            image = "DSC_0099.JPG DSC_0100.JPG"/> <!--정보없음-->
                     </genus>
                 </family>
                 <family name = "앵초과">
                     <genus name = "앵초속">
                         <species name = "앵초"
-                            image = "DSC_0067.jpg DSC_0068.jpg DSC_0069.jpg DSC_0070.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0067.JPG DSC_0068.JPG DSC_0069.JPG DSC_0070.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
             </order>
@@ -246,7 +246,7 @@
                 <family name = "초롱꽃과">
                     <genus name = "초롱꽃속">
                         <species name = "도라지"
-                            imgae = "DSC_0058.jpg DSC_0059.jpg DSC_0060.jpg"/> <!-- 정보없음 -->
+                            imgae = "DSC_0058.JPG DSC_0059.JPG DSC_0060.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
                 <family name = "국화과">
@@ -265,7 +265,7 @@
                     </genus>
                     <genus name = "솜방망이속">
                         <species name = "솜방망이"
-                            image = "DSC_0090.jpg DSC_0091.jpg DSC_0092.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0090.JPG DSC_0091.JPG DSC_0092.JPG"/> <!-- 정보없음 -->
                     </genus>
                     <genus name = "참취속">
                         <species name = "참취" stump = "여러해살이로 바로 서서 자란다."
@@ -292,7 +292,7 @@
                             geograph = "난온대~대륙성 냉온대, 만주, 중국 북부, 일본 등"
                             vegetat = "산지 삼림식생, 산지 암각지 초지식생"
                             preserve = "일반감시대상종"
-                            image = "DSC_0005.jpg DSC_0006.jpg" />
+                            image = "DSC_0005.JPG DSC_0006.JPG" />
                     </genus>
                 </family>
             </order>
@@ -310,7 +310,7 @@
                             geograph = "냉온대~난온대, 중국, 만주, 대만, 일본, 아무르, 우수리, 사할린, 캄차카, 히말라야, 자바, 말레이시아 등"
                             vegetat = "터주식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0007.jpg DSC_0008.jpg" />
+                            image = "DSC_0007.JPG DSC_0008.JPG" />
                     </genus>
                 </family>
             </order>
@@ -343,7 +343,7 @@
                             geograph = "냉온대~대륙성 난온대, 중국, 일본, 히말라야 등"
                             vegetat = "산지 삼림식생, 임연식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0009.jpg DSC_0010.jpg DSC_0011.jpg" />
+                            image = "DSC_0009.JPG DSC_0010.JPG DSC_0011.JPG" />
                     </genus>
                 </family>
             </order>
@@ -361,7 +361,7 @@
                             geograph = "난온대~아열대, 북부와 만주를 제외한 중국, 대만, 일본, 동남아시아 등"
                             vegetat = "산지 삼림식생, 터주식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0012.jpg DSC_0013.jpg DSC_0014.jpg" />
+                            image = "DSC_0012.JPG DSC_0013.JPG DSC_0014.JPG" />
                     </genus>
                 </family>
             </order>
@@ -379,7 +379,7 @@
                             geograph = "냉온대~난온대, 중국, 만주, 우수리, 일본 등"
                             vegetat = "산지 삼림식생, 임연식생"
                             preserve = "일반감시대상종"
-                            image = "DSC_0022.jpg DSC_0023.jpg" />
+                            image = "DSC_0022.JPG DSC_0023.JPG" />
                     </genus>
                 </family>
             </order>
@@ -442,7 +442,7 @@
                             geograph = "대륙성 냉온대, 중국, 만주, 몽골, 연해주, 동시베리아, 카자흐스탄 등"
                             vegetat = "건생이차초원식생"
                             preserve = "일반감시대상종"
-                            image = "DSC_0028.jpg DSC_0029.jpg DSC_0030.jpg DSC_0031.jpg DSC_0032.jpg"/>
+                            image = "DSC_0028.JPG DSC_0029.JPG DSC_0030.JPG DSC_0031.JPG DSC_0032.JPG"/>
                     </genus>
                 </family>
             </order>
@@ -486,7 +486,7 @@
                             geograph = "냉온대~아열대, 중국, 대만, 일본, 히말라야 등"
                             vegetat = "터주식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0045.jpg DSC_0046.jpg" />
+                            image = "DSC_0045.JPG DSC_0046.JPG" />
                     </genus>
                 </family>
             </order>
@@ -494,7 +494,7 @@
                 <family name = "꼭두서니과">
                     <genus name = "치자나무속">
                         <species name = "치자나무"
-                            image = "DSC_0081.jpg DSC_0082.jpg DSC_0083.jpg DSC_0084.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0081.JPG DSC_0082.JPG DSC_0083.JPG DSC_0084.JPG"/> <!-- 정보없음 -->
                     </genus>
                 </family>
                 <family name = "협죽도과">
@@ -510,7 +510,7 @@
                             geograph = "난온대, 대만, 중국 남부, 일본 등"
                             vegetat = "산지 삼림식생, 임연식생"
                             preserve = "주요감시대상종"
-                            image = "DSC_0042.jpg DSC_0043.jpg DSC_0044.jpg" />
+                            image = "DSC_0042.JPG DSC_0043.JPG DSC_0044.JPG" />
                     </genus>
                 </family>
             </order>
@@ -532,11 +532,11 @@
                 </family>
                 <family name = "매자나무과">
                     <genus name = "삼지구엽초속">
-                        <species name = "DSC_0085.jpg DSC_0086.jpg"/> <!-- 정보 없음 -->
+                        <species name = "DSC_0085.JPG DSC_0086.JPG"/> <!-- 정보 없음 -->
                     </genus>
                     <genus name = "깽깽이풀속">
                         <species name = "깽깽이풀"
-                            image = "DSC_0062.jpg DSC_0063.jpg DSC_0064.jpg"/> <!-- 정보 없음 -->
+                            image = "DSC_0062.JPG DSC_0063.JPG DSC_0064.JPG"/> <!-- 정보 없음 -->
                     </genus>
                 </family>
                 <family name = "미나리아재비과">
@@ -552,7 +552,7 @@
                             geograph = "냉온대~대륙성 난온대, 만주, 아무르, 연해주 등"
                             vegetat = "산지 및 구릉지의 건생이차초원"
                             preserrve = "일반감시대상종"
-                            image = "DSC_0051.jpg DSC_0052.jpg DSC_0053.jpg" />
+                            image = "DSC_0051.JPG DSC_0052.JPG DSC_0053.JPG" />
                     </genus>
                     <genus name = "으아리속">
                         <species name = "으아리" stump = "초본성 여러해살이 덩굴식물로 모가 지고, 자색을 띤다. 딱딱해 부러지는 경향이 있다."
@@ -566,7 +566,7 @@
                             geograph = "냉온대~난온대, 중국, 만주, 몽골, 연해주, 동시베리아 등"
                             vegetat = "임연식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0040.jpg DSC_0041.jpg" />
+                            image = "DSC_0040.JPG DSC_0041.JPG" />
                         <species name = "사위질빵" stump = "목본성 여러해살이 덩굴식물로 줄기에 모가 지고, 짧은 털이 있다. 굵은 줄기는 반상록성이며, 직경 10cm까지 자라는 것도 있다."
                             leaf = "꽃 피는 가지에서는 마주나며, 1회 3출겹잎이며, 소엽에는 짧은 자루가 있다. 잎끝은 예두이며, 예거치이다."
                             flower = "7~9월에 백색으로 피며, 모인꽃차례가 다시 흩어진 꽃차례이다. 꽃잎은 없고, 꽃받침이 꽃처럼 보이는 것이다."
@@ -578,7 +578,7 @@
                             geograph = "냉온대, 난온대, 중국 동남부, 일본 등"
                             vegetat = "임연식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0054.jpg DSC_0055.jpg" />
+                            image = "DSC_0054.JPG DSC_0055.JPG" />
                     </genus>
                 </family>
             </order>
@@ -613,13 +613,13 @@
                             geograph = "냉온대~난온대, 중국, 대만, 일본 등"
                             vegetat = "삼림식생"
                             preserve = "주요감시대상종"
-                            image = "DSC_0037.jpg DSC_0038.jpg DSC_0039.jpg" />
+                            image = "DSC_0037.JPG DSC_0038.JPG DSC_0039.JPG" />
                     </genus>
                 </family>
                 <family name = "장미과">
                     <genus name = "국수나무속">
                         <species name = "국수나무"
-                            image = "DSC_0093.jpg DSC_0094.jpg DSC_0095.jpg"/> <!-- 정보없음 -->
+                            image = "DSC_0093.JPG DSC_0094.JPG DSC_0095.JPG"/> <!-- 정보없음 -->
                     </genus>
                     <genus name = "양지꽃속">
                         <species name = "가락지나물" stump = "여러해살이로 어미식물의 줄기는 모여 나지만 거기에서 사방으로 달리는 줄기가 뻗으며, 끝부분에서 위로 선다."
@@ -633,7 +633,7 @@
                             geograph = "냉온대~난온대, 중국, 만주, 일본, 말레이시아 등"
                             vegetat = "초지식생, 터주식생"
                             preserve = "비감시대상종"
-                            image = "DSC_0024.jpg DSC_0025.jpg DSC_0026.jpg DSC_0027.jpg" />
+                            image = "DSC_0024.JPG DSC_0025.JPG DSC_0026.JPG DSC_0027.JPG" />
                     </genus>
                     <genus name = "조팝나무속">
                         <species name = "조팝나무" stump = "낙엽성 키 작은 나무로 줄기가 다발을 이루고 돌출한 능선이 있으며, 연한 갈색으로 윤기가 있다. 가는 가지는 잎자루가 붙어 있던 자리에 딱딱한 겨울눈 형태로 남으면서 꺾이듯이 자란다."
@@ -647,7 +647,7 @@
                             geograph = "대륙성 냉온대, 중국, 만주 등"
                             vegetat = "산지 임연식생"
                             preserve = "주요감시대상종"
-                            image = "DSC_0047.jpg DSC_0048.jpg DSC_0049.jpg DSC_0050.jpg" />
+                            image = "DSC_0047.JPG DSC_0048.JPG DSC_0049.JPG DSC_0050.JPG" />
                     </genus>
                     <genus name = "장미속">
                         <species name = "찔레꽃" stump = "낙엽성의 키 작은 나무로 많은 줄기와 가지를 뻗으며 예리한 가시가 있다."
@@ -661,7 +661,7 @@
                             geograph = "냉온대~난온대, 중국 동부, 일본 전역"
                             vegetat = "임연식생"
                             preserve = "일반감시대상종"
-                            image = "DSC_0019.jpg DSC_0020.jpg DSC_0021.jpg" />
+                            image = "DSC_0019.JPG DSC_0020.JPG DSC_0021.JPG" />
                     </genus>
                     <genus name = "뱀딸기속">
                         <species name = "뱀딸기" stump = "여러해살이로 긴 포복경이 사방으로 퍼져가며, 마디에서 뿌리를 내리면서 새 줄기를 낸다."
@@ -675,7 +675,7 @@
                             geograph = "난온대~냉온대, 중국, 대만, 만주, 연해주, 일본, 말레이시아, 인도 등"
                             vegetat = "터주식생"
                             preserv = "비감시대상종"
-                            image = "DSC_0015.jpg DSC_0016.jpg DSC_0017.jpg DSC_0018.jpg" />
+                            image = "DSC_0015.JPG DSC_0016.JPG DSC_0017.JPG DSC_0018.JPG" />
                     </genus>
                 </family>
             </order>
