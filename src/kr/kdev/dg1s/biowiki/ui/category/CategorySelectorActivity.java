@@ -1,11 +1,8 @@
 package kr.kdev.dg1s.biowiki.ui.category;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 
 import java.io.IOException;
 
@@ -37,8 +34,10 @@ public class CategorySelectorActivity extends BIActionBarActivity implements Cat
             return;
         }
         if (!(selectionFragment.currentElement.getName().equals("repo"))) {
-            try { selectionFragment.parseXML(null, -2);
-            } catch (IOException e) { e.printStackTrace();
+            try {
+                selectionFragment.parseXML(null, -2);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } else {
             super.onBackPressed();

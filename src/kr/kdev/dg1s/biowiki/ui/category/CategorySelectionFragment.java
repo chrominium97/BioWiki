@@ -43,11 +43,6 @@ public class CategorySelectionFragment extends SherlockFragment {
 
     OnPlantSelectedListener mCallback;
 
-    // Container Activity must implement this interface
-    public interface OnPlantSelectedListener {
-        public void onPlantSelected(String name);
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -68,8 +63,7 @@ public class CategorySelectionFragment extends SherlockFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupViews();
         try {
@@ -124,7 +118,8 @@ public class CategorySelectionFragment extends SherlockFragment {
         for (Attribute attribute : attributes) {
             export.add(attribute.getName());
             export.add(attribute.getValue());
-        } return export;
+        }
+        return export;
     }
 
     public void parseXML(String tag, int position) throws IOException {
@@ -165,5 +160,10 @@ public class CategorySelectionFragment extends SherlockFragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    // Container Activity must implement this interface
+    public interface OnPlantSelectedListener {
+        public void onPlantSelected(String name);
     }
 }

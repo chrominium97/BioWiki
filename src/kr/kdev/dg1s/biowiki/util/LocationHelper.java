@@ -58,23 +58,7 @@ public class LocationHelper {
 
     public static abstract class LocationResult {
         public abstract void gotLocation(Location location);
-    }    LocationListener locationListenerGps = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            timer1.cancel();
-            locationResult.gotLocation(location);
-            lm.removeUpdates(this);
-            lm.removeUpdates(locationListenerNetwork);
-        }
-
-        public void onProviderDisabled(String provider) {
-        }
-
-        public void onProviderEnabled(String provider) {
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
+    }
 
     class GetLastLocation extends TimerTask {
         @Override
@@ -108,7 +92,24 @@ public class LocationHelper {
             }
             locationResult.gotLocation(null);
         }
-    }
+    }    LocationListener locationListenerGps = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            timer1.cancel();
+            locationResult.gotLocation(location);
+            lm.removeUpdates(this);
+            lm.removeUpdates(locationListenerNetwork);
+        }
+
+        public void onProviderDisabled(String provider) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+    };
+
 
 
 

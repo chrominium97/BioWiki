@@ -1,10 +1,7 @@
 package kr.kdev.dg1s.biowiki.ui.info;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.widgets.BWTextView;
 
 public class ElementAdapter extends BaseAdapter {
     public List<String> elements = new ArrayList<String>();

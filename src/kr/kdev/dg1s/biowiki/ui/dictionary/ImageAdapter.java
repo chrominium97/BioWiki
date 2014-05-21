@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -29,7 +28,7 @@ public class ImageAdapter extends BaseAdapter {
         this.context = context;
         this.mImg = img;
         this.
-        radioGroup = new RadioGroup(context);
+                radioGroup = new RadioGroup(context);
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

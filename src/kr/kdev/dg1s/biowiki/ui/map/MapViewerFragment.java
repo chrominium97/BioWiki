@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -19,15 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -52,13 +46,10 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.dictionary.ImageAdapter;
-import kr.kdev.dg1s.biowiki.ui.info.ElementAdapter;
 
 public class MapViewerFragment extends SupportMapFragment implements
         GoogleMap.OnMarkerClickListener,
@@ -70,9 +61,6 @@ public class MapViewerFragment extends SupportMapFragment implements
         LocationListener,
         GooglePlayServicesClient.OnConnectionFailedListener {
 
-    OnPlantSelectedListener mCallback;
-    Context context;
-
     private static final LatLng LOCATION_DEFAULT = new LatLng(35.886826, 128.721226);
     private static final LatLng DG1S = new LatLng(35.886545, 128.722626);
     // These settings are the same as the settings for the map. They will in fact give you updates
@@ -83,6 +71,8 @@ public class MapViewerFragment extends SupportMapFragment implements
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private final List<Marker> mDistributionStats = new ArrayList<Marker>();
     private final List<MarkerOptions> mMarkerOptions = new ArrayList<MarkerOptions>();
+    OnPlantSelectedListener mCallback;
+    Context context;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
@@ -90,12 +80,13 @@ public class MapViewerFragment extends SupportMapFragment implements
                 loadMarkers(mMarkerOptions);
                 if (context != null) {
                     Toast.makeText(context, "Loaded locations.", Toast.LENGTH_SHORT).show();
-                }}
+                }
+            }
             if (message.getData().getStringArrayList("position") != null) {
                 List<String> mImport = message.getData().getStringArrayList("position");
                 Log.d("Handler", "Message received and initializing");
                 String hueIndex;
-                if (mImport.get(3)==null) {
+                if (mImport.get(3) == null) {
                     hueIndex = "";
                 } else {
                     hueIndex = mImport.get(3);
@@ -467,6 +458,52 @@ public class MapViewerFragment extends SupportMapFragment implements
         mTopText.setText("onMarkerDrag.  Current Position: " + marker.getPosition());
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnPlantSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnPlantSelectedListener");
+        }
+    }
+
+    public void setupViews() {
+        context = getActivity().getApplicationContext();
+    }
+
+    public ArrayList<String> getDetails(String name) throws IOException {
+        ArrayList<String> export = new ArrayList<String>();
+        Source source1 = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
+        Log.d("XML", "Searching for details on " + name);
+        Element element = source1.getFirstElement("name", name, false);
+        if (element == null) {
+            return export;
+        }
+        Attributes attributes = element.getAttributes();
+        for (Attribute attribute : attributes) {
+            export.add(attribute.getName());
+            export.add(attribute.getValue());
+        }
+        return export;
+    }
+
+    @Override
+    public void onResume() {
+        setUpMapIfNeeded();
+        setUpLocationClientIfNeeded();
+        mLocationClient.connect();
+        super.onResume();
+    }
+
+    // Container Activity must implement this interface
+    public interface OnPlantSelectedListener {
+        public void onPlantSelected(String name);
+    }
+
     /**
      * Demonstrates customizing the info window and/or its contents.
      */
@@ -551,50 +588,5 @@ public class MapViewerFragment extends SupportMapFragment implements
                 e.printStackTrace();
             }
         }
-    }
-
-    // Container Activity must implement this interface
-    public interface OnPlantSelectedListener {
-        public void onPlantSelected(String name);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnPlantSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnPlantSelectedListener");
-        }
-    }
-
-    public void setupViews() {
-        context = getActivity().getApplicationContext();
-    }
-
-    public ArrayList<String> getDetails(String name) throws IOException {
-        ArrayList<String> export = new ArrayList<String>();
-        Source source1 = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
-        Log.d("XML", "Searching for details on " + name);
-        Element element = source1.getFirstElement("name", name, false);
-        if (element == null) {
-            return export;
-        }
-        Attributes attributes = element.getAttributes();
-        for (Attribute attribute : attributes) {
-            export.add(attribute.getName());
-            export.add(attribute.getValue());
-        } return export;
-    }
-
-    @Override
-    public void onResume() {
-        setUpMapIfNeeded();
-        setUpLocationClientIfNeeded();
-        mLocationClient.connect();
-        super.onResume();
     }
 }

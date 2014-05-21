@@ -56,11 +56,14 @@ public class PlantInformationFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        try { initializeGlobalVariables();
-        } catch (IOException e) { e.printStackTrace();
+        try {
+            initializeGlobalVariables();
+        } catch (IOException e) {
+            e.printStackTrace();
             Toast.makeText(context, "Unable to initialize blank_linearlayout", Toast.LENGTH_SHORT).show();
-        } Log.d("Bundle is", " " + (savedInstanceState!=null));
-        Log.d("Bundle", getArguments().getString("plant") + (savedInstanceState!=null));
+        }
+        Log.d("Bundle is", " " + (savedInstanceState != null));
+        Log.d("Bundle", getArguments().getString("plant") + (savedInstanceState != null));
         displayContents(getArguments().getString("plant"));
     }
 
@@ -168,7 +171,9 @@ public class PlantInformationFragment extends SherlockFragment {
                 if (!(attribute.getValue().equals(""))) {
                     // Delete all child views and make pager visible
                     pager.setVisibility(View.VISIBLE);
-                    while (pagerAdapter.getCount()!=0) {pagerAdapter.removeView(pager,0);}
+                    while (pagerAdapter.getCount() != 0) {
+                        pagerAdapter.removeView(pager, 0);
+                    }
                     pagerAdapter.notifyDataSetChanged();
                     for (String filename : Arrays.asList(attribute.getValue().split(" "))) {
                         ImageView imageView = new ImageView(context);
@@ -178,7 +183,9 @@ public class PlantInformationFragment extends SherlockFragment {
                         imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + filename.toUpperCase(), imageView);
                         addView(imageView);
                     }
-                } else { pager.setVisibility(View.GONE); }
+                } else {
+                    pager.setVisibility(View.GONE);
+                }
             } else {
                 infoContainer.addView(plantDetails(attribute.getName(), attribute.getValue()));
             }
@@ -200,6 +207,7 @@ public class PlantInformationFragment extends SherlockFragment {
         pagerAdapter.addView(newPage);
         pagerAdapter.notifyDataSetChanged();
     }
+
     // Here's what the app should do to remove a view from the ViewPager.
     public void removeView(View defunctPage) {
         int pageIndex = pagerAdapter.removeView(pager, defunctPage);
@@ -209,15 +217,18 @@ public class PlantInformationFragment extends SherlockFragment {
         pager.setCurrentItem(pageIndex);
         pagerAdapter.notifyDataSetChanged();
     }
+
     // Here's what the app should do to get the currently displayed page.
     public View getCurrentPage() {
         return pagerAdapter.getView(pager.getCurrentItem());
     }
+
     // Here's what the app should do to set the currently displayed page.  "pageToShow" must
     // currently be in the adapter, or this will crash.
     public void setCurrentPage(View pageToShow) {
         pager.setCurrentItem(pagerAdapter.getItemPosition(pageToShow), true);
     }
+
     /**
      * Pager methods ends here
      */
@@ -316,9 +327,9 @@ public class PlantInformationFragment extends SherlockFragment {
             return views.get(position);
         }
 
-    // Other relevant methods:
+        // Other relevant methods:
 
-    // finishUpdate - called by the ViewPager - we don't care about what pages the
-    // pager is displaying so we don't use this method.
+        // finishUpdate - called by the ViewPager - we don't care about what pages the
+        // pager is displaying so we don't use this method.
     }
 }

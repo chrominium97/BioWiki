@@ -21,7 +21,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -56,7 +55,6 @@ import java.util.List;
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.BWActionBarActivity;
 
 /**
  * This shows how to place markers on a map.
@@ -97,7 +95,7 @@ public class DistributionViewer extends BIActionBarActivity
                 List<String> mImport = message.getData().getStringArrayList("position");
                 Log.d("Handler", "Message received and initializing");
                 String hueIndex;
-                if (mImport.get(3)==null) {
+                if (mImport.get(3) == null) {
                     hueIndex = "";
                 } else {
                     hueIndex = mImport.get(3);
