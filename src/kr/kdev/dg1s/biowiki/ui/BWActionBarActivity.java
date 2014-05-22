@@ -678,7 +678,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
 
     private class SwitchToInfoItem extends MenuDrawerItem {
         SwitchToInfoItem() {
-            super(-1, R.string.toBioInfo, R.drawable.dashboard_icon_posts);
+            super(-1, R.string.toBioInfo, R.drawable.dashboard_switch);
         }
 
         @Override

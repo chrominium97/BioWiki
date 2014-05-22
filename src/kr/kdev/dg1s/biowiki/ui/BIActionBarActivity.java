@@ -659,7 +659,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class SwitchToWikiItem extends MenuDrawerItem {
         SwitchToWikiItem() {
-            super(-1, R.string.toBioWiki, R.drawable.dashboard_icon_posts);
+            super(-1, R.string.toBioWiki, R.drawable.dashboard_switch);
         }
 
         @Override
@@ -682,7 +682,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class CategoryItem extends MenuDrawerItem {
         CategoryItem() {
-            super(CATEGORIZATION_ACTIVITY, R.string.classificationItem, R.drawable.dashicon_edit);
+            super(CATEGORIZATION_ACTIVITY, R.string.classificationItem, R.drawable.dashboard_icon_subs);
         }
 
         @Override
@@ -707,7 +707,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class MapsItem extends MenuDrawerItem {
         MapsItem() {
-            super(MAPS_ACTIVITY, R.string.mapsItem, R.drawable.dashboard_icon_view);
+            super(MAPS_ACTIVITY, R.string.mapsItem, R.drawable.dashboard_maps);
         }
 
         @Override
@@ -732,7 +732,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class DictionaryItem extends MenuDrawerItem {
         DictionaryItem() {
-            super(DICTIONARY_ACTIVITY, R.string.dictionaryItem, R.drawable.dashboard_icon_view);
+            super(DICTIONARY_ACTIVITY, R.string.dictionaryItem, R.drawable.dashboard_search);
         }
 
         @Override
