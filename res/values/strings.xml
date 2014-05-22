@@ -5,10 +5,20 @@
 
     <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>
 
+    <string name="toBioInfo">To BioInfo</string>
     <string name="toBioWiki">To BioWiki</string>
     <string name="dictionaryItem">Plant Classification</string>
     <string name="mapsItem">Distribution Chart</string>
     <string name="classificationItem">Plant Dictionary</string>
+
+    <string name="biowiki_welcome">Welcome to BioInfo.</string>
+    <string name="biowiki_welcome_desc">Swipe from left to right to see features</string>
+    <string name="bioinfo_welcome">Welcome to BioWiki.</string>
+    <string name="bioinfo_welcome_desc">Swipe from left to right to see features</string>
+
+    <!-- toast messages -->
+    <string name="locationButtonClicked">Moving to the current location&#8230;</string>
+    <string name="locationLoaded">Distribution information have been loaded.</string>
 
     <string name="server_address" translatable="false">http://biowiki.mireene.com/</string>
     <string name="server_ip" translatable="false">http://10.80.121.88</string>
@@ -581,5 +591,5 @@
     <string name="nux_help_description">Visit the help center to get answers to common questions. or visit the forums to ask new&#160;ones.</string>
     <string name="forums">Forums</string>
     <string name="help_center">Help center</string>
-   <string name="ptr_tip_message">Tip: Pull down to refresh</string>
+    <string name="ptr_tip_message">Tip: Pull down to refresh</string>
 </resources>

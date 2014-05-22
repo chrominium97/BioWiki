@@ -76,7 +76,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
     protected static final int VIEW_SITE_ACTIVITY = 8;
     protected static final int DASHBOARD_ACTIVITY = 9;
     protected static final int NOTIFICATIONS_ACTIVITY = 12;
-    //protected static final int CATEGORIZATION_ACTIVITY = 12;
     protected static final String LAST_ACTIVITY_PREFERENCE = "bw_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
     /**
@@ -187,7 +186,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         mMenuItems.add(new QuickPhotoMenuItem());
         mMenuItems.add(new QuickVideoMenuItem());
         mMenuItems.add(new ViewSiteMenuItem());
-        //mMenuItems.add(new CategoryItem());
     }
 
     @Override

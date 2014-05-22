@@ -3,10 +3,20 @@
 
     <string name="go_bakc_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
 
+    <string name="toBioInfo">BioInfoへ</string>
     <string name="toBioWiki">BioWikiへ</string>
     <string name="dictionaryItem">植物同定</string>
     <string name="mapsItem">分布図</string>
     <string name="classificationItem">植物図鑑</string>
+
+    <string name="biowiki_welcome">BioWikiへようこそ。</string>
+    <string name="biowiki_welcome_desc">左から右へスワイプして機能を表現します。</string>
+    <string name="bioinfo_welcome">BioInfoへようこそ。</string>
+    <string name="bioinfo_welcome_desc">左から右へスワイプして機能を表現します。</string>
+
+    <!-- toast messages -->
+    <string name="locationButtonClicked">現在の位置へ移動してます&#8230;</string>
+    <string name="locationLoaded">分布情報をロードしました。.</string>
 
     <!-- account setup -->
     <string name="xmlrpc_error">接続できませんでした。サイト上の xmlrpc.php へのフルパスを入力し、もう一度お試しください。</string>
@@ -542,6 +552,7 @@
     <string name="nux_add_selfhosted_blog">インストール型 WordPress ブログを追加</string>
     <string name="nux_oops_not_selfhosted_blog">WordPress.com にログイン</string>
 
+    <string name="ptr_tip_message">下へドラグするとリフレッシュされます。</string>
 
     <string name="category_automatically_renamed">カテゴリー名「%1$s」は無効です。「%2$s」に変更しました。</string>
 </resources>

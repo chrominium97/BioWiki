@@ -86,7 +86,7 @@ public class DistributionViewer extends BIActionBarActivity
             if (message.what == 573) {
                 loadMarkers(mMarkerOptions);
                 if (getApplicationContext() != null) {
-                    Toast.makeText(getApplicationContext(), "Loaded locations.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.locationLoaded), Toast.LENGTH_SHORT).show();
                 }
             } else if (message.what == 7) {
                 mMarkerOptions.clear();
@@ -129,6 +129,11 @@ public class DistributionViewer extends BIActionBarActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mMenuDrawer != null) {
+                    mMenuDrawer.toggleMenu();
+                    return true;
+                }
             case R.id.map_normal:
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 return true;
@@ -287,7 +292,7 @@ public class DistributionViewer extends BIActionBarActivity
         mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerDragListener(this);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         // Pan to see all markers in view.
         // Cannot zoom to bounds until the map has a size.
@@ -323,6 +328,7 @@ public class DistributionViewer extends BIActionBarActivity
         }
         loadedMarkers = true;
 
+        /*
         // Uses a colored icon.
         mDG1S = mMap.addMarker(new MarkerOptions()
                 .position(LOCATION_DEFAULT)
@@ -336,12 +342,13 @@ public class DistributionViewer extends BIActionBarActivity
                 .title("Daegu Il Science High School")
                 .snippet("!!!")
                 .draggable(true));
+                */
 
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.locationButtonClicked), Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false;

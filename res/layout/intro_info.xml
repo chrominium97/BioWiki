@@ -6,20 +6,23 @@
     android:gravity="center"
     android:padding="10dp">
     <ImageView
-        android:layout_width="300dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:src="@drawable/bioinfo"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to BioInfo"
-        android:textSize="30dp"/>
+        android:text="@string/bioinfo_welcome"
+        android:textSize="30sp"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="gravity"
-        android:text="Swipe from left to right to see features"
-        android:textSize="20dp"/>
+        android:text="@string/bioinfo_welcome_desc"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"/>
 
 </LinearLayout>
