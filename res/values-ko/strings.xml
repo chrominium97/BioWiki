@@ -315,7 +315,7 @@
 
     <!-- preferences -->
     <string name="open_source_licenses">오픈 소스 라이센스</string>
-    <string name="self_hosted_blogs">자체 호스팅 위키</string>
+    <string name="self_hosted_blogs">BioWiki</string>
     <string name="pref_location">위치</string>
     <string name="location_city">도시</string>
 
