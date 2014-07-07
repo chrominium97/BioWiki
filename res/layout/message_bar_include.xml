@@ -5,8 +5,7 @@
     see MessageBarUtils.java
 -->
 
-<kr.kdev.dg1s.biowiki.widgets.BWTextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<kr.kdev.dg1s.biowiki.widgets.BWTextView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ReaderTextView.MessageBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

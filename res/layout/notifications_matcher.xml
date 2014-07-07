@@ -18,10 +18,10 @@
             android:id="@+id/gravatar"
             android:layout_width="@dimen/avatar_sz_large"
             android:layout_height="@dimen/avatar_sz_large"
-            android:scaleType="fitCenter"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginBottom="@dimen/margin_large" />
+            android:scaleType="fitCenter" />
 
         <kr.kdev.dg1s.biowiki.widgets.BWTextView
             android:id="@+id/body"

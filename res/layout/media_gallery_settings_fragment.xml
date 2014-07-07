@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/media_gallery_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/media_gallery_settings_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <kr.kdev.dg1s.biowiki.widgets.BWTextView
             android:id="@+id/media_gallery_settings_title"
@@ -31,14 +31,14 @@
     <ScrollView
         android:id="@+id/media_gallery_settings_content_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp" >
+            android:paddingRight="16dp">
 
             <kr.kdev.dg1s.biowiki.widgets.BWTextView
                 style="@style/MediaGalleryText"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/media_gallery_random_checkbox"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
-                android:weightSum="3" >
+                android:weightSum="3">
 
                 <CheckBox
                     android:id="@+id/media_gallery_type_thumbnail_grid"
@@ -132,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/media_gallery_type_circles"
@@ -172,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     style="@style/MediaGalleryText"

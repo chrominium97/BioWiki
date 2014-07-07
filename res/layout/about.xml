@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_height="fill_parent"
     android:background="#F4F4F4">
 
     <LinearLayout
@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/about_wp_logo"
@@ -65,7 +65,7 @@
             android:layout_marginTop="30dp"
             android:text="@string/tos"
             android:textSize="18sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/about_privacy"
@@ -74,7 +74,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/privacy_policy"
             android:textSize="18sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/about_url"

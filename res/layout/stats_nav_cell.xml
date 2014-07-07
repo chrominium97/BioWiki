@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="12dp"
-    android:paddingTop="@dimen/margin_extra_large" >
+    android:paddingTop="@dimen/margin_extra_large">
 
     <ImageView
         android:id="@+id/stats_nav_cell_checkmark"
@@ -24,7 +24,6 @@
         android:fontFamily="sans-serif-light"
         android:singleLine="true"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_sz_large" >
-    </TextView>
+        android:textSize="@dimen/text_sz_large"></TextView>
 
 </RelativeLayout>

@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_medium"
     android:paddingLeft="6dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="@dimen/margin_medium">
+    android:paddingRight="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_extra_large" >
+        android:paddingTop="@dimen/margin_extra_large">
 
         <TextView
             android:id="@+id/stats_list_entry_label"
@@ -39,8 +39,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:scrollbarStyle="outsideOverlay"
-        android:visibility="gone" >
-    </LinearLayout>
+        android:visibility="gone"></LinearLayout>
 
     <ListView
         android:id="@+id/stats_list_listview"
@@ -48,8 +47,7 @@
         android:layout_height="wrap_content"
         android:listSelector="@android:color/transparent"
         android:scrollbarStyle="outsideOverlay"
-        android:visibility="gone" >
-    </ListView>
+        android:visibility="gone"></ListView>
 
     <TextView
         android:id="@+id/stats_list_empty_text"

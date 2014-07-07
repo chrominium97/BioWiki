@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/nux_background"
-    android:orientation="vertical"
-    android:baselineAligned="true">
+    android:baselineAligned="true"
+    android:orientation="vertical">
 
     <fragment
-        android:name="kr.kdev.dg1s.biowiki.ui.accounts.WelcomeFragmentSignIn"
         android:id="@+id/sign_in_fragment"
+        android:name="kr.kdev.dg1s.biowiki.ui.accounts.WelcomeFragmentSignIn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/nux_fragment_welcome" />

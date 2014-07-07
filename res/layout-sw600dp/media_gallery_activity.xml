@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/media_gallery_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.6" >
+            android:layout_weight="0.6">
 
             <fragment
                 android:id="@+id/mediaGalleryEditFragment"
@@ -39,7 +39,6 @@
     <FrameLayout
         android:id="@+id/media_gallery_add_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </FrameLayout>
+        android:layout_height="match_parent"></FrameLayout>
 
 </FrameLayout>

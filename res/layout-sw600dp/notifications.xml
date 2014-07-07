@@ -9,22 +9,22 @@
     android:orientation="horizontal">
 
     <FrameLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:foreground="@drawable/right_shadow"
-        android:layout_width="0dp">
+        android:foreground="@drawable/right_shadow">
 
         <fragment
-            android:name="kr.kdev.dg1s.biowiki.ui.notifications.NotificationsListFragment"
             android:id="@+id/fragment_notes_list"
-            android:tag="tablet-view"
+            android:name="kr.kdev.dg1s.biowiki.ui.notifications.NotificationsListFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:tag="tablet-view" />
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/layout_fragment_container"
-        android:layout_weight="2"
         android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="2" />
 </LinearLayout>

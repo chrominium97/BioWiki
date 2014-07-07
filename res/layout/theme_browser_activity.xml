@@ -3,7 +3,7 @@
     android:id="@+id/theme_browser_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <kr.kdev.dg1s.biowiki.ui.HorizontalTabView
         android:id="@+id/horizontalTabView1"

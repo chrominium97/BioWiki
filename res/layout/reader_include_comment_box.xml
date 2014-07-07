@@ -28,11 +28,11 @@
         android:inputType="text|textCapSentences|textMultiLine"
         android:maxLines="4"
         android:minLines="2"
-        android:textColorHint="@color/grey_medium"
-        android:textSize="@dimen/text_sz_large"
-        android:paddingTop="@dimen/margin_extra_small"
         android:paddingBottom="@dimen/margin_extra_small"
-        android:paddingLeft="@dimen/margin_large" />
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingTop="@dimen/margin_extra_small"
+        android:textColorHint="@color/grey_medium"
+        android:textSize="@dimen/text_sz_large" />
 
     <ImageView
         android:id="@+id/image_post_comment"
@@ -48,8 +48,8 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/margin_medium"
         android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_medium"
         android:visibility="gone" />
 
 </RelativeLayout>

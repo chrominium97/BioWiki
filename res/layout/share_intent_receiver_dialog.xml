@@ -9,13 +9,13 @@
     android:layout_marginTop="8dp"
     android:background="@drawable/dialog_full_holo_dark"
     android:minWidth="@dimen/share_action_dialog_width"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/stats_tablet_header_title"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="32dp"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/md_list_selector" >
+        android:background="@drawable/md_list_selector">
 
         <com.actionbarsherlock.internal.widget.IcsSpinner
             android:id="@+id/blog_spinner"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/md_list_selector" >
+        android:background="@drawable/md_list_selector">
 
         <com.actionbarsherlock.internal.widget.IcsSpinner
             android:id="@+id/action_spinner"
@@ -88,16 +88,16 @@
     </FrameLayout>
 
     <CheckedTextView
+        android:id="@+id/always_use_checkbox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/always_use_these_settings_to_share"
-        android:id="@+id/always_use_checkbox"
-        android:drawableLeft="@drawable/media_gallery_checkbox_selector"
-        android:clickable="true"
-        android:layout_marginTop="16dp"
         android:layout_marginLeft="8dp"
-        android:textColor="@color/white"
-        android:gravity="center_vertical" />
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:drawableLeft="@drawable/media_gallery_checkbox_selector"
+        android:gravity="center_vertical"
+        android:text="@string/always_use_these_settings_to_share"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/share_intent_receiver_button"

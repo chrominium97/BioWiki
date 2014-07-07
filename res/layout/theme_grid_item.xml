@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/theme_grid_image_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="4dp"
-        android:background="@drawable/media_gallery_grid_cell" >
+        android:background="@drawable/media_gallery_grid_cell">
 
         <RelativeLayout
             android:id="@+id/theme_label_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/media_gallery_grid_label_bg" >
+            android:background="@color/media_gallery_grid_label_bg">
 
             <TextView
                 android:id="@+id/theme_grid_item_name"

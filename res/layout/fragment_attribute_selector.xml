@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
+    android:id="@+id/attributeSelector"
     android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:gravity="bottom"
-    android:orientation="vertical"
-    android:id="@+id/attributeSelector">
+    android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
-        android:layout_height="wrap_content"
+        android:id="@+id/attributePager"
         android:layout_width="fill_parent"
-        android:paddingBottom="50dp"
-        android:id="@+id/attributePager"/>
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:weightSum="3"
         android:layout_alignBottom="@id/attributePager"
-        android:background="@color/blue_extra_dark">
+        android:background="@color/blue_extra_dark"
+        android:weightSum="3">
 
         <TextView
             android:id="@+id/button_flower"
@@ -25,31 +25,31 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/white"
             android:onClick="attributeSelection"
-            android:text="꽃" />
+            android:text="꽃"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/button_leaf"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:textSize="20sp"
-            android:textColor="@color/white"
             android:gravity="center"
             android:onClick="attributeSelection"
-            android:text="잎" />
+            android:text="잎"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/button_fruit"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:textSize="20sp"
-            android:textColor="@color/white"
             android:layout_weight="1"
             android:gravity="center"
             android:onClick="attributeSelection"
-            android:text="열매" />
+            android:text="열매"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-  <!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright (C) 2007 The Android Open Source Project Licensed under
     the Apache License, Version 2.0 (the "License"); you may not use
     this file except in compliance with the License. You may obtain a
@@ -12,9 +11,8 @@
     permissions and limitations under the License.
   -->
 
-<translate
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:fromXDelta="0"
-  android:toXDelta="10"
-  android:duration="1000"
-  android:interpolator="@anim/cycle_5" />
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="1000"
+    android:fromXDelta="0"
+    android:interpolator="@anim/cycle_5"
+    android:toXDelta="10" />

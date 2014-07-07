@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     media grid item - non-tablet
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -72,22 +71,22 @@
                 android:id="@+id/media_grid_item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/media_grid_item_filetype"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:layout_toLeftOf="@+id/media_grid_item_filetype"
-                android:textSize="@dimen/text_sz_small"
-                android:textColor="@color/media_gallery_grid_label" />
+                android:textColor="@color/media_gallery_grid_label"
+                android:textSize="@dimen/text_sz_small" />
 
             <kr.kdev.dg1s.biowiki.widgets.BWTextView
                 android:id="@+id/media_grid_item_filetype"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_extra_small"
                 android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_extra_small"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textSize="@dimen/text_sz_small"
-                android:textColor="@color/media_gallery_grid_label" />
+                android:textColor="@color/media_gallery_grid_label"
+                android:textSize="@dimen/text_sz_small" />
         </RelativeLayout>
     </kr.kdev.dg1s.biowiki.ui.CheckableFrameLayout>
 

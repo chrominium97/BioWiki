@@ -4,5 +4,5 @@
         android:id="@+id/menu_new_category"
         android:icon="@drawable/ab_icon_new"
         android:showAsAction="ifRoom"
-        android:title="@string/new_post"/>
+        android:title="@string/new_post" />
 </menu>

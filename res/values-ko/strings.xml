@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="go_bakc_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
+    <string name="go_back_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
 
     <string name="toBioInfo">BioInfo로</string>
     <string name="toBioWiki">BioWiki로</string>
@@ -22,7 +22,7 @@
     <string name="xmlrpc_error">접속할 수 없습니다. 서버의 XML-RPC 상태를 점검해 주십시오.</string>
     <string name="no_network_message">사용 가능한 네트워크가 없습니다.</string>
     <string name="sign_out_confirm">정말로 로그오프 하겠습니까?</string>
-    <string name="account_two_step_auth_enabled">이 계정에선 2단계 인증이 활성화되어 있습니다. biowiki.mireene.com의 보안 설정 페이지에서 응용 프로그램 암호를 생성하십시오.</string>
+    <string name="account_two_step_auth_enabled">이 계정에선 2단계 인증이 활성화되어 있습니다. biowiki.mireene.com의 보안 설정 공지사항에서 응용 프로그램 암호를 생성하십시오.</string>
     <string name="visit_security_settings">보안 설정으로 이동</string>
 
     <!-- form labels -->
@@ -40,12 +40,12 @@
 
     <!-- general strings -->
     <string name="post">작성</string>
-    <string name="page">페이지</string>
+    <string name="page">공지사항</string>
     <string name="posts">작성</string>
     <string name="media">미디어</string>
     <string name="video">동영상</string>
     <string name="themes">테마</string>
-    <string name="pages">페이지</string>
+    <string name="pages">공지사항</string>
     <string name="about">소개</string>
     <string name="username">아이디</string>
     <string name="cancel">취소</string>
@@ -60,7 +60,7 @@
     <string name="no">아니오</string>
     <string name="error">오류</string>
     <string name="could_not_remove_account">위키를 제거 할 수 없습니다.</string>
-    <string name="edit_page">페이지 편집</string>
+    <string name="edit_page">공지사항 편집</string>
     <string name="edit_post">게시물 수정</string>
     <string name="add_comment">댓글 추가</string>
     <string name="connection_error">연결 오류</string>
@@ -158,9 +158,9 @@
 
     <!-- page view -->
     <string name="title">제목</string>
-    <string name="pages_empty_list">아직 고정 페이지가 없습니다. 제출 하시겠습니까?</string>
-    <string name="page_id">고정 페이지</string>
-    <string name="page_settings">페이지 설정</string>
+    <string name="pages_empty_list">아직 공지사항이 없습니다. 제출 하시겠습니까?</string>
+    <string name="page_id">공지사항</string>
+    <string name="page_settings">공지사항 설정</string>
 
     <!-- posts tab -->
     <string name="untitled">제목 미설정</string>
@@ -183,10 +183,10 @@
     <string name="download">미디어를 다운로드 중</string>
     <string name="post_settings">작성 설정</string>
     <string name="delete_post">게시물 삭제</string>
-    <string name="delete_page">페이지를 제거</string>
+    <string name="delete_page">공지사항을 제거</string>
     <string name="share_url">URL을 공유</string>
     <string name="loading_posts">게시물을 로딩중&#8230;</string>
-    <string name="loading_pages">페이지를 로딩중&#8230;</string>
+    <string name="loading_pages">공지사항을 로딩중&#8230;</string>
 
     <!-- reload drop down -->
     <string name="loading">로드 중입니다&#8230;</string>
@@ -239,8 +239,8 @@
     <string name="delete_sure">정말 초안을 삭제하시겠습니까?</string>
 
     <!-- page actions -->
-    <string name="preview_page">페이지 미리보기</string>
-    <string name="deleting_page">페이지 삭제</string>
+    <string name="preview_page">공지사항 미리보기</string>
+    <string name="deleting_page">공지사항 삭제</string>
     <string name="page_deleted">게시물을 삭제했습니다</string>
     <string name="delete_sure_page">이 문서를 정말로 삭제하시겠습니까 ?</string>
 
@@ -251,10 +251,10 @@
     <string name="comment_added">댓글 추가에 성공했습니다</string>
     <string name="delete_sure_post">정말 이 게시물을 삭제하시겠습니까 ?</string>
     <string name="share_url_post">글 공유</string>
-    <string name="share_url_page">페이지 공유</string>
+    <string name="share_url_page">공지사항 공유</string>
     <string name="share_link">링크 공유</string>
     <string name="post_not_published">이 게시물은 아직 공개되지 않았습니다</string>
-    <string name="page_not_published">이 페이지는 아직 공개되지 않았습니다</string>
+    <string name="page_not_published">이 공지사항은 아직 공개되지 않았습니다</string>
     <string name="view_in_browser">브라우저에서 표시</string>
     <string name="post_signature">리뷰 서명</string>
     <string name="add_tagline">새 게시물에 서명을 추가</string>
@@ -382,7 +382,7 @@
 
     <!-- notifications -->
     <string name="notifications">알림</string>
-   <string name="notifications_turn_off">비활성화</string>
+    <string name="notifications_turn_off">비활성화</string>
     <string name="notifications_turn_off_1hr">1시간 비활성화</string>
     <string name="notifications_turn_off_8hr">8시간 비활성화</string>
     <string name="note_reply_successful">답장을 공개했습니다</string>
@@ -408,7 +408,7 @@
 
     <!--  Menu Buttons -->
     <string name="new_post">새 게시물</string>
-    <string name="new_page">새 페이지</string>
+    <string name="new_page">새 공지사항</string>
     <string name="new_media">새 미디어</string>
     <string name="menu_search">검색</string>
     <string name="quick_photo">빠른 사진</string>
@@ -445,7 +445,7 @@
     <string name="error_delete_post">%s를 삭제하는 동안 에러가 발생했습니다.</string>
     <!-- The 4 following messages can\'t be factorized due to i18n -->
     <string name="error_refresh_posts">게시물을 다시로드 할 수 없습니다.</string>
-    <string name="error_refresh_pages">고정 페이지를 다시로드 할 수 없습니다.</string>
+    <string name="error_refresh_pages">공지사항을 다시로드 할 수 없습니다.</string>
     <string name="error_refresh_notifications">알림을 다시로드 할 수 없습니다.</string>
     <string name="error_refresh_comments">댓글을 다시로드 할 수 없습니다 .</string>
     <string name="error_refresh_media">미디어 라이브러리를 새로고침 할때 오류가 발생했습니다. 나중에 다시 시도하십시오.</string>
@@ -509,7 +509,7 @@
     <string name="reader_btn_unfollow">팔로잉</string>
 
     <!-- EditText hints -->
-    <string name="reader_hint_comment_on_post">댓글 을 추가</string>
+    <string name="reader_hint_comment_on_post">댓글을 추가</string>
     <string name="reader_hint_comment_on_comment">코멘트에 회신</string>
     <string name="reader_hint_add_tag">태그를 입력</string>
     <string name="reader_hint_reblog_comment">코멘트(옵션)</string>
@@ -532,7 +532,7 @@
     <string name="reader_empty_followed_tags">태그를 팔로우 하지 않습니다.</string>
 
     <!-- NUX strings -->
-  <string name="required_field">필수 항목</string>
+    <string name="required_field">필수 항목</string>
     <string name="email_hint">이메일</string>
     <string name="agree_terms_of_service">계정을 만들면 %1$s 이용약관 %2$s에 동의한 것으로 간주됩니다.</string>
     <string name="username_email">사용자 이름 또는 이메일</string>

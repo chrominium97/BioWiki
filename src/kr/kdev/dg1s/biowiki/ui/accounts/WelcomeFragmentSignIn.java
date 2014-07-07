@@ -415,7 +415,7 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
             if (mSelfHosted) {
                 mSetupBlog.setSelfHostedURL(EditTextUtils.getText(mUrlEditText).trim());
             } else {
-                mSetupBlog.setSelfHostedURL("10.80.121.88/nacl");
+                mSetupBlog.setSelfHostedURL(getString(R.string.server_address).trim());
             }
             startProgress(selfHostedFieldsFilled() ? getString(R.string.attempting_configure) : getString(
                     R.string.connecting_wpcom));

@@ -8,9 +8,9 @@
         android:id="@+id/text_log"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideInset"
         android:padding="@dimen/margin_medium"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
         android:textSize="@dimen/text_sz_medium" />
 
 </RelativeLayout>

@@ -13,8 +13,8 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_above="@+id/layout_bottom">
+        android:layout_above="@+id/layout_bottom"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,20 +30,20 @@
 
                 <kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView
                     android:id="@+id/image_avatar"
+                    style="@style/ReaderImageView.Avatar"
                     android:layout_marginRight="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_small"
-                    style="@style/ReaderImageView.Avatar" />
+                    android:layout_marginTop="@dimen/margin_small" />
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/text_date"
+                    android:layout_toRightOf="@+id/image_avatar"
+                    android:background="@drawable/reader_transparent_selector"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="text_name"
-                    android:background="@drawable/reader_transparent_selector"
-                    android:layout_toLeftOf="@+id/text_date"
-                    android:layout_toRightOf="@+id/image_avatar"
                     android:textColor="@color/reader_hyperlink"
                     android:textSize="@dimen/text_sz_extra_large" />
 
@@ -51,40 +51,40 @@
                     android:id="@+id/text_post_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/text_name"
-                    android:background="@drawable/reader_transparent_selector"
-                    android:layout_toLeftOf="@+id/text_status"
                     android:layout_alignLeft="@+id/text_name"
-                    android:text="text_post_title"
-                    android:maxLines="1"
+                    android:layout_below="@+id/text_name"
+                    android:layout_toLeftOf="@+id/text_status"
+                    android:background="@drawable/reader_transparent_selector"
                     android:ellipsize="end"
-                    android:paddingTop="@dimen/margin_extra_small"
+                    android:maxLines="1"
                     android:paddingBottom="@dimen/margin_extra_small"
+                    android:paddingTop="@dimen/margin_extra_small"
+                    android:text="text_post_title"
                     android:textColor="@color/grey_medium"
                     android:textSize="@dimen/text_sz_large" />
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/text_date"
                     style="@style/ReaderTextView.Date"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
                     android:maxLines="1"
                     android:text="date" />
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/text_status"
-                    android:textSize="@dimen/text_sz_small"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_alignTop="@+id/text_post_title"
-                    android:visibility="visible"
-                    android:text="STATUS" />
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="STATUS"
+                    android:textSize="@dimen/text_sz_small"
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <!--
@@ -95,12 +95,12 @@
                 android:id="@+id/text_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="text_content"
-                android:textColorLink="@color/reader_hyperlink"
-                android:textColor="@color/grey_dark"
-                android:textIsSelectable="false"
-                android:paddingTop="@dimen/margin_large"
                 android:paddingBottom="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_large"
+                android:text="text_content"
+                android:textColor="@color/grey_dark"
+                android:textColorLink="@color/reader_hyperlink"
+                android:textIsSelectable="false"
                 android:textSize="@dimen/text_sz_large" />
 
         </LinearLayout>
@@ -122,39 +122,39 @@
 
             <TextView
                 android:id="@+id/text_btn_moderate"
+                style="@style/WordPress.ModerateButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/ic_cab_approve"
-                android:text="@string/mnu_comment_approve"
-                style="@style/WordPress.ModerateButton" />
+                android:text="@string/mnu_comment_approve" />
 
             <TextView
                 android:id="@+id/text_btn_spam"
+                style="@style/WordPress.ModerateButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/WordPress.ModerateButton"
-                android:text="@string/mnu_comment_spam"
-                android:drawableTop="@drawable/ic_cab_spam" />
+                android:drawableTop="@drawable/ic_cab_spam"
+                android:text="@string/mnu_comment_spam" />
 
             <TextView
                 android:id="@+id/image_trash_comment"
-                android:drawableTop="@drawable/tab_icon_trash"
+                style="@style/WordPress.ModerateButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/mnu_comment_trash"
-                style="@style/WordPress.ModerateButton" />
+                android:drawableTop="@drawable/tab_icon_trash"
+                android:text="@string/mnu_comment_trash" />
 
             <TextView
                 android:id="@+id/image_edit_comment"
+                style="@style/WordPress.ModerateButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/ab_icon_edit"
-                android:text="@string/mnu_comment_edit"
-                style="@style/WordPress.ModerateButton" />
+                android:text="@string/mnu_comment_edit" />
 
         </LinearLayout>
 

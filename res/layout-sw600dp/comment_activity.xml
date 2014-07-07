@@ -12,10 +12,10 @@
     <fragment
         android:id="@+id/fragment_comment_list"
         android:name="kr.kdev.dg1s.biowiki.ui.comments.CommentsListFragment"
-        android:tag="@string/fragment_tag_comment_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:tag="@string/fragment_tag_comment_list" />
 
     <View
         android:layout_width="5dp"
@@ -30,10 +30,10 @@
 
         <fragment
             android:id="@+id/fragment_comment_detail"
-            android:tag="@string/fragment_tag_comment_detail"
             android:name="kr.kdev.dg1s.biowiki.ui.comments.CommentDetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:tag="@string/fragment_tag_comment_detail" />
     </RelativeLayout>
 
 </LinearLayout>

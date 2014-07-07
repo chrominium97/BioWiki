@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     ListView footer which includes a progress bar, shown when loading more data - note that the
     background color will be set by the host
 -->

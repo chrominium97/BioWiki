@@ -9,15 +9,15 @@
             <item
                 android:id="@+id/map_normal"
                 android:showAsAction="always"
-                android:title="일반"/>
+                android:title="일반" />
             <item
-            android:id="@+id/map_terrain"
-            android:showAsAction="always"
-            android:title="지형"/>
+                android:id="@+id/map_terrain"
+                android:showAsAction="always"
+                android:title="지형" />
             <item
                 android:id="@+id/map_hybrid"
                 android:showAsAction="always"
-                android:title="위성"/>
+                android:title="위성" />
             <!--
             <item
                 android:id="@+id/map_satellite"

@@ -1,17 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/margin_large"
     android:paddingLeft="@dimen/margin_extra_large"
     android:paddingRight="@dimen/margin_extra_large"
-    android:paddingTop="@dimen/margin_large"
-    android:paddingBottom="@dimen/margin_large">
+    android:paddingTop="@dimen/margin_large">
 
     <FrameLayout
         android:id="@+id/frame_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_extra_small"
-        android:layout_marginRight="@dimen/margin_large">
+        android:layout_marginRight="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_extra_small">
 
         <kr.kdev.dg1s.biowiki.widgets.BWNetworkImageView
             android:id="@+id/avatar"
@@ -21,9 +21,9 @@
             android:id="@+id/image_checkmark"
             android:layout_width="@dimen/avatar_sz_medium"
             android:layout_height="@dimen/avatar_sz_medium"
-            android:src="@drawable/tab_icon_checkmark"
             android:background="@color/blue_medium"
             android:padding="@dimen/margin_medium"
+            android:src="@drawable/tab_icon_checkmark"
             android:visibility="gone" />
     </FrameLayout>
 
@@ -33,16 +33,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/margin_medium"
-        android:orientation="vertical"
         android:layout_marginTop="@dimen/margin_small"
-        android:gravity="right">
+        android:gravity="right"
+        android:orientation="vertical">
 
         <kr.kdev.dg1s.biowiki.widgets.BWTextView
             android:id="@+id/text_date"
+            style="@style/ReaderTextView.Date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="date"
-            style="@style/ReaderTextView.Date" />
+            android:text="date" />
 
         <kr.kdev.dg1s.biowiki.widgets.BWTextView
             android:id="@+id/status"
@@ -50,16 +50,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:textAllCaps="true"
-            android:visibility="gone"
-            android:textSize="@dimen/text_sz_small" />
+            android:textSize="@dimen/text_sz_small"
+            android:visibility="gone" />
     </LinearLayout>
 
     <kr.kdev.dg1s.biowiki.widgets.BWTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/frame_avatar"
         android:layout_toLeftOf="@+id/layout_date_status"
+        android:layout_toRightOf="@+id/frame_avatar"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="title"
@@ -70,12 +70,12 @@
         android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/frame_avatar"
         android:layout_below="@+id/title"
         android:layout_marginTop="@dimen/margin_extra_small"
+        android:layout_toRightOf="@+id/frame_avatar"
         android:ellipsize="end"
-        android:text="comment"
         android:maxLines="2"
+        android:text="comment"
         android:textColor="@color/grey_medium"
         android:textSize="@dimen/text_sz_medium" />
 

@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -22,6 +21,7 @@ import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,8 +66,8 @@ public class AttributeSelectionFragment extends SherlockFragment {
             R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
 
     ScrollView flowerLayout;
-    LinearLayout leafLayout;
-    LinearLayout fruitLayout;
+    ScrollView leafLayout;
+    ScrollView fruitLayout;
 
     ExpandableGridView flowerGrid1, flowerGrid2, flowerGrid3;
     ExpandableGridView leafGrid1, leafGrid2, leafGrid3, leafGrid4, leafGrid5, leafGrid6, leafGrid7;
@@ -121,8 +121,8 @@ public class AttributeSelectionFragment extends SherlockFragment {
     public void setupViews() {
 
         flowerLayout = (ScrollView) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_flower, null);
-        leafLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_leaf, null);
-        fruitLayout = (LinearLayout) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_fruit, null);
+        leafLayout = (ScrollView) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_leaf, null);
+        fruitLayout = (ScrollView) getLayoutInflater(new Bundle()).inflate(R.layout.attributes_fruit, null);
 
         flowerGrid1 = (ExpandableGridView) flowerLayout.findViewById(R.id.flowerGrid1);
         flowerGrid2 = (ExpandableGridView) flowerLayout.findViewById(R.id.flowerGrid2);
@@ -182,23 +182,24 @@ public class AttributeSelectionFragment extends SherlockFragment {
     }
 
     public void initializeCategory() {
+        File file = getActivity().getCacheDir();
         // Instance of ImageAdapter Class
-        flowerGrid1.setAdapter(new ImageAdapter(context, flowerArray1));
-        flowerGrid2.setAdapter(new ImageAdapter(context, flowerArray2));
-        flowerGrid3.setAdapter(new ImageAdapter(context, flowerArray3));
-        leafGrid1.setAdapter(new ImageAdapter(context, leafArray1));
-        leafGrid2.setAdapter(new ImageAdapter(context, leafArray2));
-        leafGrid3.setAdapter(new ImageAdapter(context, leafArray3));
-        leafGrid4.setAdapter(new ImageAdapter(context, leafArray4));
-        leafGrid5.setAdapter(new ImageAdapter(context, leafArray5));
-        leafGrid6.setAdapter(new ImageAdapter(context, leafArray6));
-        leafGrid7.setAdapter(new ImageAdapter(context, leafArray7));
-        fruitGrid.setAdapter(new ImageAdapter(context, fruitArray));
+        flowerGrid1.setAdapter(new ImageAdapter(context, flowerArray1, file));
+        flowerGrid2.setAdapter(new ImageAdapter(context, flowerArray2, file));
+        flowerGrid3.setAdapter(new ImageAdapter(context, flowerArray3, file));
+        leafGrid1.setAdapter(new ImageAdapter(context, leafArray1, file));
+        leafGrid2.setAdapter(new ImageAdapter(context, leafArray2, file));
+        leafGrid3.setAdapter(new ImageAdapter(context, leafArray3, file));
+        leafGrid4.setAdapter(new ImageAdapter(context, leafArray4, file));
+        leafGrid5.setAdapter(new ImageAdapter(context, leafArray5, file));
+        leafGrid6.setAdapter(new ImageAdapter(context, leafArray6, file));
+        leafGrid7.setAdapter(new ImageAdapter(context, leafArray7, file));
+        fruitGrid.setAdapter(new ImageAdapter(context, fruitArray, file));
 
         flowerGrid1.setExpanded(true);
         flowerGrid2.setExpanded(true);
         flowerGrid3.setExpanded(true);
-        flowerGrid1.setExpanded(true);
+        leafGrid1.setExpanded(true);
         leafGrid2.setExpanded(true);
         leafGrid3.setExpanded(true);
         leafGrid4.setExpanded(true);

@@ -115,6 +115,7 @@ public class FlowLayout extends ViewGroup {
 
     public static class LayoutParams extends ViewGroup.LayoutParams {
         public int horizontalSpacing;
+
         int x;
         int y;
 

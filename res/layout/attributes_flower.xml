@@ -1,70 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent"
     android:id="@+id/flowerLayout"
-    android:padding="5dp">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="fill_parent"
+    android:padding="5dp">
 
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/flowerLabel1"
-        android:text="@android:string/untitled"
-        android:textSize="25sp" />
+        android:orientation="vertical">
 
-    <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/flowerGrid1"
-        android:padding="5dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:columnWidth="150dp"
-        android:stretchMode="columnWidth"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/flowerLabel1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@android:string/untitled"
+            android:textSize="25sp" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/flowerLabel2"
-        android:text="@android:string/untitled"
-        android:textSize="25sp" />
+        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/flowerGrid1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="150dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:padding="5dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
 
-    <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/flowerGrid2"
-        android:padding="5dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:columnWidth="150dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/flowerLabel2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@android:string/untitled"
+            android:textSize="25sp" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/flowerLabel3"
-        android:text="@android:string/untitled"
-        android:textSize="25sp" />
+        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/flowerGrid2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="150dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:padding="5dp"
+            android:verticalSpacing="10dp" />
 
-    <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/flowerGrid3"
-        android:padding="5dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:columnWidth="150dp"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:gravity="center" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/flowerLabel3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@android:string/untitled"
+            android:textSize="25sp" />
+
+        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/flowerGrid3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="150dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="2"
+            android:padding="5dp"
+            android:verticalSpacing="10dp" />
+    </LinearLayout>
 </ScrollView>

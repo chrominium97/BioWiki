@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:visibility="gone">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -22,43 +22,43 @@
                 android:id="@+id/empty_tags_box_bottom"
                 android:layout_width="86dp"
                 android:layout_height="54dp"
-                android:src="@drawable/box_with_pages_bottom"
-                android:layout_alignParentBottom="true" />
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/box_with_pages_bottom" />
 
             <ImageView
                 android:id="@+id/empty_tags_box_page3"
                 android:layout_width="54dp"
                 android:layout_height="70dp"
-                android:src="@drawable/box_with_pages_page3"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="2dp" />
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/box_with_pages_page3" />
 
             <ImageView
                 android:id="@+id/empty_tags_box_page2"
                 android:layout_width="53dp"
                 android:layout_height="70dp"
-                android:src="@drawable/box_with_pages_page2"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="17dp"
-                android:layout_marginBottom="15dp" />
+                android:src="@drawable/box_with_pages_page2" />
 
             <ImageView
                 android:id="@+id/empty_tags_box_page1"
                 android:layout_width="56dp"
                 android:layout_height="73.5dp"
-                android:src="@drawable/box_with_pages_page1"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="28dp" />
+                android:layout_marginLeft="28dp"
+                android:src="@drawable/box_with_pages_page1" />
 
             <ImageView
                 android:id="@+id/empty_tags_box_top"
                 android:layout_width="86dp"
                 android:layout_height="54dp"
-                android:src="@drawable/box_with_pages_top"
-                android:layout_alignParentBottom="true" />
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/box_with_pages_top" />
         </RelativeLayout>
 
         <kr.kdev.dg1s.biowiki.widgets.BWTextView

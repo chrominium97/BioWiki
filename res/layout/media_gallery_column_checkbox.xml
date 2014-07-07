@@ -6,6 +6,6 @@
     android:layout_height="32dp"
     android:layout_gravity="center"
     android:gravity="center"
-    android:text="0" >
+    android:text="0">
 
 </CheckBox>

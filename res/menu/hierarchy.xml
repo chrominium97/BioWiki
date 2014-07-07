@@ -4,5 +4,5 @@
     <item
         android:id="@+id/go_up"
         android:showAsAction="always"
-        android:title="상위"/>
+        android:title="상위" />
 </menu>

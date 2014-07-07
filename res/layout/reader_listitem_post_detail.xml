@@ -21,8 +21,8 @@
             android:id="@+id/image_avatar"
             style="@style/ReaderImageView.Avatar"
             android:layout_centerVertical="true"
-            android:background="@color/grey_extra_light"
-            android:layout_marginRight="@dimen/margin_large" />
+            android:layout_marginRight="@dimen/margin_large"
+            android:background="@color/grey_extra_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,11 +83,11 @@
         android:id="@+id/image_featured"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/reader_featured_image_height"
-        android:adjustViewBounds="true"
         android:layout_marginLeft="@dimen/reader_list_margin"
         android:layout_marginRight="@dimen/reader_list_margin"
         android:layout_marginTop="@dimen/margin_large"
+        android:adjustViewBounds="true"
+        android:minHeight="@dimen/reader_featured_image_height"
         android:visibility="gone" />
 
     <WebView
@@ -112,11 +112,11 @@
 
         <kr.kdev.dg1s.biowiki.widgets.BWTextView
             android:id="@+id/text_like_count"
-            android:textSize="@dimen/text_sz_large"
-            android:textColor="@color/reader_hyperlink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="text_like_count" />
+            android:text="text_like_count"
+            android:textColor="@color/reader_hyperlink"
+            android:textSize="@dimen/text_sz_large" />
 
         <!-- liking avatars are inserted into this LinearLayout at runtime -->
         <LinearLayout

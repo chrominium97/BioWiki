@@ -60,7 +60,7 @@ public class PlantInformationFragment extends SherlockFragment {
             initializeGlobalVariables();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Unable to initialize blank_linearlayout", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unable to initialize blank linear layout", Toast.LENGTH_SHORT).show();
         }
         Log.d("Bundle is", " " + (savedInstanceState != null));
         Log.d("Bundle", getArguments().getString("plant") + (savedInstanceState != null));
@@ -106,8 +106,10 @@ public class PlantInformationFragment extends SherlockFragment {
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .considerExifParams(true)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+                .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565)
+                .showImageOnLoading(R.drawable.media_image_placeholder)
+                .showImageOnFail(R.drawable.remote_failed)
                 .build();
         config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(4)
@@ -136,7 +138,7 @@ public class PlantInformationFragment extends SherlockFragment {
         } else if (token.equals("fruit")) {
             name.setText("열매");
         } else if (token.equals("chromo")) {
-            name.setText("핵형");
+            name.setText("핵상");
         } else if (token.equals("place")) {
             name.setText("서식지");
         } else if (token.equals("horizon")) {

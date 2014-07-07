@@ -4,6 +4,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/theme_feature_text_bg"
     android:padding="8dp"
-    android:textColor="@color/theme_feature_text" >
+    android:textColor="@color/theme_feature_text">
 
 </TextView>

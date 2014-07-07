@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,7 +10,7 @@
         android:layout_marginRight="16dp"
         android:orientation="vertical"
         android:paddingBottom="16dp"
-        android:paddingTop="16dp" >
+        android:paddingTop="16dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -22,13 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="8dp" >
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/stats_comments_summary_per_month_count"
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="8dp" >
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/stats_comments_summary_total_count"
@@ -83,7 +83,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp" >
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/stats_comments_summary_most_active_day_text"
@@ -104,7 +104,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp" >
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/stats_comments_summary_most_active_time_text"
@@ -125,7 +125,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp" >
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/stats_comments_summary_most_commented_text"

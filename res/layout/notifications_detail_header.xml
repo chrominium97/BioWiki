@@ -13,17 +13,17 @@
         android:background="@drawable/reader_transparent_selector"
         android:ellipsize="end"
         android:gravity="center"
+        android:paddingBottom="@dimen/margin_medium"
         android:paddingLeft="@dimen/margin_large"
         android:paddingRight="@dimen/margin_large"
         android:paddingTop="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium"
         android:textColor="@color/reader_hyperlink"
         android:textSize="@dimen/text_sz_large" />
-    
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/reader_hyperlink"
-        android:layout_marginBottom="@dimen/margin_medium"/>
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:background="@color/reader_hyperlink" />
 
 </kr.kdev.dg1s.biowiki.ui.notifications.DetailHeader>

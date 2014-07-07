@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/margin_extra_large" >
+        android:padding="@dimen/margin_extra_large">
 
         <TextView
             style="@style/StatsHeader"
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RelativeLayout
                 style="@style/StatsWhiteBackground"
@@ -31,7 +31,7 @@
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:padding="@dimen/margin_extra_large" >
+                android:padding="@dimen/margin_extra_large">
 
                 <TextView
                     android:id="@+id/stats_comments_summary_per_month_count"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:padding="@dimen/margin_extra_large" >
+                android:padding="@dimen/margin_extra_large">
 
                 <TextView
                     android:id="@+id/stats_comments_summary_total_count"
@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:padding="@dimen/margin_extra_large" >
+            android:padding="@dimen/margin_extra_large">
 
             <TextView
                 android:id="@+id/stats_comments_summary_most_active_day_text"
@@ -108,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:padding="@dimen/margin_extra_large" >
+            android:padding="@dimen/margin_extra_large">
 
             <TextView
                 android:id="@+id/stats_comments_summary_most_active_time_text"
@@ -129,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:padding="@dimen/margin_extra_large" >
+            android:padding="@dimen/margin_extra_large">
 
             <TextView
                 android:id="@+id/stats_comments_summary_most_commented_text"

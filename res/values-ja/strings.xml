@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="go_bakc_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
+    <string name="go_back_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
 
     <string name="toBioInfo">BioInfoへ</string>
     <string name="toBioWiki">BioWikiへ</string>
@@ -183,20 +183,20 @@
     <string name="delete_post">投稿を削除</string>
     <string name="delete_page">ページを削除</string>
     <string name="share_url">URLを共有</string>
-<!--
-    <string name="loading_posts">Loading posts&#8230;</string>
-    <string name="loading_pages">Loading pages&#8230;</string> -->
+    <!--
+        <string name="loading_posts">Loading posts&#8230;</string>
+        <string name="loading_pages">Loading pages&#8230;</string> -->
 
     <!-- reload drop down -->
     <string name="loading">読込中…</string>
 
     <!-- comment view -->
     <string name="on">オン</string>
-<!--
-    <string name="comment_status_approved">Approved</string>
-    <string name="comment_status_unapproved">Pending</string>
-    <string name="comment_status_spam">Spam</string>
-    <string name="comment_status_trash">Trashed</string> -->
+    <!--
+        <string name="comment_status_approved">Approved</string>
+        <string name="comment_status_unapproved">Pending</string>
+        <string name="comment_status_spam">Spam</string>
+        <string name="comment_status_trash">Trashed</string> -->
     <string name="edit_comment">コメントを編集</string>
     <string name="comments_empty_list">コメントはありません。</string>
 
@@ -326,7 +326,7 @@
     <!-- stats: video summary -->
 
     <!-- stats: empty list strings -->
-      <string name="stats_bar_graph_empty">統計情報がありません。</string>
+    <string name="stats_bar_graph_empty">統計情報がありません。</string>
 
     <!-- invalid_url -->
     <string name="invalid_url_message">入力したブログ URL が正しいか確認してください。</string>
@@ -358,7 +358,7 @@
 
     <!-- notifications -->
     <string name="notifications">通知</string>
-   <string name="notifications_turn_off">無効化</string>
+    <string name="notifications_turn_off">無効化</string>
     <string name="notifications_turn_off_1hr">1時間無効化</string>
     <string name="notifications_turn_off_8hr">8時間無効化</string>
     <string name="note_reply_successful">返信を公開しました</string>
@@ -416,7 +416,7 @@
     <string name="ok">OK</string>
     <string name="image_settings">画像の設定</string>
     <string name="add_account_blog_url">ブログのアドレス</string>
-  <string name="error_blog_hidden">このブログは非表示設定になっており読み込むことができません。設定画面で再度有効化してもう一度お試しください。</string>
+    <string name="error_blog_hidden">このブログは非表示設定になっており読み込むことができません。設定画面で再度有効化してもう一度お試しください。</string>
 
     <!--  Error Messages -->
 
@@ -497,7 +497,7 @@
 
     <!-- toast messages -->
     <string name="reader_toast_err_comment_failed">コメントを投稿できませんでした</string>
-     <string name="reader_toast_err_share_intent">共有に失敗しました</string>
+    <string name="reader_toast_err_share_intent">共有に失敗しました</string>
     <string name="reader_toast_err_url_intent">%sを開けませんでした</string>
     <string name="reader_toast_err_get_comment">このコメントを読み込めません</string>
 
@@ -509,7 +509,7 @@
 
     <!-- NUX strings -->
     <string name="create_account_wpcom">WordPress.com でアカウントを作成</string>
-     <string name="required_field">必須項目</string>
+    <string name="required_field">必須項目</string>
     <string name="email_hint">メールアドレス</string>
     <string name="agree_terms_of_service">アカウントを作成すると%1$s利用規約%2$sに合意したものとみなされます。</string>
     <string name="username_email">ユーザー名またはメール</string>

@@ -13,8 +13,8 @@
     <View
         android:id="@+id/spacer_top"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="@dimen/margin_large" />
+        android:layout_height="@dimen/margin_large"
+        android:visibility="gone" />
 
     <!-- spacer_indent width and visibility set at run-time based on comment indent level -->
     <View
@@ -84,8 +84,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/text_reply"
-        android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
         android:background="@color/grey_light" />
 
     <ProgressBar

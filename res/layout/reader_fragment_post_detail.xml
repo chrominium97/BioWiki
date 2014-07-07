@@ -2,10 +2,10 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_post_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:id="@+id/layout_post_detail_container">
+    android:background="@color/white">
 
     <ListView
         android:id="@id/android:list"
@@ -44,14 +44,14 @@
 
             <ImageView
                 android:id="@+id/image_comment_btn"
-                android:layout_weight="1"
                 style="@style/ReaderImageView.ButtonIcon"
+                android:layout_weight="1"
                 android:src="@drawable/reader_button_comment" />
 
             <ImageView
                 android:id="@+id/image_like_btn"
-                android:layout_weight="1"
                 style="@style/ReaderImageView.ButtonIcon"
+                android:layout_weight="1"
                 android:src="@drawable/reader_button_like" />
         </LinearLayout>
 

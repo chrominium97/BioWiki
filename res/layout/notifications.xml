@@ -9,8 +9,8 @@
     android:layout_height="match_parent">
 
     <fragment
-        android:name="kr.kdev.dg1s.biowiki.ui.notifications.NotificationsListFragment"
         android:id="@+id/fragment_notes_list"
+        android:name="kr.kdev.dg1s.biowiki.ui.notifications.NotificationsListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

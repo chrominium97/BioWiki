@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="8dp"
-    android:paddingRight="14dp"
+    android:background="@drawable/md_list_selector"
     android:clickable="true"
-    android:background="@drawable/md_list_selector" >
+    android:paddingLeft="8dp"
+    android:paddingRight="14dp">
 
     <com.actionbarsherlock.internal.widget.IcsSpinner
         android:id="@+id/blog_spinner"
         style="@style/DropDownNav.WordPress"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="0dp"
-        android:clickable="false" />
+        android:clickable="false"
+        android:paddingLeft="0dp" />
 
 </LinearLayout>

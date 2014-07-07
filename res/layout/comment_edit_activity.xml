@@ -2,11 +2,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fillViewport="true"
     android:paddingBottom="@dimen/margin_large"
     android:paddingLeft="@dimen/margin_extra_large"
     android:paddingRight="@dimen/margin_extra_large"
-    android:paddingTop="@dimen/margin_large"
-    android:fillViewport="true">
+    android:paddingTop="@dimen/margin_large">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:inputType="textPersonName|textNoSuggestions"
             android:hint="@string/author_name"
+            android:inputType="textPersonName|textNoSuggestions"
             android:singleLine="true" />
 
         <kr.kdev.dg1s.biowiki.widgets.OpenSansEditText
@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:inputType="textEmailAddress"
             android:hint="@string/author_email"
+            android:inputType="textEmailAddress"
             android:singleLine="true" />
 
         <kr.kdev.dg1s.biowiki.widgets.OpenSansEditText
@@ -36,18 +36,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:inputType="textUri"
             android:hint="@string/author_url"
+            android:inputType="textUri"
             android:singleLine="true" />
 
         <kr.kdev.dg1s.biowiki.widgets.OpenSansEditText
             android:id="@+id/comment_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
             android:gravity="top|left"
-            android:minLines="4"
             android:hint="@string/hint_comment_content"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:minLines="4"
             android:textColorLink="@color/reader_hyperlink" />
     </LinearLayout>
 </ScrollView>

@@ -12,10 +12,19 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
+import java.io.File;
+
 import kr.kdev.dg1s.biowiki.R;
 
 public class ImageAdapter extends BaseAdapter {
 
+    File cache;
     Context context;
     int[] mImg;
     char[] mText;
@@ -24,7 +33,8 @@ public class ImageAdapter extends BaseAdapter {
     private RadioButton mSelectedRB;
     private int mSelectedPosition = -1;
 
-    public ImageAdapter(Context context, int[] img) {
+    public ImageAdapter(Context context, int[] img, File file) {
+        cache = file;
         this.context = context;
         this.mImg = img;
         this.
@@ -51,17 +61,43 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView,
                         ViewGroup parent) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = 2;
         View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
         final Holder holder;
         holder = new Holder();
 
+        /**
         Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
         bitmap.recycle();
+         */
+
+        ImageLoaderConfiguration config;
+        DisplayImageOptions options;
+
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .considerExifParams(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .showImageOnLoading(R.drawable.media_image_placeholder)
+                .showImageOnFail(R.drawable.remote_failed)
+                .build();
+        config = new ImageLoaderConfiguration.Builder(context)
+                .threadPoolSize(Runtime.getRuntime().availableProcessors())
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(options)
+                .build();
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(config);
+
         holder.image = (ImageView) view.findViewById(R.id.plant_image);
-        holder.image.setImageBitmap(scaledBitmap);
+        imageLoader.displayImage("drawable://" + mImg[position], holder.image);
+        //holder.image.setImageBitmap(scaledBitmap);
         Log.d("Holder", "Image ID : " + mImg[position]);
         holder.radioButton = (RadioButton) view
                 .findViewById(R.id.radiobtn);
