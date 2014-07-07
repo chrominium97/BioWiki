@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info;
+package kr.kdev.dg1s.biowiki.ui.plantInfo;
 
 import android.content.Context;
 import android.util.Log;

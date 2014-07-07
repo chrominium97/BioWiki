@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/site_address"
                     android:inputType="textUri"
-                    android:text="@string/server_address" />
+                    android:text="@string/biowiki_address" />
 
                 <ImageView
                     android:id="@+id/imageView2"

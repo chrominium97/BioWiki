@@ -8,7 +8,8 @@
     <string name="dictionary_menu">Dictionary</string>
     <string name="mapsItem">Distribution Chart</string>
     <string name="DictionaryItem">Classifying Plants</string>
-    <string name="server_ip" translatable="false">http://10.80.121.88</string>
+    <string name="server_address" translatable="false">http://biowiki.mireene.com</string>
+    <string name="biowiki_address" translatable="false">http://biowiki.mireene.com/nacl</string>
     <string name="server_subdomain">/repo</string>
     <string name="distribution_sample">/sample.xml</string>
 
@@ -347,7 +348,7 @@
     <!-- stats: video summary -->
 
     <!-- stats: empty list strings -->
-<string name="stats_bar_graph_empty">No stats available</string>
+    <string name="stats_bar_graph_empty">No stats available</string>
 
     <!-- invalid_url -->
     <string name="invalid_url_message">Check that the blog URL entered is valid</string>
@@ -521,9 +522,9 @@
 
     <!-- toast messages -->
     <string name="reader_toast_err_comment_failed">Couldn\'t post your comment</string>
-<string name="reader_toast_err_share_intent">Unable to share</string>
+    <string name="reader_toast_err_share_intent">Unable to share</string>
     <string name="reader_toast_err_url_intent">Unable to open %s</string>
- <string name="reader_toast_err_get_comment">Unable to retrieve this comment</string>
+    <string name="reader_toast_err_get_comment">Unable to retrieve this comment</string>
 
     <!-- empty list/grid text -->
 
@@ -533,7 +534,7 @@
 
     <!-- NUX strings -->
     <string name="create_account_wpcom">Create an account on&#160;WordPress.com</string>
-<string name="required_field">Required field</string>
+    <string name="required_field">Required field</string>
     <string name="email_hint">Email address</string>
     <string name="agree_terms_of_service">By creating an account you agree to the fascinating %1$sTerms&#160;of&#160;Service%2$s</string>
     <string name="username_email">Username or email</string>
@@ -580,5 +581,5 @@
     <string name="nux_help_description">Visit the help center to get answers to common questions. or visit the forums to ask new&#160;ones.</string>
     <string name="forums">Forums</string>
     <string name="help_center">Help center</string>
-   <string name="ptr_tip_message">Tip: Pull down to refresh</string>
+    <string name="ptr_tip_message">Tip: Pull down to refresh</string>
 </resources>

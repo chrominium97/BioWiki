@@ -6,7 +6,7 @@ import android.util.Log;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.info.PlantInformationFragment;
+import kr.kdev.dg1s.biowiki.ui.plantInfo.PlantInformationFragment;
 
 public class DistributionViewerActivity extends BIActionBarActivity implements MapViewerFragment.OnPlantSelectedListener {
 

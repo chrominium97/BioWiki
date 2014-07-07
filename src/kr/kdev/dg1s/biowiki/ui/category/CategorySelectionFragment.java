@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.info.ElementAdapter;
+import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
 
 /**
  * Created by DG1S on 2014-05-19.

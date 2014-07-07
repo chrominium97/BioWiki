@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.info.PlantInformationFragment;
+import kr.kdev.dg1s.biowiki.ui.plantInfo.PlantInformationFragment;
 
 public class CategorySelectorActivity extends BIActionBarActivity implements CategorySelectionFragment.OnPlantSelectedListener {
 

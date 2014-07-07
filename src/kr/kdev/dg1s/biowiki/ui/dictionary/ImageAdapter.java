@@ -19,6 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
 
@@ -27,14 +29,22 @@ public class ImageAdapter extends BaseAdapter {
     File cache;
     Context context;
     int[] mImg;
-    char[] mText;
+    String[] mText;
     LayoutInflater layoutInflater;
     RadioGroup radioGroup;
     private RadioButton mSelectedRB;
     private int mSelectedPosition = -1;
 
-    public ImageAdapter(Context context, int[] img, File file) {
+    public ImageAdapter(Context context, int[] img, String[] tags, File file) {
         cache = file;
+        List<String> nonBlank = new ArrayList<String>();
+        for (String s : tags) {
+            if (!s.trim().isEmpty()) {
+                nonBlank.add(s);
+            }
+        }
+        // nonBlank will have all the elements which contain some characters.
+        this.mText = nonBlank.toArray(new String[nonBlank.size()]);
         this.context = context;
         this.mImg = img;
         this.
@@ -104,6 +114,8 @@ public class ImageAdapter extends BaseAdapter {
         //holder.radioButton.setText();
         view.setTag(holder);
         //holder = (Holder) view.getTag();
+
+        holder.radioButton.setText(mText[position]);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

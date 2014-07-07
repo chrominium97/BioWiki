@@ -29,7 +29,7 @@ import java.util.List;
 
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.info.ElementAdapter;
+import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
 
 public class AttributeSelectionFragment extends SherlockFragment {
 
@@ -53,7 +53,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
 
     Source source;
 
-    OnPlantSelectedListener mCallback;
+    OnAttributeDecidedListener mCallback;
 
     @Override
     public void onAttach(Activity activity) {
@@ -61,10 +61,10 @@ public class AttributeSelectionFragment extends SherlockFragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (OnPlantSelectedListener) activity;
+            mCallback = (OnAttributeDecidedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnPlantSelectedListener");
+                    + " must implement OnAttributeDecidedListener");
         }
     }
 
@@ -152,17 +152,17 @@ public class AttributeSelectionFragment extends SherlockFragment {
     public void initializeCategory() {
         File file = getActivity().getCacheDir();
         // Instance of ImageAdapter Class
-        flowerGrid1.setAdapter(new ImageAdapter(context, Constants.flowerDrawable1, file));
-        flowerGrid2.setAdapter(new ImageAdapter(context, Constants.flowerDrawable2, file));
-        flowerGrid3.setAdapter(new ImageAdapter(context, Constants.flowerDrawable3, file));
-        leafGrid1.setAdapter(new ImageAdapter(context, Constants.leafDrawable1, file));
-        leafGrid2.setAdapter(new ImageAdapter(context, Constants.leafDrawable2, file));
-        leafGrid3.setAdapter(new ImageAdapter(context, Constants.leafDrawable3, file));
-        leafGrid4.setAdapter(new ImageAdapter(context, Constants.leafDrawable4, file));
-        leafGrid5.setAdapter(new ImageAdapter(context, Constants.leafDrawable5, file));
-        leafGrid6.setAdapter(new ImageAdapter(context, Constants.leafDrawable6, file));
-        leafGrid7.setAdapter(new ImageAdapter(context, Constants.leafDrawable7, file));
-        fruitGrid.setAdapter(new ImageAdapter(context, Constants.fruitDrawable, file));
+        flowerGrid1.setAdapter(new ImageAdapter(context, Constants.flowerDrawable1, Constants.flowerNames1, file));
+        flowerGrid2.setAdapter(new ImageAdapter(context, Constants.flowerDrawable2, Constants.flowerNames2, file));
+        flowerGrid3.setAdapter(new ImageAdapter(context, Constants.flowerDrawable3, Constants.flowerNames3, file));
+        leafGrid1.setAdapter(new ImageAdapter(context, Constants.leafDrawable1, Constants.leafNames1, file));
+        leafGrid2.setAdapter(new ImageAdapter(context, Constants.leafDrawable2, Constants.leafNames2, file));
+        leafGrid3.setAdapter(new ImageAdapter(context, Constants.leafDrawable3, Constants.leafNames3, file));
+        leafGrid4.setAdapter(new ImageAdapter(context, Constants.leafDrawable4, Constants.leafNames4, file));
+        leafGrid5.setAdapter(new ImageAdapter(context, Constants.leafDrawable5, Constants.leafNames5, file));
+        leafGrid6.setAdapter(new ImageAdapter(context, Constants.leafDrawable6, Constants.leafNames6, file));
+        leafGrid7.setAdapter(new ImageAdapter(context, Constants.leafDrawable7, Constants.leafNames7, file));
+        fruitGrid.setAdapter(new ImageAdapter(context, Constants.fruitDrawable, Constants.fruitNames, file));
 
         flowerGrid1.setExpanded(true);
         flowerGrid2.setExpanded(true);
@@ -207,7 +207,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
                 Toast.makeText(context, "정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mCallback.onPlantSelected(tag);
+            mCallback.onAttributeDecided(tag);
             return;
         } else {
             currentElement = currentElement.getFirstElement("name", tag, false);
@@ -234,8 +234,8 @@ public class AttributeSelectionFragment extends SherlockFragment {
     }
 
     // Container Activity must implement this interface
-    public interface OnPlantSelectedListener {
-        public void onPlantSelected(String name);
+    public interface OnAttributeDecidedListener {
+        public void onAttributeDecided(String[] name);
     }
 
     public static class MainPagerAdapter extends PagerAdapter {
