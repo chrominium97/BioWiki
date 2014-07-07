@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.info.ElementAdapter;
 
@@ -184,17 +185,17 @@ public class AttributeSelectionFragment extends SherlockFragment {
     public void initializeCategory() {
         File file = getActivity().getCacheDir();
         // Instance of ImageAdapter Class
-        flowerGrid1.setAdapter(new ImageAdapter(context, flowerArray1, file));
-        flowerGrid2.setAdapter(new ImageAdapter(context, flowerArray2, file));
-        flowerGrid3.setAdapter(new ImageAdapter(context, flowerArray3, file));
-        leafGrid1.setAdapter(new ImageAdapter(context, leafArray1, file));
-        leafGrid2.setAdapter(new ImageAdapter(context, leafArray2, file));
-        leafGrid3.setAdapter(new ImageAdapter(context, leafArray3, file));
-        leafGrid4.setAdapter(new ImageAdapter(context, leafArray4, file));
-        leafGrid5.setAdapter(new ImageAdapter(context, leafArray5, file));
-        leafGrid6.setAdapter(new ImageAdapter(context, leafArray6, file));
-        leafGrid7.setAdapter(new ImageAdapter(context, leafArray7, file));
-        fruitGrid.setAdapter(new ImageAdapter(context, fruitArray, file));
+        flowerGrid1.setAdapter(new ImageAdapter(context, Constants.flowerDrawable1, file));
+        flowerGrid2.setAdapter(new ImageAdapter(context, Constants.flowerDrawable2, file));
+        flowerGrid3.setAdapter(new ImageAdapter(context, Constants.flowerDrawable3, file));
+        leafGrid1.setAdapter(new ImageAdapter(context, Constants.leafDrawable1, file));
+        leafGrid2.setAdapter(new ImageAdapter(context, Constants.leafDrawable2, file));
+        leafGrid3.setAdapter(new ImageAdapter(context, Constants.leafDrawable3, file));
+        leafGrid4.setAdapter(new ImageAdapter(context, Constants.leafDrawable4, file));
+        leafGrid5.setAdapter(new ImageAdapter(context, Constants.leafDrawable5, file));
+        leafGrid6.setAdapter(new ImageAdapter(context, Constants.leafDrawable6, file));
+        leafGrid7.setAdapter(new ImageAdapter(context, Constants.leafDrawable7, file));
+        fruitGrid.setAdapter(new ImageAdapter(context, Constants.fruitDrawable, file));
 
         flowerGrid1.setExpanded(true);
         flowerGrid2.setExpanded(true);
