@@ -45,6 +45,9 @@ public class Constants {
     public static int[] flowerDrawable1 = {R.drawable.d1101, R.drawable.d1102, R.drawable.d1103, R.drawable.d1104,
             R.drawable.d1105, R.drawable.d1106, R.drawable.d1107, R.drawable.d1108,
             R.drawable.d1109, R.drawable.d1110, R.drawable.d1111_1, R.drawable.d1111_2};
+    public static String flowerNames1[] = {"예시"
+
+    };
     public static int[] flowerDrawable2 = {R.drawable.d1201, R.drawable.d1202, R.drawable.d1203};
     public static int[] flowerDrawable3 = {R.drawable.d1301, R.drawable.d1302, R.drawable.d1303, R.drawable.d1304,
             R.drawable.d1305, R.drawable.d1306, R.drawable.d1307, R.drawable.d1308,
