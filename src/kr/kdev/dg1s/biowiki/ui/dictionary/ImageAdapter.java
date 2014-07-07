@@ -82,7 +82,7 @@ public class ImageAdapter extends BaseAdapter {
                 .considerExifParams(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.media_image_placeholder)
+                .showImageOnLoading(R.drawable.remote_image)
                 .showImageOnFail(R.drawable.remote_failed)
                 .build();
         config = new ImageLoaderConfiguration.Builder(context)

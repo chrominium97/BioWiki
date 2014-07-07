@@ -1,6 +1,21 @@
 package kr.kdev.dg1s.biowiki;
 
+import android.graphics.Bitmap;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+
 public class Constants {
+
+    public static final DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .considerExifParams(true)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .showImageOnLoading(R.drawable.remote_image)
+            .showImageOnFail(R.drawable.remote_failed)
+            .build();
 
     public static final String URL_TOS = "http://en.wordpress.com/tos";
     /*
