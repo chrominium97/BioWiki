@@ -3,27 +3,14 @@
 
     <string name="app_name" translatable="false">BioWiki</string>
 
-    <string name="go_back_required">Press \'back\' to continue writing your post.</string>
+    <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>
 
-    <string name="toBioInfo">To BioInfo</string>
-    <string name="toBioWiki">To BioWiki</string>
-    <string name="dictionaryItem">Plant Classification</string>
+    <string name="dictionary_menu">Dictionary</string>
     <string name="mapsItem">Distribution Chart</string>
-    <string name="classificationItem">Plant Dictionary</string>
-
-    <string name="biowiki_welcome">Welcome to BioInfo.</string>
-    <string name="biowiki_welcome_desc">Swipe from left to right to see features</string>
-    <string name="bioinfo_welcome">Welcome to BioWiki.</string>
-    <string name="bioinfo_welcome_desc">Swipe from left to right to see features</string>
-
-    <!-- toast messages -->
-    <string name="locationButtonClicked">Moving to the current location&#8230;</string>
-    <string name="locationLoaded">Distribution information have been loaded.</string>
-
-    <string name="server_address" translatable="false">http://biowiki.mireene.com/nacl</string>
-    <string name="server_ip" translatable="false">http://biowiki.mireene.com/nacl</string>
-    <string name="server_subdomain" translatable="false">/repo</string>
-    <string name="distribution_sample" translatable="false">/sample.xml</string>
+    <string name="DictionaryItem">Classifying Plants</string>
+    <string name="server_ip" translatable="false">http://10.80.121.88</string>
+    <string name="server_subdomain">/repo</string>
+    <string name="distribution_sample">/sample.xml</string>
 
     <!-- account setup -->
     <string name="xmlrpc_error">Couldn\'t connect. Enter the full path to xmlrpc.php on your site and try again.</string>
@@ -38,7 +25,7 @@
     <string name="post_content">Content (tap to add text and media)</string>
     <string name="max_thumbnail_px_width">Default image width</string>
     <string name="password">Password</string>
-    <string name="blogs">Wikis</string>
+    <string name="blogs">Blogs</string>
     <string name="account_details">Account details</string>
     <string name="status">Status</string>
 
@@ -49,6 +36,8 @@
     <string name="post">Post</string>
     <string name="page">Page</string>
     <string name="posts">Posts</string>
+    <string name="BioWiki">BioWiki</string>
+    <string name="BioInfo">BioInfo</string>
     <string name="media">Media</string>
     <string name="video">Video</string>
     <string name="themes">Themes</string>
@@ -58,15 +47,15 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="add_self_hosted_blog">Add self-hosted blog</string>
-    <string name="show_and_hide_blogs">Show/hide wikis</string>
-    <string name="blogs_visibility">Wiki visibility</string>
+    <string name="show_and_hide_blogs">Show/hide WordPress.com blogs</string>
+    <string name="blogs_visibility">Blogs visibility</string>
     <string name="show_all">Show all</string>
     <string name="hide_all">Hide all</string>
-    <string name="sure_to_remove_account">Are you sure you want to remove this wiki?</string>
+    <string name="sure_to_remove_account">Are you sure you want to remove this blog?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="error">Error</string>
-    <string name="could_not_remove_account">Couldn\'t remove wiki</string>
+    <string name="could_not_remove_account">Couldn\'t remove blog</string>
     <string name="edit_page">Edit page</string>
     <string name="edit_post">Edit post</string>
     <string name="add_comment">Add comment</string>
@@ -358,7 +347,7 @@
     <!-- stats: video summary -->
 
     <!-- stats: empty list strings -->
-    <string name="stats_bar_graph_empty">No stats available</string>
+<string name="stats_bar_graph_empty">No stats available</string>
 
     <!-- invalid_url -->
     <string name="invalid_url_message">Check that the blog URL entered is valid</string>
@@ -532,9 +521,9 @@
 
     <!-- toast messages -->
     <string name="reader_toast_err_comment_failed">Couldn\'t post your comment</string>
-    <string name="reader_toast_err_share_intent">Unable to share</string>
+<string name="reader_toast_err_share_intent">Unable to share</string>
     <string name="reader_toast_err_url_intent">Unable to open %s</string>
-    <string name="reader_toast_err_get_comment">Unable to retrieve this comment</string>
+ <string name="reader_toast_err_get_comment">Unable to retrieve this comment</string>
 
     <!-- empty list/grid text -->
 
@@ -544,7 +533,7 @@
 
     <!-- NUX strings -->
     <string name="create_account_wpcom">Create an account on&#160;WordPress.com</string>
-    <string name="required_field">Required field</string>
+<string name="required_field">Required field</string>
     <string name="email_hint">Email address</string>
     <string name="agree_terms_of_service">By creating an account you agree to the fascinating %1$sTerms&#160;of&#160;Service%2$s</string>
     <string name="username_email">Username or email</string>
@@ -591,5 +580,5 @@
     <string name="nux_help_description">Visit the help center to get answers to common questions. or visit the forums to ask new&#160;ones.</string>
     <string name="forums">Forums</string>
     <string name="help_center">Help center</string>
-    <string name="ptr_tip_message">Tip: Pull down to refresh</string>
+   <string name="ptr_tip_message">Tip: Pull down to refresh</string>
 </resources>
