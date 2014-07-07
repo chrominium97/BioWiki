@@ -76,41 +76,42 @@ public class Constants {
             R.drawable.d2213, R.drawable.d2214, R.drawable.d2215, R.drawable.d2216,
             R.drawable.d2217};
     public static String leafNames2[] = {"매끈한모양\n(전연)", "둔한톱니\n(둔거치)", "작은둔한톱니\n(소둔거치)", "뾰족한톱니\n(예거치)", "작은뾰족한톱니\n(소예거치)",
-            "뾰족한겹톱니\n(복거치)", "이빨형톱니\n(치아상거치)", "\n()", "\n()", "\n()", "\n()", "\n()", "\n()", "\n()", "\n()", "\n()", "\n()"
-
+            "뾰족한겹톱니\n(복거치)", "이빨형톱니\n(치아상거치)", "작은이빨형톱니\n(소치아상거치)", "물결형\n(파형)", "반곡", "역반곡", "편형",
+            "얕게패인모양\n(천열)", "중간정도패인모양\n(중열)", "깊게패인모양\n(전열)", "날개모양\n(우열)", "손바닥모양\n(장상열)"
     };
     public static int[] leafDrawable3 = {R.drawable.d2301, R.drawable.d2302, R.drawable.d2303, R.drawable.d2304,
             R.drawable.d2305, R.drawable.d2306, R.drawable.d2307, R.drawable.d2308,
             R.drawable.d2309, R.drawable.d2310, R.drawable.d2311, R.drawable.d2312};
-    public static String leafNames3[] = {
-
+    public static String leafNames3[] = {"통과형잎바닥\n(관천저)","창날모양잎바닥\n(극저)","무딘잎바닥\n(둔저)","쐐기모양잎바닥\n(설저)",
+            "방패모양잎바닥\n(순저)","심장형잎바닥\n(심장저)","예리한잎바닥\n(예저)","비뚠잎바닥\n(왜저)","둥근잎바닥\n(원저)","흐르는잎바닥\n(유저)","귀모양잎바닥\n(이저)","편평한잎바닥\n(평저)"
     };
     public static int[] leafDrawable4 = {R.drawable.d2401, R.drawable.d2402, R.drawable.d2403, R.drawable.d2404,
             R.drawable.d2405, R.drawable.d2406, R.drawable.d2407, R.drawable.d2408,
             R.drawable.d2409, R.drawable.d2410, R.drawable.d2411, R.drawable.d2412,
             R.drawable.d2413, R.drawable.d2414, R.drawable.d2415, R.drawable.d2416,
             R.drawable.d2417};
-    public static String leafNames4[] = {
-
+    public static String leafNames4[] = {"넓은타원모양\n(광타원형)", "창날모양\n(극형)", "계란모양\n(난형)", "거꿀계란모양\n(도란형)",
+            "거꿀창끝모양\n(도피침형)", "민들레잎모양\n(민들레형)", "삼각모양\n(삼각형)", "줄모양\n(선형)",
+            "콩팥모양\n(신장형)", "심장모양\n(심장형)", "둥근모양\n(원형)", "긴타원모양\n(장타원형)",
+            "활촉모양\n(전형)", "주걱모양\n(주걱형)", "바늘모양\n(침형)", "타원모양\n(타원형)", "창끝모양\n(피침형)"
     };
     public static int[] leafDrawable5 = {R.drawable.d2501, R.drawable.d2502, R.drawable.d2503, R.drawable.d2504,
             R.drawable.d2505};
-    public static String leafNames5[] = {
-
+    public static String leafNames5[] = {"홀수한쌍깃모양겹잎\n(기수1쌍우상복엽)", "홀수한번깃모양겹잎\n(기수1회우상복엽)", "홀수두번깃모양겹잎\n(기수2회우상복엽)",
+            "짝수한번깃모양겹잎\n(우수1회우상복엽)", "짝수두번깃모양겹잎\n(우수2회우상복엽)"
     };
     public static int[] leafDrawable6 = {R.drawable.d2601, R.drawable.d2602, R.drawable.d2603};
-    public static String leafNames6[] = {
-
+    public static String leafNames6[] = {"돌려나기\n(윤생)", "마주나기\n(대생)", "어긋나기\n(호생)"
     };
     public static int[] leafDrawable7 = {R.drawable.d2701, R.drawable.d2702, R.drawable.d2703, R.drawable.d2704};
-    public static String leafNames7[] = {
-
+    public static String leafNames7[] = {"두번세장잎\n(2회3출엽)", "세장잎\n(3출엽)", "세번세장잎\n(3회3출엽)", "다섯장잎\n(5출엽)"
     };
     public static int[] fruitDrawable = {R.drawable.d3001, R.drawable.d3002, R.drawable.d3003, R.drawable.d3004,
             R.drawable.d3005, R.drawable.d3006, R.drawable.d3007, R.drawable.d3008,
             R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
-    public static String fruitNames[] = {
-
+    public static String fruitNames[] = {"뚜껑열매\n(개과)", "견과류열매\n(견과)", "분리열매\n(분과)", "갈래열매\n(분열과)",
+            "캡슐열매\n(삭과)", "여윈열매\n(수과)", "배열매\n(이과)", "날개열매\n(익과)",
+            "물열매\n(장과/액과)", "덩어리열매\n(취과)", "알갱이열매\n(핵과)", "꼬투리열매\n(협과)"
     };
 
 }
