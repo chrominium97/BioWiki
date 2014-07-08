@@ -32,7 +32,7 @@ public class ImageAdapter extends BaseAdapter {
     String[] mText;
     LayoutInflater layoutInflater;
     RadioGroup radioGroup;
-    private RadioButton mSelectedRB;
+    public RadioButton mSelectedRB = null;
     private int mSelectedPosition = -1;
 
     public ImageAdapter(Context context, int[] img, String[] tags, File file) {

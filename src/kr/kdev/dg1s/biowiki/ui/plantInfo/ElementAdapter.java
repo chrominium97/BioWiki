@@ -24,6 +24,7 @@ public class ElementAdapter extends BaseAdapter {
         for (String element : elements) {
             Log.d("Adapter", element);
         }
+
     }
 
     @Override

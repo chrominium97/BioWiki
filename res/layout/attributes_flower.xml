@@ -14,7 +14,7 @@
             android:id="@+id/flowerLabel1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@android:string/untitled"
+            android:text="꽃차례(무한화서)"
             android:textSize="25sp" />
 
         <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,7 +33,7 @@
             android:id="@+id/flowerLabel2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@android:string/untitled"
+            android:text="자방 위치"
             android:textSize="25sp" />
 
         <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,7 +51,7 @@
             android:id="@+id/flowerLabel3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@android:string/untitled"
+            android:text="꽃모양(화형)"
             android:textSize="25sp" />
 
         <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"

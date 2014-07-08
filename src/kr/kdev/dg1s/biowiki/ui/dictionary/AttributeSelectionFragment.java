@@ -10,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.MenuItem;
 
 import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Attributes;
@@ -30,6 +33,7 @@ import java.util.List;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
+import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class AttributeSelectionFragment extends SherlockFragment {
 
@@ -41,19 +45,42 @@ public class AttributeSelectionFragment extends SherlockFragment {
     ExpandableGridView leafGrid1, leafGrid2, leafGrid3, leafGrid4, leafGrid5, leafGrid6, leafGrid7;
     ExpandableGridView fruitGrid;
 
-    GridView gridView;
-
     ViewPager pager = null;
     MainPagerAdapter pagerAdapter = null;
 
-    Element currentElement;
-    List<Element> displayedElements;
 
     Context context;
 
-    Source source;
-
     OnAttributeDecidedListener mCallback;
+
+    public void getSelectedAttributes() {
+        ArrayList<ImageAdapter> imageAdapters = new ArrayList<ImageAdapter>();
+        imageAdapters.add((ImageAdapter) flowerGrid1.getAdapter());
+        imageAdapters.add((ImageAdapter) flowerGrid2.getAdapter());
+        imageAdapters.add((ImageAdapter) flowerGrid3.getAdapter());
+        imageAdapters.add((ImageAdapter) leafGrid1.getAdapter());
+        imageAdapters.add((ImageAdapter) leafGrid2.getAdapter());
+        imageAdapters.add((ImageAdapter) leafGrid3.getAdapter());
+        imageAdapters.add((ImageAdapter) leafGrid4.getAdapter());
+        imageAdapters.add((ImageAdapter) leafGrid5.getAdapter());
+        imageAdapters.add((ImageAdapter) leafGrid6.getAdapter());
+        imageAdapters.add((ImageAdapter) leafGrid7.getAdapter());
+        imageAdapters.add((ImageAdapter) fruitGrid.getAdapter());
+
+        ArrayList<String> attributes = new ArrayList<String>();
+
+        for (ImageAdapter imageAdapter : imageAdapters) {
+            if (imageAdapter.mSelectedRB != null) {
+                attributes.add(imageAdapter.mSelectedRB.getText().toString());
+            }
+        }
+        if (attributes.size() == 0) {
+            ToastUtils.showToast(context, "속성을 선택해 주세요.");
+        } else {
+            mCallback.onAttributeDecided(attributes);
+        }
+
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -103,17 +130,6 @@ public class AttributeSelectionFragment extends SherlockFragment {
         leafGrid6 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid6);
         leafGrid7 = (ExpandableGridView) leafLayout.findViewById(R.id.leafGrid7);
         fruitGrid = (ExpandableGridView) fruitLayout.findViewById(R.id.fruitGrid);
-
-        flowerGrid1.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP)
-                    flowerLayout.requestDisallowInterceptTouchEvent(false);
-                else
-                    flowerLayout.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
 
         pagerAdapter = new MainPagerAdapter();
         pager = (ViewPager) getView().findViewById(R.id.attributePager);
@@ -193,6 +209,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
         return export;
     }
 
+    /**
     public void parseXML(String tag, int position) throws IOException {
         ArrayList<String> names = new ArrayList<String>();
         if (position == -1) {
@@ -227,6 +244,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
             getSherlockActivity().getSupportActionBar().setTitle(R.string.app_name);
         }
     }
+     */
 
     @Override
     public void onResume() {
@@ -235,7 +253,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
 
     // Container Activity must implement this interface
     public interface OnAttributeDecidedListener {
-        public void onAttributeDecided(String[] name);
+        public void onAttributeDecided(ArrayList<String> names);
     }
 
     public static class MainPagerAdapter extends PagerAdapter {

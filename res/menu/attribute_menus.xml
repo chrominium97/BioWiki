@@ -2,7 +2,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/attribute_selected"
+        android:id="@+id/selection_finished"
         android:icon="@drawable/gallery_checkbox_filled"
         android:showAsAction="always"
         android:title="@string/settings" />
