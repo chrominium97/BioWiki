@@ -24,6 +24,8 @@ import java.util.ArrayList;
 
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView;
+import kr.kdev.dg1s.biowiki.ui.info.utils.ImageAdapter;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class AttributeSelectionFragment extends SherlockFragment {
