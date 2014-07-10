@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.category;
+package kr.kdev.dg1s.biowiki.ui.info;
 
 import android.app.Activity;
 import android.content.Context;

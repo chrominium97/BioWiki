@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.dictionary;
+package kr.kdev.dg1s.biowiki.ui.info;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -70,9 +70,9 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
         super.onBackPressed();
     }
 
-    public void onAttributeDecided(ArrayList<String> names) {
-        ToastUtils.showToast(getApplicationContext(), "Switching...\n" + names);
-        Log.d("Attribute", "Switching...\n" + names);
+    public void onAttributeDecided(ArrayList<Integer> ids) {
+        ToastUtils.showToast(getApplicationContext(), "Switching...\n" + ids);
+        Log.d("Attribute", "Switching...\n" + ids);
         Bundle bundle = new Bundle();
         bundle.putString("plant", "미나리");
         informationFragment.setArguments(bundle);

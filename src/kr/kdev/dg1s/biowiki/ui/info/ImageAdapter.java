@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.dictionary;
+package kr.kdev.dg1s.biowiki.ui.info;
 
 import android.content.Context;
 import android.graphics.Bitmap;

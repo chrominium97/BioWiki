@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.category;
+package kr.kdev.dg1s.biowiki.ui.info;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -10,7 +10,7 @@ import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.plantInfo.PlantInformationFragment;
 
-public class CategorySelectorActivity extends BIActionBarActivity implements CategorySelectionFragment.OnPlantSelectedListener {
+public class SearchByHabitatActivity extends BIActionBarActivity implements CategorySelectionFragment.OnPlantSelectedListener {
 
     String plantInstance;
 

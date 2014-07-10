@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.dictionary;
+package kr.kdev.dg1s.biowiki.ui.info;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,17 +7,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.MenuItem;
 
 import net.htmlparser.jericho.Attribute;
 import net.htmlparser.jericho.Attributes;
@@ -27,12 +21,9 @@ import net.htmlparser.jericho.Source;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class AttributeSelectionFragment extends SherlockFragment {
@@ -67,17 +58,17 @@ public class AttributeSelectionFragment extends SherlockFragment {
         imageAdapters.add((ImageAdapter) leafGrid7.getAdapter());
         imageAdapters.add((ImageAdapter) fruitGrid.getAdapter());
 
-        ArrayList<String> attributes = new ArrayList<String>();
+        ArrayList<Integer> ids = new ArrayList<Integer>();
 
         for (ImageAdapter imageAdapter : imageAdapters) {
             if (imageAdapter.mSelectedRB != null) {
-                attributes.add(imageAdapter.mSelectedRB.getText().toString());
+                ids.add(imageAdapter.mSelectedRB.getId());
             }
         }
-        if (attributes.size() == 0) {
+        if (ids.size() == 0) {
             ToastUtils.showToast(context, "속성을 선택해 주세요.");
         } else {
-            mCallback.onAttributeDecided(attributes);
+            mCallback.onAttributeDecided(ids);
         }
 
     }
@@ -253,7 +244,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
 
     // Container Activity must implement this interface
     public interface OnAttributeDecidedListener {
-        public void onAttributeDecided(ArrayList<String> names);
+        public void onAttributeDecided(ArrayList<Integer> ids);
     }
 
     public static class MainPagerAdapter extends PagerAdapter {
