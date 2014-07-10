@@ -17,7 +17,7 @@
             android:text="엽선"
             android:textSize="25sp" />
 
-        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        <kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/leafGrid1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:text="잎가장자리(엽연)"
             android:textSize="25sp" />
 
-        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        <kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/leafGrid2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             android:text="잎바닥(엽저)"
             android:textSize="25sp" />
 
-        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        <kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/leafGrid3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             android:text="잎모양(엽형)"
             android:textSize="25sp" />
 
-        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        <kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/leafGrid4"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             android:text="깃모양겹잎(우상복엽)"
             android:textSize="25sp" />
 
-        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        <kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/leafGrid5"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -107,7 +107,7 @@
             android:text="잎차례, 겹잎"
             android:textSize="25sp" />
 
-        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        <kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/leafGrid6"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -125,7 +125,7 @@
             android:text="손바닥모양겹잎(장상복엽)"
             android:textSize="25sp" />
 
-        <kr.kdev.dg1s.biowiki.ui.dictionary.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        <kr.kdev.dg1s.biowiki.ui.info.utils.ExpandableGridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/leafGrid7"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

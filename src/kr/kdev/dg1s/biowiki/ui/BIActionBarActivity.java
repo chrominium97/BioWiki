@@ -42,8 +42,8 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
-import kr.kdev.dg1s.biowiki.ui.category.CategorySelectorActivity;
-import kr.kdev.dg1s.biowiki.ui.dictionary.SearchByAttributeActivity;
+import kr.kdev.dg1s.biowiki.ui.info.SearchByHabitatActivity;
+import kr.kdev.dg1s.biowiki.ui.info.SearchByAttributeActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
 import kr.kdev.dg1s.biowiki.ui.map.DistributionViewer;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
@@ -687,14 +687,14 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
         @Override
         public Boolean isSelected() {
-            return BIActionBarActivity.this instanceof CategorySelectorActivity;
+            return BIActionBarActivity.this instanceof SearchByHabitatActivity;
         }
 
         @Override
         public void onSelectItem() {
-            if (!(BIActionBarActivity.this instanceof CategorySelectorActivity))
+            if (!(BIActionBarActivity.this instanceof SearchByHabitatActivity))
                 mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, CategorySelectorActivity.class);
+            Intent intent = new Intent(BIActionBarActivity.this, SearchByHabitatActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }
