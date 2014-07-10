@@ -425,7 +425,7 @@
 
     <!-- About View -->
     <string name="app_title">DG1S BioWiki</string>
-    <string name="publisher">Made by KDW, RHS</string>
+    <string name="publisher">Made by Deokwoo Kim, Hosung Ryu, Myeongyu Kim.</string>
     <string name="copyright">©2014 Daegu Il Science High School</string>
     <string name="version">Version</string>
     <string name="tos">Terms of Service</string>

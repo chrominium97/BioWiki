@@ -403,8 +403,8 @@
 
     <!-- About View -->
     <string name="app_title">DG1S BioWiki</string>
-    <string name="publisher">公開者: Automattic, Inc</string>
-    <string name="copyright">©2014 Automattic, Inc</string>
+    <string name="publisher">開発者 : キム・ドクウ、リュ・ホソン、パク・ミョンギュ</string>
+    <string name="copyright">ⓒ 2014 大邱一科学高等学校</string>
     <string name="version">バージョン</string>
     <string name="tos">利用規約</string>
     <string name="privacy_policy">個人情報保護方針</string>

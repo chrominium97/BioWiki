@@ -42,6 +42,8 @@ public class Constants {
     public static int QUICK_POST_VIDEO_CAMERA = 2;
     public static int QUICK_POST_VIDEO_LIBRARY = 3;
 
+    public static String FILE_XML_CATEGORY = "categories.xml";
+
     public static int[] flowerDrawable1 = {R.drawable.d1101, R.drawable.d1102, R.drawable.d1103, R.drawable.d1104,
             R.drawable.d1105, R.drawable.d1106, R.drawable.d1107, R.drawable.d1108,
             R.drawable.d1109, R.drawable.d1110, R.drawable.d1111_1, R.drawable.d1111_2};

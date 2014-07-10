@@ -50,7 +50,6 @@ import kr.kdev.dg1s.biowiki.ui.posts.EditPostActivity;
 import kr.kdev.dg1s.biowiki.ui.posts.PagesActivity;
 import kr.kdev.dg1s.biowiki.ui.posts.PostsActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
-import kr.kdev.dg1s.biowiki.ui.themes.ThemeBrowserActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DeviceUtils;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
@@ -182,7 +181,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         mMenuItems.add(new MediaMenuItem());
         mMenuItems.add(new PagesMenuItem());
         mMenuItems.add(new CommentsMenuItem());
-        mMenuItems.add(new ThemesMenuItem());
         mMenuItems.add(new QuickPhotoMenuItem());
         mMenuItems.add(new QuickVideoMenuItem());
         mMenuItems.add(new ViewSiteMenuItem());
@@ -819,33 +817,6 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
         @Override
         public Boolean isVisible() {
             return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-    private class ThemesMenuItem extends MenuDrawerItem {
-        ThemesMenuItem() {
-            super(THEMES_ACTIVITY, R.string.themes, R.drawable.dashboard_icon_themes);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BWActionBarActivity.this instanceof ThemeBrowserActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BWActionBarActivity.this instanceof ThemeBrowserActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BWActionBarActivity.this, ThemeBrowserActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            if (BioWiki.getCurrentBlog() != null && BioWiki.getCurrentBlog().isAdmin() && BioWiki.getCurrentBlog().isDotcomFlag())
-                return true;
-            return false;
         }
     }
 

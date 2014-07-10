@@ -427,7 +427,7 @@
 
     <!-- About View -->
     <string name="app_title">DG1S BioWiki</string>
-    <string name="publisher">제작자 : 김덕우, 류호성</string>
+    <string name="publisher">제작자 : 김덕우, 류호성, 박명규</string>
     <string name="copyright">ⓒ 2014 대구일과학고등학교</string>
     <string name="version">버전</string>
     <string name="tos">이용 약관</string>

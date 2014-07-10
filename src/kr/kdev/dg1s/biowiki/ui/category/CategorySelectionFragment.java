@@ -3,6 +3,8 @@ package kr.kdev.dg1s.biowiki.ui.category;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +25,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
+import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.networking.CachedDownloader;
 import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
 
-/**
- * Created by DG1S on 2014-05-19.
- */
 public class CategorySelectionFragment extends SherlockFragment {
 
     GridView gridView;
+
+    Random random = new Random();
+
+    int downloadQueue;
 
     Element currentElement;
     List<Element> displayedElements;
@@ -59,13 +65,16 @@ public class CategorySelectionFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.bioinfo_plant_category, container, false);
+        return inflater.inflate(R.layout.selector_vertical_single, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
         setupViews();
+
         try {
             initializeCategory();
         } catch (IOException e) {
@@ -82,12 +91,35 @@ public class CategorySelectionFragment extends SherlockFragment {
 
     public void setupViews() {
         // Lists plants and their categories
-        gridView = (GridView) getView().findViewById(R.id.list_view);
+        gridView = (GridView) getView().findViewById(R.id.selector);
+    }
+
+    public void setSource(String url, String fileName) {
+        BufferedSource bufferedSource = new BufferedSource(url, fileName);
+        bufferedSource.start();
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case 0:
+
+            }
+        }
+    };
+
+    class BufferedSource extends Thread {
+        public BufferedSource(String url, String fileName) {
+            int identifier = random.nextInt();
+            CachedDownloader downloader = new CachedDownloader(identifier);
+            downloadQueue = downloader.prepareFile(url, fileName, "XML");
+        }
     }
 
     public void initializeCategory() throws IOException {
         // Instance of ImageAdapter Class
-        source = new Source(getResources().openRawResource(R.raw.categories));
+        setSource(getString(R.string.biowiki_address) + "/xml/categories", Constants.FILE_XML_CATEGORY);
         Log.d("XML", source.toString());
         currentElement = source.getFirstElement("repo");
         parseXML(null, -1);
@@ -108,6 +140,7 @@ public class CategorySelectionFragment extends SherlockFragment {
 
     public ArrayList<String> getDetails(String name) throws IOException {
         ArrayList<String> export = new ArrayList<String>();
+
         Source source1 = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
         Log.d("XML", "Searching for details on " + name);
         Element element = source1.getFirstElement("name", name, false);

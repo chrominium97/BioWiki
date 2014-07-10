@@ -74,7 +74,7 @@
         <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionViewer" />
 
         <!-- Dictionary activites -->
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.dictionary.DictionaryViewerActivity" />
+        <activity android:name=".ui.dictionary.SearchByAttributeActivity" />
 
         <!-- Categorization activites -->
         <!-- Categorization activites -->

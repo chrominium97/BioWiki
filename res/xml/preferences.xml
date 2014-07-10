@@ -10,7 +10,7 @@
 
     <PreferenceCategory
         android:key="wp_pref_self_hosted_blogs"
-        android:title="@string/self_hosted_blogs"></PreferenceCategory>
+        android:title="@string/self_hosted_blogs"/>
 
     <PreferenceCategory
         android:key="bw_category_location"
