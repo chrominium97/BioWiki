@@ -1,13 +1,11 @@
 package kr.kdev.dg1s.biowiki.networking;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,11 +33,17 @@ public class CachedDownloader {
 
     }
 
+    public int forceRedownload(String DownloadUrl, String fileName, String fileType) {
+        deleteFile(fileName, fileType);
+        prepareFile(DownloadUrl, fileName, fileType);
+        return identifier;
+    }
+
     public int prepareFile(String DownloadUrl, String fileName, String fileType) {
         File dir = new File(root.getAbsolutePath() + "/", fileType);
         File file = new File(dir, "." + fileName);
         if (file.exists()) {
-            Log.d("DownloadManager", "alreaded downloaded");
+            Log.d("DownloadManager", "already downloaded");
             return identifier;
         } else {
             downloadFromUrl(DownloadUrl, fileName, fileType);

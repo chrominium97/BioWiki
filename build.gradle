@@ -85,6 +85,7 @@ android {
         compile files('libs/MixpanelAPI.jar')
         compile files('libs/jericho-android.3.1.jar')
         compile files('libs/universal-image-loader-1.9.1-with-sources.jar')
+        compile files('libs/GraphView-3.1.2.jar')
     }
 
     sourceSets {
