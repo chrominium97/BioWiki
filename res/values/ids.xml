@@ -3,4 +3,5 @@
     <item name="row_post_id" type="id" />
     <item name="drag_handle" type="id" />
     <item name="click_remove" type="id" />
+
 </resources>

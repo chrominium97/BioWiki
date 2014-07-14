@@ -126,40 +126,42 @@ public class Constants {
     //엽연
     //전연, 둔거치, 소둔거치, 예거치, 소예거치, 복거치, 치아상거치, 소치아상거치, 파형
     public static String[] entire = {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "", };
+            "개여뀌", "마디풀", "족제비싸리", "둥근매듭풀", "매듭풀",
+            "벌노랑이", "가는살갈퀴", "얼치기완두", "새팥", "괭이밥",
+            "여우주머니", "애기메꽃", "구기자나무", "개망초", "망초",
+            "떡쑥(꽃다대)", "큰금계국", "코스모스", "가는쑥부쟁이", "서양민들레",
+            "닭의장풀", "개밀", "메귀리", "참새귀리", "오리새",
+            "바랭이", "왕바랭이", "그령", "비노리", "쥐보리",
+            "미국개기장", "새포아풀", "금강아지풀", "강아지풀(가라지)", "수강아지풀(가라지조)",
+            "쥐꼬리새풀", "길뚝사초", "괭이사초", "흰여뀌", "기생여뀌",
+            "봄여뀌", "석류풀", "쇠비름", "점나도나물", "벼룩나물",
+            "유채(평지)", "자귀풀", "좀부처꽃", "마디꽃", "여뀌바늘" };
     public static String[] crenate = {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "" };
-    public static String[] crenulate = {"", "", "", ""};
+            "탱자나무", "수까치개", "어저귀", "개망초", "망초",
+            "뽕모시풀", "유채(평지)", "냉이", "꽃다지", "개갓냉이",
+            "속속이풀", "깨풀" };
+    public static String[] crenulate = {"한삼덩굴", "흰제비꽃", "향유(노야기)", "뚱딴지(돼지감자)"};
     public static String[] serrate = {
-            "", "", "", "", "",
-            "", "", "" };
-    public static String[] serrulate = {"", "", "", "", ""};
+            "명아주(도토라지)", "뱀딸기", "조뱅이", "털별꽃아재비", "큰방가지똥",
+            "큰도꼬마리", "갓", "다닥냉이" };
+    public static String[] serrulate = {"전동싸리", "토끼풀", "큰땅빈대", "만수국아재비", "쇠서나물(모련채)"};
     public static String[] biserrate = {};
     public static String[] dentate = {"이고들빼기", "고들빼기"};
     public static String[] denticulate = {"벼룩이자리"};
-    public static String[] undulate = {"", "", "", "", ""};
+    public static String[] undulate = {
+            "겹달맞이꽃", "까마중(가마중)", "질경이(배짱이)", "개쑥갓", "잣나물(쇠별꽃)"
+            , "속속이풀"};
     //반곡, 역반곡, 편형(이 3개 삭제 요망), 천열, 중열, 전열, 우열, 장상열
     public static String[] revolute = {};
     public static String[] involute = {};
     public static String[] plane = {};
     public static String[] lobed = {"좀명아주"};
-    public static String[] cleft = {"", "", "", "", ""};
+    public static String[] cleft = {"쑥", "쑥부쟁이", "개쑥갓", "뽀리뱅이", "황새냉이"};
     public static String[] parted = {
-            "", "", "", "", "",
-            ""};
+            "애기똥풀", "돼지풀", "지칭개", "왕고들빼기", "가시상치(가시상추)",
+            "족제비쑥"};
     public static String[] pinnatifid = {"속속이풀"};
-    public static String[] palmatifid = {"", "", "", "", ""};
+    public static String[] palmatifid = {"쥐손이풀", "미국쥐손이", "유럽전호", "나팔꽃", "쑥"};
 
     //자방위치(삭제 요망)
     //상위자방, 중위자방, 하위자방
@@ -170,13 +172,13 @@ public class Constants {
     //화형(자료가 빈약함)
     //방사상칭형, 폭상, 순형, 십자화형, 왕관형, 종형, 두형, 투구형, 칠면상
     public static String[] actinomorphic = {
-            "", "", "", "", "",
-            "", "", "", "", ""};
+            "괭이밥", "쥐손이풀", "흰제비꽃", "겹달맞이꽃", "쇠비름",
+            "점나도나물", "벼룩나물", "잣나물(쇠별꽃)", "좀부처꽃", "마디꽃"};
     public static String[] rotate = {"벼룩이자리", "여뀌바늘"};
     public static String[] bilabiate = {"향유(노야기)"};
     public static String[] cruciform = {
-            "", "", "", "", "",
-            "", "", "", ""};
+            "갓", "유채(평지)", "냉이", "황새냉이", "꽃다지",
+            "다닥냉이", "개갓냉이", "속속이풀", "말냉이"};
     public static String[] coronate = {"까마중(가마중)"};
     public static String[] campanulate = {"애기메꽃", "나팔꽃"};
     public static String[] funnel = {};
@@ -186,46 +188,46 @@ public class Constants {
     public static String[] palate = {};
     public static String[] personate = {};
     public static String[] papillionaceous = {
-            "", "", "", "", "",
-            "", "", ""};
+            "돌콩", "둥근매듭풀", "벌노랑이", "전동싸리", "가는살갈퀴",
+            "얼치기완두", "새팥", "자귀풀"};
     public static String[] saccate = {};
     public static String[] salver = {};
     public static String[] urceolate = {};
     public static String[] tubular = {"개쑥갓", "족제비쑥"};
     public static String[] ligulate = {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", ""};
+            "미국쑥부쟁이", "개망초", "망초", "큰금계국", "코스모스",
+            "만수국아재비", "털별꽃아재비", "뚱딴지(돼지감자)", "가는쑥부쟁이", "쑥부쟁이",
+            "왕고들빼기", "가시상치(가시상추)", "쇠서나물(모련채)", "큰방가지똥", "서양민들레",
+            "이고들빼기", "고들빼기", "뽀리뱅이"};
 
     //꽃차례, 무한화서
    //수상화서, 총상화서, 산방화서, 산형화서, 원추화서, 선형화서, 취산화서, 두상화서, 육수화서, 미상화서, 배상화서
     public static String[] spike = {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", ""};
+            "개비름", "털비름", "향유(노야기)", "질경이(배짱이)", "돼지풀",
+            "개밀", "바랭이", "왕바랭이", "길뚝사초", "괭이사초",
+            "흰여뀌", "기생여뀌", "봄여뀌", "말냉이", "깨풀",
+            "좀부처꽃", "마디꽃", "쥐보리"};
     public static String[] raceme = {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", ""};
+            "재쑥", "족제비싸리", "돌콩", "전동싸리", "새팥",
+            "갓", "유채(평지)", "냉이", "황새냉이", "꽃다지",
+            "다닥냉이", "개갓냉이", "속속이풀", "자귀풀"};
     public static String[] corymb = {
-            "", "", "", "", "",
-            "", "", ""};
+            "까마중(가마중)", "떡쑥(꽃다대)", "쇠서나물(모련채)", "개쑥갓", "이고들빼기",
+            "고들빼기", "냉이", "냉이"};
     public static String[] umbel = {"애기똥풀", "유럽전호", "뽀리뱅이"};
     public static String[] panicle = {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", ""};
+            "명아주(도토라지)", "좀명아주", "쑥", "개망초", "망초",
+            "왕고들빼기", "가시상치(가시상추)", "족제비쑥", "큰도꼬마리", "메귀리",
+            "참새귀리", "오리새", "그령", "비노리", "미국개기장",
+            "새포아풀", "금강아지풀", "강아지풀(가라지)", "수강아지풀(가라지조)", "쥐꼬리새풀"};
     public static String[] rhipidium = {};
     public static String[] cyme = {
-            "", "", "", "", "",
-            "", "", "", ""};
+            "뱀딸기", "벌사상자", "닭의장풀", "뽕모시풀", "석류풀",
+            "벼룩이자리", "점나도나물", "벼룩나물", "잣나물(쇠별꽃)"};
     public static String[] cptitulum = {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", ""};
+            "애기메꽃", "나팔꽃", "큰금계국", "코스모스", "만수국아재비",
+            "털별꽃아재비", "뚱딴지(돼지감자)", "지칭개", "가는쑥부쟁이", "쑥부쟁이",
+            "서양민들레", "쇠비름", "여뀌바늘"};
     public static String[] spedix = {};
     public static String[] catkin = {};
     public static String[] cyathium = {"큰땅빈대"};
@@ -233,18 +235,40 @@ public class Constants {
     //과실 모양
     //덩어리, 물, 알갱이, 여윈, 캡슐, 배, 뚜껑, 갈래, 분리, 꼬투리, 견과류, 날개
     // (한글이름으로, 뒤의 글자'열매' 뺐음)
-    public static String[] aggregate = {};
-    public static String[] berry = {};
+    public static String[] aggregate = {"뱀딸기"};
+    public static String[] berry = {"미국자리공", "탱자나무", "구기자나무", "까마중(가마중)"};
     public static String[] drupe = {};
-    public static String[] achene = {};
-    public static String[] capsule = {};
+    public static String[] achene = {
+            "한삼덩굴", "개여뀌", "며느리배꼽(사광이풀)", "며느리밑씻개(사광이아재비)", "마디풀",
+            "소리쟁이", "재쑥", "돼지풀", "쑥", "미국쑥부쟁이",
+            "조뱅이", "개망초", "망초", "떡쑥(꽃다대)", "큰금계국",
+            "코스모스", "뚱딴지(돼지감자)", "지칭개", "가는쑥부쟁이", "쑥부쟁이",
+            "왕고들빼기", "가시상치(가시상추)", "족제비쑥", "쇠서나물(모련채)", "개쑥갓",
+            "큰방가지똥", "서양민들레", "큰도꼬마리", "이고들빼기", "고들빼기",
+            "뽀리뱅이", "길뚝사초", "괭이사초", "뽕모시풀", "흰여뀌",
+            "기생여뀌", "봄여뀌", "만수국아재비", "털별꽃아재비"};
+    public static String[] capsule = {
+            "개미자리", "명아주(도토라지)", "좀명아주", "개비름", "털비름",
+            "애기똥풀", "괭이밥", "쥐손이풀", "미국쥐손이", "큰땅빈대",
+            "여우주머니", "수까치개", "흰제비꽃", "겹달맞이꽃", "나팔꽃",
+            "질경이(배짱이)", "닭의장풀", "석류풀", "쇠비름", "벼룩이자리",
+            "점나도나물", "벼룩나물", "잣나물(쇠별꽃)", "깨풀", "좀부처꽃",
+            "마디꽃", "여뀌바늘"};
     public static String[] pome = {};
     public static String[] pyxis = {};
     public static String[] schizocarp = {};
     public static String[] loment = {};
-    public static String[] legume = {};
-    public static String[] nut = {};
+    public static String[] legume = {
+            "새콩", "돌콩", "둥근매듭풀", "매듭풀", "벌노랑이",
+            "전동싸리", "붉은토끼풀", "토끼풀", "가는살갈퀴", "얼치기완두",
+            "새팥", "꽃다지", "다닥냉이", "자귀풀",};
+    public static String[] nut = {"족제비싸리"};
     public static String[] samara = {};
+    //영과(벼 처럼 생긴 열매), 그림 없는데 식물사전에는 있네ㄷㄷ이를 어쩌나 명규보고 다시 그리라 할까;;
+    public static String[] caryopsis = {
+            "개밀", "메귀리", "참새귀리", "오리새", "바랭이",
+            "왕바랭이", "그령", "비노리", "쥐보리", "미국개기장",
+            "새포아풀", "금강아지풀", "강아지풀(가라지)", "수강아지풀(가라지조)", "쥐꼬리새풀"};
 
     public static final DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
