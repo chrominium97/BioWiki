@@ -108,7 +108,7 @@ android {
 // Generates the Config.java class using properties defined in gradle.properties
 // or by other means provided by Gradle
 task generateWPConfig(group: "generate", description: "Generate Config class") {
-    def dir = "${buildDir}/source/wordpress"
+    def dir = "${buildDir}/source/generated/config/debug"
     def file = new File(dir, "kr/kdev/dg1s/biowiki/Config.java")
     android {
         sourceSets {
