@@ -76,7 +76,7 @@
 
                 <kr.kdev.dg1s.biowiki.widgets.OpenSansEditText
                     android:id="@+id/nux_username"
-                    style="@style/WordPress.NUXEditText"
+                    style="@style/BioWiki.NUXEditText"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/username_email"
@@ -102,7 +102,7 @@
 
                 <kr.kdev.dg1s.biowiki.widgets.OpenSansEditText
                     android:id="@+id/nux_password"
-                    style="@style/WordPress.NUXEditText"
+                    style="@style/BioWiki.NUXEditText"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="38dp"
@@ -146,7 +146,7 @@
 
                 <kr.kdev.dg1s.biowiki.widgets.OpenSansEditText
                     android:id="@+id/nux_url"
-                    style="@style/WordPress.NUXEditText"
+                    style="@style/BioWiki.NUXEditText"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/site_address"
@@ -176,7 +176,7 @@
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/nux_sign_in_button"
-                    style="@style/WordPress.NUXPrimaryButton"
+                    style="@style/BioWiki.NUXPrimaryButton"
                     android:layout_width="match_parent"
                     android:clickable="true"
                     android:enabled="false"
@@ -185,7 +185,7 @@
 
                 <RelativeLayout
                     android:id="@+id/nux_sign_in_progress_bar"
-                    style="@style/WordPress.NUXPrimaryButton"
+                    style="@style/BioWiki.NUXPrimaryButton"
                     android:layout_width="match_parent"
                     android:enabled="false"
                     android:visibility="gone">
@@ -200,7 +200,7 @@
 
             <kr.kdev.dg1s.biowiki.widgets.BWTextView
                 android:id="@+id/forgot_password"
-                style="@style/WordPress.NUXGreyButtonNoBg"
+                style="@style/BioWiki.NUXGreyButtonNoBg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -210,7 +210,7 @@
 
             <kr.kdev.dg1s.biowiki.widgets.BWTextView
                 android:id="@+id/nux_sign_in_progress_text"
-                style="@style/WordPress.NUXWhiteButtonNoBg"
+                style="@style/BioWiki.NUXWhiteButtonNoBg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|top"
@@ -230,7 +230,7 @@
 
             <kr.kdev.dg1s.biowiki.widgets.BWTextView
                 android:id="@+id/nux_add_selfhosted_button"
-                style="@style/WordPress.NUXWhiteButtonNoBg"
+                style="@style/BioWiki.NUXWhiteButtonNoBg"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
@@ -246,7 +246,7 @@
 
             <kr.kdev.dg1s.biowiki.widgets.BWTextView
                 android:id="@+id/nux_create_account_button"
-                style="@style/WordPress.NUXWhiteButtonNoBg"
+                style="@style/BioWiki.NUXWhiteButtonNoBg"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_gravity="center"

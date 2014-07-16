@@ -29,13 +29,13 @@
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/create_account_label"
-                    style="@style/WordPress.NUXTitle"
+                    style="@style/BioWiki.NUXTitle"
                     android:text="@string/help"
                     app:fontVariation="light" />
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/nux_help_description"
-                    style="@style/WordPress.NUXGreyButtonNoBg"
+                    style="@style/BioWiki.NUXGreyButtonNoBg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -45,28 +45,28 @@
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/help_button"
-                    style="@style/WordPress.NUXPrimaryButton"
+                    style="@style/BioWiki.NUXPrimaryButton"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:text="@string/help_center" />
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/forum_button"
-                    style="@style/WordPress.NUXPrimaryButton"
+                    style="@style/BioWiki.NUXPrimaryButton"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:text="@string/forums" />
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/applog_button"
-                    style="@style/WordPress.NUXPrimaryButton"
+                    style="@style/BioWiki.NUXPrimaryButton"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:text="@string/reader_title_applog" />
 
                 <kr.kdev.dg1s.biowiki.widgets.BWTextView
                     android:id="@+id/nux_help_version"
-                    style="@style/WordPress.NUXGreyButtonNoBg"
+                    style="@style/BioWiki.NUXGreyButtonNoBg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

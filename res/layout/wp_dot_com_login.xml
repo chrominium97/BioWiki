@@ -19,7 +19,7 @@
         android:shadowDx="0"
         android:shadowDy=".5"
         android:shadowRadius="1"
-        android:text="WordPress.com login:"
+        android:text="BioWiki.com login:"
         android:textColor="#464646" />
 
     <EditText

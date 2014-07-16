@@ -25,7 +25,7 @@
 
     <kr.kdev.dg1s.biowiki.widgets.BWTextView
         android:id="@id/android:empty"
-        style="@style/WordPress.EmptyList.Title"
+        style="@style/BioWiki.EmptyList.Title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/empty_list_title_bottom_margin"

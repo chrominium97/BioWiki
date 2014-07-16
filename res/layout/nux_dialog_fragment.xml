@@ -62,7 +62,7 @@
 
     <kr.kdev.dg1s.biowiki.widgets.BWTextView
         android:id="@+id/nux_dialog_footer_1_button"
-        style="@style/WordPress.NUXPrimaryButton"
+        style="@style/BioWiki.NUXPrimaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
@@ -92,7 +92,7 @@
 
         <kr.kdev.dg1s.biowiki.widgets.BWTextView
             android:id="@+id/nux_dialog_get_started_button"
-            style="@style/WordPress.NUXPrimaryButton"
+            style="@style/BioWiki.NUXPrimaryButton"
             android:layout_width="wrap_content"
             android:layout_height="38dp"
             android:layout_alignParentEnd="true"

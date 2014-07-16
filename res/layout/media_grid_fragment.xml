@@ -15,7 +15,7 @@
 
         <kr.kdev.dg1s.biowiki.ui.CustomSpinner
             android:id="@+id/media_filter_spinner"
-            style="@style/DropDownNav.WordPress"
+            style="@style/DropDownNav.BioWiki"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -58,7 +58,7 @@
 
             <kr.kdev.dg1s.biowiki.widgets.BWTextView
                 android:id="@+id/empty_view_title"
-                style="@style/WordPress.EmptyList.Title"
+                style="@style/BioWiki.EmptyList.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/empty_list_title_bottom_margin"

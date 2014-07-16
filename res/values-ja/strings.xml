@@ -21,7 +21,7 @@
     <!-- account setup -->
     <string name="xmlrpc_error">接続できませんでした。サイト上の xmlrpc.php へのフルパスを入力し、もう一度お試しください。</string>
     <string name="sign_out_confirm">本当にログアウトしますか ?</string>
-    <string name="account_two_step_auth_enabled">このアカウントでは2段階認証が有効化されています。WordPress.com のセキュリティ設定ページでアプリケーション用パスワードを生成してください。</string>
+    <string name="account_two_step_auth_enabled">このアカウントでは2段階認証が有効化されています。BioWiki.com のセキュリティ設定ページでアプリケーション用パスワードを生成してください。</string>
     <string name="visit_security_settings">セキュリティ設定へ移動</string>
 
     <!-- form labels -->
@@ -237,12 +237,12 @@
     <string name="view_in_browser">ブラウザで表示</string>
     <string name="post_signature">投稿の署名</string>
     <string name="add_tagline">新規投稿に署名を追加</string>
-    <string name="posted_from">WordPress for Android から投稿</string>
+    <string name="posted_from">BioWiki for Android から投稿</string>
     <string name="preview">プレビュー</string>
 
     <!-- new account view -->
     <string name="attempting_configure">ログイン中&#8230;</string>
-    <string name="no_site_error">WordPress サイトに接続できませんでした。後ほど再度お試しください。</string>
+    <string name="no_site_error">BioWiki サイトに接続できませんでした。後ほど再度お試しください。</string>
 
     <!-- drafts -->
 
@@ -269,8 +269,8 @@
     <string name="share_action_post">新規投稿</string>
     <string name="share_action_media">メディアライブラリ</string>
     <string name="share_action">共有</string>
-    <string name="cant_share_no_visible_blog">公開ブログがないため WordPress で共有できません</string>
-    <string name="no_account">WordPress アカウントが見つかりません。アカウントを追加して、もう一度試してください。</string>
+    <string name="cant_share_no_visible_blog">公開ブログがないため BioWiki で共有できません</string>
+    <string name="no_account">BioWiki アカウントが見つかりません。アカウントを追加して、もう一度試してください。</string>
     <string name="auto_sharing_preference_reset">自動共有設定をリセットしました。</string>
     <string name="auto_sharing_preference_reset_caused_by_error">以前に選択されたブログは現在非公開になっています。</string>
     <string name="always_use_these_settings_to_share">常にこの設定を使用</string>
@@ -508,13 +508,13 @@
     <!-- fragment tags - do not translate -->
 
     <!-- NUX strings -->
-    <string name="create_account_wpcom">WordPress.com でアカウントを作成</string>
+    <string name="create_account_wpcom">BioWiki.com でアカウントを作成</string>
     <string name="required_field">必須項目</string>
     <string name="email_hint">メールアドレス</string>
     <string name="agree_terms_of_service">アカウントを作成すると%1$s利用規約%2$sに合意したものとみなされます。</string>
     <string name="username_email">ユーザー名またはメール</string>
-    <string name="site_address">インストール型 WordPress のアドレス (URL)</string>
-    <string name="connecting_wpcom">WordPress.com に接続中</string>
+    <string name="site_address">インストール型 BioWiki のアドレス (URL)</string>
+    <string name="connecting_wpcom">BioWiki.com に接続中</string>
     <string name="username_only_lowercase_letters_and_numbers">ユーザー名には小文字 (a-z) と数字以外は含められません。</string>
     <string name="username_required">ユーザー名を入力してください。</string>
     <string name="username_not_allowed">許可されていないユーザー名です。</string>
@@ -549,8 +549,8 @@
     <string name="nux_cannot_log_in">ログインできませんでした。</string>
     <string name="nux_tutorial_get_started_title">始めてみましょう</string>
     <string name="nux_welcome_create_account">アカウントを作成</string>
-    <string name="nux_add_selfhosted_blog">インストール型 WordPress ブログを追加</string>
-    <string name="nux_oops_not_selfhosted_blog">WordPress.com にログイン</string>
+    <string name="nux_add_selfhosted_blog">インストール型 BioWiki ブログを追加</string>
+    <string name="nux_oops_not_selfhosted_blog">BioWiki.com にログイン</string>
 
     <string name="ptr_tip_message">下へドラグするとリフレッシュされます。</string>
 

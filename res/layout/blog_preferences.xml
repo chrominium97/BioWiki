@@ -20,7 +20,7 @@
 
             <TextView
                 android:id="@+id/l_section1"
-                style="@style/WordPressSettingsSectionHeader"
+                style="@style/BioWikiSettingsSectionHeader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/account_details" />
@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/l_httpuser"
-                style="@style/WordPressSubHeader"
+                style="@style/BioWikiSubHeader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/password"
@@ -77,14 +77,14 @@
 
             <TextView
                 android:id="@+id/l_section2"
-                style="@style/WordPressSettingsSectionHeader"
+                style="@style/BioWikiSettingsSectionHeader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/media" />
 
             <TextView
                 android:id="@+id/l_maxImageWidth"
-                style="@style/WordPressSubHeader"
+                style="@style/BioWikiSubHeader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/l_section2"
@@ -114,7 +114,7 @@
 
             <TextView
                 android:id="@+id/l_scaledImage"
-                style="@style/WordPressSubHeader"
+                style="@style/BioWikiSubHeader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/scaledImage"
@@ -139,7 +139,7 @@
 
             <TextView
                 android:id="@+id/l_section3"
-                style="@style/WordPressSettingsSectionHeader"
+                style="@style/BioWikiSettingsSectionHeader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/location" />
@@ -162,7 +162,7 @@
 
             <TextView
                 android:id="@+id/l_section4"
-                style="@style/WordPressSettingsSectionHeader"
+                style="@style/BioWikiSettingsSectionHeader"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/manage" />

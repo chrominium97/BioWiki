@@ -9,7 +9,7 @@
 
     <com.actionbarsherlock.internal.widget.IcsSpinner
         android:id="@+id/blog_spinner"
-        style="@style/DropDownNav.WordPress"
+        style="@style/DropDownNav.BioWiki"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:clickable="false"

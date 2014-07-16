@@ -17,7 +17,7 @@
     <string name="xmlrpc_error">Couldn\'t connect. Enter the full path to xmlrpc.php on your site and try again.</string>
     <string name="no_network_message">There is no network available</string>
     <string name="sign_out_confirm">Are you sure you want to sign out?</string>
-    <string name="account_two_step_auth_enabled">This account has two step authentication enabled. Visit your security settings on WordPress.com and generate an application-specific password.</string>
+    <string name="account_two_step_auth_enabled">This account has two step authentication enabled. Visit your security settings on BioWiki.com and generate an application-specific password.</string>
     <string name="visit_security_settings">Visit security settings</string>
 
     <!-- form labels -->
@@ -48,7 +48,7 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="add_self_hosted_blog">Add self-hosted blog</string>
-    <string name="show_and_hide_blogs">Show/hide WordPress.com blogs</string>
+    <string name="show_and_hide_blogs">Show/hide BioWiki.com blogs</string>
     <string name="blogs_visibility">Blogs visibility</string>
     <string name="show_all">Show all</string>
     <string name="hide_all">Hide all</string>
@@ -255,12 +255,12 @@
     <string name="view_in_browser">View in browser</string>
     <string name="post_signature">Post signature</string>
     <string name="add_tagline">Add a signature to new posts</string>
-    <string name="posted_from">Posted from WordPress for Android</string>
+    <string name="posted_from">Posted from BioWiki for Android</string>
     <string name="preview">Preview</string>
 
     <!-- new account view -->
     <string name="attempting_configure">Signing in…</string>
-    <string name="no_site_error">Couldn\'t connect to the WordPress site</string>
+    <string name="no_site_error">Couldn\'t connect to the BioWiki site</string>
 
     <!-- drafts -->
 
@@ -288,8 +288,8 @@
     <string name="share_action_post">New post</string>
     <string name="share_action_media">Media library</string>
     <string name="share_action">Share</string>
-    <string name="cant_share_no_visible_blog">You can\'t share to WordPress without a visible blog</string>
-    <string name="no_account">No WordPress account found, add an account and try again</string>
+    <string name="cant_share_no_visible_blog">You can\'t share to BioWiki without a visible blog</string>
+    <string name="no_account">No BioWiki account found, add an account and try again</string>
     <string name="auto_sharing_preference_reset">Auto-sharing settings reset</string>
     <string name="auto_sharing_preference_reset_caused_by_error">Previously selected blog is no longer visible</string>
     <string name="always_use_these_settings_to_share">Always use these settings</string>
@@ -516,7 +516,7 @@
     <string name="reader_label_new_posts_one">One new post</string>
     <string name="reader_label_reblog_to">Reblog this post to</string>
     <string name="reader_label_reply">Reply</string>
-    <string name="reader_label_reblog_empty">You have no visible WordPress.com blogs this post can be reblogged to</string>
+    <string name="reader_label_reblog_empty">You have no visible BioWiki.com blogs this post can be reblogged to</string>
 
     <!-- like counts liking users activity-->
 
@@ -533,13 +533,13 @@
     <string name="fragment_tag_comment_detail" translatable="false">fragment_comment_detail</string>
 
     <!-- NUX strings -->
-    <string name="create_account_wpcom">Create an account on&#160;WordPress.com</string>
+    <string name="create_account_wpcom">Create an account on&#160;BioWiki.com</string>
     <string name="required_field">Required field</string>
     <string name="email_hint">Email address</string>
     <string name="agree_terms_of_service">By creating an account you agree to the fascinating %1$sTerms&#160;of&#160;Service%2$s</string>
     <string name="username_email">Username or email</string>
     <string name="site_address">Your self-hosted address (URL)</string>
-    <string name="connecting_wpcom">Connecting to WordPress.com</string>
+    <string name="connecting_wpcom">Connecting to BioWiki.com</string>
     <string name="username_only_lowercase_letters_and_numbers">Username can only contain lowercase letters (a-z) and numbers</string>
     <string name="username_required">Enter a username</string>
     <string name="username_not_allowed">Username not allowed</string>
@@ -575,7 +575,7 @@
     <string name="nux_tutorial_get_started_title">Get started!</string>
     <string name="nux_welcome_create_account">Create account</string>
     <string name="nux_add_selfhosted_blog">Add self-hosted site</string>
-    <string name="nux_oops_not_selfhosted_blog">Sign in to WordPress.com</string>
+    <string name="nux_oops_not_selfhosted_blog">Sign in to BioWiki.com</string>
     <string name="help">Help</string>
     <string name="forgot_password">Lost your password?</string>
     <string name="nux_help_description">Visit the help center to get answers to common questions. or visit the forums to ask new&#160;ones.</string>

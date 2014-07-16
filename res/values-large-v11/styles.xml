@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="WordPressListRowBackground">
+    <style name="BioWikiListRowBackground">
         <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
     </style>
 
