@@ -19,6 +19,7 @@
     <item name="evenBipinnate" type="id" />
     <item name="acicular" type="id" />
     <item name="linear" type="id" />
+    <!--
     <item name="click_remove" type="id" />
     <item name="click_remove" type="id" />
     <item name="click_remove" type="id" />
@@ -38,5 +39,6 @@
     <item name="click_remove" type="id" />
     <item name="click_remove" type="id" />
     <item name="click_remove" type="id" />
+    -->
 
 </resources>
