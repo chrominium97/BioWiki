@@ -94,6 +94,100 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
                 case R.drawable.d1101 :
                     arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.OPTITULUM));
                     break;
+                case R.drawable.d1102 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.CATKIN));
+                    break;
+                case R.drawable.d1103 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.CYATHIUM));
+                    break;
+                case R.drawable.d1104 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.CORYMB));
+                    break;
+                case R.drawable.d1105 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.UMBEL));
+                    break;
+                case R.drawable.d1106 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.RHIPIDIUM));
+                    break;
+                case R.drawable.d1107 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.SPIKE));
+                    break;
+                case R.drawable.d1108 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.PANICLE));
+                    break;
+                case R.drawable.d1109 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.SPEDIX)); // 오타: SPEDIX -> SPADIX
+                    break;
+                case R.drawable.d1110 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.RECEME)); // 오타: RECEME -> RACEME
+                    break;
+                case R.drawable.d1111_1 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.CYME));
+                    break;
+                case R.drawable.d1111_2 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.CYME));
+                    break;
+
+                case R.drawable.d1201 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.OVERY.SUPERIOR_OVERY));
+                    break;
+                case R.drawable.d1202 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.OVERY.HALFINFERIOR_OVERY));
+                    break;
+                case R.drawable.d1203 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.OVERY.INFERIOR_OVARY));
+                    break;
+                case R.drawable.d1301 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.PERSONATE));
+                    break;
+                case R.drawable.d1302 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.TUBULAR));
+                    break;
+                case R.drawable.d1303 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.PALATE));
+                    break;
+                case R.drawable.d1304 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.SACCATE));
+                    break;
+           /*     case R.drawable.d1305 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1306 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1307 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1308 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1309 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1310 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1311 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1312 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1313 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1314 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1315 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1316 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break;
+                case R.drawable.d1317 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.));
+                    break; */
 
             }
             plants.add(arrayList);
