@@ -47,8 +47,7 @@ public class ImageAdapter extends BaseAdapter {
         this.mText = nonBlank.toArray(new String[nonBlank.size()]);
         this.context = context;
         this.mImg = img;
-        this.
-                radioGroup = new RadioGroup(context);
+        this.radioGroup = new RadioGroup(context);
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -69,13 +68,10 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView,
-                        ViewGroup parent) {
-        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-        bitmapOptions.inSampleSize = 2;
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
         final Holder holder;
-        holder = new Holder();
+        holder = new Holder(mImg[position]);
 
         /**
         Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
@@ -147,5 +143,8 @@ public class ImageAdapter extends BaseAdapter {
     private class Holder {
         ImageView image;
         RadioButton radioButton;
+        public Holder(int id) {
+            radioButton.setId(id);
+        }
     }
 }

@@ -41,7 +41,6 @@ public class AttributeSelectionFragment extends SherlockFragment {
     ViewPager pager = null;
     MainPagerAdapter pagerAdapter = null;
 
-
     Context context;
 
     OnAttributeDecidedListener mCallback;
@@ -161,17 +160,28 @@ public class AttributeSelectionFragment extends SherlockFragment {
     public void initializeCategory() {
         File file = getActivity().getCacheDir();
         // Instance of ImageAdapter Class
-        flowerGrid1.setAdapter(new ImageAdapter(context, Constants.flowerDrawable1, Constants.flowerNames1, file));
-        flowerGrid2.setAdapter(new ImageAdapter(context, Constants.flowerDrawable2, Constants.flowerNames2, file));
-        flowerGrid3.setAdapter(new ImageAdapter(context, Constants.flowerDrawable3, Constants.flowerNames3, file));
-        leafGrid1.setAdapter(new ImageAdapter(context, Constants.leafDrawable1, Constants.leafNames1, file));
-        leafGrid2.setAdapter(new ImageAdapter(context, Constants.leafDrawable2, Constants.leafNames2, file));
-        leafGrid3.setAdapter(new ImageAdapter(context, Constants.leafDrawable3, Constants.leafNames3, file));
-        leafGrid4.setAdapter(new ImageAdapter(context, Constants.leafDrawable4, Constants.leafNames4, file));
-        leafGrid5.setAdapter(new ImageAdapter(context, Constants.leafDrawable5, Constants.leafNames5, file));
-        leafGrid6.setAdapter(new ImageAdapter(context, Constants.leafDrawable6, Constants.leafNames6, file));
-        leafGrid7.setAdapter(new ImageAdapter(context, Constants.leafDrawable7, Constants.leafNames7, file));
-        fruitGrid.setAdapter(new ImageAdapter(context, Constants.fruitDrawable, Constants.fruitNames, file));
+        flowerGrid1.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Flowers.ATTRIBUTES.flowerDrawable1, Constants.PlantsAttributes.Flowers.ATTRIBUTES.flowerNames1, file));
+        flowerGrid2.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Flowers.ATTRIBUTES.flowerDrawable2, Constants.PlantsAttributes.Flowers.ATTRIBUTES.flowerNames2, file));
+        flowerGrid3.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Flowers.ATTRIBUTES.flowerDrawable3, Constants.PlantsAttributes.Flowers.ATTRIBUTES.flowerNames3, file));
+        leafGrid1.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafDrawable1, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafNames1, file));
+        leafGrid2.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafDrawable2, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafNames2, file));
+        leafGrid3.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafDrawable3, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafNames3, file));
+        leafGrid4.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafDrawable4, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafNames4, file));
+        leafGrid5.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafDrawable5, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafNames5, file));
+        leafGrid6.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafDrawable6, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafNames6, file));
+        leafGrid7.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafDrawable7, Constants.PlantsAttributes.Leaves.ATTRIBUTES.leafNames7, file));
+        fruitGrid.setAdapter(
+                new ImageAdapter(context, Constants.PlantsAttributes.Fruits.ATTRIBUTES.fruitDrawable, Constants.PlantsAttributes.Fruits.ATTRIBUTES.fruitNames, file));
 
         flowerGrid1.setExpanded(true);
         flowerGrid2.setExpanded(true);
@@ -203,40 +213,40 @@ public class AttributeSelectionFragment extends SherlockFragment {
     }
 
     /**
-    public void parseXML(String tag, int position) throws IOException {
-        ArrayList<String> names = new ArrayList<String>();
-        if (position == -1) {
-            displayedElements = currentElement.getChildElements();
-        } else if (position == -2) {
-            if (!currentElement.getName().equals("repo"))
-                currentElement = currentElement.getParentElement();
-            displayedElements = currentElement.getChildElements();
-        } else if (currentElement.getFirstElement("name", tag, false).getName().equals("what")) {
-            ArrayList<String> details = getDetails(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"));
-            if (details.size() == 0) {
-                Toast.makeText(context, "정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            mCallback.onAttributeDecided(tag);
-            return;
-        } else {
-            currentElement = currentElement.getFirstElement("name", tag, false);
-            displayedElements = currentElement.getChildElements();
-        }
-        for (Element element : displayedElements) {
-            names.add(element.getAttributeValue("name"));
-            Collections.sort(names);
-        }
-        gridView.invalidateViews();
-        gridView.setAdapter(new ElementAdapter(context, names));
-        if (tag != null) {
-            getSherlockActivity().getSupportActionBar().setTitle(tag);
-        } else if (!(currentElement.getAttributeValue("name") == null)) {
-            getSherlockActivity().getSupportActionBar().setTitle(currentElement.getAttributeValue("name"));
-        } else {
-            getSherlockActivity().getSupportActionBar().setTitle(R.string.app_name);
-        }
-    }
+     * public void parseXML(String tag, int position) throws IOException {
+     * ArrayList<String> names = new ArrayList<String>();
+     * if (position == -1) {
+     * displayedElements = currentElement.getChildElements();
+     * } else if (position == -2) {
+     * if (!currentElement.getName().equals("repo"))
+     * currentElement = currentElement.getParentElement();
+     * displayedElements = currentElement.getChildElements();
+     * } else if (currentElement.getFirstElement("name", tag, false).getName().equals("what")) {
+     * ArrayList<String> details = getDetails(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"));
+     * if (details.size() == 0) {
+     * Toast.makeText(context, "정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+     * return;
+     * }
+     * mCallback.onAttributeDecided(tag);
+     * return;
+     * } else {
+     * currentElement = currentElement.getFirstElement("name", tag, false);
+     * displayedElements = currentElement.getChildElements();
+     * }
+     * for (Element element : displayedElements) {
+     * names.add(element.getAttributeValue("name"));
+     * Collections.sort(names);
+     * }
+     * gridView.invalidateViews();
+     * gridView.setAdapter(new ElementAdapter(context, names));
+     * if (tag != null) {
+     * getSherlockActivity().getSupportActionBar().setTitle(tag);
+     * } else if (!(currentElement.getAttributeValue("name") == null)) {
+     * getSherlockActivity().getSupportActionBar().setTitle(currentElement.getAttributeValue("name"));
+     * } else {
+     * getSherlockActivity().getSupportActionBar().setTitle(R.string.app_name);
+     * }
+     * }
      */
 
     @Override

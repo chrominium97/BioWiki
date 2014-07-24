@@ -8,7 +8,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.info.fragments.AttributeSelectionFragment;
@@ -82,4 +85,20 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    List<ArrayList<String>> getCorrespondingPlants(ArrayList<Integer> integers) {
+        ArrayList<ArrayList<String>> plants = new ArrayList<ArrayList<String>>();
+        for (int id : integers) {
+            ArrayList<String> arrayList = new ArrayList<String>();
+            switch (id) {
+                case R.drawable.d1101 :
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.ORDER.OPTITULUM));
+                    break;
+
+            }
+            plants.add(arrayList);
+        }
+        return plants;
+    }
+
 }

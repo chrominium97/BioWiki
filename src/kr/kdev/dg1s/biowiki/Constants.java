@@ -10,7 +10,249 @@ public class Constants {
 
     public static class PlantsAttributes {
 
+        public static class Flowers {
+
+            public static class ATTRIBUTES {
+
+                public static int[] flowerDrawable1 = {R.drawable.d1101, R.drawable.d1102, R.drawable.d1103, R.drawable.d1104,
+                        R.drawable.d1105, R.drawable.d1106, R.drawable.d1107, R.drawable.d1108,
+                        R.drawable.d1109, R.drawable.d1110, R.drawable.d1111_1, R.drawable.d1111_2};
+
+                public static String[] flowerNames1 = {"머리모양꽃차례\n(두상화서)", "꼬리모양꽃차례\n(미상화서)", "잔모양꽃차례\n(배상화서)", "고른꽃차례(산방화서)",
+                        "우산모양꽃차례\n(산형화서)", "부채모양꽃차례\n(선형화서)", "이삭꽃차례\n(수상화서)", "고깔꽃차례\n(원추화서)", "살찐대꽃차례\n(육수화서)", "송이꽃차례\n(층상화서)",
+                        "고른우산살송이모양꽃차례\n(취산화서)", "고른우산살송이모양꽃차례2\n(취산화서)"};
+
+                public static int[] flowerDrawable2 = {R.drawable.d1201, R.drawable.d1202, R.drawable.d1203};
+
+                public static String[] flowerNames2 = {"상위자방", "중위자방", "하위자방"};
+
+                public static int[] flowerDrawable3 = {R.drawable.d1301, R.drawable.d1302, R.drawable.d1303, R.drawable.d1304,
+                        R.drawable.d1305, R.drawable.d1306, R.drawable.d1307, R.drawable.d1308,
+                        R.drawable.d1309, R.drawable.d1310, R.drawable.d1311, R.drawable.d1312,
+                        R.drawable.d1313, R.drawable.d1314, R.drawable.d1315, R.drawable.d1316,
+                        R.drawable.d1317};
+
+                public static String[] flowerNames3 = {"탈모양\n(가면상)", "대롱모양\n(관상)", "덮개모양\n(구개형)", "복주머니모양\n(낭형)", "깔대기모양\n(두형)", "방사상칭형",
+                        "화분모양\n(분형)", "혀모양\n(설상)", "입술모양\n(순형)", "십자모양\n(십자화형)",
+                        "왕관모양\n(왕관형)", "나비모양\n(접형)", "종모양\n(종형)", "돌출모양\n(철면상)",
+                        "헬멧모양\n(투구형)", "바퀴모양\n(폭상)", "단지모양\n(호형)"
+                };
+                //  public static int[] flowerIds3 = {
+
+                //}
+            }
+
+            //자방위치(삭제 요망)
+            public static class OVERY {
+                //상위자방, 중위자방, 하위자방
+                public static String[] SUPERIOR_OVERY = {"구기자나무", "질경이(배짱이)", "닭의장풀", "좀부처꽃", "마디꽃"};
+                public static String[] HALFINFERIOR_OVERY = {"쇠비름"};
+                public static String[] INFERIOR_OVARY = {};
+            }
+
+            //화형
+            public static class CorollaType {
+
+                public static String[] ACTINOMORPHIC = {  //방사상칭형
+                        "괭이밥", "쥐손이풀", "흰제비꽃", "겹달맞이꽃", "쇠비름",
+                        "점나도나물", "벼룩나물", "잣나물(쇠별꽃)", "좀부처꽃", "마디꽃",
+                        "꽃받이(꽃바지)", "개지치", "꽃마리", "올미", "벗풀",
+                        "사마귀풀", "주지꽃(할미꽃)", "꿩의다리", "가락지나물(소시랑개비)", "양지꽃",
+                        "개소시랑개비", "개아마", "짚신나물", "산사나무(아가외나무)", "이스라지(묏이스랏)",
+                        "찔레나무", "산딸기나무(나무딸기)", "멍석딸기", "조팝나무", "자귀나무",
+                        "진달래꽃(진달래나무)", "마삭줄", "마타리", "뚝갈", "개맥문동",
+                        "청미래덩굴", "젓가락풀", "개구리자리", "말똥비름", "딱지꽃",
+                        "뚜껑덩굴", "새박덩굴", "가시박", "노랑어리연꽃", "바위솔(지붕지기)",
+                        "기린초", "돌나물", "반들가시나무", "아구장나무", "산달래(족지)",
+                        "참나리"};
+                public static String[] ROTATE = {  //바퀴모양(폭상)
+                        "벼룩이자리", "여뀌바늘", "애기봄맞이", "봄맞이꽃", "패랭이꽃",
+                        "물망초"};
+                public static String[] BILABIATE = {  //입술모양(순형)
+                        "향유(노야기)", "광대나물", "쥐깨(풀)", "들깨풀", "논둑(뚝)외풀",
+                        "밭둑(뚝)외풀", "주름잎", "수염가래꽃", "쥐꼬리망초", "산괴불주머니",
+                        "산박하", "나도송이풀", "파리풀", "인동덩굴", "익모초(눈비엿)",
+                        "쉽싸리", "박하(영생이)", "배암차즈기", "석잠풀", "수염마름"};
+                public static String[] CRUCIFORM = {  //십자모양(십자화형)
+                        "갓", "유채(평지)", "냉이", "황새냉이", "꽃다지",
+                        "다닥냉이", "개갓냉이", "속속이풀", "말냉이", "갈퀴덩굴",
+                        "장대나물", "좀개갓냉이"};
+                public static String[] CORONATE = {  //왕관모양(왕관형)
+                        "까마중(가마중)", "개머루", "까마귀머루"};
+                public static String[] CAMPANULATE = {  //종모양(종형)
+                        "박주가리(새박덩굴)", "새삼"};
+                public static String[] FUNNEL = {  //깔대기모양(두형)
+                        "애기메꽃", "나팔꽃", "네잎갈퀴", "계요등", "꼭두선이"};
+                public static String[] GALEATE = {  //헬멧모양(투구형)
+                };
+                public static String[] GIBBOUS = {  //돌출모양(철면상)
+                };
+                public static String[] PALATE = {  //덮개모양(구개형)
+                };
+                public static String[] PERSONATE = {  //털모양(가면상)
+                        "큰고추풀", "물칭개나물", "밭둑(뚝)외풀", "주름잎", "선개불알풀",
+                        "개불알풀", "큰개불알풀"};
+                public static String[] PAPILLIONACEOUS = {  //나비모양(접형)
+                        "돌콩", "둥근매듭풀", "벌노랑이", "전동싸리", "가는살갈퀴",
+                        "얼치기완두", "새팥", "자귀풀", "비수리", "개싸리",
+                        "좀싸리", "땅비싸리", "칡", "아까시나무", "등나무",
+                        "자운영"};
+                public static String[] SACCATE = {  //복주머니모양(낭형)
+                        "금낭화"};
+                public static String[] SALVER = {  //화분모양(분형)
+                };
+                public static String[] URCEOLATE = {  //단지모양(호형)
+                        "고욤나무"};
+                public static String[] TUBULAR = {  //대롱모양(관상)
+                        "개쑥갓", "족제비쑥", "까치발(가는도깨비바늘)", "중대가리풀(토방풀)", "사철쑥",
+                        "엉겅퀴", "주홍서나물", "골등골나물"};
+                public static String[] LIGULATE = {  //혀모양(설상)
+                        "미국쑥부쟁이", "개망초", "망초", "큰금계국", "코스모스",
+                        "만수국아재비", "털별꽃아재비", "뚱딴지(돼지감자)", "가는쑥부쟁이", "쑥부쟁이",
+                        "왕고들빼기", "가시상치(가시상추)", "쇠서나물(모련채)", "큰방가지똥", "서양민들레",
+                        "이고들빼기", "고들빼기", "뽀리뱅이", "미국가막사리", "한련초",
+                        "털진득찰(두꺼비이불)", "금불초(하국)", "씀바귀", "벌씀바귀", "솜나물",
+                        "선씀바귀", "참취", "산국", "구절초(들국화)", "산씀바귀"};
+            }
+
+            //꽃차례, 무한화서
+            public static class ORDER {
+                public static String[] SPIKE = {  //이삭꽃차례(수상화서)
+                        "개비름", "털비름", "향유(노야기)", "질경이(배짱이)", "돼지풀",
+                        "개밀", "바랭이", "왕바랭이", "길뚝사초", "괭이사초",
+                        "흰여뀌", "기생여뀌", "봄여뀌", "말냉이", "깨풀",
+                        "좀부처꽃", "마디꽃", "쥐보리", "쥐깨(풀)", "뚝새풀",
+                        "조개풀", "방동사니", "참방동사니", "금방동사니", "쇠방동사니",
+                        "오이풀(외나물)", "쥐꼬리망초", "나도개피", "쇠치기풀", "수크령(머리새)",
+                        "왜모시풀", "좀깨잎나무", "쇠무릎", "짚신나물", "하늘타리(하늘다래)",
+                        "새삼", "파리풀", "큰듬성이삭새", "주름조개풀", "산초과",
+                        "갯버들", "떡버들", "여뀌", "흰꽃여뀌", "명아자여뀌",
+                        "이삭물수세미", "익모초(눈비엿)", "박하(영생이)", "말즘(말주름)", "가래",
+                        "대가래", "물억새(달풀, 달대)", "이삭사초", "뚝사초",
+                        "한삼덩굴"};
+                public static String[] RECEME = {  //송이꽃차례(총상화서)
+                        "재쑥", "족제비싸리", "돌콩", "전동싸리", "새팥",
+                        "갓", "유채(평지)", "냉이", "황새냉이", "꽃다지",
+                        "다닥냉이", "개갓냉이", "속속이풀", "자귀풀", "들깨풀",
+                        "주름잎", "벗풀", "물달개비", "골풀", "장대나물",
+                        "비수리", "개싸리", "좀싸리", "개아마", "애기풀",
+                        "무릇", "나도개피", "참새피", "으름덩굴(물외)", "산괴불주머니",
+                        "땅비싸리", "칡", "아까시나무", "등나무", "노루발풀",
+                        "까치수염", "박주가리(새박덩굴)", "나도송이풀", "주홍서나물", "개맥문동",
+                        "좀개갓냉이", "새박덩굴", "가시박", "쉽싸리", "배암차즈기",
+                        "석잠풀", "물칭개나물", "물옥잠", "털물참새피", "바위솔(지붕지기)",
+                        "참나리", "물망초", "금낭화", "개여뀌", "며느리배꼽(사광이풀)",
+                        "미국자리공"};
+                public static String[] CORYMB = {  //고른꽃차례(산방화서)
+                        "까마중(가마중)", "떡쑥(꽃다대)", "쇠서나물(모련채)", "개쑥갓", "이고들빼기",
+                        "고들빼기", "냉이", "냉이", "꿩의다리", "산해박(마하존)",
+                        "금불초(하국)", "선씀바귀", "씀바귀", "벌씀바귀", "참억새",
+                        "산사나무(아가외나무)", "산딸기나무(나무딸기)", "멍석딸기", "신나무", "마타리",
+                        "뚝갈", "참취", "골등골나물", "솔방울고랭이", "도루박이(민검정골)"};
+                public static String[] UMBEL = {  //우산모양꽃차례(산형화서)
+                        "애기똥풀", "유럽전호", "뽀리뱅이", "애기봄맞이", "봄맞이꽃",
+                        "하늘지기", "바람하늘지기", "비목나무", "백동백나무(감태나무)", "생강나무",
+                        "이스라지(묏이스랏)", "조팝나무", "두릅나무", "청미래덩굴", "자운영",
+                        "미나리", "노랑어리연꽃", "아구장나무", "산달래(족지)"};
+                public static String[] PANICLE = {  //고깔꽃차례(원추화서)
+                        "명아주(도토라지)", "좀명아주", "쑥", "개망초", "망초",
+                        "왕고들빼기", "가시상치(가시상추)", "족제비쑥", "큰도꼬마리", "메귀리",
+                        "참새귀리", "오리새", "그령", "비노리", "미국개기장",
+                        "새포아풀", "금강아지풀", "강아지풀(가라지)", "수강아지풀(가라지조)", "쥐꼬리새풀",
+                        "미국가막사리", "털진득찰(두꺼비이불)", "개피", "돌피(밭피)", "물피(논피)",
+                        "각시그령", "패랭이꽃", "사철쑥", "제비쑥", "새",
+                        "향모(모향)", "띠(삐)", "참억새", "왕포아풀", "큰기름새",
+                        "수레나물(사위질빵)", "댕댕이덩굴", "새모래덩굴", "찔레나무", "자귀나무",
+                        "개죽나무(가중나무)", "붉나무", "개옻나무", "까마귀머루", "두릅나무",
+                        "네잎갈퀴", "산씀바귀", "실새풀", "쥐꼬리새", "왕대",
+                        "뚜껑덩굴", "물쑥", "나도겨풀", "기장대풀", "갈풀",
+                        "갈대", "줄", "삿갓사초", "산비늘사초(쥐방울사초)", "모감주나무",
+                        "한삼덩굴", "소리쟁이"
+                };
+                public static String[] RHIPIDIUM = {  //부채모양꽃차례(선형화서)
+                };
+                public static String[] CYME = {  //고른우산살송이모양꽃차례(취산화서)
+                        "뱀딸기", "벌사상자", "닭의장풀", "뽕모시풀", "석류풀",
+                        "벼룩이자리", "점나도나물", "벼룩나물", "잣나물(쇠별꽃)", "갈퀴덩굴",
+                        "꽃받이(꽃바지)", "개지치", "개지치", "개차즈기", "사마귀풀",
+                        "꿩의다리", "물레나물", "가락지나물(소시랑개비)", "양지꽃", "개소시랑개비",
+                        "등대풀", "푸조나무", "팽나무", "당느릅나무", "참느릅나무",
+                        "느티나무", "수레나물(사위질빵)", "으아리", "으름덩굴(물외)", "소태나무",
+                        "노박덩굴", "회잎나무", "좀참빗살나무", "개머루", "담쟁이덩굴",
+                        "마삭줄", "계요등", "꼭두선이", "산박하", "배풍등",
+                        "인동덩굴", "젓가락풀", "개구리자리", "말똥비름", "딱지꽃",
+                        "쇠털골", "올방개", "매자기", "송이고랭이", "세모고랭이",
+                        "기린초", "돌나물", "묏대추"};
+                public static String[] OPTITULUM = {  //머리모양꽃차례(두상화서)
+                        "애기메꽃", "나팔꽃", "큰금계국", "코스모스", "만수국아재비",
+                        "털별꽃아재비", "뚱딴지(돼지감자)", "지칭개", "가는쑥부쟁이", "쑥부쟁이",
+                        "서양민들레", "쇠비름", "여뀌바늘", "수염가래꽃", "중대가리풀(토방풀)",
+                        "한련초", "방동사니대가리(돌방동사니)", "엉겅퀴", "솜나물",
+                        "자귀나무", "매화노루발", "담배풀(여우오줌풀)", "긴담배풀", "산국",
+                        "구절초(들국화)", "나도미꾸리", "미꾸리낚시", "고마리", "가시박",
+                };
+                public static String[] SPEDIX = {  //살찐대꽃차례(육수화서)
+                        "반하(꿩의무릇)", "창포", "애기부들"};
+                public static String[] CATKIN = {  //꼬리모양꽃차례(미상화서)
+                        "은사시나무", "양버들", "이태리포푸라", "사방오리", "물오리나무(산오리나무)",
+                        "밤나무", "상수리나무", "굴참나무", "꾸지나무", "산뽕나무",
+                        "왕버들", "키버들(눈버들, 고리버들)", "용버들", "참오글잎버들", "선버들",
+                        "오리나무"};
+                public static String[] CYATHIUM = {  //잔모양꽃차례(배상화서)
+                        "큰땅빈대", "흰대극", "대극(버들옻)"};
+            }
+        }
+
         public static class Leaves {
+
+            public static class ATTRIBUTES {
+
+                public static int[] leafDrawable1 = {R.drawable.d2101, R.drawable.d2102, R.drawable.d2103, R.drawable.d2104,
+                        R.drawable.d2105, R.drawable.d2106, R.drawable.d2107, R.drawable.d2108,
+                        R.drawable.d2109};
+                public static String[] leafNames1 = {"급하게뾰족한잎끝\n(급첨두)", "무딘잎끝\n(둔두)", "꼬리모양잎끝\n(미두)",
+                        "날카로운잎끝\n(예두)", "날카롭게뾰족한잎끝\n(예첨두)", "오목한잎끝\n(요두)",
+                        "둥근잎끝\n(원두)", "점점뾰족한잎끝\n(점첨두)", "편평한잎끝\n(평두)"
+                };
+                public static int[] leafDrawable2 = {R.drawable.d2201, R.drawable.d2202, R.drawable.d2203, R.drawable.d2204,
+                        R.drawable.d2205, R.drawable.d2206, R.drawable.d2207, R.drawable.d2208,
+                        R.drawable.d2209, R.drawable.d2210, R.drawable.d2211, R.drawable.d2212,
+                        R.drawable.d2213, R.drawable.d2214, R.drawable.d2215, R.drawable.d2216,
+                        R.drawable.d2217};
+                public static String[] leafNames2 = {"매끈한모양\n(전연)", "둔한톱니\n(둔거치)", "작은둔한톱니\n(소둔거치)", "뾰족한톱니\n(예거치)", "작은뾰족한톱니\n(소예거치)",
+                        "뾰족한겹톱니\n(복거치)", "이빨형톱니\n(치아상거치)", "작은이빨형톱니\n(소치아상거치)", "물결형\n(파형)", "반곡", "역반곡", "편형",
+                        "얕게패인모양\n(천열)", "중간정도패인모양\n(중열)", "깊게패인모양\n(전열)", "날개모양\n(우열)", "손바닥모양\n(장상열)"
+                };
+                public static int[] leafDrawable3 = {R.drawable.d2301, R.drawable.d2302, R.drawable.d2303, R.drawable.d2304,
+                        R.drawable.d2305, R.drawable.d2306, R.drawable.d2307, R.drawable.d2308,
+                        R.drawable.d2309, R.drawable.d2310, R.drawable.d2311, R.drawable.d2312};
+                public static String[] leafNames3 = {"통과형잎바닥\n(관천저)", "창날모양잎바닥\n(극저)", "무딘잎바닥\n(둔저)", "쐐기모양잎바닥\n(설저)",
+                        "방패모양잎바닥\n(순저)", "심장형잎바닥\n(심장저)", "예리한잎바닥\n(예저)", "비뚠잎바닥\n(왜저)", "둥근잎바닥\n(원저)", "흐르는잎바닥\n(유저)", "귀모양잎바닥\n(이저)", "편평한잎바닥\n(평저)"
+                };
+                public static int[] leafDrawable4 = {R.drawable.d2401, R.drawable.d2402, R.drawable.d2403, R.drawable.d2404,
+                        R.drawable.d2405, R.drawable.d2406, R.drawable.d2407, R.drawable.d2408,
+                        R.drawable.d2409, R.drawable.d2410, R.drawable.d2411, R.drawable.d2412,
+                        R.drawable.d2413, R.drawable.d2414, R.drawable.d2415, R.drawable.d2416,
+                        R.drawable.d2417};
+                public static String[] leafNames4 = {"넓은타원모양\n(광타원형)", "창날모양\n(극형)", "계란모양\n(난형)", "거꿀계란모양\n(도란형)",
+                        "거꿀창끝모양\n(도피침형)", "민들레잎모양\n(민들레형)", "삼각모양\n(삼각형)", "줄모양\n(선형)",
+                        "콩팥모양\n(신장형)", "심장모양\n(심장형)", "둥근모양\n(원형)", "긴타원모양\n(장타원형)",
+                        "활촉모양\n(전형)", "주걱모양\n(주걱형)", "바늘모양\n(침형)", "타원모양\n(타원형)", "창끝모양\n(피침형)"
+                };
+                public static int[] leafDrawable5 = {R.drawable.d2501, R.drawable.d2502, R.drawable.d2503, R.drawable.d2504,
+                        R.drawable.d2505};
+                public static String[] leafNames5 = {"홀수한쌍깃모양겹잎\n(기수1쌍우상복엽)", "홀수한번깃모양겹잎\n(기수1회우상복엽)", "홀수두번깃모양겹잎\n(기수2회우상복엽)",
+                        "짝수한번깃모양겹잎\n(우수1회우상복엽)", "짝수두번깃모양겹잎\n(우수2회우상복엽)"
+                };
+                public static int[] leafDrawable6 = {R.drawable.d2601, R.drawable.d2602, R.drawable.d2603};
+                public static String[] leafNames6 = {"돌려나기\n(윤생)", "마주나기\n(대생)", "어긋나기\n(호생)"
+                };
+                public static int[] leafDrawable7 = {R.drawable.d2701, R.drawable.d2702, R.drawable.d2703, R.drawable.d2704};
+                public static String[] leafNames7 = {"두번세장잎\n(2회3출엽)", "세장잎\n(3출엽)", "세번세장잎\n(3회3출엽)", "다섯장잎\n(5출엽)"
+                };
+
+            }
+
             //잎차례와 겹잎
             public static class ORDER_AND_STH_ELSE { //잎차례, 겹잎
 
@@ -465,172 +707,22 @@ public class Constants {
             }
         }
 
-        public static class Flowers {
-
-            //자방위치(삭제 요망)
-            public static class OVERY {
-                //상위자방, 중위자방, 하위자방
-                public static String[] SUPERIOR_OVERY = {"구기자나무", "질경이(배짱이)", "닭의장풀", "좀부처꽃", "마디꽃"};
-                public static String[] HALFINFERIOR_OVERY = {"쇠비름"};
-                public static String[] INFERIOR_OVARY = {};
-            }
-
-            //화형
-            public static class CorollaType {
-
-                public static String[] ACTINOMORPHIC = {  //방사상칭형
-                        "괭이밥", "쥐손이풀", "흰제비꽃", "겹달맞이꽃", "쇠비름",
-                        "점나도나물", "벼룩나물", "잣나물(쇠별꽃)", "좀부처꽃", "마디꽃",
-                        "꽃받이(꽃바지)", "개지치", "꽃마리", "올미", "벗풀",
-                        "사마귀풀", "주지꽃(할미꽃)", "꿩의다리", "가락지나물(소시랑개비)", "양지꽃",
-                        "개소시랑개비", "개아마", "짚신나물", "산사나무(아가외나무)", "이스라지(묏이스랏)",
-                        "찔레나무", "산딸기나무(나무딸기)", "멍석딸기", "조팝나무", "자귀나무",
-                        "진달래꽃(진달래나무)", "마삭줄", "마타리", "뚝갈", "개맥문동",
-                        "청미래덩굴", "젓가락풀", "개구리자리", "말똥비름", "딱지꽃",
-                        "뚜껑덩굴", "새박덩굴", "가시박", "노랑어리연꽃", "바위솔(지붕지기)",
-                        "기린초", "돌나물", "반들가시나무", "아구장나무", "산달래(족지)",
-                        "참나리"};
-                public static String[] ROTATE = {  //바퀴모양(폭상)
-                        "벼룩이자리", "여뀌바늘", "애기봄맞이", "봄맞이꽃", "패랭이꽃",
-                        "물망초"};
-                public static String[] BILABIATE = {  //입술모양(순형)
-                        "향유(노야기)", "광대나물", "쥐깨(풀)", "들깨풀", "논둑(뚝)외풀",
-                        "밭둑(뚝)외풀", "주름잎", "수염가래꽃", "쥐꼬리망초", "산괴불주머니",
-                        "산박하", "나도송이풀", "파리풀", "인동덩굴", "익모초(눈비엿)",
-                        "쉽싸리", "박하(영생이)", "배암차즈기", "석잠풀", "수염마름"};
-                public static String[] CRUCIFORM = {  //십자모양(십자화형)
-                        "갓", "유채(평지)", "냉이", "황새냉이", "꽃다지",
-                        "다닥냉이", "개갓냉이", "속속이풀", "말냉이", "갈퀴덩굴",
-                        "장대나물", "좀개갓냉이"};
-                public static String[] CORONATE = {  //왕관모양(왕관형)
-                        "까마중(가마중)", "개머루", "까마귀머루"};
-                public static String[] CAMPANULATE = {  //종모양(종형)
-                        "박주가리(새박덩굴)", "새삼"};
-                public static String[] FUNNEL = {  //깔대기모양(두형)
-                        "애기메꽃", "나팔꽃", "네잎갈퀴", "계요등", "꼭두선이"};
-                public static String[] GALEATE = {  //헬멧모양(투구형)
-                };
-                public static String[] GIBBOUS = {  //돌출모양(철면상)
-                };
-                public static String[] PALATE = {  //덮개모양(구개형)
-                };
-                public static String[] PERSONATE = {  //털모양(가면상)
-                        "큰고추풀", "물칭개나물", "밭둑(뚝)외풀", "주름잎", "선개불알풀",
-                        "개불알풀", "큰개불알풀"};
-                public static String[] PAPILLIONACEOUS = {  //나비모양(접형)
-                        "돌콩", "둥근매듭풀", "벌노랑이", "전동싸리", "가는살갈퀴",
-                        "얼치기완두", "새팥", "자귀풀", "비수리", "개싸리",
-                        "좀싸리", "땅비싸리", "칡", "아까시나무", "등나무",
-                        "자운영"};
-                public static String[] SACCATE = {  //복주머니모양(낭형)
-                        "금낭화"};
-                public static String[] SALVER = {  //화분모양(분형)
-                };
-                public static String[] URCEOLATE = {  //단지모양(호형)
-                        "고욤나무"};
-                public static String[] TUBULAR = {  //대롱모양(관상)
-                        "개쑥갓", "족제비쑥", "까치발(가는도깨비바늘)", "중대가리풀(토방풀)", "사철쑥",
-                        "엉겅퀴", "주홍서나물", "골등골나물"};
-                public static String[] LIGULATE = {  //혀모양(설상)
-                        "미국쑥부쟁이", "개망초", "망초", "큰금계국", "코스모스",
-                        "만수국아재비", "털별꽃아재비", "뚱딴지(돼지감자)", "가는쑥부쟁이", "쑥부쟁이",
-                        "왕고들빼기", "가시상치(가시상추)", "쇠서나물(모련채)", "큰방가지똥", "서양민들레",
-                        "이고들빼기", "고들빼기", "뽀리뱅이", "미국가막사리", "한련초",
-                        "털진득찰(두꺼비이불)", "금불초(하국)", "씀바귀", "벌씀바귀", "솜나물",
-                        "선씀바귀", "참취", "산국", "구절초(들국화)", "산씀바귀"};
-            }
-
-            //꽃차례, 무한화서
-            public static class ORDER {
-                public static String[] SPIKE = {  //이삭꽃차례(수상화서)
-                        "개비름", "털비름", "향유(노야기)", "질경이(배짱이)", "돼지풀",
-                        "개밀", "바랭이", "왕바랭이", "길뚝사초", "괭이사초",
-                        "흰여뀌", "기생여뀌", "봄여뀌", "말냉이", "깨풀",
-                        "좀부처꽃", "마디꽃", "쥐보리", "쥐깨(풀)", "뚝새풀",
-                        "조개풀", "방동사니", "참방동사니", "금방동사니", "쇠방동사니",
-                        "오이풀(외나물)", "쥐꼬리망초", "나도개피", "쇠치기풀", "수크령(머리새)",
-                        "왜모시풀", "좀깨잎나무", "쇠무릎", "짚신나물", "하늘타리(하늘다래)",
-                        "새삼", "파리풀", "큰듬성이삭새", "주름조개풀", "산초과",
-                        "갯버들", "떡버들", "여뀌", "흰꽃여뀌", "명아자여뀌",
-                        "이삭물수세미", "익모초(눈비엿)", "박하(영생이)", "말즘(말주름)", "가래",
-                        "대가래", "물억새(달풀, 달대)", "이삭사초", "뚝사초",
-                        "한삼덩굴"};
-                public static String[] RECEME = {  //송이꽃차례(총상화서)
-                        "재쑥", "족제비싸리", "돌콩", "전동싸리", "새팥",
-                        "갓", "유채(평지)", "냉이", "황새냉이", "꽃다지",
-                        "다닥냉이", "개갓냉이", "속속이풀", "자귀풀", "들깨풀",
-                        "주름잎", "벗풀", "물달개비", "골풀", "장대나물",
-                        "비수리", "개싸리", "좀싸리", "개아마", "애기풀",
-                        "무릇", "나도개피", "참새피", "으름덩굴(물외)", "산괴불주머니",
-                        "땅비싸리", "칡", "아까시나무", "등나무", "노루발풀",
-                        "까치수염", "박주가리(새박덩굴)", "나도송이풀", "주홍서나물", "개맥문동",
-                        "좀개갓냉이", "새박덩굴", "가시박", "쉽싸리", "배암차즈기",
-                        "석잠풀", "물칭개나물", "물옥잠", "털물참새피", "바위솔(지붕지기)",
-                        "참나리", "물망초", "금낭화", "개여뀌", "며느리배꼽(사광이풀)",
-                        "미국자리공"};
-                public static String[] CORYMB = {  //고른꽃차례(산방화서)
-                        "까마중(가마중)", "떡쑥(꽃다대)", "쇠서나물(모련채)", "개쑥갓", "이고들빼기",
-                        "고들빼기", "냉이", "냉이", "꿩의다리", "산해박(마하존)",
-                        "금불초(하국)", "선씀바귀", "씀바귀", "벌씀바귀", "참억새",
-                        "산사나무(아가외나무)", "산딸기나무(나무딸기)", "멍석딸기", "신나무", "마타리",
-                        "뚝갈", "참취", "골등골나물", "솔방울고랭이", "도루박이(민검정골)"};
-                public static String[] UMBEL = {  //우산모양꽃차례(산형화서)
-                        "애기똥풀", "유럽전호", "뽀리뱅이", "애기봄맞이", "봄맞이꽃",
-                        "하늘지기", "바람하늘지기", "비목나무", "백동백나무(감태나무)", "생강나무",
-                        "이스라지(묏이스랏)", "조팝나무", "두릅나무", "청미래덩굴", "자운영",
-                        "미나리", "노랑어리연꽃", "아구장나무", "산달래(족지)"};
-                public static String[] PANICLE = {  //고깔꽃차례(원추화서)
-                        "명아주(도토라지)", "좀명아주", "쑥", "개망초", "망초",
-                        "왕고들빼기", "가시상치(가시상추)", "족제비쑥", "큰도꼬마리", "메귀리",
-                        "참새귀리", "오리새", "그령", "비노리", "미국개기장",
-                        "새포아풀", "금강아지풀", "강아지풀(가라지)", "수강아지풀(가라지조)", "쥐꼬리새풀",
-                        "미국가막사리", "털진득찰(두꺼비이불)", "개피", "돌피(밭피)", "물피(논피)",
-                        "각시그령", "패랭이꽃", "사철쑥", "제비쑥", "새",
-                        "향모(모향)", "띠(삐)", "참억새", "왕포아풀", "큰기름새",
-                        "수레나물(사위질빵)", "댕댕이덩굴", "새모래덩굴", "찔레나무", "자귀나무",
-                        "개죽나무(가중나무)", "붉나무", "개옻나무", "까마귀머루", "두릅나무",
-                        "네잎갈퀴", "산씀바귀", "실새풀", "쥐꼬리새", "왕대",
-                        "뚜껑덩굴", "물쑥", "나도겨풀", "기장대풀", "갈풀",
-                        "갈대", "줄", "삿갓사초", "산비늘사초(쥐방울사초)", "모감주나무",
-                        "한삼덩굴", "소리쟁이"
-                };
-                public static String[] RHIPIDIUM = {  //부채모양꽃차례(선형화서)
-                };
-                public static String[] CYME = {  //고른우산살송이모양꽃차례(취산화서)
-                        "뱀딸기", "벌사상자", "닭의장풀", "뽕모시풀", "석류풀",
-                        "벼룩이자리", "점나도나물", "벼룩나물", "잣나물(쇠별꽃)", "갈퀴덩굴",
-                        "꽃받이(꽃바지)", "개지치", "개지치", "개차즈기", "사마귀풀",
-                        "꿩의다리", "물레나물", "가락지나물(소시랑개비)", "양지꽃", "개소시랑개비",
-                        "등대풀", "푸조나무", "팽나무", "당느릅나무", "참느릅나무",
-                        "느티나무", "수레나물(사위질빵)", "으아리", "으름덩굴(물외)", "소태나무",
-                        "노박덩굴", "회잎나무", "좀참빗살나무", "개머루", "담쟁이덩굴",
-                        "마삭줄", "계요등", "꼭두선이", "산박하", "배풍등",
-                        "인동덩굴", "젓가락풀", "개구리자리", "말똥비름", "딱지꽃",
-                        "쇠털골", "올방개", "매자기", "송이고랭이", "세모고랭이",
-                        "기린초", "돌나물", "묏대추"};
-                public static String[] OPTITULUM = {  //머리모양꽃차례(두상화서)
-                        "애기메꽃", "나팔꽃", "큰금계국", "코스모스", "만수국아재비",
-                        "털별꽃아재비", "뚱딴지(돼지감자)", "지칭개", "가는쑥부쟁이", "쑥부쟁이",
-                        "서양민들레", "쇠비름", "여뀌바늘", "수염가래꽃", "중대가리풀(토방풀)",
-                        "한련초", "방동사니대가리(돌방동사니)", "엉겅퀴", "솜나물",
-                        "자귀나무", "매화노루발", "담배풀(여우오줌풀)", "긴담배풀", "산국",
-                        "구절초(들국화)", "나도미꾸리", "미꾸리낚시", "고마리", "가시박",
-                };
-                public static String[] SPEDIX = {  //살찐대꽃차례(육수화서)
-                        "반하(꿩의무릇)", "창포", "애기부들"};
-                public static String[] CATKIN = {  //꼬리모양꽃차례(미상화서)
-                        "은사시나무", "양버들", "이태리포푸라", "사방오리", "물오리나무(산오리나무)",
-                        "밤나무", "상수리나무", "굴참나무", "꾸지나무", "산뽕나무",
-                        "왕버들", "키버들(눈버들, 고리버들)", "용버들", "참오글잎버들", "선버들",
-                        "오리나무"};
-                public static String[] CYATHIUM = {  //잔모양꽃차례(배상화서)
-                        "큰땅빈대", "흰대극", "대극(버들옻)"};
-            }
-        }
-
         public static class Fruits {
+
+            public static class ATTRIBUTES {
+
+                public static int[] fruitDrawable = {R.drawable.d3001, R.drawable.d3002, R.drawable.d3003, R.drawable.d3004,
+                        R.drawable.d3005, R.drawable.d3006, R.drawable.d3007, R.drawable.d3008,
+                        R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
+
+                public static String[] fruitNames = {"뚜껑열매\n(개과)", "견과류열매\n(견과)", "분리열매\n(분과)", "갈래열매\n(분열과)",
+                        "캡슐열매\n(삭과)", "여윈열매\n(수과)", "배열매\n(이과)", "날개열매\n(익과)",
+                        "물열매\n(장과/액과)", "덩어리열매\n(취과)", "알갱이열매\n(핵과)", "꼬투리열매\n(협과)"};
+            }
+
             public static String[] AGGREGATE = {  //덩어리열매(취과)
                     "뱀딸기", "산뽕나무", "산딸기나무(나무딸기)", "멍석딸기"};
+
             public static String[] BERRY = {  //물열매(장과, 액과)
                     "미국자리공", "탱자나무", "구기자나무", "까마중(가마중)", "반하(꿩의무릇)",
                     "비목나무", "백동백나무(감태나무)", "생강나무", "으름덩굴(물외)", "찔레나무",
@@ -638,11 +730,13 @@ public class Constants {
                     "마삭줄", "꼭두선이", "배풍등", "인동덩굴", "개맥문동",
                     "청미래덩굴", "가시연꽃(가시연)", "연꽃", "새박덩굴", "자라풀",
                     "창포"};
+
             public static String[] DRUPE = {  //알갱이열매(핵과)
                     "제비꿀", "푸조나무", "팽나무", "느티나무", "꾸지나무",
                     "댕댕이덩굴", "새모래덩굴", "이스라지(묏이스랏)", "소태나무", "붉나무",
                     "개옻나무", "가래", "두릅나무", "계요등", "마름",
                     "애기마름", "묏대추"};
+
             public static String[] ACHENE = {  //여윈열매(수과)
                     "한삼덩굴", "개여뀌", "며느리배꼽(사광이풀)", "며느리밑씻개(사광이아재비)", "마디풀",
                     "소리쟁이", "재쑥", "돼지풀", "쑥", "미국쑥부쟁이",
@@ -666,6 +760,7 @@ public class Constants {
                     "물쑥", "말즘(말주름)", "대가래", "이삭사초", "삿갓사초",
                     "산비늘사초(쥐방울사초)", "뚝사초", "쇠털골", "올방개", "매자기",
                     "솔방울고랭이", "도루박이(민검정골)", "송이고랭이", "세모고랭이"};
+
             public static String[] CAPSULE = {  //캡슐열매(삭과, 포과)
                     "개미자리", "명아주(도토라지)", "좀명아주", "개비름", "털비름",
                     "애기똥풀", "괭이밥", "쥐손이풀", "미국쥐손이", "큰땅빈대",
@@ -684,28 +779,36 @@ public class Constants {
                     "용버들", "참오글잎버들", "선버들", "노랑어리연꽃", "물별이끼",
                     "큰고추풀", "물칭개나물", "물옥잠", "노랑꽃창포", "좀개구리밥",
                     "개구리밥(머구리밥)", "모감주나무", "산달래(족지)", "금낭화"};
+
             public static String[] POME = {  //배열매(이과)
                     "산사나무(아가외나무)"};
+
             public static String[] PYXIS = {  //뚜껑열매(개과)
                     "뚜껑덩굴"};
+
             public static String[] schizocarp = {};// 조사 결과 분열과 = 분과 => 이건(분열과, 갈래열매) 갖다 버리면 됨
+
             public static String[] LOMENT = {  //분리열매(분과, 열과)
                     "갈퀴덩굴", "꽃받이(꽃바지)", "개지치", "꽃마리", "개차즈기",
                     "광대나물", "쥐깨(풀)", "들깨풀", "산해박(마하존)", "박주가리(새박덩굴)",
                     "네잎갈퀴", "산박하", "말똥비름", "이삭물수세미", "미나리",
                     "익모초(눈비엿)", "쉽싸리", "박하(영생이)", "배암차즈기", "석잠풀",
                     "바위솔(지붕지기)", "기린초", "돌나물", "물망초"};
+
             public static String[] LEGUME = {  //꼬투리열매(협과, 두과)
                     "새콩", "돌콩", "둥근매듭풀", "매듭풀", "벌노랑이",
                     "전동싸리", "붉은토끼풀", "토끼풀", "가는살갈퀴", "얼치기완두",
                     "새팥", "꽃다지", "다닥냉이", "자귀풀", "비수리",
                     "개싸리", "좀싸리", "자귀나무", "땅비싸리", "칡",
                     "아까시나무", "등나무", "자운영", "아구장나무"};
+
             public static String[] NUT = {  //견과류열매(견과)
                     "족제비싸리", "사방오리", "물오리나무(산오리나무)", "밤나무", "상수리나무",
                     "굴참나무", "오리나무", "좀개갓냉이", "수염마름"};
+
             public static String[] SEMARA = {  //날개열매(익과)
                     "당느릅니무", "참느릅나무", "개죽나무(가중나무)", "신나무"};
+
             //영과(벼 처럼 생긴 열매), 그림 없는데 식물사전에는 있네ㄷㄷ이를 어쩌나 명규보고 다시 그리라 할까;;
             public static String[] CARYOPSIS = {  //영과
                     "개밀", "메귀리", "참새귀리", "오리새", "바랭이",
@@ -719,6 +822,7 @@ public class Constants {
                     "갈풀", "갈대", "줄"};
         }
     }
+
     public static final DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
             .cacheOnDisc(true)
@@ -734,10 +838,6 @@ public class Constants {
      * Reader constants
      */
     public static final int READER_MAX_POSTS_TO_REQUEST = 20;                          // max #posts to request when updating posts (should be an even # to avoid "hanging post" in 2-column grid mode)
-    public static final int READER_MAX_COMMENTS_TO_REQUEST = READER_MAX_POSTS_TO_REQUEST; // max #comments to request when updating comments
-    public static final int READER_MAX_POSTS_TO_DISPLAY = 200;                         // max #posts to display in ReaderPostListFragment
-    public static final int READER_MAX_USERS_TO_DISPLAY = 500;                         // max #users to show in ReaderUserListActivity
-    public static final long READER_AUTO_UPDATE_DELAY_MINUTES = 15;                       // 15 minute delay between automatic updates
     // intent IDs
     public static final int INTENT_READER_TAGS = 1000;
     public static final int INTENT_READER_REBLOG = 1001;
@@ -755,79 +855,5 @@ public class Constants {
     public static int QUICK_POST_VIDEO_LIBRARY = 3;
 
     public static String FILE_XML_CATEGORY = "categories.xml";
-
-    public static int[] flowerDrawable1 = {R.drawable.d1101, R.drawable.d1102, R.drawable.d1103, R.drawable.d1104,
-            R.drawable.d1105, R.drawable.d1106, R.drawable.d1107, R.drawable.d1108,
-            R.drawable.d1109, R.drawable.d1110, R.drawable.d1111_1, R.drawable.d1111_2};
-    public static String[] flowerNames1 = {"머리모양꽃차례\n(두상화서)", "꼬리모양꽃차례\n(미상화서)", "잔모양꽃차례\n(배상화서)", "고른꽃차례(산방화서)",
-            "우산모양꽃차례\n(산형화서)", "부채모양꽃차례\n(선형화서)", "이삭꽃차례\n(수상화서)", "고깔꽃차례\n(원추화서)", "살찐대꽃차례\n(육수화서)", "송이꽃차례\n(층상화서)",
-            "고른우산살송이모양꽃차례\n(취산화서)", "고른우산살송이모양꽃차례2\n(취산화서)"
-    };
-    public static int[] flowerDrawable2 = {R.drawable.d1201, R.drawable.d1202, R.drawable.d1203};
-    public static String[] flowerNames2 = {"상위자방", "중위자방", "하위자방"
-    };
-    public static int[] flowerDrawable3 = {R.drawable.d1301, R.drawable.d1302, R.drawable.d1303, R.drawable.d1304,
-            R.drawable.d1305, R.drawable.d1306, R.drawable.d1307, R.drawable.d1308,
-            R.drawable.d1309, R.drawable.d1310, R.drawable.d1311, R.drawable.d1312,
-            R.drawable.d1313, R.drawable.d1314, R.drawable.d1315, R.drawable.d1316,
-            R.drawable.d1317};
-    public static String[] flowerNames3 = {"탈모양\n(가면상)", "대롱모양\n(관상)", "덮개모양\n(구개형)", "복주머니모양\n(낭형)", "깔대기모양\n(두형)", "방사상칭형",
-            "화분모양\n(분형)", "혀모양\n(설상)", "입술모양\n(순형)", "십자모양\n(십자화형)",
-            "왕관모양\n(왕관형)", "나비모양\n(접형)", "종모양\n(종형)", "돌출모양\n(철면상)",
-            "헬멧모양\n(투구형)", "바퀴모양\n(폭상)", "단지모양\n(호형)"
-    };
-  //  public static int[] flowerIds3 = {
-
-    //}
-    public static int[] leafDrawable1 = {R.drawable.d2101, R.drawable.d2102, R.drawable.d2103, R.drawable.d2104,
-            R.drawable.d2105, R.drawable.d2106, R.drawable.d2107, R.drawable.d2108,
-            R.drawable.d2109};
-    public static String[] leafNames1 = {"급하게뾰족한잎끝\n(급첨두)", "무딘잎끝\n(둔두)", "꼬리모양잎끝\n(미두)",
-            "날카로운잎끝\n(예두)", "날카롭게뾰족한잎끝\n(예첨두)", "오목한잎끝\n(요두)",
-            "둥근잎끝\n(원두)", "점점뾰족한잎끝\n(점첨두)", "편평한잎끝\n(평두)"
-    };
-    public static int[] leafDrawable2 = {R.drawable.d2201, R.drawable.d2202, R.drawable.d2203, R.drawable.d2204,
-            R.drawable.d2205, R.drawable.d2206, R.drawable.d2207, R.drawable.d2208,
-            R.drawable.d2209, R.drawable.d2210, R.drawable.d2211, R.drawable.d2212,
-            R.drawable.d2213, R.drawable.d2214, R.drawable.d2215, R.drawable.d2216,
-            R.drawable.d2217};
-    public static String[] leafNames2 = {"매끈한모양\n(전연)", "둔한톱니\n(둔거치)", "작은둔한톱니\n(소둔거치)", "뾰족한톱니\n(예거치)", "작은뾰족한톱니\n(소예거치)",
-            "뾰족한겹톱니\n(복거치)", "이빨형톱니\n(치아상거치)", "작은이빨형톱니\n(소치아상거치)", "물결형\n(파형)", "반곡", "역반곡", "편형",
-            "얕게패인모양\n(천열)", "중간정도패인모양\n(중열)", "깊게패인모양\n(전열)", "날개모양\n(우열)", "손바닥모양\n(장상열)"
-    };
-    public static int[] leafDrawable3 = {R.drawable.d2301, R.drawable.d2302, R.drawable.d2303, R.drawable.d2304,
-            R.drawable.d2305, R.drawable.d2306, R.drawable.d2307, R.drawable.d2308,
-            R.drawable.d2309, R.drawable.d2310, R.drawable.d2311, R.drawable.d2312};
-    public static String[] leafNames3 = {"통과형잎바닥\n(관천저)", "창날모양잎바닥\n(극저)", "무딘잎바닥\n(둔저)", "쐐기모양잎바닥\n(설저)",
-            "방패모양잎바닥\n(순저)", "심장형잎바닥\n(심장저)", "예리한잎바닥\n(예저)", "비뚠잎바닥\n(왜저)", "둥근잎바닥\n(원저)", "흐르는잎바닥\n(유저)", "귀모양잎바닥\n(이저)", "편평한잎바닥\n(평저)"
-    };
-    public static int[] leafDrawable4 = {R.drawable.d2401, R.drawable.d2402, R.drawable.d2403, R.drawable.d2404,
-            R.drawable.d2405, R.drawable.d2406, R.drawable.d2407, R.drawable.d2408,
-            R.drawable.d2409, R.drawable.d2410, R.drawable.d2411, R.drawable.d2412,
-            R.drawable.d2413, R.drawable.d2414, R.drawable.d2415, R.drawable.d2416,
-            R.drawable.d2417};
-    public static String[] leafNames4 = {"넓은타원모양\n(광타원형)", "창날모양\n(극형)", "계란모양\n(난형)", "거꿀계란모양\n(도란형)",
-            "거꿀창끝모양\n(도피침형)", "민들레잎모양\n(민들레형)", "삼각모양\n(삼각형)", "줄모양\n(선형)",
-            "콩팥모양\n(신장형)", "심장모양\n(심장형)", "둥근모양\n(원형)", "긴타원모양\n(장타원형)",
-            "활촉모양\n(전형)", "주걱모양\n(주걱형)", "바늘모양\n(침형)", "타원모양\n(타원형)", "창끝모양\n(피침형)"
-    };
-    public static int[] leafDrawable5 = {R.drawable.d2501, R.drawable.d2502, R.drawable.d2503, R.drawable.d2504,
-            R.drawable.d2505};
-    public static String[] leafNames5 = {"홀수한쌍깃모양겹잎\n(기수1쌍우상복엽)", "홀수한번깃모양겹잎\n(기수1회우상복엽)", "홀수두번깃모양겹잎\n(기수2회우상복엽)",
-            "짝수한번깃모양겹잎\n(우수1회우상복엽)", "짝수두번깃모양겹잎\n(우수2회우상복엽)"
-    };
-    public static int[] leafDrawable6 = {R.drawable.d2601, R.drawable.d2602, R.drawable.d2603};
-    public static String[] leafNames6 = {"돌려나기\n(윤생)", "마주나기\n(대생)", "어긋나기\n(호생)"
-    };
-    public static int[] leafDrawable7 = {R.drawable.d2701, R.drawable.d2702, R.drawable.d2703, R.drawable.d2704};
-    public static String[] leafNames7 = {"두번세장잎\n(2회3출엽)", "세장잎\n(3출엽)", "세번세장잎\n(3회3출엽)", "다섯장잎\n(5출엽)"
-    };
-    public static int[] fruitDrawable = {R.drawable.d3001, R.drawable.d3002, R.drawable.d3003, R.drawable.d3004,
-            R.drawable.d3005, R.drawable.d3006, R.drawable.d3007, R.drawable.d3008,
-            R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
-    public static String[] fruitNames = {"뚜껑열매\n(개과)", "견과류열매\n(견과)", "분리열매\n(분과)", "갈래열매\n(분열과)",
-            "캡슐열매\n(삭과)", "여윈열매\n(수과)", "배열매\n(이과)", "날개열매\n(익과)",
-            "물열매\n(장과/액과)", "덩어리열매\n(취과)", "알갱이열매\n(핵과)", "꼬투리열매\n(협과)"
-    };
 
 }
