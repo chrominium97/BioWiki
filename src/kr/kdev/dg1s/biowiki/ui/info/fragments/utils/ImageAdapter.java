@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info.utils;
+package kr.kdev.dg1s.biowiki.ui.info.fragments.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.info.fragments.CategorySelectionFragment;
 import kr.kdev.dg1s.biowiki.ui.plantInfo.PlantInformationFragment;
 
 public class SearchByHabitatActivity extends BIActionBarActivity implements CategorySelectionFragment.OnPlantSelectedListener {

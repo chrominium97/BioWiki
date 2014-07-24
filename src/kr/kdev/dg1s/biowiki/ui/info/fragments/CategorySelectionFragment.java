@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info;
+package kr.kdev.dg1s.biowiki.ui.info.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +22,7 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +41,7 @@ public class CategorySelectionFragment extends SherlockFragment {
 
     int downloadQueue;
 
-    Element currentElement;
+    public Element currentElement;
     List<Element> displayedElements;
 
     Context context;
@@ -119,7 +120,8 @@ public class CategorySelectionFragment extends SherlockFragment {
 
     public void initializeCategory() throws IOException {
         // Instance of ImageAdapter Class
-        setSource(getString(R.string.biowiki_address) + "/xml/categories", Constants.FILE_XML_CATEGORY);
+        //setSource(getString(R.string.biowiki_address) + "/xml/categories", Constants.FILE_XML_CATEGORY);
+        source = new Source(getResources().openRawResource(R.raw.categories));
         Log.d("XML", source.toString());
         currentElement = source.getFirstElement("repo");
         parseXML(null, -1);

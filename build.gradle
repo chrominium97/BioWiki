@@ -75,7 +75,7 @@ android {
         releaseCompile 'org.wordpress:emailchecker:0.2'
         debugCompile 'org.wordpress:emailchecker-debug:0.2'
 
-        compile 'org.achartengine:achartengine:+'
+        compile 'org.achartengine:achartengine:1.2.0'
 
         // Local dependencies
         compile 'com.google.android.gms:play-services:4.3.+'

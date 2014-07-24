@@ -4,4 +4,39 @@
     <item name="drag_handle" type="id" />
     <item name="click_remove" type="id" />
 
+    <item name="leaves.simpleAlternateLeaves" type="id" />
+    <item name="simpleOppositeLeaves" type="id" />
+    <item name="verticillate" type="id" />
+    <item name="fasciculate" type="id" />
+    <item name="trifoliolateLeaf" type="id" />
+    <item name="pentafoliolateLeaf" type="id" />
+    <item name="viternateLeaf" type="id" />
+    <item name="triternateLeaf" type="id" />
+    <item name="oddPinnateUnijugate" type="id" />
+    <item name="oddPinnate" type="id" />
+    <item name="evenPinnate" type="id" />
+    <item name="oddBipinnate" type="id" />
+    <item name="evenBipinnate" type="id" />
+    <item name="acicular" type="id" />
+    <item name="linear" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+    <item name="click_remove" type="id" />
+
 </resources>

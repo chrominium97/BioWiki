@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.info.fragments.AttributeSelectionFragment;
 import kr.kdev.dg1s.biowiki.ui.plantInfo.PlantInformationFragment;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
 

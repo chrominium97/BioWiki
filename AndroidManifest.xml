@@ -73,10 +73,11 @@
         <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionViewerActivity" />
         <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionViewer" />
 
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.info.ChartViewActivity" />
+
         <!-- Dictionary activites -->
         <activity android:name=".ui.info.SearchByAttributeActivity" />
 
-        <!-- Categorization activites -->
         <!-- Categorization activites -->
         <activity android:name=".ui.info.SearchByHabitatActivity"
             android:theme="@style/BioWiki"/>

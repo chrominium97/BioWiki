@@ -42,6 +42,7 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
+import kr.kdev.dg1s.biowiki.ui.info.ChartViewActivity;
 import kr.kdev.dg1s.biowiki.ui.info.SearchByHabitatActivity;
 import kr.kdev.dg1s.biowiki.ui.info.SearchByAttributeActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
@@ -63,6 +64,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
     protected static final int CATEGORIZATION_ACTIVITY = 1;
     protected static final int MAPS_ACTIVITY = 2;
     protected static final int DICTIONARY_ACTIVITY = 3;
+    protected static final int CHART_ACTIVITY = 4;
     protected static final String LAST_ACTIVITY_PREFERENCE = "bi_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
     /**
@@ -168,6 +170,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
         mMenuItems.add(new CategoryItem());
         mMenuItems.add(new MapsItem());
         mMenuItems.add(new DictionaryItem());
+        mMenuItems.add(new ChartItem());
     }
 
     @Override
@@ -745,6 +748,31 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
             if (!(BIActionBarActivity.this instanceof SearchByAttributeActivity))
                 mShouldFinish = true;
             Intent intent = new Intent(BIActionBarActivity.this, SearchByAttributeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class ChartItem extends MenuDrawerItem {
+        ChartItem() {
+            super(CHART_ACTIVITY, R.string.dictionaryItem, R.drawable.dashboard_search);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BIActionBarActivity.this instanceof ChartViewActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BIActionBarActivity.this instanceof SearchByAttributeActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BIActionBarActivity.this, ChartViewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }
