@@ -360,6 +360,87 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
                     arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.SHAPES.LANCEOLATE));
                     break;
 
+                case R.drawable.d2501:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PINNATELY_COMPOUND.ODD_PINNATE_UNIJUGATE));
+                    break;
+                case R.drawable.d2502:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PINNATELY_COMPOUND.ODD_PINNATE));
+                    break;
+                case R.drawable.d2503:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PINNATELY_COMPOUND.ODD_BIPINNATE));
+                    break;
+                case R.drawable.d2504:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PINNATELY_COMPOUND.EVEN_PINNATE));
+                    break;
+                case R.drawable.d2505:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PINNATELY_COMPOUND.EVEN_BIPINNATE));
+                    break;
+
+                case R.drawable.d2601:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.ORDER_COMPOUND.VERTICILLATE));
+                    break;
+                case R.drawable.d2602:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.ORDER_COMPOUND.SIMPLE_OPPOSITE));
+                    break;
+                case R.drawable.d2603:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.ORDER_COMPOUND.SIMPLE_ALTERNATIVE));
+                    break;
+                case R.drawable.d2701:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PALMATELY_COMPOUND.BITERNATE));
+                    break;
+                case R.drawable.d2702:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PALMATELY_COMPOUND.TRIFOLIOLATE));
+                    break;
+                case R.drawable.d2703:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PALMATELY_COMPOUND.TRITERNATE));
+                    break;
+                case R.drawable.d2704:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Leaves.PALMATELY_COMPOUND.PENTAFOLIOLATE));
+                    break;
+
+                //FRUITS
+                case R.drawable.d3001:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.PYXIS));
+                    break;
+                case R.drawable.d3002:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.NUT));
+                    break;
+                case R.drawable.d3003:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.LOMENT));
+                    break;
+            /* 3004: 분열과는 갖다 버리면 됨.
+             case R.drawable.d3004:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.));
+                    break;
+                    */
+                case R.drawable.d3005:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.CAPSULE));
+                    break;
+                case R.drawable.d3006:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.ACHENE));
+                    break;
+                case R.drawable.d3007:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.POME));
+                    break;
+                case R.drawable.d3008:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.SEMARA));  //오타: SEMARA -> SAMARA
+                    break;
+                case R.drawable.d3009:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.BERRY));
+                    break;
+                case R.drawable.d3010:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.AGGREGATE));
+                    break;
+                case R.drawable.d3011:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.DRUPE));
+                    break;
+                case R.drawable.d3012:
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.LEGUME));
+                    break;
+                case R.drawable.dg1s:  //이거 영과. 사진 추가하던가 해야 할 듯 싶음..;;
+                    arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Fruits.CARYOPSIS));
+                    break;
+
 
             }
             plants.add(arrayList);
