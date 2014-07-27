@@ -181,7 +181,7 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
                 case R.drawable.d1314:
                     arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.GIBBOUS));
                     break;
-                case R.drawable.d1315:
+                case R.drawable.d1315: 
                     arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.GALEATE));
                     break;
                 case R.drawable.d1316:
