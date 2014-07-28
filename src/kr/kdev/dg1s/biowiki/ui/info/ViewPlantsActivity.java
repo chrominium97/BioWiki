@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 
-public class ViewPlantsActivity extends BIActionBarActivity implements OnDismissCallback, OnClickListener {
+public class ViewPlantsActivity extends BIActionBarActivity implements OnDismissCallback {
 
     private CardsAdapter cardsAdapter;
 
