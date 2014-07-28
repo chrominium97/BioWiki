@@ -11,19 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.jjoe64.graphview.GraphView;
-
-import net.htmlparser.jericho.Attribute;
-import net.htmlparser.jericho.Attributes;
-import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.Source;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -33,22 +24,25 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.networking.CachedDownloader;
-import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
 
 public class GraphViewFragment extends SherlockFragment {
 
     Context context;
 
     OnDatasetRefreshRequest mCallback;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case 0:
+
+            }
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -86,8 +80,8 @@ public class GraphViewFragment extends SherlockFragment {
     void setValues() {
         // 표시할 수치값
         List<double[]> values = new ArrayList<double[]>();
-        values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200,
-                22030, 21200, 19500, 15500, 12600, 14000 });
+        values.add(new double[]{14230, 12300, 14240, 15244, 15900, 19200,
+                22030, 21200, 19500, 15500, 12600, 14000});
 
         /** 그래프 출력을 위한 그래픽 속성 지정객체 */
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
@@ -97,10 +91,10 @@ public class GraphViewFragment extends SherlockFragment {
         renderer.setChartTitleTextSize(20);
 
         // 분류에 대한 이름
-        String[] titles = new String[] { "월별 판매량" };
+        String[] titles = new String[]{"월별 판매량"};
 
         // 항목을 표시하는데 사용될 색상값
-        int[] colors = new int[] { Color.YELLOW };
+        int[] colors = new int[]{Color.YELLOW};
 
         // 분류명 글자 크기 및 각 색상 지정
         renderer.setLegendTextSize(15);
@@ -171,16 +165,6 @@ public class GraphViewFragment extends SherlockFragment {
         Log.d("Graph", "Added Successfully");
 
     }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message message) {
-            switch (message.what) {
-                case 0:
-
-            }
-        }
-    };
 
     @Override
     public void onResume() {

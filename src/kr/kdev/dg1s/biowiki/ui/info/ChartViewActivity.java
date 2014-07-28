@@ -5,9 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.info.fragments.GraphViewFragment;

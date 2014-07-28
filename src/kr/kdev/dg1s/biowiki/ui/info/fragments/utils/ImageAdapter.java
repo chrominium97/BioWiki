@@ -2,7 +2,6 @@ package kr.kdev.dg1s.biowiki.ui.info.fragments.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,13 +25,15 @@ import kr.kdev.dg1s.biowiki.R;
 
 public class ImageAdapter extends BaseAdapter {
 
+    public RadioButton mSelectedRB = null;
     File cache;
     Context context;
     int[] mImg;
     String[] mText;
     LayoutInflater layoutInflater;
     RadioGroup radioGroup;
-    public RadioButton mSelectedRB = null;
+    ImageLoaderConfiguration config;
+    DisplayImageOptions options;
     private int mSelectedPosition = -1;
 
     public ImageAdapter(Context context, int[] img, String[] tags, File file) {
@@ -50,6 +51,23 @@ public class ImageAdapter extends BaseAdapter {
         this.radioGroup = new RadioGroup(context);
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .considerExifParams(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .showImageOnLoading(R.drawable.remote_image)
+                .showImageOnFail(R.drawable.remote_failed)
+                .build();
+        config = new ImageLoaderConfiguration.Builder(context)
+                .threadPoolSize(Runtime.getRuntime().availableProcessors())
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(options)
+                .build();
+
     }
 
     @Override
@@ -71,32 +89,14 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
         final Holder holder;
-        holder = new Holder(mImg[position]);
+        holder = new Holder();
 
         /**
-        Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
-        bitmap.recycle();
+         Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
+         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+         bitmap.recycle();
          */
 
-        ImageLoaderConfiguration config;
-        DisplayImageOptions options;
-
-        options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .considerExifParams(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.remote_image)
-                .showImageOnFail(R.drawable.remote_failed)
-                .build();
-        config = new ImageLoaderConfiguration.Builder(context)
-                .threadPoolSize(Runtime.getRuntime().availableProcessors())
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                .writeDebugLogs()
-                .defaultDisplayImageOptions(options)
-                .build();
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(config);
@@ -107,6 +107,9 @@ public class ImageAdapter extends BaseAdapter {
         Log.d("Holder", "Image ID : " + mImg[position]);
         holder.radioButton = (RadioButton) view
                 .findViewById(R.id.radiobtn);
+
+        holder.radioButton.setId(mImg[position]);
+
         //holder.radioButton.setText();
         view.setTag(holder);
         //holder = (Holder) view.getTag();
@@ -143,8 +146,5 @@ public class ImageAdapter extends BaseAdapter {
     private class Holder {
         ImageView image;
         RadioButton radioButton;
-        public Holder(int id) {
-            radioButton.setId(id);
-        }
     }
 }

@@ -8,6 +8,37 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class Constants {
 
+    public static final DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .cacheOnDisc(true)
+            .considerExifParams(true)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .showImageOnLoading(R.drawable.remote_image)
+            .showImageOnFail(R.drawable.remote_failed)
+            .build();
+    public static final String URL_TOS = "http://en.wordpress.com/tos";
+    /*
+     * Reader constants
+     */
+    public static final int READER_MAX_POSTS_TO_REQUEST = 20;                          // max #posts to request when updating posts (should be an even # to avoid "hanging post" in 2-column grid mode)
+    // intent IDs
+    public static final int INTENT_READER_TAGS = 1000;
+    public static final int INTENT_READER_REBLOG = 1001;
+    public static final int INTENT_COMMENT_EDITOR = 1010;
+    public static String readerURL = "https://en.wordpress.com/reader/mobile/v2";
+    public static String readerLoginURL = "https://wordpress.com/wp-login.php";
+    public static String readerURL_v3 = "https://en.wordpress.com/reader/mobile/v2/?chrome=no";
+    public static String authorizedHybridHost = "en.wordpress.com";
+    public static String readerTopicsURL = "http://en.wordpress.com/reader/mobile/v2/?template=topics";
+    public static String wpcomXMLRPCURL = "https://wordpress.com/xmlrpc.php";
+    public static String videoPressURL = "http://videopress.com";
+    public static int QUICK_POST_PHOTO_CAMERA = 0;
+    public static int QUICK_POST_PHOTO_LIBRARY = 1;
+    public static int QUICK_POST_VIDEO_CAMERA = 2;
+    public static int QUICK_POST_VIDEO_LIBRARY = 3;
+    public static String FILE_XML_CATEGORY = "categories.xml";
+
     public static class PlantsAttributes {
 
         public static class Flowers {
@@ -709,20 +740,8 @@ public class Constants {
 
         public static class Fruits {
 
-            public static class ATTRIBUTES {
-
-                public static int[] fruitDrawable = {R.drawable.d3001, R.drawable.d3002, R.drawable.d3003, R.drawable.d3004,
-                        R.drawable.d3005, R.drawable.d3006, R.drawable.d3007, R.drawable.d3008,
-                        R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
-
-                public static String[] fruitNames = {"뚜껑열매\n(개과)", "견과류열매\n(견과)", "분리열매\n(분과)", "갈래열매\n(분열과)",
-                        "캡슐열매\n(삭과)", "여윈열매\n(수과)", "배열매\n(이과)", "날개열매\n(익과)",
-                        "물열매\n(장과/액과)", "덩어리열매\n(취과)", "알갱이열매\n(핵과)", "꼬투리열매\n(협과)"};
-            }
-
             public static String[] AGGREGATE = {  //덩어리열매(취과)
                     "뱀딸기", "산뽕나무", "산딸기나무(나무딸기)", "멍석딸기"};
-
             public static String[] BERRY = {  //물열매(장과, 액과)
                     "미국자리공", "탱자나무", "구기자나무", "까마중(가마중)", "반하(꿩의무릇)",
                     "비목나무", "백동백나무(감태나무)", "생강나무", "으름덩굴(물외)", "찔레나무",
@@ -730,13 +749,11 @@ public class Constants {
                     "마삭줄", "꼭두선이", "배풍등", "인동덩굴", "개맥문동",
                     "청미래덩굴", "가시연꽃(가시연)", "연꽃", "새박덩굴", "자라풀",
                     "창포"};
-
             public static String[] DRUPE = {  //알갱이열매(핵과)
                     "제비꿀", "푸조나무", "팽나무", "느티나무", "꾸지나무",
                     "댕댕이덩굴", "새모래덩굴", "이스라지(묏이스랏)", "소태나무", "붉나무",
                     "개옻나무", "가래", "두릅나무", "계요등", "마름",
                     "애기마름", "묏대추"};
-
             public static String[] ACHENE = {  //여윈열매(수과)
                     "한삼덩굴", "개여뀌", "며느리배꼽(사광이풀)", "며느리밑씻개(사광이아재비)", "마디풀",
                     "소리쟁이", "재쑥", "돼지풀", "쑥", "미국쑥부쟁이",
@@ -760,7 +777,6 @@ public class Constants {
                     "물쑥", "말즘(말주름)", "대가래", "이삭사초", "삿갓사초",
                     "산비늘사초(쥐방울사초)", "뚝사초", "쇠털골", "올방개", "매자기",
                     "솔방울고랭이", "도루박이(민검정골)", "송이고랭이", "세모고랭이"};
-
             public static String[] CAPSULE = {  //캡슐열매(삭과, 포과)
                     "개미자리", "명아주(도토라지)", "좀명아주", "개비름", "털비름",
                     "애기똥풀", "괭이밥", "쥐손이풀", "미국쥐손이", "큰땅빈대",
@@ -779,36 +795,28 @@ public class Constants {
                     "용버들", "참오글잎버들", "선버들", "노랑어리연꽃", "물별이끼",
                     "큰고추풀", "물칭개나물", "물옥잠", "노랑꽃창포", "좀개구리밥",
                     "개구리밥(머구리밥)", "모감주나무", "산달래(족지)", "금낭화"};
-
             public static String[] POME = {  //배열매(이과)
                     "산사나무(아가외나무)"};
-
             public static String[] PYXIS = {  //뚜껑열매(개과)
                     "뚜껑덩굴"};
-
             public static String[] schizocarp = {};// 조사 결과 분열과 = 분과 => 이건(분열과, 갈래열매) 갖다 버리면 됨
-
             public static String[] LOMENT = {  //분리열매(분과, 열과)
                     "갈퀴덩굴", "꽃받이(꽃바지)", "개지치", "꽃마리", "개차즈기",
                     "광대나물", "쥐깨(풀)", "들깨풀", "산해박(마하존)", "박주가리(새박덩굴)",
                     "네잎갈퀴", "산박하", "말똥비름", "이삭물수세미", "미나리",
                     "익모초(눈비엿)", "쉽싸리", "박하(영생이)", "배암차즈기", "석잠풀",
                     "바위솔(지붕지기)", "기린초", "돌나물", "물망초"};
-
             public static String[] LEGUME = {  //꼬투리열매(협과, 두과)
                     "새콩", "돌콩", "둥근매듭풀", "매듭풀", "벌노랑이",
                     "전동싸리", "붉은토끼풀", "토끼풀", "가는살갈퀴", "얼치기완두",
                     "새팥", "꽃다지", "다닥냉이", "자귀풀", "비수리",
                     "개싸리", "좀싸리", "자귀나무", "땅비싸리", "칡",
                     "아까시나무", "등나무", "자운영", "아구장나무"};
-
             public static String[] NUT = {  //견과류열매(견과)
                     "족제비싸리", "사방오리", "물오리나무(산오리나무)", "밤나무", "상수리나무",
                     "굴참나무", "오리나무", "좀개갓냉이", "수염마름"};
-
             public static String[] SEMARA = {  //날개열매(익과)
                     "당느릅니무", "참느릅나무", "개죽나무(가중나무)", "신나무"};
-
             //영과(벼 처럼 생긴 열매), 그림 없는데 식물사전에는 있네ㄷㄷ이를 어쩌나 명규보고 다시 그리라 할까;;
             public static String[] CARYOPSIS = {  //영과
                     "개밀", "메귀리", "참새귀리", "오리새", "바랭이",
@@ -820,40 +828,18 @@ public class Constants {
                     "큰기름새", "실새풀", "큰듬성이삭새", "쥐꼬리새", "주름조개풀",
                     "왕대", "나도겨풀", "기장대풀", "물억새(달풀, 달대)", "털물참새피",
                     "갈풀", "갈대", "줄"};
+
+            public static class ATTRIBUTES {
+
+                public static int[] fruitDrawable = {R.drawable.d3001, R.drawable.d3002, R.drawable.d3003, R.drawable.d3004,
+                        R.drawable.d3005, R.drawable.d3006, R.drawable.d3007, R.drawable.d3008,
+                        R.drawable.d3009, R.drawable.d3010, R.drawable.d3011, R.drawable.d3012};
+
+                public static String[] fruitNames = {"뚜껑열매\n(개과)", "견과류열매\n(견과)", "분리열매\n(분과)", "갈래열매\n(분열과)",
+                        "캡슐열매\n(삭과)", "여윈열매\n(수과)", "배열매\n(이과)", "날개열매\n(익과)",
+                        "물열매\n(장과/액과)", "덩어리열매\n(취과)", "알갱이열매\n(핵과)", "꼬투리열매\n(협과)"};
+            }
         }
     }
-
-    public static final DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
-            .cacheInMemory(true)
-            .cacheOnDisc(true)
-            .considerExifParams(true)
-            .imageScaleType(ImageScaleType.EXACTLY)
-            .bitmapConfig(Bitmap.Config.RGB_565)
-            .showImageOnLoading(R.drawable.remote_image)
-            .showImageOnFail(R.drawable.remote_failed)
-            .build();
-
-    public static final String URL_TOS = "http://en.wordpress.com/tos";
-    /*
-     * Reader constants
-     */
-    public static final int READER_MAX_POSTS_TO_REQUEST = 20;                          // max #posts to request when updating posts (should be an even # to avoid "hanging post" in 2-column grid mode)
-    // intent IDs
-    public static final int INTENT_READER_TAGS = 1000;
-    public static final int INTENT_READER_REBLOG = 1001;
-    public static final int INTENT_COMMENT_EDITOR = 1010;
-    public static String readerURL = "https://en.wordpress.com/reader/mobile/v2";
-    public static String readerLoginURL = "https://wordpress.com/wp-login.php";
-    public static String readerURL_v3 = "https://en.wordpress.com/reader/mobile/v2/?chrome=no";
-    public static String authorizedHybridHost = "en.wordpress.com";
-    public static String readerTopicsURL = "http://en.wordpress.com/reader/mobile/v2/?template=topics";
-    public static String wpcomXMLRPCURL = "https://wordpress.com/xmlrpc.php";
-    public static String videoPressURL = "http://videopress.com";
-    public static int QUICK_POST_PHOTO_CAMERA = 0;
-    public static int QUICK_POST_PHOTO_LIBRARY = 1;
-    public static int QUICK_POST_VIDEO_CAMERA = 2;
-    public static int QUICK_POST_VIDEO_LIBRARY = 3;
-
-    public static String FILE_XML_CATEGORY = "categories.xml";
 
 }

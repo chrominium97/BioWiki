@@ -55,8 +55,8 @@ public class CachedDownloader {
 
         try {
 
-            File dir = new File (root.getAbsolutePath() + "/" + fileType);
-            if(dir.exists()==false) {
+            File dir = new File(root.getAbsolutePath() + "/" + fileType);
+            if (dir.exists() == false) {
                 dir.mkdirs();
             }
 

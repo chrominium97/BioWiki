@@ -69,7 +69,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
         if (ids.size() == 0) {
             ToastUtils.showToast(context, "속성을 선택해 주세요.");
         } else {
-            mCallback.onAttributeDecided(ids);
+            mCallback.onAttributeDecided(ids, OnAttributeDecidedListener.LOG_LEVEL_NONE);
         }
 
     }
@@ -256,7 +256,12 @@ public class AttributeSelectionFragment extends SherlockFragment {
 
     // Container Activity must implement this interface
     public interface OnAttributeDecidedListener {
-        public void onAttributeDecided(ArrayList<Integer> ids);
+        public static int LOG_LEVEL_HIGH = 3;
+        public static int LOG_LEVEL_MEDIUM = 2;
+        public static int LOG_LEVEL_LOW = 1;
+        public static int LOG_LEVEL_NONE = 0;
+
+        public void onAttributeDecided(ArrayList<Integer> ids, int logLevel);
     }
 
     public static class MainPagerAdapter extends PagerAdapter {

@@ -22,26 +22,21 @@ import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.networking.CachedDownloader;
 import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
 
 public class CategorySelectionFragment extends SherlockFragment {
 
-    GridView gridView;
-
-    Random random = new Random();
-
-    int downloadQueue;
-
     public Element currentElement;
+    GridView gridView;
+    Random random = new Random();
+    int downloadQueue;
     List<Element> displayedElements;
 
     Context context;
@@ -49,6 +44,15 @@ public class CategorySelectionFragment extends SherlockFragment {
     Source source;
 
     OnPlantSelectedListener mCallback;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case 0:
+
+            }
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -98,24 +102,6 @@ public class CategorySelectionFragment extends SherlockFragment {
     public void setSource(String url, String fileName) {
         BufferedSource bufferedSource = new BufferedSource(url, fileName);
         bufferedSource.start();
-    }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message message) {
-            switch (message.what) {
-                case 0:
-
-            }
-        }
-    };
-
-    class BufferedSource extends Thread {
-        public BufferedSource(String url, String fileName) {
-            int identifier = random.nextInt();
-            CachedDownloader downloader = new CachedDownloader(identifier);
-            downloadQueue = downloader.prepareFile(url, fileName, "XML");
-        }
     }
 
     public void initializeCategory() throws IOException {
@@ -200,5 +186,13 @@ public class CategorySelectionFragment extends SherlockFragment {
     // Container Activity must implement this interface
     public interface OnPlantSelectedListener {
         public void onPlantSelected(String name);
+    }
+
+    class BufferedSource extends Thread {
+        public BufferedSource(String url, String fileName) {
+            int identifier = random.nextInt();
+            CachedDownloader downloader = new CachedDownloader(identifier);
+            downloadQueue = downloader.prepareFile(url, fileName, "XML");
+        }
     }
 }

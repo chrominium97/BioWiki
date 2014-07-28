@@ -6,9 +6,6 @@ import java.util.regex.Pattern;
 
 import kr.kdev.dg1s.biowiki.util.StringUtils;
 
-/**
- * Created by nbradbury on 6/23/13.
- */
 public class ReaderTag {
     // these are the default tag names, which aren't localized in the /read/menu/ response
     public static final String TAG_NAME_LIKED = "Posts I Like";

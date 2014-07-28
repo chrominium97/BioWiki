@@ -50,26 +50,25 @@ import kr.kdev.dg1s.biowiki.util.MapUtils;
 import kr.kdev.dg1s.biowiki.util.NetworkUtils;
 
 public class ApiHelper {
-    public static final Map<String, String> blogOptionsXMLRPCParameters = new HashMap<String, String>();
+    public static final Map<String, String> wikiOptionsXMLRPCParameters = new HashMap<String, String>();
     /**
-     * Regex pattern for matching the RSD link found in most WordPress sites.
+     * Regex pattern for matching the RSD link found in BioWiki sites.
      */
     private static final Pattern rsdLink = Pattern.compile(
             "<link\\s*?rel=\"EditURI\"\\s*?type=\"application/rsd\\+xml\"\\s*?title=\"RSD\"\\s*?href=\"(.*?)\"",
             Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-    ;
 
     static {
-        blogOptionsXMLRPCParameters.put("software_version", "software_version");
-        blogOptionsXMLRPCParameters.put("post_thumbnail", "post_thumbnail");
-        blogOptionsXMLRPCParameters.put("jetpack_client_id", "jetpack_client_id");
-        blogOptionsXMLRPCParameters.put("blog_public", "blog_public");
-        blogOptionsXMLRPCParameters.put("home_url", "home_url");
-        blogOptionsXMLRPCParameters.put("admin_url", "admin_url");
-        blogOptionsXMLRPCParameters.put("login_url", "login_url");
+        wikiOptionsXMLRPCParameters.put("software_version", "software_version");
+        wikiOptionsXMLRPCParameters.put("post_thumbnail", "post_thumbnail");
+        wikiOptionsXMLRPCParameters.put("jetpack_client_id", "jetpack_client_id");
+        wikiOptionsXMLRPCParameters.put("blog_public", "blog_public");
+        wikiOptionsXMLRPCParameters.put("home_url", "home_url");
+        wikiOptionsXMLRPCParameters.put("admin_url", "admin_url");
+        wikiOptionsXMLRPCParameters.put("login_url", "login_url");
     }
 
-    public static synchronized void updateBlogOptions(Blog currentBlog, Map<?, ?> blogOptions) {
+    public static synchronized void updateWikiOptions(Blog currentBlog, Map<?, ?> blogOptions) {
         boolean isModified = false;
         Gson gson = new Gson();
         String blogOptionsJson = gson.toJson(blogOptions);
@@ -476,7 +475,7 @@ public class ApiHelper {
 
             if (!commentsOnly) {
                 // check the WP number if self-hosted
-                Map<String, String> hPost = ApiHelper.blogOptionsXMLRPCParameters;
+                Map<String, String> hPost = ApiHelper.wikiOptionsXMLRPCParameters;
 
                 Object[] vParams = {mBlog.getRemoteBlogId(), mBlog.getUsername(),
                         mBlog.getPassword(), hPost};
@@ -493,7 +492,7 @@ public class ApiHelper {
 
                 if (versionResult != null) {
                     Map<?, ?> blogOptions = (HashMap<?, ?>) versionResult;
-                    ApiHelper.updateBlogOptions(mBlog, blogOptions);
+                    ApiHelper.updateWikiOptions(mBlog, blogOptions);
                 }
 
                 // get theme post formats

@@ -74,6 +74,7 @@
         <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionViewer" />
 
         <activity android:name="kr.kdev.dg1s.biowiki.ui.info.ChartViewActivity" />
+        <activity android:name="kr.kdev.dg1s.biowiki.ui.info.ViewPlantsActivity" />
 
         <!-- Dictionary activites -->
         <activity android:name=".ui.info.SearchByAttributeActivity" />

@@ -92,7 +92,9 @@ public class LocationHelper {
             }
             locationResult.gotLocation(null);
         }
-    }    LocationListener locationListenerGps = new LocationListener() {
+    }
+
+    LocationListener locationListenerGps = new LocationListener() {
         public void onLocationChanged(Location location) {
             timer1.cancel();
             locationResult.gotLocation(location);
@@ -109,8 +111,6 @@ public class LocationHelper {
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
     };
-
-
 
 
     LocationListener locationListenerNetwork = new LocationListener() {

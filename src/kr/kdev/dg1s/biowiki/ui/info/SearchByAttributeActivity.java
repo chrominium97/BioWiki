@@ -74,9 +74,31 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
         super.onBackPressed();
     }
 
-    public void onAttributeDecided(ArrayList<Integer> ids) {
+    public void onAttributeDecided(ArrayList<Integer> ids, int logLevel) {
         ToastUtils.showToast(getApplicationContext(), "Switching...\n" + ids);
-        Log.d("Attribute", "Switching...\n" + ids);
+        List<ArrayList<String>> correspondingPlants = getCorrespondingPlants(ids);
+        ArrayList<String> unfilteredPlants = correspondingPlants.get(0);
+        ArrayList<String> filteredPlants = new ArrayList<String>();
+        for (ArrayList<String> plantList : correspondingPlants) {
+            if (logLevel > LOG_LEVEL_LOW)
+                Log.d("COMPARISION", "Comparing \n" + plantList + "\nto\n" + unfilteredPlants);
+            for (String plant : plantList) {
+                if (unfilteredPlants.contains(plant)) {
+                    if (logLevel > LOG_LEVEL_MEDIUM)
+                        Log.d("COMPARISION", plant + " is included within array");
+                    filteredPlants.add(plant);
+                } else {
+                    if (logLevel > LOG_LEVEL_MEDIUM)
+                        Log.d("COMPARISION", plant + " ISN'T included within array");
+                }
+            }
+            unfilteredPlants = new ArrayList<String>(filteredPlants);
+            filteredPlants.clear();
+            if (logLevel > LOG_LEVEL_NONE)
+                Log.d("COMPARISION", "Filtered : \n" + unfilteredPlants);
+        }
+        if (logLevel > LOG_LEVEL_NONE)
+            Log.d("COMPARISION", "----------------------END OF COMPARISION----------------------");
         Bundle bundle = new Bundle();
         bundle.putString("plant", "미나리");
         informationFragment.setArguments(bundle);
@@ -89,6 +111,7 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
     List<ArrayList<String>> getCorrespondingPlants(ArrayList<Integer> integers) {
         ArrayList<ArrayList<String>> plants = new ArrayList<ArrayList<String>>();
         for (int id : integers) {
+            Log.d("LIST", "Current elements : \n" + plants);
             ArrayList<String> arrayList = new ArrayList<String>();
             switch (id) {
                 //FLOWERS
@@ -181,7 +204,7 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
                 case R.drawable.d1314:
                     arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.GIBBOUS));
                     break;
-                case R.drawable.d1315: 
+                case R.drawable.d1315:
                     arrayList.addAll(Arrays.asList(Constants.PlantsAttributes.Flowers.CorollaType.GALEATE));
                     break;
                 case R.drawable.d1316:

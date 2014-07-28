@@ -43,8 +43,9 @@ import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.info.ChartViewActivity;
-import kr.kdev.dg1s.biowiki.ui.info.SearchByHabitatActivity;
 import kr.kdev.dg1s.biowiki.ui.info.SearchByAttributeActivity;
+import kr.kdev.dg1s.biowiki.ui.info.SearchByHabitatActivity;
+import kr.kdev.dg1s.biowiki.ui.info.ViewPlantsActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
 import kr.kdev.dg1s.biowiki.ui.map.DistributionViewer;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
@@ -170,6 +171,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
         mMenuItems.add(new CategoryItem());
         mMenuItems.add(new MapsItem());
         mMenuItems.add(new DictionaryItem());
+        mMenuItems.add(new TemporaryItem());
         mMenuItems.add(new ChartItem());
     }
 
@@ -748,6 +750,31 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
             if (!(BIActionBarActivity.this instanceof SearchByAttributeActivity))
                 mShouldFinish = true;
             Intent intent = new Intent(BIActionBarActivity.this, SearchByAttributeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivityWithDelay(intent);
+        }
+
+        @Override
+        public Boolean isVisible() {
+            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
+        }
+    }
+
+    private class TemporaryItem extends MenuDrawerItem {
+        TemporaryItem() {
+            super(DICTIONARY_ACTIVITY, R.string.dictionaryItem, R.drawable.dashboard_search);
+        }
+
+        @Override
+        public Boolean isSelected() {
+            return BIActionBarActivity.this instanceof ViewPlantsActivity;
+        }
+
+        @Override
+        public void onSelectItem() {
+            if (!(BIActionBarActivity.this instanceof ViewPlantsActivity))
+                mShouldFinish = true;
+            Intent intent = new Intent(BIActionBarActivity.this, ViewPlantsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }
