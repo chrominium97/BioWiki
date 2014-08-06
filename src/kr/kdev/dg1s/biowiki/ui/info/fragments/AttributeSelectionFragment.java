@@ -69,7 +69,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
         if (ids.size() == 0) {
             ToastUtils.showToast(context, "속성을 선택해 주세요.");
         } else {
-            mCallback.onAttributeDecided(ids, OnAttributeDecidedListener.LOG_LEVEL_NONE);
+            mCallback.onAttributeDecided(ids, OnAttributeDecidedListener.LOG_LEVEL_LOW);
         }
 
     }

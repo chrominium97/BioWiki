@@ -1,7 +1,6 @@
 package kr.kdev.dg1s.biowiki.ui.info.fragments.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +14,16 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
+import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 
 public class ImageAdapter extends BaseAdapter {
 
     public RadioButton mSelectedRB = null;
-    File cache;
+    //File cache;
     Context context;
     int[] mImg;
     String[] mText;
@@ -34,10 +31,12 @@ public class ImageAdapter extends BaseAdapter {
     RadioGroup radioGroup;
     ImageLoaderConfiguration config;
     DisplayImageOptions options;
+    ImageLoader imageLoader;
     private int mSelectedPosition = -1;
 
-    public ImageAdapter(Context context, int[] img, String[] tags, File file) {
-        cache = file;
+    public ImageAdapter(Context context, int[] imgs, String[] tags, File file) {
+        //cache = file;
+        /*
         List<String> nonBlank = new ArrayList<String>();
         for (String s : tags) {
             if (!s.trim().isEmpty()) {
@@ -46,21 +45,16 @@ public class ImageAdapter extends BaseAdapter {
         }
         // nonBlank will have all the elements which contain some characters.
         this.mText = nonBlank.toArray(new String[nonBlank.size()]);
+        **/
+        this.mText = tags;
         this.context = context;
-        this.mImg = img;
+        this.mImg = imgs;
         this.radioGroup = new RadioGroup(context);
         layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .considerExifParams(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.remote_image)
-                .showImageOnFail(R.drawable.remote_failed)
-                .build();
+        options = Constants.imageOptions;
+
         config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(Runtime.getRuntime().availableProcessors())
                 .discCacheFileNameGenerator(new Md5FileNameGenerator())
@@ -87,42 +81,41 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
-        final Holder holder;
-        holder = new Holder();
 
-        /**
-         Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
-         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
-         bitmap.recycle();
-         */
+        final ImageView plantImage;
+        final RadioButton radioButton;
 
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context)
+                    .inflate(R.layout.dictionary_gridview_adapter, parent, false);
+            plantImage = (ImageView) convertView.findViewById(R.id.plant_image);
+            radioButton = (RadioButton) convertView.findViewById(R.id.radiobtn);
+            convertView.setTag(new ViewHolder(plantImage, radioButton));
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(config);
+            ////*******************************************************
+            imageLoader = ImageLoader.getInstance();
+            imageLoader.init(config);
 
-        holder.image = (ImageView) view.findViewById(R.id.plant_image);
-        imageLoader.displayImage("drawable://" + mImg[position], holder.image);
-        //holder.image.setImageBitmap(scaledBitmap);
-        Log.d("Holder", "Image ID : " + mImg[position]);
-        holder.radioButton = (RadioButton) view
-                .findViewById(R.id.radiobtn);
+            imageLoader.displayImage("drawable://" + (mImg[position]), plantImage);
+            Log.d("Holder", "Image ID @position " + position + "/" + mImg.length + " : " + mImg[position]);
+            radioButton.setId(mImg[position]);
+            radioButton.setText(mText[position]);
+            //***************************//
 
-        holder.radioButton.setId(mImg[position]);
+        } else {
+            ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+            plantImage = viewHolder.plantImage;
+            radioButton = viewHolder.radioButton;
+        }
 
-        //holder.radioButton.setText();
-        view.setTag(holder);
-        //holder = (Holder) view.getTag();
-
-        holder.radioButton.setText(mText[position]);
-
-        view.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.radioButton.performClick();
+                radioButton.performClick();
             }
         });
-        holder.radioButton.setOnClickListener(new View.OnClickListener() {
+
+        radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if ((position != mSelectedPosition && mSelectedRB != null)) {
@@ -132,19 +125,79 @@ public class ImageAdapter extends BaseAdapter {
                 mSelectedRB = (RadioButton) v;
             }
         });
+
         if (mSelectedPosition != position) {
-            holder.radioButton.setChecked(false);
+            radioButton.setChecked(false);
         } else {
-            holder.radioButton.setChecked(true);
-            if (mSelectedRB != null && holder.radioButton != mSelectedRB) {
-                mSelectedRB = holder.radioButton;
+            radioButton.setChecked(true);
+            if (mSelectedRB != null && radioButton != mSelectedRB) {
+                mSelectedRB = radioButton;
             }
         }
-        return view;
+
+        return convertView;
+
+        /**
+         View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
+         final Holder holder = new Holder();
+
+         Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
+         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+         bitmap.recycle();
+
+
+         ImageLoader imageLoader = ImageLoader.getInstance();
+         imageLoader.init(config);
+
+         holder.image = (ImageView) view.findViewById(R.id.plant_image);
+         imageLoader.displayImage("drawable://" + mImg[position], holder.image);
+         Log.d("Holder", "Image ID : " + mImg[position]);
+         holder.radioButton = (RadioButton) view
+         .findViewById(R.id.radiobtn);
+
+         holder.radioButton.setId(mImg[position]);
+
+         //holder.radioButton.setText();
+         view.setTag(holder);
+         //holder = (Holder) view.getTag();
+
+         holder.radioButton.setText(mText[position]);
+
+         view.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+        holder.radioButton.performClick();
+        }
+        });
+         holder.radioButton.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+        if ((position != mSelectedPosition && mSelectedRB != null)) {
+        mSelectedRB.setChecked(false);
+        }
+        mSelectedPosition = position;
+        mSelectedRB = (RadioButton) v;
+        }
+        });
+         if (mSelectedPosition != position) {
+         holder.radioButton.setChecked(false);
+         } else {
+         holder.radioButton.setChecked(true);
+         if (mSelectedRB != null && holder.radioButton != mSelectedRB) {
+         mSelectedRB = holder.radioButton;
+         }
+         }
+         return view;
+         */
     }
 
-    private class Holder {
-        ImageView image;
-        RadioButton radioButton;
+    private static class ViewHolder {
+
+        public final ImageView plantImage;
+        public final RadioButton radioButton;
+
+        public ViewHolder(ImageView image, RadioButton button) {
+            this.plantImage = image;
+            this.radioButton = button;
+        }
     }
+
 }

@@ -1,5 +1,6 @@
 package kr.kdev.dg1s.biowiki.ui.info;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -99,13 +100,20 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
         }
         if (logLevel > LOG_LEVEL_NONE)
             Log.d("COMPARISION", "----------------------END OF COMPARISION----------------------");
-        Bundle bundle = new Bundle();
-        bundle.putString("plant", "미나리");
-        informationFragment.setArguments(bundle);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.selector_category, informationFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+
+        /**
+         Bundle bundle = new Bundle();
+         bundle.putString("plant", "미나리");
+         informationFragment.setArguments(bundle);
+         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+         transaction.replace(R.id.selector_category, informationFragment);
+         transaction.addToBackStack(null);
+         transaction.commit();
+         */
+
+        Intent intent = new Intent(this, ViewPlantsActivity.class);
+        intent.putExtra("plants", unfilteredPlants);
+        startActivity(intent);
     }
 
     List<ArrayList<String>> getCorrespondingPlants(ArrayList<Integer> integers) {

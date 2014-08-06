@@ -60,7 +60,7 @@ public class DrawableManager {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                //TODO : set imageView to a "pending" image
+                //TODO : set plantImage to a "pending" image
                 Drawable drawable = fetchDrawable(urlString);
                 Message message = handler.obtainMessage(1, drawable);
                 handler.sendMessage(message);
