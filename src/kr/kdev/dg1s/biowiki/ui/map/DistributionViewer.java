@@ -70,6 +70,8 @@ public class DistributionViewer extends BIActionBarActivity
         LocationListener,
         OnConnectionFailedListener {
 
+    boolean isOffline;
+
     private static final LatLng LOCATION_DEFAULT = new LatLng(35.886826, 128.721226);
     private static final LatLng DG1S = new LatLng(35.886545, 128.722626);
     // These settings are the same as the settings for the map. They will in fact give you updates
@@ -153,6 +155,11 @@ public class DistributionViewer extends BIActionBarActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createMenuDrawer(R.layout.maps_marker);
+
+        isOffline = getIntent().getBooleanExtra("offline", false);
+
+        if (isOffline)
+            Toast.makeText(this, R.string.offline_enabled, Toast.LENGTH_LONG).show();
 
         mTopText = (TextView) findViewById(R.id.top_text);
 
@@ -585,9 +592,13 @@ public class DistributionViewer extends BIActionBarActivity
         public void run() {
             try {
                 Log.d("Network", "Initiating..." + BioWiki.getCurrentBlog().getHomeURL());
-                URL url = new URL(BioWiki.getCurrentBlog().getHomeURL() + getString(R.string.server_subdomain)
-                        + getString(R.string.distribution_sample));
-                List<Message> messages = parseMarkers(bringSource(url));
+                List<Message> messages;
+                if (isOffline) {
+                    messages = parseMarkers(new Source(new InputStreamReader(getAssets().open("xmls/location.xml"))));
+                } else {
+                    messages = parseMarkers(bringSource(new URL(BioWiki.getCurrentBlog().getHomeURL() + getString(R.string.server_subdomain)
+                            + getString(R.string.distribution_sample))));
+                }
                 Log.d("Network", "Received source");
                 Message clearSign = new Message();
                 clearSign.what = 7;
