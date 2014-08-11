@@ -91,6 +91,7 @@ public class ViewPlantsActivity extends CustomListActivity {
         public View getTitleView(final int position, final View convertView, final ViewGroup parent) {
             LinearLayout linearLayout = (LinearLayout) convertView;
 
+
             if (linearLayout == null) {
                 linearLayout = new LinearLayout(mContext);
 
