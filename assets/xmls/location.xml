@@ -1,4 +1,13 @@
 <repo>
+    <species name="청단풍">
+        <location latitude ="35.8797382" longitude ="128.71116"/>
+    </species>
+    <species name="남천">
+        <location latitude ="35.8863548" longitude ="128.7226582"/>
+    </species>
+    <species name="주목">
+        <location latitude ="35.8864336" longitude ="128.7226105"/>
+    </species>
     <species name="담쟁이덩굴">
         <location latitude ="35.886112213134766" longitude ="128.72361755371094"/>
     </species>
