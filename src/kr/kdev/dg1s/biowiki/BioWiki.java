@@ -69,7 +69,8 @@ public class BioWiki extends Application {
     //public static BioWikiStatsDB wpStatsDB;
     public static OnPostUploadedListener onPostUploadedListener = null;
     public static boolean postsShouldRefresh;
-    public static boolean shouldRestoreSelectedActivity;
+    public static boolean shouldRestoreSelectedActivityBIOWIKI;
+    public static boolean shouldRestoreSelectedActivityBIOINFO;
     public static RestClientUtils mRestClientUtils;
     public static RequestQueue requestQueue;
     public static ImageLoader imageLoader;
@@ -395,7 +396,10 @@ public class BioWiki extends Application {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getInt("bw_pref_last_activity", -1) >= 0) {
-            shouldRestoreSelectedActivity = true;
+            shouldRestoreSelectedActivityBIOWIKI = true;
+        }
+        if (settings.getInt("bi_pref_last_activity", -1) >= 0) {
+            shouldRestoreSelectedActivityBIOINFO = true;
         }
         //registerForCloudMessaging(this);
 

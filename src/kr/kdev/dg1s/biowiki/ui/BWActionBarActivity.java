@@ -198,7 +198,7 @@ public abstract class BWActionBarActivity extends SherlockFragmentActivity {
             overridePendingTransition(0, 0);
             finish();
         } else {
-            BioWiki.shouldRestoreSelectedActivity = true;
+            BioWiki.shouldRestoreSelectedActivityBIOWIKI = true;
         }
     }
 

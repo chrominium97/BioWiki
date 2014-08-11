@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- graph -->
+    <string name="NS">http://schemas.android.com/apk/res/net.snowdon</string>
+    <!-- END -->
+
     <string name="app_name" translatable="false">BioWiki</string>
 
     <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>

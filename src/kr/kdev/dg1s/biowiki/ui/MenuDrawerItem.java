@@ -31,8 +31,6 @@ public abstract class MenuDrawerItem {
         mItemId = itemId;
     }
 
-    ;
-
     /**
      * Creates a MenuDrawerItem with NO_ITEM_ID for it's id for items that shouldn't be remembered
      * between application launches.

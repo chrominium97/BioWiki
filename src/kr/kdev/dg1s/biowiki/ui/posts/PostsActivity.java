@@ -85,13 +85,13 @@ public class PostsActivity extends BWActionBarActivity
         }
 
         // Restore last selection on app creation
-        if (BioWiki.shouldRestoreSelectedActivity && BioWiki.getCurrentBlog() != null &&
+        if (BioWiki.shouldRestoreSelectedActivityBIOWIKI && BioWiki.getCurrentBlog() != null &&
                 !(this instanceof PagesActivity)) {
             // Refresh blog content when returning to the app
             new ApiHelper.RefreshBlogContentTask(this, BioWiki.getCurrentBlog(), new RefreshBlogContentCallback())
                     .execute(false);
 
-            BioWiki.shouldRestoreSelectedActivity = false;
+            BioWiki.shouldRestoreSelectedActivityBIOWIKI = false;
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             int lastActivitySelection = settings.getInt(LAST_ACTIVITY_PREFERENCE, -1);
             if (lastActivitySelection > MenuDrawerItem.NO_ITEM_ID &&

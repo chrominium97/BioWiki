@@ -131,6 +131,25 @@ public class AttributeSelectionFragment extends SherlockFragment {
             @Override
             public void onPageSelected(int arg0) {
                 System.gc();
+                switch (arg0) {
+                    case 0:
+                        flowerGrid1.setExpanded(true);
+                        flowerGrid2.setExpanded(true);
+                        flowerGrid3.setExpanded(true);
+                        break;
+                    case 1:
+                        leafGrid1.setExpanded(true);
+                        leafGrid2.setExpanded(true);
+                        leafGrid3.setExpanded(true);
+                        leafGrid4.setExpanded(true);
+                        leafGrid5.setExpanded(true);
+                        leafGrid6.setExpanded(true);
+                        leafGrid7.setExpanded(true);
+                        break;
+                    case 2:
+                        fruitGrid.setExpanded(true);
+                        break;
+                }
             }
 
             @Override
