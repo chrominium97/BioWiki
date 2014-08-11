@@ -7,6 +7,9 @@
 
     <string name="app_name" translatable="false">BioWiki</string>
 
+    <string name="no_network_title">No connection</string>
+    <string name="no_network_desc">BioWiki needs an active internet connection to use this feature.</string>
+
     <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>
 
     <string name="dictionary_menu">Dictionary</string>

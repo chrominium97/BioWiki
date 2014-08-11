@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -724,9 +726,38 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
         public void onSelectItem() {
             if (!(BIActionBarActivity.this instanceof DistributionViewer))
                 mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, DistributionViewer.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
+
+            boolean connected = false;
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
+                connected= true;
+            }else {
+                netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
+                    connected= true;
+            }
+            if (connected){
+                Intent intent = new Intent(BIActionBarActivity.this, DistributionViewer.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivityWithDelay(intent);
+            } else {
+                new AlertDialog.Builder(BIActionBarActivity.this)
+                        .setTitle(getString(R.string.no_network_message))
+                        .setMessage("Are you sure you want to delete this entry?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
         }
 
         @Override
