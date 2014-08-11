@@ -77,14 +77,13 @@ public class CategorySelectionFragment extends SherlockFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         setupViews();
 
         try {
             initializeCategory();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Unable to initialize blank_linearlayout", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Unable to initialize a blank linearlayout", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -97,11 +96,6 @@ public class CategorySelectionFragment extends SherlockFragment {
     public void setupViews() {
         // Lists plants and their categories
         gridView = (GridView) getView().findViewById(R.id.selector);
-    }
-
-    public void setSource(String url, String fileName) {
-        BufferedSource bufferedSource = new BufferedSource(url, fileName);
-        bufferedSource.start();
     }
 
     public void initializeCategory() throws IOException {
@@ -129,9 +123,9 @@ public class CategorySelectionFragment extends SherlockFragment {
     public ArrayList<String> getDetails(String name) throws IOException {
         ArrayList<String> export = new ArrayList<String>();
 
-        Source source1 = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
+        Source plantInfo = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
         Log.d("XML", "Searching for details on " + name);
-        Element element = source1.getFirstElement("name", name, false);
+        Element element = plantInfo.getFirstElement("name", name, false);
         if (element == null) {
             return export;
         }

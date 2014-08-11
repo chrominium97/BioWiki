@@ -61,7 +61,6 @@ public class ImageAdapter extends BaseAdapter {
                 .writeDebugLogs()
                 .defaultDisplayImageOptions(options)
                 .build();
-
     }
 
     @Override
@@ -96,7 +95,7 @@ public class ImageAdapter extends BaseAdapter {
             imageLoader = ImageLoader.getInstance();
             imageLoader.init(config);
 
-            imageLoader.displayImage("drawable://" + (mImg[position]), plantImage);
+            imageLoader.displayImage("drawable://" + String.valueOf(mImg[position]), plantImage);
             Log.d("Holder", "Image ID @position " + position + "/" + mImg.length + " : " + mImg[position]);
             radioButton.setId(mImg[position]);
             radioButton.setText(mText[position]);

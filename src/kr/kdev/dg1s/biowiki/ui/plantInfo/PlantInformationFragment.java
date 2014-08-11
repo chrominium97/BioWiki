@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
+import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 
 public class PlantInformationFragment extends SherlockFragment {
@@ -102,15 +103,7 @@ public class PlantInformationFragment extends SherlockFragment {
         // Get context
         context = getActivity().getApplicationContext();
         // AUIL stuff
-        options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .considerExifParams(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.media_image_placeholder)
-                .showImageOnFail(R.drawable.remote_failed)
-                .build();
+        options = Constants.imageOptions;
         config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(4)
                 .discCache(new UnlimitedDiscCache(getActivity().getCacheDir()))

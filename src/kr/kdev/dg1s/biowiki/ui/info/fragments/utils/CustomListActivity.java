@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info;
+package kr.kdev.dg1s.biowiki.ui.info.fragments.utils;
 
 import java.util.ArrayList;
 
@@ -15,9 +15,9 @@ import com.nhaarman.listviewanimations.ArrayAdapter;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 
-public class MyListActivity extends BIActionBarActivity {
+public class CustomListActivity extends BIActionBarActivity {
 
-    private ListView mListView;
+    public ListView mListView;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -31,25 +31,24 @@ public class MyListActivity extends BIActionBarActivity {
         return mListView;
     }
 
-    protected ArrayAdapter<Integer> createListAdapter() {
+    /**
+    protected ArrayAdapter<PlantInfoHolder> createListAdapter() {
         return new MyListAdapter(this, getItems());
     }
 
-    public static ArrayList<Integer> getItems() {
+    public static ArrayList<PlantInfoHolder> getItems() {
         ArrayList<Integer> items = new ArrayList<Integer>();
         for (int i = 0; i < 1000; i++) {
             items.add(i);
         }
         return items;
     }
+     */
 
-    private static class MyListAdapter extends ArrayAdapter<Integer> {
+    private static class MyListAdapter extends ArrayAdapter<PlantInfoHolder> {
 
-        private final Context mContext;
-
-        public MyListAdapter(final Context context, final ArrayList<Integer> items) {
-            super(items);
-            mContext = context;
+        public MyListAdapter(final Context context, final ArrayList<PlantInfoHolder> items) {
+            super(items, context);
         }
 
         @Override
