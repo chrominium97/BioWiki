@@ -743,19 +743,22 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
                 startActivityWithDelay(intent);
             } else {
                 new AlertDialog.Builder(BIActionBarActivity.this)
-                        .setTitle(getString(R.string.no_network_message))
-                        .setMessage("Are you sure you want to delete this entry?")
+                        .setTitle(getString(R.string.no_network_title))
+                        .setMessage(getString(R.string.no_network_desc))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialogInterface, int which) {
                                 // continue with delete
                             }
                         })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
+                        .setNegativeButton(R.string.enable_offline, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                Intent intent = new Intent(BIActionBarActivity.this, DistributionViewer.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                intent.putExtra("offline", true);
+                                startActivityWithDelay(intent);
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setIcon(R.drawable.nux_icon_alert)
                         .show();
             }
         }

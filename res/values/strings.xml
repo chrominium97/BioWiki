@@ -2,15 +2,17 @@
 <resources>
 
     <!-- graph -->
-    <string name="NS">http://schemas.android.com/apk/res/net.snowdon</string>
+    <string name="NS" translatable="false">http://schemas.android.com/apk/res/net.snowdon</string>
     <!-- END -->
 
     <string name="app_name" translatable="false">BioWiki</string>
 
     <string name="no_network_title">No connection</string>
-    <string name="no_network_desc">BioWiki needs an active internet connection to use this feature.</string>
+    <string name="no_network_desc">BioWiki needs an active internet connection to fully use this feature.</string>
+    <string name="enable_offline">Go offline</string>
+    <string name="offline_enabled">Offline mode has been activated.</string>
 
-    <string name="go_bakc_required">Press \'back\' to continue writing your post.</string>
+    <string name="go_back_required">Press \'back\' to continue writing your post.</string>
 
     <string name="dictionary_menu">Dictionary</string>
     <string name="mapsItem">Distribution Chart</string>

@@ -4,7 +4,9 @@
     <string name="go_back_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
 
     <string name="no_network_title">接続問題</string>
-    <string name="no_network_desc">この機能を使うにはインターネット接続が必要です。</string>
+    <string name="no_network_desc">この機能を最大に使うにはインターネット接続が必要です。</string>
+    <string name="enable_offline">オフラインモード</string>
+    <string name="offline_enabled">オフラインモードが活性されました。</string>
 
     <string name="toBioInfo">BioInfoへ</string>
     <string name="toBioWiki">BioWikiへ</string>
