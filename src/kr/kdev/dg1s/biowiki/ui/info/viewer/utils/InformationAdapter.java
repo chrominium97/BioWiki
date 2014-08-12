@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.plantInfo;
+package kr.kdev.dg1s.biowiki.ui.info.viewer.utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,12 +13,12 @@ import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
 
-public class ElementAdapter extends BaseAdapter {
+public class InformationAdapter extends BaseAdapter {
     public List<String> elements = new ArrayList<String>();
     private Context mContext;
 
     // Constructor
-    public ElementAdapter(Context c, ArrayList<String> arrayList) {
+    public InformationAdapter(Context c, ArrayList<String> arrayList) {
         mContext = c;
         elements = arrayList;
         for (String element : elements) {
@@ -43,11 +43,14 @@ public class ElementAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.adapter_category, null);
-        //textView.setPadding(R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding,
-        //        R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding);
-        textView.setText(elements.get(position));
-        textView.setTextColor(mContext.getResources().getColor(R.color.black));
+        TextView textView = (TextView) convertView;
+        if (convertView == null) {
+            textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.adapter_category, null);
+            //textView.setPadding(R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding,
+            //        R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding);
+            textView.setText(elements.get(position));
+            textView.setTextColor(mContext.getResources().getColor(R.color.black));
+        }
         return textView;
     }
 }

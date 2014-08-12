@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.plantInfo;
+package kr.kdev.dg1s.biowiki.ui.info.viewer;
 
 import android.content.Context;
 import android.graphics.Bitmap;

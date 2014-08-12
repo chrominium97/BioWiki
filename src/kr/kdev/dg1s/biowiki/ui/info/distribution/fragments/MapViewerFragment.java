@@ -1,7 +1,8 @@
-package kr.kdev.dg1s.biowiki.ui.map;
-
+package kr.kdev.dg1s.biowiki.ui.info.distribution.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
@@ -11,30 +12,23 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -42,6 +36,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import net.htmlparser.jericho.Attribute;
+import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 
@@ -54,44 +50,37 @@ import java.util.List;
 
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 
-/**
- * This shows how to place markers on a map.
- */
-public class DistributionViewer extends BIActionBarActivity
-        implements
-        OnMarkerClickListener,
-        OnInfoWindowClickListener,
-        OnMarkerDragListener,
-        OnSeekBarChangeListener,
-        OnMyLocationButtonClickListener,
-        ConnectionCallbacks,
+public class MapViewerFragment extends SupportMapFragment implements
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener,
+        GoogleMap.OnMarkerDragListener,
+        SeekBar.OnSeekBarChangeListener,
+        GoogleMap.OnMyLocationButtonClickListener,
+        GooglePlayServicesClient.ConnectionCallbacks,
         LocationListener,
-        OnConnectionFailedListener {
-
-    boolean isOffline;
+        GooglePlayServicesClient.OnConnectionFailedListener {
 
     private static final LatLng LOCATION_DEFAULT = new LatLng(35.886826, 128.721226);
     private static final LatLng DG1S = new LatLng(35.886545, 128.722626);
     // These settings are the same as the settings for the map. They will in fact give you updates
     // at the maximal rates currently possible.
     private static final LocationRequest REQUEST = LocationRequest.create()
-            .setInterval(5000)         // 5 seconds
+            .setInterval(1000)         // 5 seconds
             .setFastestInterval(16)    // 16ms = 60fps
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private final List<Marker> mDistributionStats = new ArrayList<Marker>();
     private final List<MarkerOptions> mMarkerOptions = new ArrayList<MarkerOptions>();
+    OnPlantSelectedListener mCallback;
+    Context context;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
             if (message.what == 573) {
                 loadMarkers(mMarkerOptions);
-                if (getApplicationContext() != null) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.locationLoaded), Toast.LENGTH_SHORT).show();
+                if (context != null) {
+                    Toast.makeText(context, "Loaded locations.", Toast.LENGTH_SHORT).show();
                 }
-            } else if (message.what == 7) {
-                mMarkerOptions.clear();
             }
             if (message.getData().getStringArrayList("position") != null) {
                 List<String> mImport = message.getData().getStringArrayList("position");
@@ -123,65 +112,27 @@ public class DistributionViewer extends BIActionBarActivity
     private CheckBox mFlatBox;
 
     @Override
-    public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.maps, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (mMenuDrawer != null) {
-                    mMenuDrawer.toggleMenu();
-                    return true;
-                }
-            case R.id.map_normal:
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                return true;
-            case R.id.map_terrain:
-                mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                return true;
-            case R.id.map_hybrid:
-                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                return true;
-            //case R.id.map_satellite:
-            //    mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        }
-        return false;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createMenuDrawer(R.layout.maps_marker);
-
-        isOffline = getIntent().getBooleanExtra("offline", false);
-
-        if (isOffline)
-            Toast.makeText(this, R.string.offline_enabled, Toast.LENGTH_LONG).show();
-
-        mTopText = (TextView) findViewById(R.id.top_text);
-
-        mRotationBar = (SeekBar) findViewById(R.id.rotationSeekBar);
-        mRotationBar.setMax(360);
-        mRotationBar.setOnSeekBarChangeListener(this);
-
-        mFlatBox = (CheckBox) findViewById(R.id.flat);
-
-        setUpMapIfNeeded();
     }
 
+
     @Override
-    protected void onResume() {
-        super.onResume();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.maps_marker, container, false);
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupViews();
         setUpMapIfNeeded();
-        setUpLocationClientIfNeeded();
-        mLocationClient.connect();
     }
 
     /**
-     * Callback called when connected to GCore. Implementation of {@link ConnectionCallbacks}.
+     * Callback called when connected to GCore. Implementation of {@link com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks}.
      */
     @Override
     public void onConnected(Bundle connectionHint) {
@@ -191,7 +142,7 @@ public class DistributionViewer extends BIActionBarActivity
     }
 
     /**
-     * Callback called when disconnected from GCore. Implementation of {@link ConnectionCallbacks}.
+     * Callback called when disconnected from GCore. Implementation of {@link com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks}.
      */
     @Override
     public void onDisconnected() {
@@ -199,7 +150,7 @@ public class DistributionViewer extends BIActionBarActivity
     }
 
     /**
-     * Implementation of {@link OnConnectionFailedListener}.
+     * Implementation of {@link com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener}.
      */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
@@ -219,9 +170,7 @@ public class DistributionViewer extends BIActionBarActivity
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
+            mMap = MapViewerFragment.this.getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 mMap.setMyLocationEnabled(true);
@@ -236,7 +185,7 @@ public class DistributionViewer extends BIActionBarActivity
     private void setUpLocationClientIfNeeded() {
         if (mLocationClient == null) {
             mLocationClient = new LocationClient(
-                    getApplicationContext(),
+                    context,
                     this,  // ConnectionCallbacks
                     this); // OnConnectionFailedListener
         }
@@ -278,7 +227,6 @@ public class DistributionViewer extends BIActionBarActivity
         for (MarkerOptions markerOptions : mMarkerOptions) {
             Log.d("Markers", "Added markers to map : " + markerOptions.getTitle() + " @" +
                     markerOptions.getPosition().latitude + ", " + markerOptions.getPosition().longitude);
-            mDistributionStats.clear();
             mDistributionStats.add(mMap.addMarker(markerOptions));
         }
     }
@@ -299,13 +247,13 @@ public class DistributionViewer extends BIActionBarActivity
         mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerDragListener(this);
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         // Pan to see all markers in view.
         // Cannot zoom to bounds until the map has a size.
-        final View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
+        final View mapView = MapViewerFragment.this.getView();
         if (mapView.getViewTreeObserver().isAlive()) {
-            mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @SuppressWarnings("deprecation") // We use the new method when supported
                 @SuppressLint("NewApi") // We check which build version we are using.
                 @Override
@@ -326,7 +274,6 @@ public class DistributionViewer extends BIActionBarActivity
     }
 
     private void addMarkersToMap() {
-
         // Start thread for updating markers
         if (loadedMarkers) {
             updateMarkers updateMarkers = new updateMarkers();
@@ -335,7 +282,6 @@ public class DistributionViewer extends BIActionBarActivity
         }
         loadedMarkers = true;
 
-        /*
         // Uses a colored icon.
         mDG1S = mMap.addMarker(new MarkerOptions()
                 .position(LOCATION_DEFAULT)
@@ -349,13 +295,11 @@ public class DistributionViewer extends BIActionBarActivity
                 .title("Daegu Il Science High School")
                 .snippet("!!!")
                 .draggable(true));
-                */
-
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, getString(R.string.locationButtonClicked), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false;
@@ -363,7 +307,7 @@ public class DistributionViewer extends BIActionBarActivity
 
     private boolean checkReady() {
         if (mMap == null) {
-            Toast.makeText(this, "Map isn't ready", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Map isn't ready", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -492,7 +436,7 @@ public class DistributionViewer extends BIActionBarActivity
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this, "Click Info Window", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Click Info Window", Toast.LENGTH_SHORT).show();
     }
 
     //
@@ -514,11 +458,56 @@ public class DistributionViewer extends BIActionBarActivity
         mTopText.setText("onMarkerDrag.  Current Position: " + marker.getPosition());
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnPlantSelectedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnPlantSelectedListener");
+        }
+    }
+
+    public void setupViews() {
+        context = getActivity().getApplicationContext();
+    }
+
+    public ArrayList<String> getDetails(String name) throws IOException {
+        ArrayList<String> export = new ArrayList<String>();
+        Source source1 = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
+        Log.d("XML", "Searching for details on " + name);
+        Element element = source1.getFirstElement("name", name, false);
+        if (element == null) {
+            return export;
+        }
+        Attributes attributes = element.getAttributes();
+        for (Attribute attribute : attributes) {
+            export.add(attribute.getName());
+            export.add(attribute.getValue());
+        }
+        return export;
+    }
+
+    @Override
+    public void onResume() {
+        setUpMapIfNeeded();
+        setUpLocationClientIfNeeded();
+        mLocationClient.connect();
+        super.onResume();
+    }
+
+    // Container Activity must implement this interface
+    public interface OnPlantSelectedListener {
+        public void onPlantSelected(String name);
+    }
+
     /**
      * Demonstrates customizing the info window and/or its contents.
      */
-    class CustomInfoWindowAdapter implements InfoWindowAdapter {
-        private final RadioGroup mOptions;
+    class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         // These a both viewgroups containing an ImageView with id "badge" and two TextViews with id
         // "title" and "snippet".
@@ -526,27 +515,18 @@ public class DistributionViewer extends BIActionBarActivity
         private final View mContents;
 
         CustomInfoWindowAdapter() {
-            mWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-            mContents = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
-            mOptions = (RadioGroup) findViewById(R.id.custom_info_window_options);
+            mWindow = getLayoutInflater(getArguments()).inflate(R.layout.custom_info_window, null);
+            mContents = getLayoutInflater(getArguments()).inflate(R.layout.custom_info_contents, null);
         }
 
         @Override
         public View getInfoWindow(Marker marker) {
-            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_window) {
-                // This means that getInfoContents will be called.
-                return null;
-            }
             render(marker, mWindow);
             return mWindow;
         }
 
         @Override
         public View getInfoContents(Marker marker) {
-            if (mOptions.getCheckedRadioButtonId() != R.id.custom_info_contents) {
-                // This means that the default info contents will be used.
-                return null;
-            }
             render(marker, mContents);
             return mContents;
         }
@@ -591,18 +571,11 @@ public class DistributionViewer extends BIActionBarActivity
     class updateMarkers extends Thread {
         public void run() {
             try {
-                Log.d("Network", "Initiating..." + BioWiki.getCurrentBlog().getHomeURL());
-                List<Message> messages;
-                if (isOffline) {
-                    messages = parseMarkers(new Source(new InputStreamReader(getAssets().open("xmls/location.xml"))));
-                } else {
-                    messages = parseMarkers(bringSource(new URL(BioWiki.getCurrentBlog().getHomeURL() + getString(R.string.server_subdomain)
-                            + getString(R.string.distribution_sample))));
-                }
+                Log.d("Network", "Initiating...");
+                URL url = new URL(BioWiki.getCurrentBlog().getHomeURL() + getString(R.string.server_subdomain)
+                        + getString(R.string.distribution_sample));
+                List<Message> messages = parseMarkers(bringSource(url));
                 Log.d("Network", "Received source");
-                Message clearSign = new Message();
-                clearSign.what = 7;
-                handler.sendMessage(clearSign);
                 if (messages == null) {
                     Log.d("Network", "SOURCE IS NULL!");
                 } else for (Message message : messages) {

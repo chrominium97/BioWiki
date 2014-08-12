@@ -70,17 +70,17 @@
         <activity android:name="kr.kdev.dg1s.biowiki.ui.intro.WikiActivity" />
 
         <!-- Map activities -->
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionViewerActivity" />
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.map.DistributionViewer" />
+        <activity android:name=".ui.info.distribution.DistributionViewerActivity" />
+        <activity android:name=".ui.info.distribution.DistributionViewer" />
 
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.info.ChartViewActivity" />
-        <activity android:name="kr.kdev.dg1s.biowiki.ui.info.ViewPlantsActivity" />
+        <activity android:name=".ui.info.chart.ChartViewActivity" />
+        <activity android:name=".ui.info.viewer.SearchResultsViewerActivity" />
 
         <!-- Dictionary activites -->
-        <activity android:name=".ui.info.SearchByAttributeActivity" />
+        <activity android:name=".ui.info.classification.SearchByAttributeActivity" />
 
         <!-- Categorization activites -->
-        <activity android:name=".ui.info.SearchByHabitatActivity"
+        <activity android:name=".ui.info.categorization.SearchByHabitatActivity"
             android:theme="@style/BioWiki"/>
 
         <!-- Account activities -->

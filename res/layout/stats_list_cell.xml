@@ -41,7 +41,7 @@
             android:drawablePadding="@dimen/margin_small"
             android:maxLines="3"
             android:paddingLeft="@dimen/margin_small"
-            android:textColorLink="@color/wordpress_blue"
+            android:textColorLink="@color/biowiki_blue"
             android:textSize="@dimen/text_sz_medium" />
 
         <TextView

@@ -24,7 +24,7 @@ public class AboutActivity extends Activity implements OnClickListener {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.about);
+        setContentView(R.layout.activity_about);
 
         if (android.os.Build.VERSION.SDK_INT >= 11) {
             getActionBar().setDisplayHomeAsUpEnabled(true);

@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.map;
+package kr.kdev.dg1s.biowiki.ui.info.distribution;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -6,7 +6,8 @@ import android.util.Log;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.plantInfo.PlantInformationFragment;
+import kr.kdev.dg1s.biowiki.ui.info.distribution.fragments.MapViewerFragment;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationFragment;
 
 public class DistributionViewerActivity extends BIActionBarActivity implements MapViewerFragment.OnPlantSelectedListener {
 

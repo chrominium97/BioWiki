@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info.fragments;
+package kr.kdev.dg1s.biowiki.ui.info.classification.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +29,7 @@ import java.util.Random;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.networking.CachedDownloader;
-import kr.kdev.dg1s.biowiki.ui.plantInfo.ElementAdapter;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.utils.InformationAdapter;
 
 public class CategorySelectionFragment extends SherlockFragment {
 
@@ -162,7 +162,7 @@ public class CategorySelectionFragment extends SherlockFragment {
             Collections.sort(names);
         }
         gridView.invalidateViews();
-        gridView.setAdapter(new ElementAdapter(context, names));
+        gridView.setAdapter(new InformationAdapter(context, names));
         if (tag != null) {
             getSherlockActivity().getSupportActionBar().setTitle(tag);
         } else if (!(currentElement.getAttributeValue("name") == null)) {

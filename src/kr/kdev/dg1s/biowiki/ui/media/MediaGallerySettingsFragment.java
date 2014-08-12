@@ -20,7 +20,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import java.util.ArrayList;
 
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.ExpandableHeightGridView;
+import kr.kdev.dg1s.biowiki.ui.info.classification.utils.ExpandableHeightGridView;
 import kr.kdev.dg1s.biowiki.util.Utils;
 
 /**

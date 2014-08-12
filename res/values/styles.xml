@@ -169,7 +169,7 @@
     </style>
 
     <style name="StatsHeader">
-        <item name="android:textColor">@color/wordpress_blue</item>
+        <item name="android:textColor">@color/biowiki_blue</item>
         <item name="android:textSize">@dimen/text_sz_small</item>
         <!--  item name="android:textAllCaps">true</item -->
     </style>

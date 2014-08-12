@@ -1,25 +1,26 @@
-package kr.kdev.dg1s.biowiki.ui.info.fragments.utils;
+package kr.kdev.dg1s.biowiki.ui.info.classification.utils;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-public class ExpandableGridView extends GridView {
+// based on http://stackoverflow.com/questions/8481844/gridview-height-gets-cut
+
+public class ExpandableHeightGridView extends GridView {
 
     boolean expanded = false;
 
-    public ExpandableGridView(Context context) {
+    public ExpandableHeightGridView(Context context) {
         super(context);
     }
 
-    public ExpandableGridView(Context context, AttributeSet attrs) {
+    public ExpandableHeightGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ExpandableGridView(Context context, AttributeSet attrs,
-                              int defStyle) {
+    public ExpandableHeightGridView(Context context, AttributeSet attrs,
+                                    int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -33,13 +34,13 @@ public class ExpandableGridView extends GridView {
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // HACK! TAKE THAT ANDROID!
         if (isExpanded()) {
             // Calculate entire height by providing a very large height hint.
             // View.MEASURED_SIZE_MASK represents the largest height possible.
-            int expandSpec = View.MeasureSpec.makeMeasureSpec(MEASURED_SIZE_MASK,
-                    View.MeasureSpec.AT_MOST);
+            int expandSpec = MeasureSpec.makeMeasureSpec(MEASURED_SIZE_MASK,
+                    MeasureSpec.AT_MOST);
             super.onMeasure(widthMeasureSpec, expandSpec);
+
             ViewGroup.LayoutParams params = getLayoutParams();
             params.height = getMeasuredHeight();
         } else {

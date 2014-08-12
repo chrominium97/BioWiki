@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info;
+package kr.kdev.dg1s.biowiki.ui.info.classification;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +15,9 @@ import java.util.List;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.info.fragments.AttributeSelectionFragment;
-import kr.kdev.dg1s.biowiki.ui.plantInfo.PlantInformationFragment;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.SearchResultsViewerActivity;
+import kr.kdev.dg1s.biowiki.ui.info.classification.fragments.AttributeSelectionFragment;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationFragment;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class SearchByAttributeActivity extends BIActionBarActivity implements AttributeSelectionFragment.OnAttributeDecidedListener {
@@ -111,7 +112,7 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
          transaction.commit();
          */
 
-        Intent intent = new Intent(this, ViewPlantsActivity.class);
+        Intent intent = new Intent(this, SearchResultsViewerActivity.class);
         intent.putExtra("plants", unfilteredPlants);
         startActivity(intent);
     }
