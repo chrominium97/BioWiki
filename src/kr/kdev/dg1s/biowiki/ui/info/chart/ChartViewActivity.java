@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info;
+package kr.kdev.dg1s.biowiki.ui.info.chart;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import uk.ac.cam.cl.dtg.snowdon.HeatMapLegendView;

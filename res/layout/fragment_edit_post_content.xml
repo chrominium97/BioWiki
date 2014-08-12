@@ -44,7 +44,7 @@
                 android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                 android:lineSpacingExtra="4dp"
                 android:maxLength="10000000"
-                android:textColorLink="@color/wordpress_blue"
+                android:textColorLink="@color/biowiki_blue"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>

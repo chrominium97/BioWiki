@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info.fragments.utils;
+package kr.kdev.dg1s.biowiki.ui.info.classification.utils;
 
 import android.content.Context;
 import android.util.Log;

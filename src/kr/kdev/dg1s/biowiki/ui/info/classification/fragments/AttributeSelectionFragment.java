@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info.fragments;
+package kr.kdev.dg1s.biowiki.ui.info.classification.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,8 +24,8 @@ import java.util.ArrayList;
 
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.info.fragments.utils.ExpandableGridView;
-import kr.kdev.dg1s.biowiki.ui.info.fragments.utils.ImageAdapter;
+import kr.kdev.dg1s.biowiki.ui.info.classification.utils.ExpandableGridView;
+import kr.kdev.dg1s.biowiki.ui.info.classification.utils.ImageAdapter;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class AttributeSelectionFragment extends SherlockFragment {

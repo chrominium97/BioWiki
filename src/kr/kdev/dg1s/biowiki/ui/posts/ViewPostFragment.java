@@ -68,7 +68,7 @@ public class ViewPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.viewpost, container, false);
+        View v = inflater.inflate(R.layout.posts_viewpost_fragment, container, false);
 
         // comment views
         mLayoutCommentBox = (ViewGroup) v.findViewById(R.id.layout_comment_box);

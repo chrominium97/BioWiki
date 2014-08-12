@@ -44,12 +44,12 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
-import kr.kdev.dg1s.biowiki.ui.info.ChartViewActivity;
-import kr.kdev.dg1s.biowiki.ui.info.SearchByAttributeActivity;
-import kr.kdev.dg1s.biowiki.ui.info.SearchByHabitatActivity;
-import kr.kdev.dg1s.biowiki.ui.info.ViewPlantsActivity;
+import kr.kdev.dg1s.biowiki.ui.info.chart.ChartViewActivity;
+import kr.kdev.dg1s.biowiki.ui.info.classification.SearchByAttributeActivity;
+import kr.kdev.dg1s.biowiki.ui.info.categorization.SearchByHabitatActivity;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.SearchResultsViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
-import kr.kdev.dg1s.biowiki.ui.map.DistributionViewer;
+import kr.kdev.dg1s.biowiki.ui.info.distribution.DistributionViewer;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
@@ -801,14 +801,14 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
         @Override
         public Boolean isSelected() {
-            return BIActionBarActivity.this instanceof ViewPlantsActivity;
+            return BIActionBarActivity.this instanceof SearchResultsViewerActivity;
         }
 
         @Override
         public void onSelectItem() {
-            if (!(BIActionBarActivity.this instanceof ViewPlantsActivity))
+            if (!(BIActionBarActivity.this instanceof SearchResultsViewerActivity))
                 mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, ViewPlantsActivity.class);
+            Intent intent = new Intent(BIActionBarActivity.this, SearchResultsViewerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }

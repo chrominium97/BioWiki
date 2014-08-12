@@ -1,11 +1,8 @@
-package kr.kdev.dg1s.biowiki.ui.info;
+package kr.kdev.dg1s.biowiki.ui.info.viewer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -27,10 +24,10 @@ import java.util.List;
 
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
-import kr.kdev.dg1s.biowiki.ui.info.fragments.utils.CustomListActivity;
-import kr.kdev.dg1s.biowiki.ui.info.fragments.utils.PlantInfoHolder;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.utils.CustomListActivity;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.utils.PlantInfoHolder;
 
-public class ViewPlantsActivity extends CustomListActivity {
+public class SearchResultsViewerActivity extends CustomListActivity {
 
     ExpandableCardAdapter mExpandableListItemAdapter;
 
@@ -123,34 +120,6 @@ public class ViewPlantsActivity extends CustomListActivity {
                 //imageView.setLayoutParams();
                 textView.setText(getItem(position).plantDesc);
             }
-
-            /**
-            int imageResId;
-            switch (getItem(position) % 5) {
-                case 0:
-                    imageResId = R.drawable.example;
-                    break;
-                case 1:
-                    imageResId = R.drawable.example;
-                    break;
-                case 2:
-                    imageResId = R.drawable.example;
-                    break;
-                case 3:
-                    imageResId = R.drawable.example;
-                    break;
-                default:
-                    imageResId = R.drawable.example;
-            }
-
-            Bitmap bitmap = getBitmapFromMemCache(imageResId);
-            if (bitmap == null) {
-                bitmap = BitmapFactory.decodeResource(mContext.getResources(), imageResId);
-                addBitmapToMemoryCache(imageResId, bitmap);
-            }
-            imageView.setImageBitmap(bitmap);
-             */
-
             return textView;
         }
     }
