@@ -44,10 +44,9 @@ public class AnimateDismissAdapter extends BaseAdapterDecorator {
     /**
      * Create a new AnimateDismissAdapter based on the given {@link BaseAdapter}.
      *
-     * @param callback
-     *            The {@link OnDismissCallback} to trigger when the user has
-     *            indicated that she would like to dismiss one or more list
-     *            items.
+     * @param callback The {@link OnDismissCallback} to trigger when the user has
+     *                 indicated that she would like to dismiss one or more list
+     *                 items.
      */
     public AnimateDismissAdapter(final BaseAdapter baseAdapter, final OnDismissCallback callback) {
         super(baseAdapter);
