@@ -12,7 +12,8 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/plant_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:scaleType="centerCrop"
+        android:layout_height="150dp" />
 
     <RadioButton
         android:layout_centerHorizontal="true"

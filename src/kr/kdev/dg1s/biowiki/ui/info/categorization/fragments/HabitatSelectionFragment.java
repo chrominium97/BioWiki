@@ -1,4 +1,4 @@
-package kr.kdev.dg1s.biowiki.ui.info.classification.fragments;
+package kr.kdev.dg1s.biowiki.ui.info.categorization.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,7 +31,7 @@ import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.networking.CachedDownloader;
 import kr.kdev.dg1s.biowiki.ui.info.viewer.utils.InformationAdapter;
 
-public class CategorySelectionFragment extends SherlockFragment {
+public class HabitatSelectionFragment extends SherlockFragment {
 
     public Element currentElement;
     GridView gridView;

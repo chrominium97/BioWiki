@@ -12,14 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.ui.info.common.utils.ViewHolder;
 
 public class InformationAdapter extends BaseAdapter {
     public List<String> elements = new ArrayList<String>();
-    private Context mContext;
+    private Context context;
 
     // Constructor
     public InformationAdapter(Context c, ArrayList<String> arrayList) {
-        mContext = c;
+        context = c;
         elements = arrayList;
         for (String element : elements) {
             Log.d("Adapter", element);
@@ -43,14 +44,12 @@ public class InformationAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView = (TextView) convertView;
         if (convertView == null) {
-            textView = (TextView) LayoutInflater.from(mContext).inflate(R.layout.adapter_category, null);
-            //textView.setPadding(R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding,
-            //        R.dimen.settings_list_item_padding, R.dimen.settings_list_item_padding);
-            textView.setText(elements.get(position));
-            textView.setTextColor(mContext.getResources().getColor(R.color.black));
+            convertView = LayoutInflater.from(context).inflate(R.layout.adapter_category, parent, false);
         }
-        return textView;
+        TextView textView = ViewHolder.get(convertView, R.id.textView);
+        textView.setText(elements.get(position));
+        textView.setTextColor(context.getResources().getColor(android.R.color.black));
+        return convertView;
     }
 }

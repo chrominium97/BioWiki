@@ -76,10 +76,13 @@
         <activity android:name=".ui.info.chart.ChartViewActivity" />
         <activity android:name=".ui.info.viewer.SearchResultsViewerActivity" />
 
-        <!-- Dictionary activites -->
+        <!-- Viewers -->
+        <activity android:name=".ui.info.viewer.PlantInformationViewerActivity" />
+
+        <!-- Dictionary activities -->
         <activity android:name=".ui.info.classification.SearchByAttributeActivity" />
 
-        <!-- Categorization activites -->
+        <!-- Categorization activities -->
         <activity android:name=".ui.info.categorization.SearchByHabitatActivity"
             android:theme="@style/BioWiki"/>
 

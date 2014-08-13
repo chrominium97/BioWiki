@@ -1,5 +1,6 @@
 package kr.kdev.dg1s.biowiki.ui.info.categorization;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -8,14 +9,15 @@ import java.io.IOException;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.info.classification.fragments.CategorySelectionFragment;
+import kr.kdev.dg1s.biowiki.ui.info.categorization.fragments.HabitatSelectionFragment;
 import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationFragment;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationViewerActivity;
 
-public class SearchByHabitatActivity extends BIActionBarActivity implements CategorySelectionFragment.OnPlantSelectedListener {
+public class SearchByHabitatActivity extends BIActionBarActivity implements HabitatSelectionFragment.OnPlantSelectedListener {
 
     String plantInstance;
 
-    CategorySelectionFragment selectionFragment = new CategorySelectionFragment();
+    HabitatSelectionFragment selectionFragment = new HabitatSelectionFragment();
     boolean isViewingDetails = false;
 
     @Override
@@ -46,18 +48,12 @@ public class SearchByHabitatActivity extends BIActionBarActivity implements Cate
     }
 
     public void onPlantSelected(String name) {
-        PlantInformationFragment informationFragment = new PlantInformationFragment();
-
-        plantInstance = name;
-        Bundle bundle = new Bundle();
-        bundle.putString("plant", name);
         Log.d("Bundle tag name : ", name);
-        informationFragment.setArguments(bundle);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.selector_category, informationFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-        isViewingDetails = true;
+        Intent intent = new Intent(this, PlantInformationViewerActivity.class);
+        intent.putExtra("plant", name);
+
+        startActivity(intent);
+
     }
 
 }

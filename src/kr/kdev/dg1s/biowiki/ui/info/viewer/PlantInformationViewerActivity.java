@@ -13,7 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -32,8 +33,9 @@ import java.util.Arrays;
 import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
+import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 
-public class PlantInformationFragment extends SherlockFragment {
+public class PlantInformationViewerActivity extends BIActionBarActivity {
 
     LinearLayout infoContainer;
     ViewPager pager = null;
@@ -47,14 +49,12 @@ public class PlantInformationFragment extends SherlockFragment {
     Source dictionaryAssets;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.bioinfo_plant_details, container, false);
-    }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.bioinfo_plant_details);
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         try {
             initializeGlobalVariables();
         } catch (IOException e) {
@@ -62,55 +62,41 @@ public class PlantInformationFragment extends SherlockFragment {
             Toast.makeText(context, "Unable to initialize blank linear layout", Toast.LENGTH_SHORT).show();
         }
         Log.d("Bundle is", " " + (savedInstanceState != null));
-        Log.d("Bundle", getArguments().getString("plant") + (savedInstanceState != null));
-        displayContents(getArguments().getString("plant"));
+        Log.d("Bundle", getIntent().getStringExtra("plant") + (savedInstanceState != null));
+        displayContents(getIntent().getStringExtra("plant"));
     }
 
-    // Create global configuration and initialize ImageLoader with this configuration
-    public void initializeGlobalVariables() throws IOException {
-        dictionaryAssets = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
-        // Direct child of ScrollView
-        infoContainer = (LinearLayout) getView().findViewById(R.id.details);
-        // Image pagers
-        pagerAdapter = new MainPagerAdapter();
-        pager = (ViewPager) getView().findViewById(R.id.viewpager);
-        pager.setAdapter(pagerAdapter);
-        /*
-        pager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-        */
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int arg0) {
-            }
+    public void displayContents(String name) {
+        Log.d("XML", "Searching for details on " + name);
+        Element element = dictionaryAssets.getFirstElement("name", name, false);
 
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-                pager.getParent().requestDisallowInterceptTouchEvent(true);
+        Attributes attributes = element.getAttributes();
+        for (Attribute attribute : attributes) {
+            if (attribute.getName().equals("image")) {
+                if (!(attribute.getValue().equals(""))) {
+                    // Delete all child views and make pager visible
+                    pager.setVisibility(View.VISIBLE);
+                    while (pagerAdapter.getCount() != 0) {
+                        pagerAdapter.removeView(pager, 0);
+                    }
+                    pagerAdapter.notifyDataSetChanged();
+                    for (String filename : Arrays.asList(attribute.getValue().split(" "))) {
+                        ImageView imageView = new ImageView(context);
+                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        ImageLoader imageLoader = ImageLoader.getInstance();
+                        imageLoader.init(config);
+                        imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + filename.toUpperCase(), imageView);
+                        addView(imageView);
+                    }
+                } else {
+                    pager.setVisibility(View.GONE);
+                }
+            } else {
+                infoContainer.addView(plantDetails(attribute.getName(), attribute.getValue()));
             }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-        // Get context
-        context = getActivity().getApplicationContext();
-        // AUIL stuff
-        options = Constants.imageOptions;
-        config = new ImageLoaderConfiguration.Builder(context)
-                .threadPoolSize(4)
-                .discCache(new UnlimitedDiscCache(getActivity().getCacheDir()))
-                .discCacheSize(200 * 1024 * 1024)
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                .writeDebugLogs()
-                .defaultDisplayImageOptions(options)
-                .discCacheFileCount(1000)
-                .build();
+        }
+        TextView plantName = (TextView) infoContainer.findViewById(R.id.plant_name);
+        plantName.setText(name);
     }
 
     View plantDetails(String token, String value) {
@@ -151,44 +137,61 @@ public class PlantInformationFragment extends SherlockFragment {
         return plantDetails;
     }
 
-    public void displayContents(String name) {
-        Log.d("XML", "Searching for details on " + name);
-        Element element = dictionaryAssets.getFirstElement("name", name, false);
-        if (element == null) {
-            super.onDestroy();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menu) {
+        if (menu.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(menu);
         }
-        Attributes attributes = element.getAttributes();
-        for (Attribute attribute : attributes) {
-            if (attribute.getName().equals("image")) {
-                if (!(attribute.getValue().equals(""))) {
-                    // Delete all child views and make pager visible
-                    pager.setVisibility(View.VISIBLE);
-                    while (pagerAdapter.getCount() != 0) {
-                        pagerAdapter.removeView(pager, 0);
-                    }
-                    pagerAdapter.notifyDataSetChanged();
-                    for (String filename : Arrays.asList(attribute.getValue().split(" "))) {
-                        ImageView imageView = new ImageView(context);
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        ImageLoader imageLoader = ImageLoader.getInstance();
-                        imageLoader.init(config);
-                        imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + filename.toUpperCase(), imageView);
-                        addView(imageView);
-                    }
-                } else {
-                    pager.setVisibility(View.GONE);
-                }
-            } else {
-                infoContainer.addView(plantDetails(attribute.getName(), attribute.getValue()));
-            }
-        }
-        TextView plantName = (TextView) infoContainer.findViewById(R.id.plant_name);
-        plantName.setText(name);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    // Create global configuration and initialize ImageLoader with this configuration
+    public void initializeGlobalVariables() throws IOException {
+        dictionaryAssets = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
+        // Direct child of ScrollView
+        infoContainer = (LinearLayout) findViewById(R.id.details);
+        // Image pagers
+        pagerAdapter = new MainPagerAdapter();
+        pager = (ViewPager) findViewById(R.id.viewpager);
+        pager.setAdapter(pagerAdapter);
+        /*
+        pager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        */
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int arg0) {
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                pager.getParent().requestDisallowInterceptTouchEvent(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+        // Get context
+        context = getApplicationContext();
+        // AUIL stuff
+        options = Constants.imageOptions;
+        config = new ImageLoaderConfiguration.Builder(context)
+                .threadPoolSize(4)
+                .discCache(new UnlimitedDiscCache(getCacheDir()))
+                .discCacheSize(200 * 1024 * 1024)
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(options)
+                .discCacheFileCount(1000)
+                .build();
     }
 
     /**

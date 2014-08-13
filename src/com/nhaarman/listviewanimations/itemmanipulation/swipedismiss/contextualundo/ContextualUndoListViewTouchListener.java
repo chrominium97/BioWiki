@@ -72,13 +72,6 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
 
     private DismissableManager mDismissableManager;
 
-    public interface Callback {
-
-        void onViewSwiped(long dismissViewItemId, int dismissPosition);
-
-        void onListScrolled();
-    }
-
     public ContextualUndoListViewTouchListener(final AbsListView listView, final Callback callback) {
         ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
         mSlop = vc.getScaledTouchSlop();
@@ -95,6 +88,7 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
 
     /**
      * Set the {@link com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager} to specify which views can or cannot be swiped.
+     *
      * @param dismissableManager null for no restrictions.
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -325,5 +319,12 @@ public class ContextualUndoListViewTouchListener implements SwipeOnTouchListener
         if (childResId != 0) {
             setIsParentHorizontalScrollContainer(false);
         }
+    }
+
+    public interface Callback {
+
+        void onViewSwiped(long dismissViewItemId, int dismissPosition);
+
+        void onListScrolled();
     }
 }

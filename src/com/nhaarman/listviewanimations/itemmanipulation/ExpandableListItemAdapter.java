@@ -29,13 +29,11 @@ public abstract class ExpandableListItemAdapter<T> extends ArrayAdapter<T> imple
 
     private static final int DEFAULTTITLEPARENTRESID = 10000;
     private static final int DEFAULTCONTENTPARENTRESID = 10001;
-
-    private int mViewLayoutResId;
     private final int mTitleParentResId;
     private final int mContentParentResId;
-    private int mActionViewResId;
     private final List<Long> mExpandedIds;
-
+    private int mViewLayoutResId;
+    private int mActionViewResId;
     private int mLimit;
 
     private AbsListView mAbsListView;
@@ -416,20 +414,6 @@ public abstract class ExpandableListItemAdapter<T> extends ArrayAdapter<T> imple
         }
     }
 
-    private class TitleViewOnClickListener implements View.OnClickListener {
-
-        private final View mContentParent;
-
-        private TitleViewOnClickListener(final View contentParent) {
-            mContentParent = contentParent;
-        }
-
-        @Override
-        public void onClick(final View view) {
-            toggle(mContentParent);
-        }
-    }
-
     private static class RootView extends LinearLayout {
 
         private ViewGroup mTitleViewGroup;
@@ -528,6 +512,20 @@ public abstract class ExpandableListItemAdapter<T> extends ArrayAdapter<T> imple
                 }
             });
             return animator;
+        }
+    }
+
+    private class TitleViewOnClickListener implements View.OnClickListener {
+
+        private final View mContentParent;
+
+        private TitleViewOnClickListener(final View contentParent) {
+            mContentParent = contentParent;
+        }
+
+        @Override
+        public void onClick(final View view) {
+            toggle(mContentParent);
         }
     }
 }

@@ -22,24 +22,24 @@ import android.util.AttributeSet;
  * colours, if specified by XML, or by setAscendingColor() or setDescendingColor().
  */
 public class LineGraphView extends GraphView {
-	/**
-	 * Creates a new LineGraphView and sets layout parameters from XML via
-	 * GraphView.
-	 * 
-	 * @param context
-	 * @param attributes
-	 */
-	public LineGraphView(Context context, AttributeSet attributes) {
-			super(context, attributes);
-	}
-	
-	@Override
-	protected void drawAscendingSection(Canvas canvas, float[] coords) {
-		canvas.drawLine(coords[0], coords[1], coords[2], coords[3], mAscendingPaint);
-	}
-	
-	@Override
-	protected void drawDescendingSection(Canvas canvas, float[] coords) {
-		canvas.drawLine(coords[0], coords[1], coords[2], coords[3], mDescendingPaint);
-	}
+    /**
+     * Creates a new LineGraphView and sets layout parameters from XML via
+     * GraphView.
+     *
+     * @param context
+     * @param attributes
+     */
+    public LineGraphView(Context context, AttributeSet attributes) {
+        super(context, attributes);
+    }
+
+    @Override
+    protected void drawAscendingSection(Canvas canvas, float[] coords) {
+        canvas.drawLine(coords[0], coords[1], coords[2], coords[3], mAscendingPaint);
+    }
+
+    @Override
+    protected void drawDescendingSection(Canvas canvas, float[] coords) {
+        canvas.drawLine(coords[0], coords[1], coords[2], coords[3], mDescendingPaint);
+    }
 }

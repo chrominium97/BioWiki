@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="go_back_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
+    <!-- chart -->
+    <string name="select_data">%s축에 표시될 데이터</string>
 
     <string name="no_network_title">접속문제</string>
     <string name="no_network_desc">이 기능을 완전히 사용하려면 인터넷 접속이 필요합니다.</string>
     <string name="enable_offline">오프라인 모드</string>
     <string name="offline_enabled">오프라인 모드가 실행되었습니다.</string>
 
+    <string name="go_back_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
+
     <string name="toBioInfo">BioInfo로</string>
     <string name="toBioWiki">BioWiki로</string>
     <string name="dictionaryItem">식물동정</string>
     <string name="mapsItem">분포도</string>
     <string name="classificationItem">식물도감</string>
+    <string name="habitatItem">서식환경</string>
 
     <string name="biowiki_welcome">BioWiki에 오신 것을 환영합니다.</string>
     <string name="biowiki_welcome_desc">왼쪽에서 오른쪽으로 밀어서 기능을 볼 수 있습니다.</string>

@@ -37,12 +37,12 @@ import java.util.List;
 /**
  * An EXPERIMENTAL adapter for inserting rows into the {@link android.widget.ListView} with an animation. The root {@link BaseAdapter} should implement {@link Insertable},
  * otherwise an {@link java.lang.IllegalArgumentException} is thrown. This class only works with an instance of {@code ListView}!
- * <p>
+ * <p/>
  * Usage:<br>
  * - Wrap a new instance of this class around a {@link android.widget.BaseAdapter}. <br>
  * - Set a {@code ListView} to this class using {@link #setListView(android.widget.ListView)}.<br>
  * - Call {@link com.nhaarman.listviewanimations.itemmanipulation.AnimateAdditionAdapter#insert(int, Object)} to animate the addition of an item.
- * <p>
+ * <p/>
  * Extend this class and override {@link com.nhaarman.listviewanimations.itemmanipulation.AnimateAdditionAdapter#getAdditionalAnimators(android.view.View,
  * android.view.ViewGroup)} to provide extra {@link com.nineoldandroids.animation.Animator}s.
  */
@@ -50,16 +50,13 @@ import java.util.List;
 public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
 
     private static final long DEFAULT_SCROLLDOWN_ANIMATION_MS = 300;
+    private long mScrolldownAnimationDurationMs = DEFAULT_SCROLLDOWN_ANIMATION_MS;
     private static final long DEFAULT_INSERTION_ANIMATION_MS = 300;
+    private long mInsertionAnimationDurationMs = DEFAULT_INSERTION_ANIMATION_MS;
     private static final String ALPHA = "alpha";
-
     private final Insertable<T> mInsertable;
     private final InsertQueue<T> mInsertQueue;
-
     private boolean mShouldAnimateDown = true;
-
-    private long mInsertionAnimationDurationMs = DEFAULT_INSERTION_ANIMATION_MS;
-    private long mScrolldownAnimationDurationMs = DEFAULT_SCROLLDOWN_ANIMATION_MS;
 
     /**
      * Create a new {@link com.nhaarman.listviewanimations.itemmanipulation.AnimateAdditionAdapter} with given {@link android.widget.BaseAdapter}.
@@ -106,6 +103,7 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
 
     /**
      * Set whether the list should animate downwards when items are added above the first visible item.
+     *
      * @param shouldAnimateDown defaults to {@code true}.
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -115,6 +113,7 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
 
     /**
      * Set the duration of the scrolldown animation <i>per item</i> for when items are inserted above the first visible item.
+     *
      * @param scrolldownAnimationDurationMs the duration in ms.
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -124,6 +123,7 @@ public class AnimateAdditionAdapter<T> extends BaseAdapterDecorator {
 
     /**
      * Set the duration of the insertion animation.
+     *
      * @param insertionAnimationDurationMs the duration in ms.
      */
     @SuppressWarnings("UnusedDeclaration")

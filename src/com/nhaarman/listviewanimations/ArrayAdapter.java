@@ -39,6 +39,7 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
     public Context mContext;
 
     protected List<T> mItems;
+    private BaseAdapter mDataSetChangedSlavedAdapter;
 
     /**
      * Creates a new ArrayAdapter with an empty {@code List} .
@@ -54,8 +55,10 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
         this(objects, false, context);
     }
 
+
     /**
      * Creates a new {@link ArrayAdapter}, using (a copy of) given {@code List} , or an empty {@code List}  if objects = null.
+     *
      * @param copyList {@code true} to create a copy of the {@code List} , {@code false} to reuse the reference.
      */
     public ArrayAdapter(final List<T> objects, final boolean copyList, Context context) {
@@ -71,7 +74,6 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
             mItems = new ArrayList<T>();
         }
     }
-
 
     @Override
     public int getCount() {
@@ -90,6 +92,7 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
 
     /**
      * Appends the specified element to the end of the {@code List} .
+     *
      * @param object the object to add.
      * @return always true.
      */
@@ -108,6 +111,7 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
 
     /**
      * Adds the objects in the specified collection to the end of this List. The objects are added in the order in which they are returned from the collection's iterator.
+     *
      * @param collection the collection of objects.
      * @return {@code true} if this {@code List} is modified, {@code false} otherwise.
      */
@@ -121,6 +125,7 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
     /**
      * Appends all of the elements in the specified collection to the end of the
      * {@code List} , in the order that they are specified.
+     *
      * @param objects the array of objects.
      * @return {@code true} if the collection changed during insertion.
      */
@@ -139,8 +144,9 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
 
     /**
      * Inserts the objects in the specified collection at the specified location in this List. The objects are added in the order that they specified.
+     *
      * @param location the index at which to insert.
-     * @param objects the array of objects.
+     * @param objects  the array of objects.
      */
     public void addAll(final int location, final T... objects) {
         for (int i = location; i < objects.length + location; i++) {
@@ -214,6 +220,7 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
 
     /**
      * Removes all elements at the specified locations in the {@code List} .
+     *
      * @param locations the collection of indexes to remove.
      * @return a collection containing the removed objects.
      */
@@ -275,8 +282,6 @@ public abstract class ArrayAdapter<T> extends BaseAdapter implements List<T>, Dy
         set(locationOne, getItem(locationTwo));
         set(locationTwo, temp);
     }
-
-    private BaseAdapter mDataSetChangedSlavedAdapter;
 
     public void propagateNotifyDataSetChanged(final BaseAdapter slavedAdapter) {
         mDataSetChangedSlavedAdapter = slavedAdapter;

@@ -67,8 +67,6 @@ public class DistributionViewer extends BIActionBarActivity
         LocationListener,
         OnConnectionFailedListener {
 
-    boolean isOffline;
-
     private static final LatLng LOCATION_DEFAULT = new LatLng(35.886826, 128.721226);
     private static final LatLng DG1S = new LatLng(35.886545, 128.722626);
     // These settings are the same as the settings for the map. They will in fact give you updates
@@ -110,6 +108,7 @@ public class DistributionViewer extends BIActionBarActivity
             }
         }
     };
+    boolean isOffline;
     SeekBar mRotationBar;
     private GoogleMap mMap;
     private LocationClient mLocationClient;

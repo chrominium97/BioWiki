@@ -136,56 +136,6 @@ public class ImageAdapter extends BaseAdapter {
 
         return convertView;
 
-        /**
-         View view = layoutInflater.inflate(R.layout.dictionary_gridview_adapter, null);
-         final Holder holder = new Holder();
-
-         Bitmap bitmap = Bitmap.createBitmap(BitmapFactory.decodeResource(context.getResources(), mImg[position]));
-         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
-         bitmap.recycle();
-
-
-         ImageLoader imageLoader = ImageLoader.getInstance();
-         imageLoader.init(config);
-
-         holder.image = (ImageView) view.findViewById(R.id.plant_image);
-         imageLoader.displayImage("drawable://" + mImg[position], holder.image);
-         Log.d("Holder", "Image ID : " + mImg[position]);
-         holder.radioButton = (RadioButton) view
-         .findViewById(R.id.radiobtn);
-
-         holder.radioButton.setId(mImg[position]);
-
-         //holder.radioButton.setText();
-         view.setTag(holder);
-         //holder = (Holder) view.getTag();
-
-         holder.radioButton.setText(mText[position]);
-
-         view.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View view) {
-        holder.radioButton.performClick();
-        }
-        });
-         holder.radioButton.setOnClickListener(new View.OnClickListener() {
-        @Override public void onClick(View v) {
-        if ((position != mSelectedPosition && mSelectedRB != null)) {
-        mSelectedRB.setChecked(false);
-        }
-        mSelectedPosition = position;
-        mSelectedRB = (RadioButton) v;
-        }
-        });
-         if (mSelectedPosition != position) {
-         holder.radioButton.setChecked(false);
-         } else {
-         holder.radioButton.setChecked(true);
-         if (mSelectedRB != null && holder.radioButton != mSelectedRB) {
-         mSelectedRB = holder.radioButton;
-         }
-         }
-         return view;
-         */
     }
 
     private static class ViewHolder {

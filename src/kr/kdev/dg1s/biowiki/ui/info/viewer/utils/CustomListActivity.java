@@ -1,7 +1,5 @@
 package kr.kdev.dg1s.biowiki.ui.info.viewer.utils;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
+
+import java.util.ArrayList;
 
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
@@ -32,17 +32,17 @@ public class CustomListActivity extends BIActionBarActivity {
     }
 
     /**
-    protected ArrayAdapter<PlantInfoHolder> createListAdapter() {
-        return new MyListAdapter(this, getItems());
-    }
-
-    public static ArrayList<PlantInfoHolder> getItems() {
-        ArrayList<Integer> items = new ArrayList<Integer>();
-        for (int i = 0; i < 1000; i++) {
-            items.add(i);
-        }
-        return items;
-    }
+     * protected ArrayAdapter<PlantInfoHolder> createListAdapter() {
+     * return new MyListAdapter(this, getItems());
+     * }
+     * <p/>
+     * public static ArrayList<PlantInfoHolder> getItems() {
+     * ArrayList<Integer> items = new ArrayList<Integer>();
+     * for (int i = 0; i < 1000; i++) {
+     * items.add(i);
+     * }
+     * return items;
+     * }
      */
 
     private static class MyListAdapter extends ArrayAdapter<PlantInfoHolder> {

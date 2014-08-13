@@ -7,6 +7,14 @@
 
     <string name="app_name" translatable="false">BioWiki</string>
 
+    <string name="server_address" translatable="false">http://biowiki.mireene.com</string>
+    <string name="biowiki_address" translatable="false">http://biowiki.mireene.com/nacl</string>
+    <string name="server_subdomain" translatable="false">/repo</string>
+    <string name="distribution_sample" translatable="false">/sample.xml</string>
+
+    <!-- chart -->
+    <string name="select_data">Data for the %s axis.</string>
+
     <string name="no_network_title">No connection</string>
     <string name="no_network_desc">BioWiki needs an active internet connection to fully use this feature.</string>
     <string name="enable_offline">Go offline</string>
@@ -14,13 +22,21 @@
 
     <string name="go_back_required">Press \'back\' to continue writing your post.</string>
 
-    <string name="dictionary_menu">Dictionary</string>
+    <string name="toBioInfo">to BioInfo</string>
+    <string name="toBioWiki">to BioWikiへ</string>
+    <string name="dictionaryItem">Dictionary</string>
     <string name="mapsItem">Distribution Chart</string>
-    <string name="DictionaryItem">Classifying Plants</string>
-    <string name="server_address" translatable="false">http://biowiki.mireene.com</string>
-    <string name="biowiki_address" translatable="false">http://biowiki.mireene.com/nacl</string>
-    <string name="server_subdomain">/repo</string>
-    <string name="distribution_sample">/sample.xml</string>
+    <string name="classificationItem">Classification</string>
+    <string name="habitatItem">Habitat</string>
+
+    <string name="biowiki_welcome">Welcome to BioWiki.</string>
+    <string name="biowiki_welcome_desc">Swipe from left to right to view the features.</string>
+    <string name="bioinfo_welcome">Welcome to BioInfo.</string>
+    <string name="bioinfo_welcome_desc">Swipe from left to right to view the features.</string>
+
+    <!-- toast messages -->
+    <string name="locationButtonClicked">Moving to the current location&#8230;</string>
+    <string name="locationLoaded">Loaded distribution statistics.</string>
 
     <!-- account setup -->
     <string name="xmlrpc_error">Couldn\'t connect. Enter the full path to xmlrpc.php on your site and try again.</string>

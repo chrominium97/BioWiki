@@ -231,43 +231,6 @@ public class AttributeSelectionFragment extends SherlockFragment {
         return export;
     }
 
-    /**
-     * public void parseXML(String tag, int position) throws IOException {
-     * ArrayList<String> names = new ArrayList<String>();
-     * if (position == -1) {
-     * displayedElements = currentElement.getChildElements();
-     * } else if (position == -2) {
-     * if (!currentElement.getName().equals("repo"))
-     * currentElement = currentElement.getParentElement();
-     * displayedElements = currentElement.getChildElements();
-     * } else if (currentElement.getFirstElement("name", tag, false).getName().equals("what")) {
-     * ArrayList<String> details = getDetails(currentElement.getFirstElement("name", tag, false).getAttributeValue("name"));
-     * if (details.size() == 0) {
-     * Toast.makeText(context, "정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
-     * return;
-     * }
-     * mCallback.onAttributeDecided(tag);
-     * return;
-     * } else {
-     * currentElement = currentElement.getFirstElement("name", tag, false);
-     * displayedElements = currentElement.getChildElements();
-     * }
-     * for (Element element : displayedElements) {
-     * names.add(element.getAttributeValue("name"));
-     * Collections.sort(names);
-     * }
-     * gridView.invalidateViews();
-     * gridView.setAdapter(new ElementAdapter(context, names));
-     * if (tag != null) {
-     * getSherlockActivity().getSupportActionBar().setTitle(tag);
-     * } else if (!(currentElement.getAttributeValue("name") == null)) {
-     * getSherlockActivity().getSupportActionBar().setTitle(currentElement.getAttributeValue("name"));
-     * } else {
-     * getSherlockActivity().getSupportActionBar().setTitle(R.string.app_name);
-     * }
-     * }
-     */
-
     @Override
     public void onResume() {
         super.onResume();

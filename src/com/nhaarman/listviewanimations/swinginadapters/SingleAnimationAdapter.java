@@ -40,11 +40,9 @@ public abstract class SingleAnimationAdapter extends AnimationAdapter {
     /**
      * Get the {@link Animator} to apply to the {@link View}.
      *
-     * @param parent
-     *            the {@link ViewGroup} which is the parent of the View.
-     * @param view
-     *            the View that will be animated, as retrieved by
-     *            {@link #getView(int, View, ViewGroup)}.
+     * @param parent the {@link ViewGroup} which is the parent of the View.
+     * @param view   the View that will be animated, as retrieved by
+     *               {@link #getView(int, View, ViewGroup)}.
      */
     protected abstract Animator getAnimator(ViewGroup parent, View view);
 

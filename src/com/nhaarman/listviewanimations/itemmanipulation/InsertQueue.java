@@ -31,8 +31,9 @@ public class InsertQueue<T> {
     /**
      * Insert an item into the queue at given index. Will directly call {@link com.nhaarman.listviewanimations.itemmanipulation.AnimateAdditionAdapter.Insertable#add(int,
      * Object)} if there are no active index-item pairs. Otherwise, the pair will be queued.
+     *
      * @param index the index at which the item should be inserted.
-     * @param item the item to insert.
+     * @param item  the item to insert.
      */
     public void insert(final int index, final T item) {
         if (mActiveIndexes.isEmpty() && mPendingItemsToInsert.isEmpty()) {
@@ -76,6 +77,7 @@ public class InsertQueue<T> {
 
     /**
      * Clear the active state for given index. Will insert any pending pairs if this call leads to a state where there are no active pairs.
+     *
      * @param index the index to remove.
      */
     public void removeActiveIndex(final int index) {

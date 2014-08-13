@@ -42,7 +42,7 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
  * Warning: a stable id for each item in the adapter is required. The decorated
  * adapter should not try to cast convertView to a particular view. The
  * undoLayout should have the same height as the content row.
- * <p>
+ * <p/>
  * Usage: <br>
  * * Create a new instance of this class providing the {@link BaseAdapter} to wrap, the undo layout, the undo button id and a {@link DeleteItemCallback}, optionally a delay time millis,
  * a count down TextView res id,
@@ -60,26 +60,21 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
     private final int mUndoActionId;
     private final int mCountDownTextViewResId;
     private final int mAutoDeleteDelayMillis;
-
-    private long mDismissStartMillis;
-
-    private ContextualUndoView mCurrentRemovedView;
-    private long mCurrentRemovedId;
-
     private final Handler mHandler;
     private final CountDownRunnable mCountDownRunnable;
-
     private final DeleteItemCallback mDeleteItemCallback;
     private final CountDownFormatter mCountDownFormatter;
-
+    private long mDismissStartMillis;
+    private ContextualUndoView mCurrentRemovedView;
+    private long mCurrentRemovedId;
     private ContextualUndoListViewTouchListener mContextualUndoListViewTouchListener;
 
     /**
      * Create a new ContextualUndoAdapter based on given parameters.
      *
-     * @param baseAdapter  The {@link BaseAdapter} to wrap
-     * @param undoLayoutId The layout resource id to show as undo
-     * @param undoActionId The id of the component which undoes the dismissal
+     * @param baseAdapter        The {@link BaseAdapter} to wrap
+     * @param undoLayoutId       The layout resource id to show as undo
+     * @param undoActionId       The id of the component which undoes the dismissal
      * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      */
     public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutId, final int undoActionId, final DeleteItemCallback deleteItemCallback) {
@@ -90,11 +85,11 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * Create a new ContextualUndoAdapter based on given parameters.
      * Will automatically remove the swiped item after autoDeleteTimeMillis milliseconds.
      *
-     * @param baseAdapter  The {@link BaseAdapter} to wrap
-     * @param undoLayoutResId The layout resource id to show as undo
-     * @param undoActionResId The id of the component which undoes the dismissal
+     * @param baseAdapter          The {@link BaseAdapter} to wrap
+     * @param undoLayoutResId      The layout resource id to show as undo
+     * @param undoActionResId      The id of the component which undoes the dismissal
      * @param autoDeleteTimeMillis The time in milliseconds that the adapter will wait for he user to hit undo before automatically deleting the item
-     * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
+     * @param deleteItemCallback   The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
      */
     public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int autoDeleteTimeMillis, final DeleteItemCallback deleteItemCallback) {
         this(baseAdapter, undoLayoutResId, undoActionResId, autoDeleteTimeMillis, -1, deleteItemCallback, null);
@@ -104,13 +99,13 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
      * Create a new ContextualUndoAdapter based on given parameters.
      * Will automatically remove the swiped item after autoDeleteTimeMillis milliseconds.
      *
-     * @param baseAdapter  The {@link BaseAdapter} to wrap
-     * @param undoLayoutResId The layout resource id to show as undo
-     * @param undoActionResId The resource id of the component which undoes the dismissal
-     * @param autoDeleteTime The time in milliseconds that adapter will wait for user to hit undo before automatically deleting item
+     * @param baseAdapter            The {@link BaseAdapter} to wrap
+     * @param undoLayoutResId        The layout resource id to show as undo
+     * @param undoActionResId        The resource id of the component which undoes the dismissal
+     * @param autoDeleteTime         The time in milliseconds that adapter will wait for user to hit undo before automatically deleting item
      * @param countDownTextViewResId The resource id of the {@link TextView} in the undoLayoutResId that will show the time left
-     * @param deleteItemCallback The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
-     * @param countDownFormatter The {@link CountDownFormatter} which provides text to be shown in the {@link TextView} as specified by countDownTextViewResId
+     * @param deleteItemCallback     The {@link DeleteItemCallback} which is called when an item should be deleted from your collection.
+     * @param countDownFormatter     The {@link CountDownFormatter} which provides text to be shown in the {@link TextView} as specified by countDownTextViewResId
      */
     public ContextualUndoAdapter(final BaseAdapter baseAdapter, final int undoLayoutResId, final int undoActionResId, final int autoDeleteTime, final int countDownTextViewResId,
                                  final DeleteItemCallback deleteItemCallback, final CountDownFormatter countDownFormatter) {
@@ -299,6 +294,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     /**
      * This method should be called in your {@link Activity}'s {@link Activity#onSaveInstanceState(Bundle)} to remember dismissed statuses.
+     *
      * @param outState the {@link Bundle} provided by Activity.onSaveInstanceState(Bundle).
      */
     public void onSaveInstanceState(final Bundle outState) {
@@ -316,6 +312,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     /**
      * Animate the item at given position away and show the undo {@link View}.
+     *
      * @param position the position.
      */
     public void swipeViewAtPosition(final int position) {
@@ -360,6 +357,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     /**
      * Removes any item that was swiped away.
+     *
      * @param animate If true, animates the removal (collapsing the item).
      *                If false, removes item immediately without animation.
      * @deprecated use {@link #removePendingItem()} or {@link #animateRemovePendingItem()} instead.
@@ -404,8 +402,7 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
         /**
          * Called when an item should be removed from the collection.
          *
-         * @param position
-         *            the position of the item that should be removed.
+         * @param position the position of the item that should be removed.
          */
         public void deleteItem(int position);
     }
@@ -416,9 +413,25 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
     public interface CountDownFormatter {
         /**
          * Called each tick of the CountDownTimer
+         *
          * @param millisLeft time in milliseconds remaining before the item is automatically removed
          */
         public String getCountDownString(final long millisLeft);
+    }
+
+    private static class ViewHolder {
+        final ContextualUndoView mContextualUndoView;
+
+        long mItemId;
+
+        ViewHolder(final ContextualUndoView contextualUndoView) {
+            mContextualUndoView = contextualUndoView;
+            mContextualUndoView.setTag(this);
+        }
+
+        static ViewHolder getViewHolder(final View view) {
+            return (ViewHolder) view.getTag();
+        }
     }
 
     private class CountDownRunnable implements Runnable {
@@ -440,9 +453,9 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
 
     private class RemoveViewAnimatorListenerAdapter extends AnimatorListenerAdapter {
 
-        private ContextualUndoView mDismissView;
         private final long mDismissViewId;
         private final int mOriginalHeight;
+        private ContextualUndoView mDismissView;
 
         public RemoveViewAnimatorListenerAdapter(final ContextualUndoView dismissView, final long dismissViewId) {
             mDismissView = dismissView;
@@ -547,21 +560,6 @@ public class ContextualUndoAdapter extends BaseAdapterDecorator implements Conte
             if (vh != null && mCurrentRemovedId > 0 && vh.mItemId == mCurrentRemovedId) {
                 mCurrentRemovedView = null;
             }
-        }
-    }
-
-    private static class ViewHolder {
-        final ContextualUndoView mContextualUndoView;
-
-        long mItemId;
-
-        static ViewHolder getViewHolder(final View view) {
-            return (ViewHolder) view.getTag();
-        }
-
-        ViewHolder(final ContextualUndoView contextualUndoView) {
-            mContextualUndoView = contextualUndoView;
-            mContextualUndoView.setTag(this);
         }
     }
 }

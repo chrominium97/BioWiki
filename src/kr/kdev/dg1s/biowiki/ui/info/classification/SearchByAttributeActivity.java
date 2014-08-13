@@ -15,16 +15,14 @@ import java.util.List;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.info.viewer.SearchResultsViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.info.classification.fragments.AttributeSelectionFragment;
 import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationFragment;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.SearchResultsViewerActivity;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
 public class SearchByAttributeActivity extends BIActionBarActivity implements AttributeSelectionFragment.OnAttributeDecidedListener {
 
     Menu menu;
-
-    PlantInformationFragment informationFragment = null;
     AttributeSelectionFragment selectionFragment = null;
 
     @Override
@@ -33,7 +31,6 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
         createMenuDrawer(R.layout.blank_linearlayout);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        informationFragment = new PlantInformationFragment();
         selectionFragment = new AttributeSelectionFragment();
         transaction.add(R.id.selector_category, selectionFragment);
         transaction.commit();

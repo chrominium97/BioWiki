@@ -12,15 +12,15 @@
  */
 package uk.ac.cam.cl.dtg.snowdon;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.kdev.dg1s.biowiki.R;
 
@@ -67,7 +67,7 @@ public abstract class GraphView extends View {
     protected Paint mAxesPaint = new Paint();
     protected boolean mAxesPaintAntiAlias;
     protected Paint mGridlinesPaint = new Paint();
-    
+
     protected String mXAxisLabel;
     protected String mYAxisLabel;
     protected Paint mAxisLabelPaint = new Paint();
@@ -91,20 +91,20 @@ public abstract class GraphView extends View {
     protected float mOverlay2TextSize;
     protected float mOverlay2XPos;
     protected float mOverlay2YPos;
-    
-	protected int[] mDataSetColours = {0xFF007ba1, 0xFF0f7231, 0xFF720f31};
+
+    protected int[] mDataSetColours = {0xFF007ba1, 0xFF0f7231, 0xFF720f31};
 
     //---------- XML ----------\\
     // Used to read custom graph layout
     protected String customSchemaLocation;
 
-	/**
-	 * Creates a new GraphView and sets layout parameters based on values
-	 * specified in XML.
-	 * 
-	 * @param context
-	 * @param attributes
-	 */
+    /**
+     * Creates a new GraphView and sets layout parameters based on values
+     * specified in XML.
+     *
+     * @param context
+     * @param attributes
+     */
     public GraphView(Context context, AttributeSet attributes) {
         super(context, attributes);
 
@@ -117,7 +117,7 @@ public abstract class GraphView extends View {
         mRightPadding = attributes.getAttributeFloatValue(customSchemaLocation, "graph_right_padding", 30.0f);
         mGridlineLabelHoriSpacing = attributes.getAttributeFloatValue(customSchemaLocation, "graph_gridline_label_hori_spacing", 10.0f);
         mGridlineLabelVertSpacing = attributes.getAttributeFloatValue(customSchemaLocation, "graph_gridline_label_vert_spacing", 10.0f);
-        
+
         // TODO: Use an ArrayList of overlays or something, so that we can have as many different ones as we want. Reading from XML for all of them may be difficult to implement, though.
         mDrawOverlay1 = attributes.getAttributeBooleanValue(customSchemaLocation, "graph_draw_overlay1", false);
         mOverlay1Paint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_overlay1_colour", 0xFFffffff));
@@ -128,7 +128,7 @@ public abstract class GraphView extends View {
         mOverlay1Paint.setAntiAlias(attributes.getAttributeBooleanValue(customSchemaLocation, "graph_overlay1_anti_alias", true));
         mOverlay1XPos = attributes.getAttributeFloatValue(customSchemaLocation, "graph_overlay1_x_pos", 0.75f);
         mOverlay1YPos = attributes.getAttributeFloatValue(customSchemaLocation, "graph_overlay1_y_pos", 0.25f);
-        
+
         mDrawOverlay2 = attributes.getAttributeBooleanValue(customSchemaLocation, "graph_draw_overlay2", false);
         mOverlay2Paint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_overlay2_colour", 0xFFffffff));
         mOverlay2Text = attributes.getAttributeValue(customSchemaLocation, "graph_overlay2_text");
@@ -136,8 +136,8 @@ public abstract class GraphView extends View {
         mOverlay2TextSize = attributes.getAttributeFloatValue(customSchemaLocation, "graph_overlay2_text_size", 40.0f);
         mOverlay2Paint.setTextSize(mOverlay2TextSize);
         mOverlay2Paint.setAntiAlias(attributes.getAttributeBooleanValue(customSchemaLocation, "graph_overlay2_anti_alias", true));
-        mOverlay2XPos = attributes.getAttributeFloatValue(customSchemaLocation,"graph_overlay2_x_pos", 0.75f);
-        mOverlay2YPos = attributes.getAttributeFloatValue(customSchemaLocation,"graph_overlay2_y_pos", 0.25f);
+        mOverlay2XPos = attributes.getAttributeFloatValue(customSchemaLocation, "graph_overlay2_x_pos", 0.75f);
+        mOverlay2YPos = attributes.getAttributeFloatValue(customSchemaLocation, "graph_overlay2_y_pos", 0.25f);
 
         String yAxisLabels = attributes.getAttributeValue(customSchemaLocation, "graph_y_axis_labels");
         if (yAxisLabels == null) yAxisLabels = "0%; 25%; 50%; 75%; 100%";
@@ -150,7 +150,7 @@ public abstract class GraphView extends View {
             yAxisLabelPositionsFloatArray[i] = Float.parseFloat(yAxisLabelPositionsStringArray[i]);
         }
         mYAxisLabelPositions = yAxisLabelPositionsFloatArray;
-        
+
         String yTickPositions = attributes.getAttributeValue(customSchemaLocation, "graph_y_tick_positions");
         if (yTickPositions == null) yTickPositions = "0.00; 0.25; 0.50; 0.75; 1.00";
         String[] yTickPositionsStringArray = yTickPositions.split("; ");
@@ -172,7 +172,7 @@ public abstract class GraphView extends View {
             xAxisLabelPositionsFloatArray[i] = Float.parseFloat(xAxisLabelPositionsStringArray[i]);
         }
         mXAxisLabelPositions = xAxisLabelPositionsFloatArray;
-        
+
         String xTickPositions = attributes.getAttributeValue(customSchemaLocation, "graph_x_tick_positions");
         if (xTickPositions == null) xTickPositions = "0.00; 0.25; 0.50; 0.75; 1.00";
         String[] xTickPositionsStringArray = xTickPositions.split("; ");
@@ -181,21 +181,21 @@ public abstract class GraphView extends View {
             xTickPositionsFloatArray[i] = Float.parseFloat(xTickPositionsStringArray[i]);
         }
         mXTickPositions = xTickPositionsFloatArray;
-        
-        
+
+
         mXAxisLabel = attributes.getAttributeValue(customSchemaLocation, "graph_x_axis_label");
         if (mXAxisLabel == null) mXAxisLabel = "";
         mYAxisLabel = attributes.getAttributeValue(customSchemaLocation, "graph_y_axis_label");
         if (mYAxisLabel == null) mYAxisLabel = "";
         mXAxisLabelOffset = attributes.getAttributeFloatValue(customSchemaLocation, "graph_x_axis_label_offset", 0.0f);
         mYAxisLabelOffset = attributes.getAttributeFloatValue(customSchemaLocation, "graph_y_axis_label_offset", 0.0f);
-        
+
         mAxisLabelPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_axis_label_colour", 0xFFFFFFFF));
         mAxisLabelTextSize = attributes.getAttributeFloatValue(customSchemaLocation, "graph_axis_label_text_size", 20.0f);
         mAxisLabelPaint.setTextSize(mAxisLabelTextSize);
         mAxisLabelPaint.setAntiAlias(attributes.getAttributeBooleanValue(customSchemaLocation, "graph_axis_label_anti_alias", true));
 
-        mBackgroundPaint.setColor(attributes.getAttributeIntValue("http://schemas.android.com/apk/res/android", "background",0x00000000));
+        mBackgroundPaint.setColor(attributes.getAttributeIntValue("http://schemas.android.com/apk/res/android", "background", 0x00000000));
 
         mAxesPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_axes_colour", 0xFFFFFFFF));
         mAxesPaint.setTextSize(attributes.getAttributeFloatValue(customSchemaLocation, "graph_axes_text_size", 20.0f));
@@ -219,40 +219,35 @@ public abstract class GraphView extends View {
         mAxesPaint.setStyle(Paint.Style.STROKE);
         mGridlinesPaint.setStyle(Paint.Style.STROKE);
     }
-    
+
     public void setDataSetColours(int[] colours) {
-    	mDataSetColours = colours;
-    }
-    
-	/**
-	 * Invalidates the view and causes it to be redrawn.
-	 */
-    public void redraw() {
-    	invalidate();
+        mDataSetColours = colours;
     }
 
-	/**
-	 * Sets the data to be plotted. Only minimal validation takes place (i.e.
-	 * checking for null arrays, checking the x and y arrays are the same
-	 * length). If validation fails, the method does nothing, and does return or
-	 * throw anything.
-	 * 
-	 * @param data
-	 *            A two-dimensional array, x values as the first array, y values
-	 *            as the second.
-	 * @param minX
-	 *            The minimum value of x in the data set that should be plotted
-	 *            in the first quadrant of the graph.
-	 * @param maxX
-	 *            The maximum value of x in the data set that should be plotted
-	 *            in the first quadrant of the graph.
-	 * @param minY
-	 *            The minimum value of y in the data set that should be plotted
-	 *            in the first quadrant of the graph.
-	 * @param maxY
-	 *            The maximum value of y in the data set that should be plotted
-	 *            in the first quadrant of the graph.
-	 */
+    /**
+     * Invalidates the view and causes it to be redrawn.
+     */
+    public void redraw() {
+        invalidate();
+    }
+
+    /**
+     * Sets the data to be plotted. Only minimal validation takes place (i.e.
+     * checking for null arrays, checking the x and y arrays are the same
+     * length). If validation fails, the method does nothing, and does return or
+     * throw anything.
+     *
+     * @param data A two-dimensional array, x values as the first array, y values
+     *             as the second.
+     * @param minX The minimum value of x in the data set that should be plotted
+     *             in the first quadrant of the graph.
+     * @param maxX The maximum value of x in the data set that should be plotted
+     *             in the first quadrant of the graph.
+     * @param minY The minimum value of y in the data set that should be plotted
+     *             in the first quadrant of the graph.
+     * @param maxY The maximum value of y in the data set that should be plotted
+     *             in the first quadrant of the graph.
+     */
     public void setData(float[][][] data, float minX, float maxX, float minY, float maxY) {
         if (data != null && data[0][0].length > 1) {
             mData = data;
@@ -264,281 +259,263 @@ public abstract class GraphView extends View {
             mDataYHeight = mMaxY - mMinY;
             mDataBinned = false;
         } else {
-        	throw new IllegalArgumentException();
+            throw new IllegalArgumentException();
         }
     }
-    
-	/**
-	 * Returns the data that has been set. Includes data that has been added
-	 * using addData().
-	 * 
-	 * @return Three-dimensional float array, with the first dimension being
-	 *         sets of data, the second x values and the third y values.
-	 */
+
+    /**
+     * Returns the data that has been set. Includes data that has been added
+     * using addData().
+     *
+     * @return Three-dimensional float array, with the first dimension being
+     * sets of data, the second x values and the third y values.
+     */
     public float[][][] getData() {
-    	return mData;
-    }
-    
-	/**
-	 * Add a two-dimensional array of floats to the data already set using
-	 * setData(). The first dimension should be x values, and the second should
-	 * be y values. Insert NaNs in the y values for gaps in the data.
-	 * 
-	 * @param additionalData
-	 *            The data to be added.
-	 * @param minX
-	 *            The new minimum x value in the data set. Use NaN if you wish
-	 *            to keep the value previously set using setData().
-	 * @param maxX
-	 *            The new maximum x value in the data set. Use NaN if you wish
-	 *            to keep the value previously set using setData().
-	 * @param minY
-	 *            The new minimum y value in the data set. Use NaN if you wish
-	 *            to keep the value previously set using setData().
-	 * @param maxY
-	 *            The new maximum y value in the data set. Use NaN if you wish
-	 *            to keep the value previously set using setData().
-	 */
-    public void addData(float[][] additionalData, float minX, float maxX, float minY, float maxY) {
-    	List<float[][]> mDataList = new ArrayList<float[][]>();
-    	for (int set = 0; set < mData.length; set++) {
-    		mDataList.add(mData[set]);
-    	}
-    	mDataList.add(additionalData);
-    	
-    	float[][][] newMData = new float[mDataList.size()][2][];
-    	for (int set = 0; set < mDataList.size(); set++) {
-    		newMData[set][0] = mDataList.get(set)[0];
-    		newMData[set][1] = mDataList.get(set)[1];
-    	}
-    	mData = newMData;
-    	
-    	if(!Float.isNaN(minX)) mMinX = minX;
-    	if(!Float.isNaN(maxX)) mMaxX = maxX;
-    	if(!Float.isNaN(minY)) mMinY = minY;
-    	if(!Float.isNaN(maxY)) mMaxY = maxY;
-    	
-    	mDataXWidth = mMaxX - mMinX;
-    	mDataYHeight = mMaxY - mMinY;
-    }
-    
-	/**
-	 * Sets the padding of the graph. To maintain the current padding value for
-	 * a side, input a NaN as the argument.
-	 * 
-	 * @param topPadding
-	 *            Top padding measured in pixels.
-	 * @param bottomPadding
-	 *            Bottom padding measured in pixels.
-	 * @param leftPadding
-	 *            Left padding measured in pixels.
-	 * @param rightPadding
-	 *            Right padding measured in pixels.
-	 */
-    public void setPadding(float topPadding, float bottomPadding, float leftPadding, float rightPadding) {
-    	if (!Float.isNaN(topPadding)) mTopPadding = topPadding;
-    	if (!Float.isNaN(bottomPadding)) mBottomPadding = bottomPadding;
-    	if (!Float.isNaN(leftPadding)) mLeftPadding = leftPadding;
-    	if (!Float.isNaN(rightPadding)) mRightPadding = rightPadding;
-    }
-    
-    public void setXAxisLabel(String label) {
-    	mXAxisLabel = label;
-    }
-    
-    public void setYAxisLabel(String label) {
-    	mYAxisLabel = label;
+        return mData;
     }
 
-	/**
-	 * Sets the labels on the x-axis using the specified string array.
-	 * 
-	 * @param xLabels
-	 *            A string array containing the text to be displayed at each
-	 *            position as specified by the array passed to
-	 *            setXLabelPositions. "" strings can be used for the appearance
-	 *            of unlabelled gridlines.
-	 */
+    /**
+     * Add a two-dimensional array of floats to the data already set using
+     * setData(). The first dimension should be x values, and the second should
+     * be y values. Insert NaNs in the y values for gaps in the data.
+     *
+     * @param additionalData The data to be added.
+     * @param minX           The new minimum x value in the data set. Use NaN if you wish
+     *                       to keep the value previously set using setData().
+     * @param maxX           The new maximum x value in the data set. Use NaN if you wish
+     *                       to keep the value previously set using setData().
+     * @param minY           The new minimum y value in the data set. Use NaN if you wish
+     *                       to keep the value previously set using setData().
+     * @param maxY           The new maximum y value in the data set. Use NaN if you wish
+     *                       to keep the value previously set using setData().
+     */
+    public void addData(float[][] additionalData, float minX, float maxX, float minY, float maxY) {
+        List<float[][]> mDataList = new ArrayList<float[][]>();
+        for (int set = 0; set < mData.length; set++) {
+            mDataList.add(mData[set]);
+        }
+        mDataList.add(additionalData);
+
+        float[][][] newMData = new float[mDataList.size()][2][];
+        for (int set = 0; set < mDataList.size(); set++) {
+            newMData[set][0] = mDataList.get(set)[0];
+            newMData[set][1] = mDataList.get(set)[1];
+        }
+        mData = newMData;
+
+        if (!Float.isNaN(minX)) mMinX = minX;
+        if (!Float.isNaN(maxX)) mMaxX = maxX;
+        if (!Float.isNaN(minY)) mMinY = minY;
+        if (!Float.isNaN(maxY)) mMaxY = maxY;
+
+        mDataXWidth = mMaxX - mMinX;
+        mDataYHeight = mMaxY - mMinY;
+    }
+
+    /**
+     * Sets the padding of the graph. To maintain the current padding value for
+     * a side, input a NaN as the argument.
+     *
+     * @param topPadding    Top padding measured in pixels.
+     * @param bottomPadding Bottom padding measured in pixels.
+     * @param leftPadding   Left padding measured in pixels.
+     * @param rightPadding  Right padding measured in pixels.
+     */
+    public void setPadding(float topPadding, float bottomPadding, float leftPadding, float rightPadding) {
+        if (!Float.isNaN(topPadding)) mTopPadding = topPadding;
+        if (!Float.isNaN(bottomPadding)) mBottomPadding = bottomPadding;
+        if (!Float.isNaN(leftPadding)) mLeftPadding = leftPadding;
+        if (!Float.isNaN(rightPadding)) mRightPadding = rightPadding;
+    }
+
+    public void setXAxisLabel(String label) {
+        mXAxisLabel = label;
+    }
+
+    public void setYAxisLabel(String label) {
+        mYAxisLabel = label;
+    }
+
+    /**
+     * Sets the labels on the x-axis using the specified string array.
+     *
+     * @param xLabels A string array containing the text to be displayed at each
+     *                position as specified by the array passed to
+     *                setXLabelPositions. "" strings can be used for the appearance
+     *                of unlabelled gridlines.
+     */
     public void setXLabels(String[] xLabels) {
         mXAxisLabels = xLabels;
     }
 
-	/**
-	 * Sets the position of labels (and gridlines) on the x-axis. Specified as
-	 * fractions of the total width (i.e. 0.5 would place a gridline half-way
-	 * along the x-axis). Use in conjunction with setXLabels to display text
-	 * labels on gridlines.
-	 * 
-	 * @param xLabelPositions
-	 *            A float array containing the fractional positions of each
-	 *            gridline and corresponding label.
-	 */
+    /**
+     * Sets the position of labels (and gridlines) on the x-axis. Specified as
+     * fractions of the total width (i.e. 0.5 would place a gridline half-way
+     * along the x-axis). Use in conjunction with setXLabels to display text
+     * labels on gridlines.
+     *
+     * @param xLabelPositions A float array containing the fractional positions of each
+     *                        gridline and corresponding label.
+     */
     public void setXLabelPositions(float[] xLabelPositions) {
         mXAxisLabelPositions = xLabelPositions;
     }
-    
-	/**
-	 * Sets the positions of ticks along the x-axis. Specified as fractions of
-	 * the total width (i.e. 0.5 would place a tick half-way along the x-axis).
-	 * 
-	 * @param xTickPositions
-	 */
+
+    /**
+     * Sets the positions of ticks along the x-axis. Specified as fractions of
+     * the total width (i.e. 0.5 would place a tick half-way along the x-axis).
+     *
+     * @param xTickPositions
+     */
     public void setXTickPositions(float[] xTickPositions) {
-    	mXTickPositions = xTickPositions;
+        mXTickPositions = xTickPositions;
     }
 
-	/**
-	 * Sets the labels on the y-axis using the specified string array.
-	 * 
-	 * @param yLabels
-	 *            A string array containing the text to be displayed at each
-	 *            position as specified by the array passed to
-	 *            setYLabelPositions. "" strings can be used for the appearance
-	 *            of unlabelled gridlines.
-	 */
+    /**
+     * Sets the labels on the y-axis using the specified string array.
+     *
+     * @param yLabels A string array containing the text to be displayed at each
+     *                position as specified by the array passed to
+     *                setYLabelPositions. "" strings can be used for the appearance
+     *                of unlabelled gridlines.
+     */
     public void setYLabels(String[] yLabels) {
         mYAxisLabels = yLabels;
     }
 
-	/**
-	 * Sets the position of labels (and gridlines) on the y-axis. Specified as
-	 * fractions of the total height (i.e. 0.5 would place a gridline half-way
-	 * along the y-axis). Use in conjunction with setYLabels to display text
-	 * labels on gridlines.
-	 * 
-	 * @param yLabelPositions
-	 *            A float array containing the fractional positions of each
-	 *            gridline and corresponding label.
-	 */
+    /**
+     * Sets the position of labels (and gridlines) on the y-axis. Specified as
+     * fractions of the total height (i.e. 0.5 would place a gridline half-way
+     * along the y-axis). Use in conjunction with setYLabels to display text
+     * labels on gridlines.
+     *
+     * @param yLabelPositions A float array containing the fractional positions of each
+     *                        gridline and corresponding label.
+     */
     public void setYLabelPositions(float[] yLabelPositions) {
         mYAxisLabelPositions = yLabelPositions;
     }
-    
-	/**
-	 * Sets the positions of ticks along the y-axis. Specified as fractions of
-	 * the total height (i.e. 0.5 would place a tick half-way along the y-axis).
-	 * 
-	 * @param yTickPositions
-	 */
-    public void setYTickPositions(float[] yTickPositions) {
-    	mYTickPositions = yTickPositions;
-    }
-    
-	/**
-	 * Sets the colour of all ascending lines (if the derived class makes a
-	 * distinction).
-	 * 
-	 * @param color
-	 *            The RBG color value
-	 */
-    public void setAscendingPaintColor(int color) {
-    	mAscendingPaint.setColor(color);
-    }
 
-	/**
-	 * Sets the colour of all descending lines (if the derived class makes a
-	 * distinction).
-	 * 
-	 * @param color
-	 *            The RBG color value
-	 */
-    public void setDescendingPaintColor(int color) {
-    	mDescendingPaint.setColor(color);
-    }
-    
     /**
-	 * Sets the colour of the axis labels.
-	 * 
-	 * @param color
-	 *            The RBG color value
-	 */
-    public void setAxisLabelPaintColour(int color) {
-    	mAxisLabelPaint.setColor(color);
-    }
-    
-	/**
-	 * Sets the text size of the axis labels.
-	 * 
-	 * @param size
-	 *            The size of the text in pixels
-	 */
-    public void setAxisLabelTextSize(float size) {
-    	mAxisLabelPaint.setTextSize(size);
+     * Sets the positions of ticks along the y-axis. Specified as fractions of
+     * the total height (i.e. 0.5 would place a tick half-way along the y-axis).
+     *
+     * @param yTickPositions
+     */
+    public void setYTickPositions(float[] yTickPositions) {
+        mYTickPositions = yTickPositions;
     }
 
-	/**
-	 * Sets whether the axis labels are anti-aliased.
-	 * 
-	 * @param antialias
-	 *            True for anti-aliasing on.
-	 */
-    public void setAxisLabelAntiAlias(boolean antialias) {
-    	mAxisLabelPaint.setAntiAlias(antialias);
+    /**
+     * Sets the colour of all ascending lines (if the derived class makes a
+     * distinction).
+     *
+     * @param color The RBG color value
+     */
+    public void setAscendingPaintColor(int color) {
+        mAscendingPaint.setColor(color);
     }
-    
+
+    /**
+     * Sets the colour of all descending lines (if the derived class makes a
+     * distinction).
+     *
+     * @param color The RBG color value
+     */
+    public void setDescendingPaintColor(int color) {
+        mDescendingPaint.setColor(color);
+    }
+
+    /**
+     * Sets the colour of the axis labels.
+     *
+     * @param color The RBG color value
+     */
+    public void setAxisLabelPaintColour(int color) {
+        mAxisLabelPaint.setColor(color);
+    }
+
+    /**
+     * Sets the text size of the axis labels.
+     *
+     * @param size The size of the text in pixels
+     */
+    public void setAxisLabelTextSize(float size) {
+        mAxisLabelPaint.setTextSize(size);
+    }
+
+    /**
+     * Sets whether the axis labels are anti-aliased.
+     *
+     * @param antialias True for anti-aliasing on.
+     */
+    public void setAxisLabelAntiAlias(boolean antialias) {
+        mAxisLabelPaint.setAntiAlias(antialias);
+    }
+
     protected void binData(float binWidth) {
-    	for (int i = 0; i < mData.length; i++) {
-    		mData[i] = DataUtilities.binFloatFloatArray(mData[i], binWidth, mMinX, mMaxX);
-    	}
-    	mDataBinned = true; // Ensures the data is not binned again
+        for (int i = 0; i < mData.length; i++) {
+            mData[i] = DataUtilities.binFloatFloatArray(mData[i], binWidth, mMinX, mMaxX);
+        }
+        mDataBinned = true; // Ensures the data is not binned again
     }
 
     @Override
-	public void onDraw(Canvas canvas) {    	
+    public void onDraw(Canvas canvas) {
         graphWidth = getWidth() - mLeftPadding - mRightPadding;
         graphHeight = getHeight() - mTopPadding - mBottomPadding;
 
         if (mDataBinned != true && mData[0][0].length > graphWidth) {
-        	binData(mDataXWidth / graphWidth);
+            binData(mDataXWidth / graphWidth);
         }
 
         for (int i = 0; i < mData.length; i++) {
-        	drawGridlines(canvas);
-        	drawAxes(canvas);
-        	drawPlot(canvas);
-        	drawXTicks(canvas);
-        	drawYTicks(canvas);
-        	drawAxesLabels(canvas);
-        	if (mDrawOverlay1 == true) {
-        		drawOverlays(canvas);
-        	}
+            drawGridlines(canvas);
+            drawAxes(canvas);
+            drawPlot(canvas);
+            drawXTicks(canvas);
+            drawYTicks(canvas);
+            drawAxesLabels(canvas);
+            if (mDrawOverlay1 == true) {
+                drawOverlays(canvas);
+            }
         }
     }
-    
+
     protected void drawXTicks(Canvas canvas) {
-    	Path tickPath = new Path();
+        Path tickPath = new Path();
 
-    	for (int i = 0; i < mXTickPositions.length; i++) {
-    		tickPath.moveTo(mLeftPadding + (mXTickPositions[i]) * graphWidth, mTopPadding + graphHeight);
-    		tickPath.lineTo(mLeftPadding + (mXTickPositions[i]) * graphWidth, mTopPadding + graphHeight + mXTickLength);
-    	}
-
-    	mAxesPaint.setStyle(Paint.Style.STROKE);
-    	mAxesPaint.setAntiAlias(false);
-    	canvas.drawPath(tickPath, mAxesPaint);
-    	mAxesPaint.setAntiAlias(mAxesPaintAntiAlias);
-    	mAxesPaint.setStyle(Paint.Style.FILL);
-    }
-    
-    protected void drawYTicks(Canvas canvas) {
-    	Path tickPath = new Path();
-    	
-    	for (int i = 0; i < mYTickPositions.length; i++) {
-            tickPath.moveTo(mLeftPadding - mYTickLength, mTopPadding + (1.00f - mYTickPositions[i]) * graphHeight);
-            tickPath.lineTo(mLeftPadding + mAxesPaint.getStrokeWidth() / 2, mTopPadding + (1.00f - mYTickPositions[i]) * graphHeight);
+        for (int i = 0; i < mXTickPositions.length; i++) {
+            tickPath.moveTo(mLeftPadding + (mXTickPositions[i]) * graphWidth, mTopPadding + graphHeight);
+            tickPath.lineTo(mLeftPadding + (mXTickPositions[i]) * graphWidth, mTopPadding + graphHeight + mXTickLength);
         }
-    	mAxesPaint.setStyle(Paint.Style.STROKE);
+
+        mAxesPaint.setStyle(Paint.Style.STROKE);
         mAxesPaint.setAntiAlias(false);
         canvas.drawPath(tickPath, mAxesPaint);
         mAxesPaint.setAntiAlias(mAxesPaintAntiAlias);
         mAxesPaint.setStyle(Paint.Style.FILL);
     }
-    
+
+    protected void drawYTicks(Canvas canvas) {
+        Path tickPath = new Path();
+
+        for (int i = 0; i < mYTickPositions.length; i++) {
+            tickPath.moveTo(mLeftPadding - mYTickLength, mTopPadding + (1.00f - mYTickPositions[i]) * graphHeight);
+            tickPath.lineTo(mLeftPadding + mAxesPaint.getStrokeWidth() / 2, mTopPadding + (1.00f - mYTickPositions[i]) * graphHeight);
+        }
+        mAxesPaint.setStyle(Paint.Style.STROKE);
+        mAxesPaint.setAntiAlias(false);
+        canvas.drawPath(tickPath, mAxesPaint);
+        mAxesPaint.setAntiAlias(mAxesPaintAntiAlias);
+        mAxesPaint.setStyle(Paint.Style.FILL);
+    }
+
     protected void drawAxesLabels(Canvas canvas) {
-    	canvas.drawText(mXAxisLabel, mLeftPadding + graphWidth / 2 - mAxisLabelPaint.measureText(mXAxisLabel) / 2, mTopPadding + graphHeight + mBottomPadding - mXAxisLabelOffset, mAxisLabelPaint);
-    	canvas.rotate(-90, 0, 0);
-    	canvas.drawText(mYAxisLabel, -(mTopPadding + graphHeight / 2 + mAxisLabelPaint.measureText(mYAxisLabel) / 2), mAxisLabelPaint.getTextSize() + mYAxisLabelOffset, mAxisLabelPaint);
-    	canvas.rotate(90, 0, 0);
+        canvas.drawText(mXAxisLabel, mLeftPadding + graphWidth / 2 - mAxisLabelPaint.measureText(mXAxisLabel) / 2, mTopPadding + graphHeight + mBottomPadding - mXAxisLabelOffset, mAxisLabelPaint);
+        canvas.rotate(-90, 0, 0);
+        canvas.drawText(mYAxisLabel, -(mTopPadding + graphHeight / 2 + mAxisLabelPaint.measureText(mYAxisLabel) / 2), mAxisLabelPaint.getTextSize() + mYAxisLabelOffset, mAxisLabelPaint);
+        canvas.rotate(90, 0, 0);
     }
 
     protected void drawGridlines(Canvas canvas) {
@@ -552,13 +529,13 @@ public abstract class GraphView extends View {
             gridlinePath.moveTo(mLeftPadding + (mXAxisLabelPositions[i]) * graphWidth, mTopPadding);
             gridlinePath.lineTo(mLeftPadding + (mXAxisLabelPositions[i]) * graphWidth, mTopPadding + graphHeight);
         }
-        
+
         canvas.drawPath(gridlinePath, mGridlinesPaint);
     }
 
     protected void drawAxes(Canvas canvas) {
         float textHoriOffset;
-        float textVertOffset = -(2 * mAxesPaint.getTextSize() - mAxesPaint .getFontSpacing()) / 2;
+        float textVertOffset = -(2 * mAxesPaint.getTextSize() - mAxesPaint.getFontSpacing()) / 2;
 
         Path axesPath = new Path();
         axesPath.moveTo(mLeftPadding, mTopPadding - mGridlinesPaint.getStrokeWidth() / 2);
@@ -584,65 +561,63 @@ public abstract class GraphView extends View {
     }
 
     protected void drawPlot(Canvas canvas) {
-    	for (int set = 0; set < mData.length; set++) {
-    		try {
-				int setColour = mDataSetColours[set];
-				mAscendingPaint.setColor(setColour);
-				mDescendingPaint.setColor(setColour);
-			} catch (IndexOutOfBoundsException e) {
-				// Just carry on using the last colour
-			}
-    		
-    		for (int i = 0; i < mData[set][0].length - 1; i++) {
-    			float[] coords = calcCoordinates(set, i);
-    			if (Float.isNaN(mData[set][1][i + 1])) {
-    				// Don't draw anything for NaNs, as it doesn't make sense to
-    			} else if (Float.isNaN(mData[set][1][i])
-    					&& Float.isNaN(mData[set][1][i + 1]) == false) {
-    				// More NaNs
-    			} else if (Float.isNaN(coords[1]) || Float.isNaN(coords[3])) {
-    				// Yet more NaNs
-    			} else if (coords[3] < coords[1]) {
-    				// If the data is increasing, draw in the ascending style...
-    				drawAscendingSection(canvas, coords);
-    			} else {
-    				// ...otherwise, draw in the descending style
-    				drawDescendingSection(canvas, coords);
-    			}
-    		}
-    	}
+        for (int set = 0; set < mData.length; set++) {
+            try {
+                int setColour = mDataSetColours[set];
+                mAscendingPaint.setColor(setColour);
+                mDescendingPaint.setColor(setColour);
+            } catch (IndexOutOfBoundsException e) {
+                // Just carry on using the last colour
+            }
+
+            for (int i = 0; i < mData[set][0].length - 1; i++) {
+                float[] coords = calcCoordinates(set, i);
+                if (Float.isNaN(mData[set][1][i + 1])) {
+                    // Don't draw anything for NaNs, as it doesn't make sense to
+                } else if (Float.isNaN(mData[set][1][i])
+                        && Float.isNaN(mData[set][1][i + 1]) == false) {
+                    // More NaNs
+                } else if (Float.isNaN(coords[1]) || Float.isNaN(coords[3])) {
+                    // Yet more NaNs
+                } else if (coords[3] < coords[1]) {
+                    // If the data is increasing, draw in the ascending style...
+                    drawAscendingSection(canvas, coords);
+                } else {
+                    // ...otherwise, draw in the descending style
+                    drawDescendingSection(canvas, coords);
+                }
+            }
+        }
     }
 
-	/**
-	 * Sets the text to be drawn in the first overlay overlay.
-	 * 
-	 * @param text
-	 *            The string to be drawn in the overlay.
-	 */
+    /**
+     * Sets the text to be drawn in the first overlay overlay.
+     *
+     * @param text The string to be drawn in the overlay.
+     */
     public void setOverlay1Text(String text) {
         mOverlay1Text = text;
         mDrawOverlay1 = true;
     }
-    
-	/**
-	 * Sets the text to be drawn in the second overlay overlay.
-	 * 
-	 * @param text
-	 *            The string to be drawn in the overlay.
-	 */
-	public void setOverlay2Text(String text) {
-		mOverlay2Text = text;
-		mDrawOverlay2 = true;
-	}
+
+    /**
+     * Sets the text to be drawn in the second overlay overlay.
+     *
+     * @param text The string to be drawn in the overlay.
+     */
+    public void setOverlay2Text(String text) {
+        mOverlay2Text = text;
+        mDrawOverlay2 = true;
+    }
 
     /**
      * Sets the text to be drawn in the first overlay, at the fractional coordinates
      * specified.
-     * 
-     * @param text The string to be drawn in the overlay.
+     *
+     * @param text        The string to be drawn in the overlay.
      * @param overlayXPos The fractional coordinate in the x-direction (i.e. 0.5
-     *            would position the start of the text half-way along the
-     *            x-axis).
+     *                    would position the start of the text half-way along the
+     *                    x-axis).
      * @param overlayYPos The fractional coordinate in the y-direction.
      */
     public void setOverlay1Text(String text, float overlayXPos, float overlayYPos) {
@@ -651,19 +626,16 @@ public abstract class GraphView extends View {
         mOverlay1XPos = overlayXPos;
         mOverlay1YPos = overlayYPos;
     }
-    
-	/**
-	 * Sets the text to be drawn in the second overlay, at the fractional
-	 * coordinates specified.
-	 * 
-	 * @param text
-	 *            The string to be drawn in the overlay.
-	 * @param overlayXPos
-	 *            The fractional coordinate in the x-direction (i.e. 0.5 would
-	 *            position the start of the text half-way along the x-axis).
-	 * @param overlayYPos
-	 *            The fractional coordinate in the y-direction.
-	 */
+
+    /**
+     * Sets the text to be drawn in the second overlay, at the fractional
+     * coordinates specified.
+     *
+     * @param text        The string to be drawn in the overlay.
+     * @param overlayXPos The fractional coordinate in the x-direction (i.e. 0.5 would
+     *                    position the start of the text half-way along the x-axis).
+     * @param overlayYPos The fractional coordinate in the y-direction.
+     */
     public void setOverlay2Text(String text, float overlayXPos, float overlayYPos) {
         mOverlay2Text = text;
         mDrawOverlay2 = true;
@@ -685,21 +657,20 @@ public abstract class GraphView extends View {
         startX = mLeftPadding + (mData[set][0][index] - mMinX) * graphWidth / mDataXWidth;
         endX = mLeftPadding + (mData[set][0][index + 1] - mMinX) * graphWidth / mDataXWidth;
 
-        if(Float.isNaN(mData[set][1][index])) {
-        	// Note that unless drawPlot is overridden, we should just skip over this anyway when we come to draw it
-        	startY = mTopPadding + graphHeight;
+        if (Float.isNaN(mData[set][1][index])) {
+            // Note that unless drawPlot is overridden, we should just skip over this anyway when we come to draw it
+            startY = mTopPadding + graphHeight;
         } else {
-        	startY = mTopPadding + graphHeight - (mData[set][1][index] - mMinY) * graphHeight / mDataYHeight;
+            startY = mTopPadding + graphHeight - (mData[set][1][index] - mMinY) * graphHeight / mDataYHeight;
         }
 
-        if(Float.isNaN(mData[set][1][index + 1])) {
-        	endY = mTopPadding + graphHeight;
+        if (Float.isNaN(mData[set][1][index + 1])) {
+            endY = mTopPadding + graphHeight;
         } else {
-        	endY = mTopPadding + graphHeight - (mData[set][1][index + 1] - mMinY) * graphHeight / mDataYHeight;
+            endY = mTopPadding + graphHeight - (mData[set][1][index + 1] - mMinY) * graphHeight / mDataYHeight;
         }
 
-        float[] coords = {startX, startY, endX, endY};
-        return coords;
+        return new float[]{startX, startY, endX, endY};
     }
 
     // This will be implemented in child classes
@@ -707,13 +678,13 @@ public abstract class GraphView extends View {
 
     // This will be implemented in child classes
     protected abstract void drawAscendingSection(Canvas canvas, float[] coords);
-    
-	/**
-	 * Returns the width of the graph.
-	 * 
-	 * @return The width of the graph in pixels.
-	 */
+
+    /**
+     * Returns the width of the graph.
+     *
+     * @return The width of the graph in pixels.
+     */
     public float getGraphWidth() {
-    	return graphWidth;
+        return graphWidth;
     }
 }

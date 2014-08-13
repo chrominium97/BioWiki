@@ -37,20 +37,18 @@ import com.nineoldandroids.view.ViewHelper;
 public abstract class AnimationAdapter extends BaseAdapterDecorator {
 
     protected static final long DEFAULTANIMATIONDELAYMILLIS = 100;
+    private long mAnimationDelayMillis = DEFAULTANIMATIONDELAYMILLIS;
     protected static final long DEFAULTANIMATIONDURATIONMILLIS = 300;
+    private long mAnimationDurationMillis = DEFAULTANIMATIONDURATIONMILLIS;
     private static final long INITIALDELAYMILLIS = 150;
+    private long mInitialDelayMillis = INITIALDELAYMILLIS;
     private static final String ALPHA = "alpha";
-
     private final SparseArray<Animator> mAnimators;
     private long mAnimationStartMillis;
     private int mFirstAnimatedPosition;
     private int mLastAnimatedPosition;
     private boolean mHasParentAnimationAdapter;
     private boolean mShouldAnimate = true;
-
-    private long mInitialDelayMillis = INITIALDELAYMILLIS;
-    private long mAnimationDelayMillis = DEFAULTANIMATIONDELAYMILLIS;
-    private long mAnimationDurationMillis = DEFAULTANIMATIONDURATIONMILLIS;
 
     public AnimationAdapter(final BaseAdapter baseAdapter) {
         super(baseAdapter);
@@ -84,6 +82,7 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
 
     /**
      * Set whether to animate the {@link View}s or not.
+     *
      * @param shouldAnimate true if the Views should be animated.
      */
     public void setShouldAnimate(final boolean shouldAnimate) {
@@ -93,6 +92,7 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
     /**
      * Set the starting position for which items should animate. Given position will animate as well.
      * Will also call setShouldAnimate(true).
+     *
      * @param position the position.
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -244,6 +244,7 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
 
     /**
      * Set the delay in milliseconds before the first animation should start. Defaults to {@value #INITIALDELAYMILLIS}.
+     *
      * @param delayMillis the time in milliseconds.
      */
     public void setInitialDelayMillis(final long delayMillis) {
@@ -259,6 +260,7 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
 
     /**
      * Set the delay in milliseconds before an animation of a view should start. Defaults to {@value #DEFAULTANIMATIONDELAYMILLIS}.
+     *
      * @param delayMillis the time in milliseconds.
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -275,6 +277,7 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
 
     /**
      * Set the duration of the animation in milliseconds. Defaults to {@value #DEFAULTANIMATIONDURATIONMILLIS}.
+     *
      * @param durationMillis the time in milliseconds.
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -286,10 +289,8 @@ public abstract class AnimationAdapter extends BaseAdapterDecorator {
      * Get the Animators to apply to the views. In addition to the returned
      * Animators, an alpha transition will be applied to the view.
      *
-     * @param parent
-     *            The parent of the view
-     * @param view
-     *            The view that will be animated, as retrieved by getView()
+     * @param parent The parent of the view
+     * @param view   The view that will be animated, as retrieved by getView()
      */
     public abstract Animator[] getAnimators(ViewGroup parent, View view);
 }

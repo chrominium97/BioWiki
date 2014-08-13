@@ -44,12 +44,11 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
+import kr.kdev.dg1s.biowiki.ui.info.categorization.SearchByHabitatActivity;
 import kr.kdev.dg1s.biowiki.ui.info.chart.ChartViewActivity;
 import kr.kdev.dg1s.biowiki.ui.info.classification.SearchByAttributeActivity;
-import kr.kdev.dg1s.biowiki.ui.info.categorization.SearchByHabitatActivity;
-import kr.kdev.dg1s.biowiki.ui.info.viewer.SearchResultsViewerActivity;
-import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
 import kr.kdev.dg1s.biowiki.ui.info.distribution.DistributionViewer;
+import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
 import kr.kdev.dg1s.biowiki.util.DisplayUtils;
@@ -173,7 +172,6 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
         mMenuItems.add(new CategoryItem());
         mMenuItems.add(new MapsItem());
         mMenuItems.add(new DictionaryItem());
-        mMenuItems.add(new TemporaryItem());
         mMenuItems.add(new ChartItem());
     }
 
@@ -730,14 +728,14 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
             boolean connected = false;
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-            if (netInfo != null && netInfo.getState()==NetworkInfo.State.CONNECTED) {
-                connected= true;
-            }else {
+            if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            } else {
                 netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                if(netInfo!=null && netInfo.getState()==NetworkInfo.State.CONNECTED)
-                    connected= true;
+                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED)
+                    connected = true;
             }
-            if (connected){
+            if (connected) {
                 Intent intent = new Intent(BIActionBarActivity.this, DistributionViewer.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivityWithDelay(intent);
@@ -794,34 +792,9 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
         }
     }
 
-    private class TemporaryItem extends MenuDrawerItem {
-        TemporaryItem() {
-            super(DICTIONARY_ACTIVITY, R.string.dictionaryItem, R.drawable.dashboard_search);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BIActionBarActivity.this instanceof SearchResultsViewerActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BIActionBarActivity.this instanceof SearchResultsViewerActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, SearchResultsViewerActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
     private class ChartItem extends MenuDrawerItem {
         ChartItem() {
-            super(CHART_ACTIVITY, R.string.dictionaryItem, R.drawable.dashboard_search);
+            super(CHART_ACTIVITY, R.string.habitatItem, R.drawable.dashboard_search);
         }
 
         @Override

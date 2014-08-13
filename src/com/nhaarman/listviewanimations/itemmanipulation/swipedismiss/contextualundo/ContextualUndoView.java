@@ -62,12 +62,12 @@ public class ContextualUndoView extends FrameLayout {
         return mContentView;
     }
 
-    public void setItemId(final long itemId) {
-        this.mItemId = itemId;
-    }
-
     public long getItemId() {
         return mItemId;
+    }
+
+    public void setItemId(final long itemId) {
+        this.mItemId = itemId;
     }
 
     public boolean isContentDisplayed() {

@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
-    <uk.ac.cam.cl.dtg.snowdon.HeatMapView android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:id="@+id/graph"
-        android:longClickable="false" android:layout_margin="10dp"
-        android:layout_marginBottom="45dp"/>
-    <uk.ac.cam.cl.dtg.snowdon.HeatMapLegendView
-        android:id="@+id/legend"
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:background="@color/light_gray"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="@id/graph"/>
-</RelativeLayout>
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:layout_margin="15dp"
+        android:paddingBottom="50dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <uk.ac.cam.cl.dtg.snowdon.LineGraphView
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/graph"
+            android:longClickable="false"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="45dp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:background="@drawable/card_background_white"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="2">
+
+        <kr.kdev.dg1s.biowiki.ui.info.common.utils.AutoResizingTextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/startDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="시작"/>
+        <kr.kdev.dg1s.biowiki.ui.info.common.utils.AutoResizingTextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:id="@+id/endDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="끝"/>
+    </LinearLayout>
+</merge>

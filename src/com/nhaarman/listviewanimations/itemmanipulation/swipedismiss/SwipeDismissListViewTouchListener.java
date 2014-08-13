@@ -48,7 +48,7 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
  * because by default it handles touches for its list items... i.e. it's in
  * charge of drawing the pressed state (the list selector), handling list item
  * clicks, etc.
- *
+ * <p/>
  * For performance reasons, do not use this class directly, but use the {@link com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter}.
  */
 @SuppressLint("Recycle")
@@ -59,15 +59,13 @@ public class SwipeDismissListViewTouchListener implements SwipeOnTouchListener {
     private final int mSlop;
     private final int mMinFlingVelocity;
     private final int mMaxFlingVelocity;
-    protected long mAnimationTime;
-
     // Fixed properties
     private final AbsListView mListView;
     private final OnDismissCallback mCallback;
-    private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
-
+    protected long mAnimationTime;
     // Transient properties
     protected List<PendingDismissData> mPendingDismisses = new ArrayList<PendingDismissData>();
+    private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
     private int mDismissAnimationRefCount = 0;
     private float mDownX;
     private float mDownY;
@@ -88,11 +86,9 @@ public class SwipeDismissListViewTouchListener implements SwipeOnTouchListener {
     /**
      * Constructs a new swipe-to-dismiss touch listener for the given list view.
      *
-     * @param listView
-     *            The list view whose items should be dismissable.
-     * @param callback
-     *            The callback to trigger when the user has indicated that she
-     *            would like to dismiss one or more list items.
+     * @param listView The list view whose items should be dismissable.
+     * @param callback The callback to trigger when the user has indicated that she
+     *                 would like to dismiss one or more list items.
      */
     public SwipeDismissListViewTouchListener(final AbsListView listView, final OnDismissCallback callback, final SwipeOnScrollListener onScroll) {
         ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
@@ -118,6 +114,7 @@ public class SwipeDismissListViewTouchListener implements SwipeOnTouchListener {
 
     /**
      * Set the {@link com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.DismissableManager} to specify which views can or cannot be swiped.
+     *
      * @param dismissableManager null for no restrictions.
      */
     @SuppressWarnings("UnusedDeclaration")
@@ -349,43 +346,6 @@ public class SwipeDismissListViewTouchListener implements SwipeOnTouchListener {
         return false;
     }
 
-    protected class PendingDismissData implements Comparable<PendingDismissData> {
-        public final int position;
-        public final View view;
-
-        public PendingDismissData(final int position, final View view) {
-            this.position = position;
-            this.view = view;
-        }
-
-        @Override
-        public int compareTo(final PendingDismissData other) {
-            // Sort by descending position
-            return other.position - position;
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + position;
-            return result;
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (((Object) this).getClass() != obj.getClass())
-                return false;
-            PendingDismissData other = (PendingDismissData) obj;
-            return position == other.position;
-        }
-
-    }
-
     protected void onDismiss(final PendingDismissData data) {
         // default behaviour
         performDismiss(data);
@@ -465,5 +425,42 @@ public class SwipeDismissListViewTouchListener implements SwipeOnTouchListener {
 
     public void notifyDataSetChanged() {
         mVirtualListCount = mListView.getAdapter().getCount();
+    }
+
+    protected class PendingDismissData implements Comparable<PendingDismissData> {
+        public final int position;
+        public final View view;
+
+        public PendingDismissData(final int position, final View view) {
+            this.position = position;
+            this.view = view;
+        }
+
+        @Override
+        public int compareTo(final PendingDismissData other) {
+            // Sort by descending position
+            return other.position - position;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + position;
+            return result;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (((Object) this).getClass() != obj.getClass())
+                return false;
+            PendingDismissData other = (PendingDismissData) obj;
+            return position == other.position;
+        }
+
     }
 }
