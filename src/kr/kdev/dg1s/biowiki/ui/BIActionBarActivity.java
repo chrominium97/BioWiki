@@ -70,7 +70,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
     protected static final String LAST_ACTIVITY_PREFERENCE = "bi_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
 
-    String title = "BioInfo";
+    public String title = "BioInfo";
 
     /**
      * AuthenticatorRequest code used when no accounts exist, and user is prompted to add an

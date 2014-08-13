@@ -17,8 +17,6 @@ import uk.ac.cam.cl.dtg.snowdon.LineGraphView;
 
 public class ChartViewActivity extends BIActionBarActivity {
 
-    String title = "서식환경";
-
     String xData;
     String yData;
 
@@ -89,10 +87,13 @@ public class ChartViewActivity extends BIActionBarActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        title = "떡우";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph);
 
         random = new Random();
+
+        mGraph = (LineGraphView) findViewById(R.id.graph);
 
         float[][] data1 = {{0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f}, {10.0f, 8.0f, 12.0f, 12.0f, 6.0f, 5.0f}};
         float[][] data2 = {{0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 7.0f}, {8.0f, 4.0f, 11.0f, 10.0f, 5.0f, 2.0f}};
@@ -107,7 +108,7 @@ public class ChartViewActivity extends BIActionBarActivity {
         // Add the third dataset, which includes NaNs to signify a gap in the data
         mGraph.addData(data3, Float.NaN, Float.NaN, Float.NaN, Float.NaN);
 
-        mGraph = (LineGraphView) findViewById(R.id.graph);
+        mGraph.redraw();
 
         startDay = (AutoResizingTextView) findViewById(R.id.startDate);
         startDay.setOnClickListener(new View.OnClickListener() {
