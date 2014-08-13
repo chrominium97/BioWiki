@@ -17,6 +17,8 @@ import uk.ac.cam.cl.dtg.snowdon.LineGraphView;
 
 public class ChartViewActivity extends BIActionBarActivity {
 
+    String title = "서식환경";
+
     String xData;
     String yData;
 
@@ -91,6 +93,19 @@ public class ChartViewActivity extends BIActionBarActivity {
         setContentView(R.layout.graph);
 
         random = new Random();
+
+        float[][] data1 = {{0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f}, {10.0f, 8.0f, 12.0f, 12.0f, 6.0f, 5.0f}};
+        float[][] data2 = {{0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 7.0f}, {8.0f, 4.0f, 11.0f, 10.0f, 5.0f, 2.0f}};
+        float[][] data3 = {{0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 7.0f}, {3.0f, 1.0f, 3.0f, Float.NaN, 2.0f, 7.0f}};
+
+        // The first dataset must be inputted into the graph using setData to replace the placeholder data already there
+        mGraph.setData(new float[][][]{data1}, 0, 5, 0, 15);
+
+        // We want to add the second data set, but only adjust the max x value as all the other stay the same, so we input NaNs in their place
+        mGraph.addData(data2, Float.NaN, 7, Float.NaN, Float.NaN);
+
+        // Add the third dataset, which includes NaNs to signify a gap in the data
+        mGraph.addData(data3, Float.NaN, Float.NaN, Float.NaN, Float.NaN);
 
         mGraph = (LineGraphView) findViewById(R.id.graph);
 

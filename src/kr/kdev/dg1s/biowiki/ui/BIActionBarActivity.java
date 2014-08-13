@@ -69,6 +69,9 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
     protected static final int CHART_ACTIVITY = 4;
     protected static final String LAST_ACTIVITY_PREFERENCE = "bi_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
+
+    String title = "BioInfo";
+
     /**
      * AuthenticatorRequest code used when no accounts exist, and user is prompted to add an
      * account.
@@ -165,6 +168,8 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setTitle(title);
 
         // configure all the available menu items
 

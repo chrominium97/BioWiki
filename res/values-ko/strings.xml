@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="flower">꽃</string>
+    <string name="leaf">잎</string>
+    <string name="fruit">열매</string>
+
     <!-- chart -->
     <string name="select_data">%s축에 표시될 데이터</string>
 

@@ -12,6 +12,10 @@
     <string name="server_subdomain" translatable="false">/repo</string>
     <string name="distribution_sample" translatable="false">/sample.xml</string>
 
+    <string name="flower">Flower</string>
+    <string name="leaf">Leaf</string>
+    <string name="fruit">Fruit</string>
+
     <!-- chart -->
     <string name="select_data">Data for the %s axis.</string>
 

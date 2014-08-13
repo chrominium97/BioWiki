@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -93,6 +94,21 @@ public class AttributeSelectionFragment extends SherlockFragment {
         return inflater.inflate(R.layout.fragment_attribute_selector, container, false);
     }
 
+    public void onClick (View view) {
+        switch (view.getId()) {
+            case R.id.button_flower:
+                pager.setCurrentItem(0, true);
+                break;
+            case R.id.button_leaf:
+                pager.setCurrentItem(1, true);
+                break;
+            case R.id.button_fruit:
+                pager.setCurrentItem(2, true);
+                break           ;
+        }
+        Toast.makeText(context, "NO!", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -154,7 +170,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
-                pager.getParent().requestDisallowInterceptTouchEvent(true);
+                //pager.getParent().requestDisallowInterceptTouchEvent(true);
             }
 
             @Override

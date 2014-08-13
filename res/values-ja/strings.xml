@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="flower">花</string>
+    <string name="leaf">葉</string>
+    <string name="fruit">果実</string>
+
     <!-- chart -->
     <string name="select_data">%s軸に表現されるデータ</string>
 
