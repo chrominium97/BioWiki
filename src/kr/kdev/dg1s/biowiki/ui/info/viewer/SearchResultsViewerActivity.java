@@ -75,8 +75,8 @@ public class SearchResultsViewerActivity extends CustomListActivity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) { // original
+        title = getResources().getString(R.string.searchResultsTitle);
         super.onCreate(savedInstanceState);
-
         validateData(getIntent());
 
         if (hasResults) {

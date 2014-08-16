@@ -6,7 +6,12 @@
     <string name="fruit">果実</string>
 
     <!-- chart -->
+    <string name="view_habitat">生息環境情報</string>
     <string name="select_data">%s軸に表現されるデータ</string>
+    <string name="select_start_date">開始日付を先に設定してください。</string>
+    <string name="select_conditions_first">データを表示するには\n日付を設定してください。</string>
+    <string name="starting_date">開始日付</string>
+    <string name="ending_date">終了日付</string>
 
     <string name="no_network_title">接続問題</string>
     <string name="no_network_desc">この機能を最大に使うにはインターネット接続が必要です。</string>
@@ -20,7 +25,9 @@
     <string name="dictionaryItem">植物同定</string>
     <string name="mapsItem">分布図</string>
     <string name="classificationItem">植物図鑑</string>
-    <string name="habitatItem">環境</string>
+    <string name="habitatTitle">生息環境</string>
+    <string name="searchResultsTitle">検索結果</string>
+    <string name="plantInformationTitle">植物情報</string>
 
     <string name="biowiki_welcome">BioWikiへようこそ。</string>
     <string name="biowiki_welcome_desc">左から右へスワイプして機能を表現します。</string>

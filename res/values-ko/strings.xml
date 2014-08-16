@@ -6,7 +6,12 @@
     <string name="fruit">열매</string>
 
     <!-- chart -->
+    <string name="view_habitat">서식환경정보</string>
     <string name="select_data">%s축에 표시될 데이터</string>
+    <string name="select_start_date">시작날짜를 먼저 설정해주세요.</string>
+    <string name="select_conditions_first">데이터를 보려면\n날짜를 설쟁해주세요.</string>
+    <string name="starting_date">시작날짜</string>
+    <string name="ending_date">종료날짜</string>
 
     <string name="no_network_title">접속문제</string>
     <string name="no_network_desc">이 기능을 완전히 사용하려면 인터넷 접속이 필요합니다.</string>
@@ -20,7 +25,9 @@
     <string name="dictionaryItem">식물동정</string>
     <string name="mapsItem">분포도</string>
     <string name="classificationItem">식물도감</string>
-    <string name="habitatItem">서식환경</string>
+    <string name="habitatTitle">서식환경</string>
+    <string name="searchResultsTitle">검색결과</string>
+    <string name="plantInformationTitle">식물정보</string>
 
     <string name="biowiki_welcome">BioWiki에 오신 것을 환영합니다.</string>
     <string name="biowiki_welcome_desc">왼쪽에서 오른쪽으로 밀어서 기능을 볼 수 있습니다.</string>

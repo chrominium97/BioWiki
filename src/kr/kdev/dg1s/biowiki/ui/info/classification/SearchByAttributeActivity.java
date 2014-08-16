@@ -16,7 +16,6 @@ import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.info.classification.fragments.AttributeSelectionFragment;
-import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationFragment;
 import kr.kdev.dg1s.biowiki.ui.info.viewer.SearchResultsViewerActivity;
 import kr.kdev.dg1s.biowiki.util.ToastUtils;
 
@@ -27,6 +26,8 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        title = getString(R.string.dictionaryItem);
+
         super.onCreate(savedInstanceState);
         createMenuDrawer(R.layout.blank_linearlayout);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -98,16 +99,6 @@ public class SearchByAttributeActivity extends BIActionBarActivity implements At
         }
         if (logLevel > LOG_LEVEL_NONE)
             Log.d("COMPARISION", "----------------------END OF COMPARISION----------------------");
-
-        /**
-         Bundle bundle = new Bundle();
-         bundle.putString("plant", "미나리");
-         informationFragment.setArguments(bundle);
-         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-         transaction.replace(R.id.selector_category, informationFragment);
-         transaction.addToBackStack(null);
-         transaction.commit();
-         */
 
         Intent intent = new Intent(this, SearchResultsViewerActivity.class);
         intent.putExtra("plants", unfilteredPlants);

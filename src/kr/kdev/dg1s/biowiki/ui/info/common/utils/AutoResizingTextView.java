@@ -14,20 +14,7 @@ import android.util.TypedValue;
 import android.widget.TextView;
 
 public class AutoResizingTextView extends TextView {
-    private interface SizeTester {
-        /**
-         *
-         * @param suggestedSize
-         *            Size of text to be tested
-         * @param availableSpace
-         *            available space in which text must fit
-         * @return an integer < 0 if after applying {@code suggestedSize} to
-         *         text, it takes less space than {@code availableSpace}, > 0
-         *         otherwise
-         */
-        public int onTestSize(int suggestedSize, RectF availableSpace);
-    }
-
+    private static final int NO_LINE_LIMIT = -1;
     private RectF mTextRect = new RectF();
 
     private RectF mAvailableSpaceRect;
@@ -45,142 +32,6 @@ public class AutoResizingTextView extends TextView {
     private float mMinTextSize = 20;
 
     private int mWidthLimit;
-
-    private static final int NO_LINE_LIMIT = -1;
-    private int mMaxLines;
-
-    private boolean mEnableSizeCache = true;
-    private boolean mInitiallized;
-
-    public AutoResizingTextView(Context context) {
-        super(context);
-        initialize();
-    }
-
-    public AutoResizingTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initialize();
-    }
-
-    public AutoResizingTextView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        initialize();
-    }
-
-    private void initialize() {
-        mPaint = new TextPaint(getPaint());
-        mMaxTextSize = getTextSize();
-        mAvailableSpaceRect = new RectF();
-        mTextCachedSizes = new SparseIntArray();
-        if (mMaxLines == 0) {
-            // no value was assigned during construction
-            mMaxLines = NO_LINE_LIMIT;
-        }
-        mInitiallized = true;
-    }
-
-    @Override
-    public void setText(final CharSequence text, BufferType type) {
-        super.setText(text, type);
-        adjustTextSize(text.toString());
-    }
-
-    @Override
-    public void setTextSize(float size) {
-        mMaxTextSize = size;
-        mTextCachedSizes.clear();
-        adjustTextSize(getText().toString());
-    }
-
-    @Override
-    public void setMaxLines(int maxlines) {
-        super.setMaxLines(maxlines);
-        mMaxLines = maxlines;
-        reAdjust();
-    }
-
-    public int getMaxLines() {
-        return mMaxLines;
-    }
-
-    @Override
-    public void setSingleLine() {
-        super.setSingleLine();
-        mMaxLines = 1;
-        reAdjust();
-    }
-
-    @Override
-    public void setSingleLine(boolean singleLine) {
-        super.setSingleLine(singleLine);
-        if (singleLine) {
-            mMaxLines = 1;
-        } else {
-            mMaxLines = NO_LINE_LIMIT;
-        }
-        reAdjust();
-    }
-
-    @Override
-    public void setLines(int lines) {
-        super.setLines(lines);
-        mMaxLines = lines;
-        reAdjust();
-    }
-
-    @Override
-    public void setTextSize(int unit, float size) {
-        Context c = getContext();
-        Resources r;
-
-        if (c == null)
-            r = Resources.getSystem();
-        else
-            r = c.getResources();
-        mMaxTextSize = TypedValue.applyDimension(unit, size,
-                r.getDisplayMetrics());
-        mTextCachedSizes.clear();
-        adjustTextSize(getText().toString());
-    }
-
-    @Override
-    public void setLineSpacing(float add, float mult) {
-        super.setLineSpacing(add, mult);
-        mSpacingMult = mult;
-        mSpacingAdd = add;
-    }
-
-    /**
-     * Set the lower text size limit and invalidate the view
-     *
-     * @param minTextSize
-     */
-    public void setMinTextSize(float minTextSize) {
-        mMinTextSize = minTextSize;
-        reAdjust();
-    }
-
-    private void reAdjust() {
-        adjustTextSize(getText().toString());
-    }
-
-    private void adjustTextSize(String string) {
-        if (!mInitiallized) {
-            return;
-        }
-        int startSize = (int) mMinTextSize;
-        int heightLimit = getMeasuredHeight() - getCompoundPaddingBottom()
-                - getCompoundPaddingTop();
-        mWidthLimit = getMeasuredWidth() - getCompoundPaddingLeft()
-                - getCompoundPaddingRight();
-        mAvailableSpaceRect.right = mWidthLimit;
-        mAvailableSpaceRect.bottom = heightLimit;
-        super.setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                efficientTextSizeSearch(startSize, (int) mMaxTextSize,
-                        mSizeTester, mAvailableSpaceRect));
-    }
-
     private final SizeTester mSizeTester = new SizeTester() {
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         @Override
@@ -220,36 +71,24 @@ public class AutoResizingTextView extends TextView {
             }
         }
     };
+    private int mMaxLines;
 
-    /**
-     * Enables or disables size caching, enabling it will improve performance
-     * where you are animating a value inside TextView. This stores the font
-     * size against getText().length() Be careful though while enabling it as 0
-     * takes more space than 1 on some fonts and so on.
-     *
-     * @param enable
-     *            enable font size caching
-     */
-    public void enableSizeCache(boolean enable) {
-        mEnableSizeCache = enable;
-        mTextCachedSizes.clear();
-        adjustTextSize(getText().toString());
+    private boolean mEnableSizeCache = true;
+    private boolean mInitiallized;
+
+    public AutoResizingTextView(Context context) {
+        super(context);
+        initialize();
     }
 
-    private int efficientTextSizeSearch(int start, int end,
-                                        SizeTester sizeTester, RectF availableSpace) {
-        if (!mEnableSizeCache) {
-            return binarySearch(start, end, sizeTester, availableSpace);
-        }
-        String text = getText().toString();
-        int key = text == null ? 0 : text.length();
-        int size = mTextCachedSizes.get(key);
-        if (size != 0) {
-            return size;
-        }
-        size = binarySearch(start, end, sizeTester, availableSpace);
-        mTextCachedSizes.put(key, size);
-        return size;
+    public AutoResizingTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initialize();
+    }
+
+    public AutoResizingTextView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        initialize();
     }
 
     private static int binarySearch(int start, int end, SizeTester sizeTester,
@@ -277,6 +116,151 @@ public class AutoResizingTextView extends TextView {
 
     }
 
+    private void initialize() {
+        mPaint = new TextPaint(getPaint());
+        mMaxTextSize = getTextSize();
+        mAvailableSpaceRect = new RectF();
+        mTextCachedSizes = new SparseIntArray();
+        if (mMaxLines == 0) {
+            // no value was assigned during construction
+            mMaxLines = NO_LINE_LIMIT;
+        }
+        mInitiallized = true;
+    }
+
+    @Override
+    public void setText(final CharSequence text, BufferType type) {
+        super.setText(text, type);
+        adjustTextSize();
+    }
+
+    @Override
+    public void setTextSize(float size) {
+        mMaxTextSize = size;
+        mTextCachedSizes.clear();
+        adjustTextSize();
+    }
+
+    public int getMaxLines() {
+        return mMaxLines;
+    }
+
+    @Override
+    public void setMaxLines(int maxlines) {
+        super.setMaxLines(maxlines);
+        mMaxLines = maxlines;
+        reAdjust();
+    }
+
+    @Override
+    public void setSingleLine() {
+        super.setSingleLine();
+        mMaxLines = 1;
+        reAdjust();
+    }
+
+    @Override
+    public void setSingleLine(boolean singleLine) {
+        super.setSingleLine(singleLine);
+        if (singleLine) {
+            mMaxLines = 1;
+        } else {
+            mMaxLines = NO_LINE_LIMIT;
+        }
+        reAdjust();
+    }
+
+    @Override
+    public void setLines(int lines) {
+        super.setLines(lines);
+        mMaxLines = lines;
+        reAdjust();
+    }
+
+    @Override
+    public void setTextSize(int unit, float size) {
+        Context c = getContext();
+        Resources r;
+
+        if (c == null)
+            r = Resources.getSystem();
+        else
+            r = c.getResources();
+        mMaxTextSize = TypedValue.applyDimension(unit, size,
+                r.getDisplayMetrics());
+        mTextCachedSizes.clear();
+        adjustTextSize();
+    }
+
+    @Override
+    public void setLineSpacing(float add, float mult) {
+        super.setLineSpacing(add, mult);
+        mSpacingMult = mult;
+        mSpacingAdd = add;
+    }
+
+    /**
+     * Set the lower text size limit and invalidate the view
+     *
+     * @param minTextSize
+     */
+    public void setMinTextSize(float minTextSize) {
+        mMinTextSize = minTextSize;
+        reAdjust();
+    }
+
+    public void reAdjust() {
+        adjustTextSize();
+    }
+
+    private void adjustTextSize() {
+        if (!mInitiallized) {
+            return;
+        }
+        int startSize = (int) mMinTextSize;
+        int heightLimit = getMeasuredHeight() - getCompoundPaddingBottom()
+                - getCompoundPaddingTop();
+        mWidthLimit = getMeasuredWidth() - getCompoundPaddingLeft()
+                - getCompoundPaddingRight();
+        mAvailableSpaceRect.right = mWidthLimit;
+        mAvailableSpaceRect.bottom = heightLimit;
+        super.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                efficientTextSizeSearch(startSize, (int) mMaxTextSize,
+                        mSizeTester, mAvailableSpaceRect)
+        );
+    }
+
+    /**
+     * Enables or disables size caching, enabling it will improve performance
+     * where you are animating a value inside TextView. This stores the font
+     * size against getText().length() Be careful though while enabling it as 0
+     * takes more space than 1 on some fonts and so on.
+     *
+     * @param enable enable font size caching
+     */
+    public void enableSizeCache(boolean enable) {
+        mEnableSizeCache = enable;
+        mTextCachedSizes.clear();
+        adjustTextSize();
+    }
+
+    private int efficientTextSizeSearch(int start, int end,
+                                        SizeTester sizeTester, RectF availableSpace) {
+        if (!mEnableSizeCache) {
+            return binarySearch(start, end, sizeTester, availableSpace);
+        }
+        String text = getText().toString();
+        int key = text == null ? 0 : text.length();
+        int size = mTextCachedSizes.get(key);
+        if (size != 0) {
+            return size;
+        }
+        size = binarySearch(start, end, sizeTester, availableSpace);
+        mTextCachedSizes.put(key, size);
+        return size;
+    }
+
     @Override
     protected void onTextChanged(final CharSequence text, final int start,
                                  final int before, final int after) {
@@ -292,5 +276,16 @@ public class AutoResizingTextView extends TextView {
         if (width != oldwidth || height != oldheight) {
             reAdjust();
         }
+    }
+
+    private interface SizeTester {
+        /**
+         * @param suggestedSize  Size of text to be tested
+         * @param availableSpace available space in which text must fit
+         * @return an integer < 0 if after applying {@code suggestedSize} to
+         * text, it takes less space than {@code availableSpace}, > 0
+         * otherwise
+         */
+        public int onTestSize(int suggestedSize, RectF availableSpace);
     }
 }

@@ -2,7 +2,7 @@
 <resources>
 
     <!-- graph -->
-    <string name="NS" translatable="false">http://schemas.android.com/apk/res/net.snowdon</string>
+    <string name="NS" translatable="false">http://schemas.android.com/apk/res/kr.kdev.dg1s.biowiki</string>
     <!-- END -->
 
     <string name="app_name" translatable="false">BioWiki</string>
@@ -17,7 +17,12 @@
     <string name="fruit">Fruit</string>
 
     <!-- chart -->
+    <string name="view_habitat">Habitat stats</string>
     <string name="select_data">Data for the %s axis.</string>
+    <string name="select_start_date">Set the starting date before this.</string>
+    <string name="select_conditions_first">Please set the dates\nto view the data.</string>
+    <string name="starting_date">Starting date</string>
+    <string name="ending_date">Ending date</string>
 
     <string name="no_network_title">No connection</string>
     <string name="no_network_desc">BioWiki needs an active internet connection to fully use this feature.</string>
@@ -31,7 +36,9 @@
     <string name="dictionaryItem">Dictionary</string>
     <string name="mapsItem">Distribution Chart</string>
     <string name="classificationItem">Classification</string>
-    <string name="habitatItem">Habitat</string>
+    <string name="habitatTitle">Habitat</string>
+    <string name="searchResultsTitle">Search Results</string>
+    <string name="plantInformationTitle">Plant Information</string>
 
     <string name="biowiki_welcome">Welcome to BioWiki.</string>
     <string name="biowiki_welcome_desc">Swipe from left to right to view the features.</string>

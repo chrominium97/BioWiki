@@ -45,9 +45,9 @@ import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.models.Blog;
 import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.info.categorization.SearchByHabitatActivity;
-import kr.kdev.dg1s.biowiki.ui.info.chart.ChartViewActivity;
 import kr.kdev.dg1s.biowiki.ui.info.classification.SearchByAttributeActivity;
 import kr.kdev.dg1s.biowiki.ui.info.distribution.DistributionViewer;
+import kr.kdev.dg1s.biowiki.ui.info.viewer.ChartViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
@@ -69,9 +69,6 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
     protected static final int CHART_ACTIVITY = 4;
     protected static final String LAST_ACTIVITY_PREFERENCE = "bi_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
-
-    public String title = "BioInfo";
-
     /**
      * AuthenticatorRequest code used when no accounts exist, and user is prompted to add an
      * account.
@@ -81,7 +78,6 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
      * AuthenticatorRequest code for reloading menu after returning from  the PreferencesActivity.
      */
     private static final int SETTINGS_REQUEST = 200;
-
     private static int[] blogIDs;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -106,6 +102,7 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
             }
         }
     };
+    public String title = "BioInfo";
     protected MenuDrawer mMenuDrawer;
     protected boolean isAnimatingRefreshButton;
     protected boolean mShouldFinish;
@@ -799,19 +796,19 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
 
     private class ChartItem extends MenuDrawerItem {
         ChartItem() {
-            super(CHART_ACTIVITY, R.string.habitatItem, R.drawable.dashboard_search);
+            super(CHART_ACTIVITY, R.string.habitatTitle, R.drawable.dashboard_search);
         }
 
         @Override
         public Boolean isSelected() {
-            return BIActionBarActivity.this instanceof ChartViewActivity;
+            return BIActionBarActivity.this instanceof ChartViewerActivity;
         }
 
         @Override
         public void onSelectItem() {
             if (!(BIActionBarActivity.this instanceof SearchByAttributeActivity))
                 mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, ChartViewActivity.class);
+            Intent intent = new Intent(BIActionBarActivity.this, ChartViewerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivityWithDelay(intent);
         }

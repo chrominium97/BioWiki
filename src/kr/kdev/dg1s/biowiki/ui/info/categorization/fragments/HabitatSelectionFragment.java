@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 
 import net.htmlparser.jericho.Attribute;
-import net.htmlparser.jericho.Attributes;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.Source;
 
@@ -121,20 +120,21 @@ public class HabitatSelectionFragment extends SherlockFragment {
     }
 
     public ArrayList<String> getDetails(String name) throws IOException {
-        ArrayList<String> export = new ArrayList<String>();
-
         Source plantInfo = new Source(getResources().getAssets().open("xmls/kingdom.xml"));
         Log.d("XML", "Searching for details on " + name);
-        Element element = plantInfo.getFirstElement("name", name, false);
-        if (element == null) {
-            return export;
+        List<Element> plants = plantInfo.getAllElements("species");
+        Log.d("XML", "TOTAL PLANT COUNT : " + String.valueOf(plants.size()));
+        for (Element plant : plants) {
+            if (plant.getAttributeValue("name") != null && plant.getAttributeValue("name").equals(name)) {
+                ArrayList<String> export = new ArrayList<String>();
+                for (Attribute attribute : plant.getAttributes()) {
+                    export.add(attribute.getName());
+                    export.add(attribute.getValue());
+                }
+                return export;
+            }
         }
-        Attributes attributes = element.getAttributes();
-        for (Attribute attribute : attributes) {
-            export.add(attribute.getName());
-            export.add(attribute.getValue());
-        }
-        return export;
+        return new ArrayList<String>();
     }
 
     public void parseXML(String tag, int position) throws IOException {

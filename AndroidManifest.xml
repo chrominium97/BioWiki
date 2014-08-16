@@ -73,7 +73,7 @@
         <activity android:name=".ui.info.distribution.DistributionViewerActivity" />
         <activity android:name=".ui.info.distribution.DistributionViewer" />
 
-        <activity android:name=".ui.info.chart.ChartViewActivity" />
+        <activity android:name=".ui.info.viewer.ChartViewerActivity" />
         <activity android:name=".ui.info.viewer.SearchResultsViewerActivity" />
 
         <!-- Viewers -->

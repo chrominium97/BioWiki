@@ -1,6 +1,7 @@
 package kr.kdev.dg1s.biowiki.ui.info.viewer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -34,6 +35,7 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.info.categorization.SearchByHabitatActivity;
 
 public class PlantInformationViewerActivity extends BIActionBarActivity {
 
@@ -50,6 +52,7 @@ public class PlantInformationViewerActivity extends BIActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        title = getString(R.string.plantInformationTitle);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bioinfo_plant_details);
 
@@ -138,12 +141,24 @@ public class PlantInformationViewerActivity extends BIActionBarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Menu is defined inside 'res/menu/...xml
+        getSupportMenuInflater().inflate(R.menu.plant_viewer, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem menu) {
-        if (menu.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(menu);
+        switch (menu.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.gotoChart:
+                Intent intent = new Intent(this, ChartViewerActivity.class);
+                startActivityWithDelay(intent);
+                return true;
+            default: return super.onOptionsItemSelected(menu);
         }
     }
 

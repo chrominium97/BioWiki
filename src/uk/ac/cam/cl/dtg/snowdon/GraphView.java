@@ -190,20 +190,20 @@ public abstract class GraphView extends View {
         mXAxisLabelOffset = attributes.getAttributeFloatValue(customSchemaLocation, "graph_x_axis_label_offset", 0.0f);
         mYAxisLabelOffset = attributes.getAttributeFloatValue(customSchemaLocation, "graph_y_axis_label_offset", 0.0f);
 
-        mAxisLabelPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_axis_label_colour", 0xFFFFFFFF));
+        mAxisLabelPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_axis_label_colour", 0xFF000000));
         mAxisLabelTextSize = attributes.getAttributeFloatValue(customSchemaLocation, "graph_axis_label_text_size", 20.0f);
         mAxisLabelPaint.setTextSize(mAxisLabelTextSize);
         mAxisLabelPaint.setAntiAlias(attributes.getAttributeBooleanValue(customSchemaLocation, "graph_axis_label_anti_alias", true));
 
         mBackgroundPaint.setColor(attributes.getAttributeIntValue("http://schemas.android.com/apk/res/android", "background", 0x00000000));
 
-        mAxesPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_axes_colour", 0xFFFFFFFF));
+        mAxesPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_axes_colour", 0xFF000000));
         mAxesPaint.setTextSize(attributes.getAttributeFloatValue(customSchemaLocation, "graph_axes_text_size", 20.0f));
         mAxesPaintAntiAlias = attributes.getAttributeBooleanValue(customSchemaLocation, "graph_axes_anti_alias", true);
         mAxesPaint.setAntiAlias(mAxesPaintAntiAlias);
         mAxesPaint.setStrokeWidth(attributes.getAttributeFloatValue(customSchemaLocation, "graph_axes_stroke_width", 2.0f));
 
-        mGridlinesPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_gridlines_colour", 0xFFFFFFFF));
+        mGridlinesPaint.setColor(attributes.getAttributeIntValue(customSchemaLocation, "graph_gridlines_colour", 0xFF555555));
         mGridlinesPaint.setAntiAlias(attributes.getAttributeBooleanValue(customSchemaLocation, "graph_gridlines_anti_alias", false));
         mGridlinesPaint.setStrokeWidth(attributes.getAttributeFloatValue(customSchemaLocation, "graph_gridlines_stroke_width", 1.0f));
         mGridlinesPaint.setStrokeCap(Paint.Cap.SQUARE);

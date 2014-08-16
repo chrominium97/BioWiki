@@ -94,7 +94,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
         return inflater.inflate(R.layout.fragment_attribute_selector, container, false);
     }
 
-    public void onClick (View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_flower:
                 pager.setCurrentItem(0, true);
@@ -104,7 +104,7 @@ public class AttributeSelectionFragment extends SherlockFragment {
                 break;
             case R.id.button_fruit:
                 pager.setCurrentItem(2, true);
-                break           ;
+                break;
         }
         Toast.makeText(context, "NO!", Toast.LENGTH_SHORT).show();
     }

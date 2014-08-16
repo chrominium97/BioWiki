@@ -9,18 +9,18 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_centerHorizontal="true"
         android:id="@+id/plant_image"
         android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop" />
 
     <RadioButton
-        android:layout_centerHorizontal="true"
         android:id="@+id/radiobtn"
         android:layout_width="wrap_content"
         android:layout_height="35sp"
         android:layout_below="@id/plant_image"
+        android:layout_centerHorizontal="true"
         android:checked="false"
         android:gravity="center_vertical"
         android:text="@android:string/untitled"

@@ -2,55 +2,75 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:background="@color/light_gray"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/light_gray" />
 
     <FrameLayout
-        android:layout_margin="15dp"
-        android:paddingBottom="50dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
 
         <TextView
+            android:id="@+id/info_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="@string/select_conditions_first"/>
 
-        <uk.ac.cam.cl.dtg.snowdon.LineGraphView
-            android:visibility="gone"
+        <uk.ac.cam.cl.dtg.snowdon.LineGraphView xmlns:lineGraph="http://schemas.android.com/apk/res/kr.kdev.dg1s.biowiki"
+            android:id="@+id/graph"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/graph"
-            android:longClickable="false"
             android:layout_margin="10dp"
-            android:layout_marginBottom="45dp" />
+            android:layout_marginBottom="45dp"
+            android:longClickable="false"
+            android:visibility="gone"
+            lineGraph:graph_x_axis_labels="" />
     </FrameLayout>
 
-    <LinearLayout
-        android:background="@drawable/card_background_white"
-        android:layout_gravity="bottom"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="2">
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/card_background_white">
 
         <kr.kdev.dg1s.biowiki.ui.info.common.utils.AutoResizingTextView
             android:gravity="center"
-            android:layout_gravity="center"
-            android:id="@+id/startDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:text="시작"/>
-        <kr.kdev.dg1s.biowiki.ui.info.common.utils.AutoResizingTextView
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:id="@+id/endDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:text="끝"/>
-    </LinearLayout>
+            android:textSize="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="→" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/startDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:text="@string/starting_date" />
+
+            <TextView
+                android:id="@+id/endDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:text="@string/ending_date" />
+        </LinearLayout>
+    </FrameLayout>
+
 </merge>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <kingdom name="식물계">
     <phylum name="겉씨식물문">
         <class name="소철강">
@@ -125,7 +126,7 @@
                             place="습지, 물가, 도랑, 점토질 토양, 양지, 습지" horizon="전국 분포" vertical="산지대 이하"
                             geograph="냉온대~아열대, 중국, 대만, 만주, 일본, 우수리, 사할린, 말레이시아, 자바, 동인도, 호주 등"
                             vegetat="습지식생" preserve="일반감시대상종"
-                            image="DSC_0001.JPG DSC_0002.JPG DSC_0003.JPG DSC_0004.JPG" />
+                            image="DSC_0002.JPG DSC_0003.JPG DSC_0004.JPG" />
                     </genus>
                 </family>
             </order>
@@ -636,7 +637,7 @@
                             place="양지, 모래땅" geograph="남부 유럽과 아시아 등" />
                     </genus>
                     <genus name="범부채속">
-                        <species naem="범부채" stump="높이 40~60cm로 땅속줄기가 옆으로 짧게나마 뻗는다."
+                        <species name="범부채" stump="높이 40~60cm로 땅속줄기가 옆으로 짧게나마 뻗는다."
                             leaf="납작하고 길며 두 줄로 늘어선다."
                             flower="7~8월에 주황색 바탕에 붉은색 점무늬가 있는 ㅗㄲㅊ이 가지 끝에 핀다."
                             fruit="초가을에 달걀 모양 열매가 생기며 씨는 둥글고 검다." place="산과 들, 바닷가" />

@@ -10,19 +10,18 @@ import java.io.IOException;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
 import kr.kdev.dg1s.biowiki.ui.info.categorization.fragments.HabitatSelectionFragment;
-import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationFragment;
 import kr.kdev.dg1s.biowiki.ui.info.viewer.PlantInformationViewerActivity;
 
 public class SearchByHabitatActivity extends BIActionBarActivity implements HabitatSelectionFragment.OnPlantSelectedListener {
-
-    String plantInstance;
 
     HabitatSelectionFragment selectionFragment = new HabitatSelectionFragment();
     boolean isViewingDetails = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        title = getString(R.string.classificationItem);
         super.onCreate(savedInstanceState);
+
         createMenuDrawer(R.layout.blank_linearlayout);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.selector_category, selectionFragment);
