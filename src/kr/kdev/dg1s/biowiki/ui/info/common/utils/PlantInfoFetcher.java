@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 
 public class PlantInfoFetcher {
@@ -22,6 +23,15 @@ public class PlantInfoFetcher {
     public ArrayList<ArrayList<String>> plantDetails;
 
     public PlantInfoFetcher(String plantName, Context context) {
+        if (plantName.equals(Constants.VOID_PLANT)) {
+            plantDetails = new ArrayList<ArrayList<String>>();
+            ArrayList<String> errorMessage = new ArrayList<String>();
+            errorMessage.add(context.getString(R.string.error) + "!");
+            errorMessage.add(context.getString(R.string.no_info));
+            plantDetails.add(errorMessage);
+            return;
+        }
+
         try {
             final Source dictionaryAssets = new Source(context.getResources().getAssets().open("xmls/kingdom.xml"));
             Element element = dictionaryAssets.getFirstElement("name", plantName, false);
@@ -31,7 +41,7 @@ public class PlantInfoFetcher {
             if (attributes.size() == 0) {
                 ArrayList<String> errorMessage = new ArrayList<String>();
                 errorMessage.add(context.getString(R.string.error) + "!");
-                errorMessage.add(context.getString(R.string.no_info));
+                errorMessage.add(context.getString(R.string.no_info_plant));
                 plantDetails.add(errorMessage);
             } else {
                 for (Attribute attribute : attributes) {
@@ -65,7 +75,7 @@ public class PlantInfoFetcher {
             plantDetails = new ArrayList<ArrayList<String>>();
             ArrayList<String> errorMessage = new ArrayList<String>();
             errorMessage.add(context.getString(R.string.error) + "!");
-            errorMessage.add(context.getString(R.string.no_info));
+            errorMessage.add(context.getString(R.string.no_info_plant));
             plantDetails.add(errorMessage);
             Log.e("FETCHER", "NULLPOINTER");
         }
@@ -96,6 +106,16 @@ public class PlantInfoFetcher {
             return "식생형";
         } else if (tag.equals("preserve")) {
             return "종보존등급";
+        } else if (tag.equals("seed")) {
+            return "홀씨";
+        } else if (tag.equals("lamella")) {
+            return "자루";
+        } else if (tag.equals("pileus")) {
+            return "갓";
+        } else if (tag.equals("breed")) {
+            return "번식방법";
+        } else if (tag.equals("feature")) {
+            return "특징";
         } else {
             return "기타";
         }

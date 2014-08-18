@@ -20,7 +20,10 @@
 
     <string name="go_back_required">포스트 작성을 계속하려면 \'뒤로\' 버튼을 눌러주세요.</string>
 
-    <string name="no_info">이 식물에 대한 정보가 없습니다.</string>
+    <string name="no_search_results">검색결과가 없음</string>
+    <string name="no_search_results_desc">모든 조건에 해당하는 식물이 없습니다.</string>
+    <string name="no_info_plant">이 식물에 대한 정보가 없습니다.</string>
+    <string name="no_info">발견된 정보가 없습니다.</string>
     <string name="error_info">정보를 불러오는 도중 문제가 발생했습니다.</string>
 
     <string name="toBioInfo">BioInfo로</string>

@@ -6,16 +6,15 @@ import java.util.Random;
 
 public class ArrayUtils {
 
-    public int regenerateRandomIntegerValues(ArrayList<Integer> arrayList, int dataSize, Random random) {
-        arrayList.clear();
-        arrayList.add(random.nextInt(20));
+    public int regenerateRandomIntegerValues (ArrayList<Integer> arrayList, int dataSize, Random random, int min, int max) {arrayList.clear();
+        arrayList.add(random.nextInt((max - min) + 1) + min);
         for (int i = 0; i < dataSize; i++) {
-            arrayList.add((random.nextInt(20) * 3 + arrayList.get(i)) / 4);
+            arrayList.add(((random.nextInt((max - min) + 1) + min) * 3 + arrayList.get(i)) / 4);
         }
         return Collections.max(arrayList);
     }
 
-    public float regenerateRandomFloatValues(ArrayList<Float> arrayList, int dataSize, Random random) {
+    public float regenerateRandomFloatValues (ArrayList<Float> arrayList, int dataSize, Random random) {
         arrayList.clear();
         arrayList.add(random.nextFloat());
         for (int i = 0; i < dataSize; i++) {

@@ -8,6 +8,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class Constants {
 
+    public static final String VOID_PLANT = "PNEUMONOULTRAMICROSCOPICSILICOVOLCANOCONIOSIS";
+
     public static final DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
             .cacheOnDisc(true)
@@ -507,7 +509,7 @@ public class Constants {
                         "선개불알풀", "개불알풀", "큰개불알풀", "수염가래꽃", "중대가리풀(토방풀)",
                         "한련초", "벗풀", "물달개비", "골풀", "사마귀풀",
                         "뚝새풀", "조개풀", "개피", "돌피(밭피)", "물피(논피)",
-                        "각시그령", "반하(꿩의무릇)", "제비꿀",  "주지꽃(할미꽃)",
+                        "각시그령", "반하(꿩의무릇)", "제비꿀", "주지꽃(할미꽃)",
                         "꿩의다리", "장대나물", "가락지나물(소시랑개비)", "개소시랑개비", "오이풀(외나물)",
                         "비수리", "개싸리", "좀싸리", "개아마", "흰대극",
                         "등대풀", "대극(버들옻)", "애기풀", "사철쑥", "제비쑥",
@@ -540,7 +542,7 @@ public class Constants {
                         "산달래(족지)", "참나리", "물망초", "금낭화"};
 
                 public static String[] SIMPLE_OPPOSITE = {  // 마주나기
-                        "한삼덩굴", "쥐송이풀", "큰땅빈대", "향유(노야기)", "돼지풀","패랭이꽃",
+                        "한삼덩굴", "쥐송이풀", "큰땅빈대", "향유(노야기)", "돼지풀", "패랭이꽃",
                         "큰금계국", "코스모스", "만수국아재비", "털별꽃아재비", "뚱딴지(돼지감자)",
                         "석류풀", "쇠비름", "벼룩이자리", "점나도나물", "벼룩나물",
                         "잣나물", "좀부처꽃", "마디꽃", "광대나물", "쥐깨(풀)", "들깨풀",

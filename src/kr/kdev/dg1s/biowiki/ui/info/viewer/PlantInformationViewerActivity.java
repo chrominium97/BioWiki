@@ -35,6 +35,7 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
+import kr.kdev.dg1s.biowiki.ui.info.common.utils.PlantInfoFetcher;
 
 public class PlantInformationViewerActivity extends BIActionBarActivity {
 
@@ -69,34 +70,30 @@ public class PlantInformationViewerActivity extends BIActionBarActivity {
     }
 
     public void displayContents(String name) {
-        Log.d("XML", "Searching for details on " + name);
-        Element element = dictionaryAssets.getFirstElement("name", name, false);
+        PlantInfoFetcher fetcher = new PlantInfoFetcher(name, context);
 
-        Attributes attributes = element.getAttributes();
-        for (Attribute attribute : attributes) {
-            if (attribute.getName().equals("image")) {
-                if (!(attribute.getValue().equals(""))) {
-                    // Delete all child views and make pager visible
-                    pager.setVisibility(View.VISIBLE);
-                    while (pagerAdapter.getCount() != 0) {
-                        pagerAdapter.removeView(pager, 0);
-                    }
-                    pagerAdapter.notifyDataSetChanged();
-                    for (String filename : Arrays.asList(attribute.getValue().split(" "))) {
-                        ImageView imageView = new ImageView(context);
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        ImageLoader imageLoader = ImageLoader.getInstance();
-                        imageLoader.init(config);
-                        imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + filename.toUpperCase(), imageView);
-                        addView(imageView);
-                    }
-                } else {
-                    pager.setVisibility(View.GONE);
-                }
-            } else {
-                infoContainer.addView(plantDetails(attribute.getName(), attribute.getValue()));
+        if (fetcher.hasImages) {
+            while (pagerAdapter.getCount() != 0) {
+                pagerAdapter.removeView(pager, 0);
             }
+            pagerAdapter.notifyDataSetChanged();
+            for (String fileName : fetcher.images) {
+                ImageView imageView = new ImageView(context);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.init(config);
+                imageLoader.displayImage(BioWiki.getCurrentBlog().getHomeURL() + "repo/IMG/" + fileName, imageView);
+                addView(imageView);
+            }
+            pager.setVisibility(View.VISIBLE);
+        } else {
+            pager.setVisibility(View.GONE);
         }
+
+        for (ArrayList<String> details : fetcher.plantDetails) {
+            infoContainer.addView(plantDetails(details.get(0), details.get(1)));
+        }
+
         TextView plantName = (TextView) infoContainer.findViewById(R.id.plant_name);
         plantName.setText(name);
     }
@@ -106,33 +103,7 @@ public class PlantInformationViewerActivity extends BIActionBarActivity {
                 .inflate(R.layout.plant_detail_adapter, null);
         TextView name = (TextView) plantDetails.findViewById(R.id.name);
         TextView details = (TextView) plantDetails.findViewById(R.id.details);
-        if (token.equals("name")) {
-            name.setText("이름");
-        } else if (token.equals("stump")) {
-            name.setText("줄기");
-        } else if (token.equals("leaf")) {
-            name.setText("잎");
-        } else if (token.equals("flower")) {
-            name.setText("꽃");
-        } else if (token.equals("fruit")) {
-            name.setText("열매");
-        } else if (token.equals("chromo")) {
-            name.setText("핵상");
-        } else if (token.equals("place")) {
-            name.setText("서식지");
-        } else if (token.equals("horizon")) {
-            name.setText("수평분포");
-        } else if (token.equals("vertical")) {
-            name.setText("수직분포");
-        } else if (token.equals("geograph")) {
-            name.setText("식생지리");
-        } else if (token.equals("vegetat")) {
-            name.setText("식생형");
-        } else if (token.equals("preserve")) {
-            name.setText("종보존등급");
-        } else {
-            name.setText("기타");
-        }
+        name.setText(token);
         name.setTextColor(getResources().getColor(R.color.black));
         details.setText(value);
         details.setTextColor(getResources().getColor(R.color.black));
@@ -154,7 +125,7 @@ public class PlantInformationViewerActivity extends BIActionBarActivity {
                 return true;
             case R.id.gotoChart:
                 Intent intent = new Intent(this, ChartViewerActivity.class);
-                startActivityWithDelay(intent);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(menu);

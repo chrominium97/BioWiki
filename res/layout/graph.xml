@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="20sp"
-            android:text="@string/select_conditions_first"/>
+            android:text="@string/select_conditions_first"
+            android:textSize="20sp" />
 
         <uk.ac.cam.cl.dtg.snowdon.LineGraphView xmlns:lineGraph="http://schemas.android.com/apk/res/kr.kdev.dg1s.biowiki"
             android:id="@+id/graph"
@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/card_background_white">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
@@ -45,11 +46,11 @@
             android:layout_marginRight="100dp">
 
             <kr.kdev.dg1s.biowiki.ui.info.common.utils.AutoResizingTextView
-                android:gravity="center"
-                android:textSize="30sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="→" />
+                android:gravity="center"
+                android:text="→"
+                android:textSize="30sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,9 +63,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:textSize="25sp"
                     android:gravity="center"
-                    android:text="@string/starting_date" />
+                    android:text="@string/starting_date"
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/endDate"
@@ -72,9 +73,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:textSize="25sp"
                     android:gravity="center"
-                    android:text="@string/ending_date" />
+                    android:text="@string/ending_date"
+                    android:textSize="25sp" />
             </LinearLayout>
         </FrameLayout>
 
@@ -82,16 +83,16 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_gravity="right">
+
             <TextView
-                android:gravity="center"
-                android:textSize="18sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/habitatTitle" />
-            </FrameLayout>
+                android:gravity="center"
+                android:text="@string/habitatTitle"
+                android:textSize="18sp" />
+        </FrameLayout>
 
     </FrameLayout>
-
 
 
 </merge>

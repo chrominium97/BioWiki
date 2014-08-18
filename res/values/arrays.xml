@@ -5,17 +5,17 @@
         <item>Busan</item>
         <item>Daegu</item>
     </string-array>
-<!--
-    <string-array name="information_x_axis">
-        <item>연</item>
-        <item>월</item>
-        <item>일</item>
-    </string-array>
+    <!--
+        <string-array name="information_x_axis">
+            <item>연</item>
+            <item>월</item>
+            <item>일</item>
+        </string-array>
 
-    <string-array name="information_y_axis">
-        <item>습도</item>
-        <item>온도</item>
-        <item>기압</item>
-    </string-array>
-    -->
+        <string-array name="information_y_axis">
+            <item>습도</item>
+            <item>온도</item>
+            <item>기압</item>
+        </string-array>
+        -->
 </resources>

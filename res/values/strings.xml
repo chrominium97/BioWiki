@@ -31,7 +31,10 @@
 
     <string name="go_back_required">Press \'back\' to continue writing your post.</string>
 
-    <string name="no_info">No information has been found about this plant.</string>
+    <string name="no_search_results">No search results</string>
+    <string name="no_search_results_desc">None of the plants satisfy all the criteria.</string>
+    <string name="no_info_plant">No information has been found about this plant.</string>
+    <string name="no_info">No information has been found.</string>
     <string name="error_info">An error occurred while fetching information.</string>
 
     <string name="toBioInfo">to BioInfo</string>

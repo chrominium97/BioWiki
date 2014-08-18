@@ -38,24 +38,30 @@ public class ChartViewerActivity extends BIActionBarActivity {
     void recalculate(int dataSize) {
         ArrayList<Integer> randomIntegerArray = new ArrayList<Integer>();
 
-        int maxInt1 = arrayUtils.regenerateRandomIntegerValues(randomIntegerArray, dataSize, random);
+        int maxInt1 = arrayUtils.regenerateRandomIntegerValues(randomIntegerArray, dataSize, random, 0, 20);
         float[] integerArray1 = new float[randomIntegerArray.size()];
         arrayUtils.migrateValues(randomIntegerArray, integerArray1);
 
-        int maxInt2 = arrayUtils.regenerateRandomIntegerValues(randomIntegerArray, dataSize, random);
+        int maxInt2 = arrayUtils.regenerateRandomIntegerValues(randomIntegerArray, dataSize, random, 0, 20);
         float[] integerArray2 = new float[randomIntegerArray.size()];
         arrayUtils.migrateValues(randomIntegerArray, integerArray2);
 
-        int maxInt3 = arrayUtils.regenerateRandomIntegerValues(randomIntegerArray, dataSize, random);
+        int maxInt3 = arrayUtils.regenerateRandomIntegerValues(randomIntegerArray, dataSize, random, 0, 20);
         float[] integerArray3 = new float[randomIntegerArray.size()];
         arrayUtils.migrateValues(randomIntegerArray, integerArray3);
+
+        int maxValueRounded = (int) (Math.ceil(
+                Collections.max(Arrays.asList(org.apache.commons.lang.ArrayUtils.toObject(new float[]{maxInt1, maxInt2, maxInt3}))).floatValue()) + 1);
 
         float[][] data1 = {arrayUtils.genericPositions(dataSize), integerArray1};
         float[][] data2 = {arrayUtils.genericPositions(dataSize), integerArray2};
         float[][] data3 = {arrayUtils.genericPositions(dataSize), integerArray3};
 
-        int maxValueRounded = (int) (Math.ceil(
-                Collections.max(Arrays.asList(org.apache.commons.lang.ArrayUtils.toObject(new float[]{maxInt1, maxInt2, maxInt3}))).floatValue()) + 1);
+        float[] distribution = new float[]{};
+
+        lineGraph.setXLabelPositions(arrayUtils.genericAxisIndex(dataSize));
+        //lineGraph.setXLabels(ar);
+
         lineGraph.setData(new float[][][]{data1, data2, data3}, 0, dataSize - 1, 0, maxValueRounded);
         lineGraph.setYLabels(arrayUtils.genericLabels(maxValueRounded));
         lineGraph.setYLabelPositions(arrayUtils.genericAxisIndex(maxValueRounded));

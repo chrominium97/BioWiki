@@ -20,7 +20,10 @@
 
     <string name="go_back_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
 
-    <string name="no_info">この植物についてなんの情報も見つかりませんでした。</string>
+    <string name="no_search_results">検索結果なし</string>
+    <string name="no_search_results_desc">すべての条件を満たしている植物がありません。</string>
+    <string name="no_info_plant">この植物についてなんの情報も見つかりませんでした。</string>
+    <string name="no_info">なんの情報も見つかりませんでした。</string>
     <string name="error_info">情報の読み込み中にエラーが発生しました。</string>
 
     <string name="toBioInfo">BioInfoへ</string>
