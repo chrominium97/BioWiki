@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.actionbarsherlock.view.MenuItem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -35,7 +37,7 @@ public class ChartViewerActivity extends BIActionBarActivity {
 
     void recalculate(int dataSize) {
         ArrayList<Integer> randomIntegerArray = new ArrayList<Integer>();
-        
+
         int maxInt1 = arrayUtils.regenerateRandomIntegerValues(randomIntegerArray, dataSize, random);
         float[] integerArray1 = new float[randomIntegerArray.size()];
         arrayUtils.migrateValues(randomIntegerArray, integerArray1);
@@ -53,7 +55,7 @@ public class ChartViewerActivity extends BIActionBarActivity {
         float[][] data3 = {arrayUtils.genericPositions(dataSize), integerArray3};
 
         int maxValueRounded = (int) (Math.ceil(
-                Collections.max(Arrays.asList(org.apache.commons.lang.ArrayUtils.toObject(new float[]{maxInt1, maxInt2, maxInt3}))).floatValue() * 1.1f));
+                Collections.max(Arrays.asList(org.apache.commons.lang.ArrayUtils.toObject(new float[]{maxInt1, maxInt2, maxInt3}))).floatValue()) + 1);
         lineGraph.setData(new float[][][]{data1, data2, data3}, 0, dataSize - 1, 0, maxValueRounded);
         lineGraph.setYLabels(arrayUtils.genericLabels(maxValueRounded));
         lineGraph.setYLabelPositions(arrayUtils.genericAxisIndex(maxValueRounded));
@@ -113,8 +115,16 @@ public class ChartViewerActivity extends BIActionBarActivity {
         startDayListener = new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-                arg2++;
-                String date = arg1 + "-" + arg2 + "-" + arg3;
+                Calendar calendar = Calendar.getInstance();
+                final int SELECTED_YEAR = Integer.valueOf(String.valueOf(arg1));
+                final int SELECTED_MONTH = Integer.valueOf(String.valueOf(arg2)) + 1;
+                final int SELECTED_DAY = Integer.valueOf(String.valueOf(arg3));
+
+                final int CURRENT_YEAR = calendar.get(Calendar.YEAR);
+                final int CURRENT_MONTH = calendar.get(Calendar.MONTH);
+                final int CURRENT_DAY = calendar.get(Calendar.DAY_OF_MONTH);
+
+                String date = SELECTED_YEAR + "-" + SELECTED_MONTH + "-" + SELECTED_DAY;
                 startingDateText.setText(date);
                 startingDateText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 startingDateSet = true;
@@ -133,14 +143,24 @@ public class ChartViewerActivity extends BIActionBarActivity {
         };
     }
 
-    /**
-     * Called when the activity is first created.
-     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menu) {
+        switch (menu.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(menu);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         title = getString(R.string.habitatTitle);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initializeGlobalVariables();
     }

@@ -20,6 +20,9 @@
 
     <string name="go_back_required">ポストの作成を続けるには、「後ろ」ボタンを押してください。</string>
 
+    <string name="no_info">この植物についてなんの情報も見つかりませんでした。</string>
+    <string name="error_info">情報の読み込み中にエラーが発生しました。</string>
+
     <string name="toBioInfo">BioInfoへ</string>
     <string name="toBioWiki">BioWikiへ</string>
     <string name="dictionaryItem">植物同定</string>

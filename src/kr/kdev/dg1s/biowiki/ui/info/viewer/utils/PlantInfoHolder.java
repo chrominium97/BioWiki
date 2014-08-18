@@ -1,14 +1,16 @@
 package kr.kdev.dg1s.biowiki.ui.info.viewer.utils;
 
+import java.util.ArrayList;
+
 public class PlantInfoHolder {
 
     public final String plantName;
     public final String imageURI;
-    public final String plantDesc;
+    public final ArrayList<ArrayList<String>> plantDescArray;
 
-    public PlantInfoHolder(String arg0, String arg1, String arg2) {
-        this.plantName = arg0;
-        this.imageURI = arg1;
-        this.plantDesc = arg2;
+    public PlantInfoHolder(String name, String image, ArrayList<ArrayList<String>> descriptionView) {
+        this.plantName = name;
+        this.imageURI = image;
+        this.plantDescArray = descriptionView;
     }
 }

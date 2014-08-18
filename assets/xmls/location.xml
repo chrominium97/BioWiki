@@ -1,62 +1,62 @@
 <repo>
-    <species name="청단풍"> 
-        <location latitude ="35.8797382" longitude ="128.71116"/>
+    <species name="청단풍">
+        <location latitude="35.8797382" longitude="128.71116" />
     </species>
     <species name="남천">
-        <location latitude ="35.8863548" longitude ="128.7226582"/>
+        <location latitude="35.8863548" longitude="128.7226582" />
     </species>
     <species name="주목">
-        <location latitude ="35.8864336" longitude ="128.7226105"/>
+        <location latitude="35.8864336" longitude="128.7226105" />
     </species>
     <species name="담쟁이덩굴">
-        <location latitude ="35.886112213134766" longitude ="128.72361755371094"/>
+        <location latitude="35.886112213134766" longitude="128.72361755371094" />
     </species>
     <species name="스트로브잣나무">
-        <location latitude ="35.88722229003906" longitude ="128.72193908691406" />
+        <location latitude="35.88722229003906" longitude="128.72193908691406" />
     </species>
     <species name="상수리나무">
-        <location latitude ="35.88694381713867" longitude ="128.72166442871094"/>
+        <location latitude="35.88694381713867" longitude="128.72166442871094" />
     </species>
     <species name="중국단풍">
-        <location latitude ="35.88666534423828" longitude ="128.72166442871094"/>
+        <location latitude="35.88666534423828" longitude="128.72166442871094" />
     </species>
     <species name="산딸나무">
-        <location latitude ="35.87972259521844" longitude ="128.7111053466797"/>
+        <location latitude="35.87972259521844" longitude="128.7111053466797" />
     </species>
     <species name="계수나무">
-        <location latitude ="35.886390686035156" longitude ="128.72193908691406"/>
+        <location latitude="35.886390686035156" longitude="128.72193908691406" />
     </species>
     <species name="수수꽃다리">
-        <location latitude ="35.88694381713867" longitude ="128.72250366210938"/>
+        <location latitude="35.88694381713867" longitude="128.72250366210938" />
     </species>
     <species name="영산홍">
-        <location latitude ="35.866943359375" longitude ="128.693603515625"/>
+        <location latitude="35.866943359375" longitude="128.693603515625" />
     </species>
     <species name="대나무">
-        <location latitude ="35.866943359375" longitude ="128.693603515625"/>
+        <location latitude="35.866943359375" longitude="128.693603515625" />
     </species>
     <species name="은행나무">
-        <location latitude ="35.88694381713867" longitude ="128.72305297851563"/>
+        <location latitude="35.88694381713867" longitude="128.72305297851563" />
     </species>
     <species name="왕벚나무">
-        <location latitude ="35.866943359375" longitude ="128.693603515625"/>
+        <location latitude="35.866943359375" longitude="128.693603515625" />
     </species>
     <species name="소나무">
-        <location latitude ="35.88666534424828" longitude ="128.72222900390625"/>
+        <location latitude="35.88666534424828" longitude="128.72222900390625" />
     </species>
     <species name="꽃사과">
-        <location latitude ="35.886390686035156" longitude ="128.72166442871094"/>
+        <location latitude="35.886390686035156" longitude="128.72166442871094" />
     </species>
     <species name="느티나무">
-        <location latitude ="35.879722595214844" longitude ="128.7111053466797"/>
+        <location latitude="35.879722595214844" longitude="128.7111053466797" />
     </species>
     <species name="산철쭉">
-        <location latitude ="35.88639068603515" longitude ="128.72166442871094"/>
+        <location latitude="35.88639068603515" longitude="128.72166442871094" />
     </species>
     <species name="때죽나무">
-        <location latitude ="35.8866653442382" longitude ="128.72166442871094"/>
+        <location latitude="35.8866653442382" longitude="128.72166442871094" />
     </species>
     <species name="자산홍">
-        <location latitude ="35.8872222900" longitude ="128.722290039"/>
+        <location latitude="35.8872222900" longitude="128.722290039" />
     </species>
 </repo>

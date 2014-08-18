@@ -35,7 +35,6 @@ import kr.kdev.dg1s.biowiki.BioWiki;
 import kr.kdev.dg1s.biowiki.Constants;
 import kr.kdev.dg1s.biowiki.R;
 import kr.kdev.dg1s.biowiki.ui.BIActionBarActivity;
-import kr.kdev.dg1s.biowiki.ui.info.categorization.SearchByHabitatActivity;
 
 public class PlantInformationViewerActivity extends BIActionBarActivity {
 
@@ -141,8 +140,7 @@ public class PlantInformationViewerActivity extends BIActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Menu is defined inside 'res/menu/...xml
         getSupportMenuInflater().inflate(R.menu.plant_viewer, menu);
         return true;
@@ -158,7 +156,8 @@ public class PlantInformationViewerActivity extends BIActionBarActivity {
                 Intent intent = new Intent(this, ChartViewerActivity.class);
                 startActivityWithDelay(intent);
                 return true;
-            default: return super.onOptionsItemSelected(menu);
+            default:
+                return super.onOptionsItemSelected(menu);
         }
     }
 

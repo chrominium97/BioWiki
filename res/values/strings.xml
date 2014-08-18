@@ -31,6 +31,9 @@
 
     <string name="go_back_required">Press \'back\' to continue writing your post.</string>
 
+    <string name="no_info">No information has been found about this plant.</string>
+    <string name="error_info">An error occurred while fetching information.</string>
+
     <string name="toBioInfo">to BioInfo</string>
     <string name="toBioWiki">to BioWikiへ</string>
     <string name="dictionaryItem">Dictionary</string>
@@ -563,6 +566,8 @@
     <string name="reader_toast_err_get_comment">Unable to retrieve this comment</string>
 
     <!-- empty list/grid text -->
+    <string name="reader_empty_posts_in_tag">There are no posts with this tag.</string>
+    <string name="reader_empty_followed_tags">This tag isn\'t being followed.</string>
 
     <!-- fragment tags - do not translate -->
     <string name="fragment_tag_comment_list" translatable="false">fragment_comment_list</string>

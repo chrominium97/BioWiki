@@ -1,6 +1,5 @@
 package kr.kdev.dg1s.biowiki.ui.info.viewer.utils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -35,7 +34,7 @@ public class ArrayUtils {
 
     public float[] genericAxisIndex(int dataCount) {
         float[] indexArray = new float[dataCount + 1];
-        for (int i = 0; i < (dataCount + 1) ; i++) {
+        for (int i = 0; i < (dataCount + 1); i++) {
             indexArray[i] = (float) i / dataCount;
         }
         return indexArray;
@@ -50,8 +49,8 @@ public class ArrayUtils {
     }
 
     public void migrateValues(ArrayList<Integer> origin, float[] destination) {
-            for (int i = 0; i < origin.size(); i++) {
-                destination[i] = (origin.get(i) != null ? origin.get(i) : Float.NaN);
-            }
+        for (int i = 0; i < origin.size(); i++) {
+            destination[i] = (origin.get(i) != null ? origin.get(i) : Float.NaN);
+        }
     }
 }

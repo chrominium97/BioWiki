@@ -47,7 +47,6 @@ import kr.kdev.dg1s.biowiki.ui.accounts.WelcomeActivity;
 import kr.kdev.dg1s.biowiki.ui.info.categorization.SearchByHabitatActivity;
 import kr.kdev.dg1s.biowiki.ui.info.classification.SearchByAttributeActivity;
 import kr.kdev.dg1s.biowiki.ui.info.distribution.DistributionViewer;
-import kr.kdev.dg1s.biowiki.ui.info.viewer.ChartViewerActivity;
 import kr.kdev.dg1s.biowiki.ui.intro.WikiActivity;
 import kr.kdev.dg1s.biowiki.ui.prefs.PreferencesActivity;
 import kr.kdev.dg1s.biowiki.util.AppLog;
@@ -66,7 +65,6 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
     protected static final int CATEGORIZATION_ACTIVITY = 1;
     protected static final int MAPS_ACTIVITY = 2;
     protected static final int DICTIONARY_ACTIVITY = 3;
-    protected static final int CHART_ACTIVITY = 4;
     protected static final String LAST_ACTIVITY_PREFERENCE = "bi_pref_last_activity";
     private static final String TAG = "BWActionBarActivity";
     /**
@@ -174,7 +172,6 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
         mMenuItems.add(new CategoryItem());
         mMenuItems.add(new MapsItem());
         mMenuItems.add(new DictionaryItem());
-        mMenuItems.add(new ChartItem());
     }
 
     @Override
@@ -793,31 +790,4 @@ public abstract class BIActionBarActivity extends SherlockFragmentActivity {
             return BioWiki.wpDB.getNumVisibleAccounts() != 0;
         }
     }
-
-    private class ChartItem extends MenuDrawerItem {
-        ChartItem() {
-            super(CHART_ACTIVITY, R.string.habitatTitle, R.drawable.dashboard_search);
-        }
-
-        @Override
-        public Boolean isSelected() {
-            return BIActionBarActivity.this instanceof ChartViewerActivity;
-        }
-
-        @Override
-        public void onSelectItem() {
-            if (!(BIActionBarActivity.this instanceof SearchByAttributeActivity))
-                mShouldFinish = true;
-            Intent intent = new Intent(BIActionBarActivity.this, ChartViewerActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivityWithDelay(intent);
-        }
-
-        @Override
-        public Boolean isVisible() {
-            return BioWiki.wpDB.getNumVisibleAccounts() != 0;
-        }
-    }
-
-
 }

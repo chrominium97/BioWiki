@@ -1,7 +1,6 @@
 package kr.kdev.dg1s.biowiki.ui.info.classification.utils;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,6 @@ public class ImageAdapter extends BaseAdapter {
         config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(Runtime.getRuntime().availableProcessors())
                 .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                .writeDebugLogs()
                 .defaultDisplayImageOptions(options)
                 .build();
     }
@@ -96,7 +94,6 @@ public class ImageAdapter extends BaseAdapter {
             imageLoader.init(config);
 
             imageLoader.displayImage("drawable://" + String.valueOf(mImg[position]), plantImage);
-            Log.d("Holder", "Image ID @position " + position + "/" + mImg.length + " : " + mImg[position]);
             radioButton.setId(mImg[position]);
             radioButton.setText(mText[position]);
             //***************************//
