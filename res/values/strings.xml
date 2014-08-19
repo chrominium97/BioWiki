@@ -10,7 +10,7 @@
     <string name="server_address" translatable="false">http://biowiki.mireene.com</string>
     <string name="biowiki_address" translatable="false">http://biowiki.mireene.com/nacl</string>
     <string name="server_subdomain" translatable="false">/repo</string>
-    <string name="distribution_sample" translatable="false">/sample.xml</string>
+    <string name="distribution_sample" translatable="false">/location.xml</string>
 
     <string name="flower">Flower</string>
     <string name="leaf">Leaf</string>

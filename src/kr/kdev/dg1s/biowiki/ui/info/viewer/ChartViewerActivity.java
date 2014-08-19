@@ -50,19 +50,34 @@ public class ChartViewerActivity extends BIActionBarActivity {
         float[] integerArray3 = new float[randomIntegerArray.size()];
         arrayUtils.migrateValues(randomIntegerArray, integerArray3);
 
+        /**
         int maxValueRounded = (int) (Math.ceil(
                 Collections.max(Arrays.asList(org.apache.commons.lang.ArrayUtils.toObject(new float[]{maxInt1, maxInt2, maxInt3}))).floatValue()) + 1);
+         */
 
+        int fir = 0;
+        int sec = 3;
+        int thi = 6;
+        int fou = 7;
+        int fif = 4;
+        int six = 1;
+
+        int maxValueRounded = (int) (Math.ceil(
+                Collections.max(Arrays.asList(org.apache.commons.lang.ArrayUtils.toObject(new float[]{fir, sec, thi, fou, fif, six}))).floatValue()) + 1);
+
+        /**
         float[][] data1 = {arrayUtils.genericPositions(dataSize), integerArray1};
         float[][] data2 = {arrayUtils.genericPositions(dataSize), integerArray2};
         float[][] data3 = {arrayUtils.genericPositions(dataSize), integerArray3};
+         */
 
-        float[] distribution = new float[]{};
+        float[][] data1 = {arrayUtils.genericPositions(dataSize), new float[]{fir, sec, thi, fou, fif, six, Float.NaN}};
 
         lineGraph.setXLabelPositions(arrayUtils.genericAxisIndex(dataSize));
+        lineGraph.setXLabels(new String[]{"5", "10", "15", "20", "25", "30", "35"});
         //lineGraph.setXLabels(ar);
 
-        lineGraph.setData(new float[][][]{data1, data2, data3}, 0, dataSize - 1, 0, maxValueRounded);
+        lineGraph.setData(new float[][][]{data1}, 0, dataSize - 1, 0, maxValueRounded);
         lineGraph.setYLabels(arrayUtils.genericLabels(maxValueRounded));
         lineGraph.setYLabelPositions(arrayUtils.genericAxisIndex(maxValueRounded));
         findViewById(R.id.info_text).setVisibility(View.GONE);
